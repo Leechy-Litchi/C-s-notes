@@ -1,0 +1,21 @@
+phpstudy2016：http://public.xp.cn/upgrades/phpStudy20161103.zip
+
+靶场sqli-labs：https://github.com/Audi-1/sqli-labs
+
+1，下载安装phpstudy2016
+
+2，如图依次操作打开文件夹
+
+
+3，解压sqli-labs项目到phpstudy的WWW文件夹下文件名为sqli-labs
+
+4，打开sqli-labs文件夹下sql-connections文件夹中的db-creds.inc文件，修改dbuser和dbpass值都为root。
+
+
+5，启动phpstudy服务，浏览器中打开loaclhost\sqli-labs\index.html点击Setup/reset Database for labs
+
+
+
+如图所示即安装成功
+
+靶场就可以正常使用了

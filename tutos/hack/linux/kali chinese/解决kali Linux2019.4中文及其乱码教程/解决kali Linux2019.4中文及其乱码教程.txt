@@ -1,0 +1,101 @@
+新版特性
+一个新的默认桌面环境，Xfce
+新的GTK3主题(用于Gnome和Xfce)
+“Kali Undercover”模式介绍
+Kali文档有了一个新家，现在支持Git
+公共包装-把你的工具放进Kali
+安装在Android上的NetHunter Kex – Full Kali 桌面
+安装过程中的BTRFS
+添加PowerShell
+内核升级到5.3.9版本
+加上正常的错误修复和更新。
+Kali官方下载地址：https://www.kali.org/downloads/
+下面进入正题
+
+1.我们先来更新下源。
+kali默认的源是官方的，不支持中文。
+打开终端，键入
+复制
+
+vim /etc/apt/sources.list
+
+
+
+
+把里面的官方源通通删掉，然后把下面的国内源通通塞进去。
+复制
+
+#中科大
+
+deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+
+deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+
+#阿里云#
+
+deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+
+#deb-src http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+
+#清华大学#
+
+deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+
+#deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+
+#浙大#
+
+deb http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+
+#deb-src http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+
+#东软大学#
+
+deb http://mirrors.neusoft.edu.cn/kali kali-rolling/main non-free contrib
+
+#deb-src http://mirrors.neusoft.edu.cn/kali kali-rolling/main non-free contrib
+
+键入，保存，然后更新源。
+2.运行以下代码更新源和软件，应该得等个十多分钟。
+复制
+
+apt-get update && apt-get upgrade && apt-get clean
+
+更新好了之后就来设置默认语言。
+复制
+
+dpkg-reconfigure locales
+
+
+进入图形化界面，选择en_utf-8和zh_utf-8。
+在这里说一下操作键盘，上下方向键选择，空格选中，TAB切换单位。
+这两个语言选好之后，下一步把zh设置为默认，然后回车OK，其他的都暂时不用管。
+
+这时你只是设置了默认语言为中文，但你没有中文包。
+如果你中断操作并重启的话，所以肯定会出现乱码的情况。
+3.下面来安装中文包，键入
+复制
+
+apt-get install xfonts-intl-chinese
+
+apt-get install ttf-wqy-microhei
+
+依次运行，等待安装完成。
+这时就已经安装好中文了。
+然后我们重启试一下。
+复制
+
+reboot
+
+此时你只发现只是在登录界面变成中文了，进入系统还是英文怎么办。
+以我的理解，这是系统没反应过来的原理。
+所以再重启一次就OK了。乱码的问题就是没安装中文包，回到上面第3步再来进行就OK了。
+
+
+接下来我们来玩个好玩的东西……
+复制
+
+kali-undercover
+
+
+然后就变成win10了。

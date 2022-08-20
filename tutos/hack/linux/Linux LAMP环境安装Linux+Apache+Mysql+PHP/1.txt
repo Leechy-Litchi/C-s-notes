@@ -1,0 +1,414 @@
+一、 检查系统环境
+
+1、确认centos版本
+复制
+
+[root@localhost ~]# cat /etc/redhat-release
+
+CentOS Linux release 7.2.1511 (Core) 
+
+2、检查是否安装过apache
+复制
+
+rpm -qa | grep httpd
+
+或者：
+复制
+
+apachectl -v
+
+或者：
+复制
+
+httpd -v
+
+3、检查是否安装过Mysql
+复制
+
+service mysqld start
+
+如果未被识别则没有安装
+如果系统安装过，或者安装失败，清理一下系统
+5、清理Mysql痕迹
+
+复制
+
+yum remove mysql
+
+rm -f /etc/my.cnf
+
+
+6、卸载Apache包
+复制
+
+rpm -qa|grep httpd
+
+二、安装Apache、PHP、Mysql
+
+1、安装apache
+复制
+
+yum -y install httpd 
+
+直到返回
+复制
+
+......
+
+Installed:
+
+  httpd.x86_64 0:2.4.6-40.el7.centos.4                                          
+
+ 
+
+Dependency Installed:
+
+  apr.x86_64 0:1.4.8-3.el7                      apr-util.x86_64 0:1.5.2-6.el7   
+
+  httpd-tools.x86_64 0:2.4.6-40.el7.centos.4    mailcap.noarch 0:2.1.41-2.el7   
+
+ 
+
+Complete!
+
+表示安装成功！
+2、安装Php
+
+复制
+
+yum -y install php
+
+直到返回：
+复制
+
+......
+
+Installed:
+
+  php.x86_64 0:5.4.16-36.3.el7_2                                                
+
+ 
+
+Dependency Installed:
+
+  libzip.x86_64 0:0.10.1-8.el7             php-cli.x86_64 0:5.4.16-36.3.el7_2   
+
+  php-common.x86_64 0:5.4.16-36.3.el7_2   
+
+ 
+
+Complete!
+
+3、安装php-fpm
+
+复制
+
+yum -y install php-fpm
+
+直到返回：
+复制
+
+Installed:
+
+  php-fpm.x86_64 0:5.4.16-36.3.el7_2                                            
+
+ 
+
+Complete!
+
+4、安装Mysql
+复制
+
+yum -y install mysql
+
+直到返回：
+复制
+
+Installed:
+
+  mariadb.x86_64 1:5.5.50-1.el7_2                                               
+
+ 
+
+Dependency Updated:
+
+  mariadb-libs.x86_64 1:5.5.50-1.el7_2                                          
+
+ 
+
+Complete!
+
+
+
+7.2版本的Centos已经把mysql更名为mariadb，表示安装成功！
+5、安装 mysql-server
+
+
+复制
+
+[root@localhost ~]# yum -y install mysql-server
+
+Loaded plugins: fastestmirror, langpacks
+
+Loading mirror speeds from cached hostfile
+
+ * base: mirror.lzu.edu.cn
+
+ * extras: mirrors.nwsuaf.edu.cn
+
+ * updates: mirrors.tuna.tsinghua.edu.cn
+
+No package mysql-server available.
+
+Error: Nothing to do
+
+返回错误！！！
+分析解决方案
+CentOS 7+ 版本将MySQL数据库软件从默认的程序列表中移除，用mariadb代替了，entos7配置教程上，大多都是安装mariadb，因为centos7默认将mariadb视作mysql。
+因为mysql被oracle收购后，原作者担心mysql闭源，所以又写了一个mariadb，这个数据库可以理解为mysql的分支。如果需要安装mariadb，只需通过yum就可。
+
+有两种解决方案：
+
+一是安装mariadb
+复制
+
+yum install -y mariadb 
+
+二是从官网下载mysql-server
+
+采用第二种方案：
+
+
+复制
+
+wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+
+ 
+
+rpm -ivh mysql-community-release-el7-5.noarch.rpm
+
+ 
+
+yum install mysql-community-server
+
+ 
+
+然后需要确定，输入y回车即可
+复制
+
+Install  3 Packages (+8 Dependent packages)
+
+ 
+
+Total download size: 82 M
+
+Is this ok [y/d/N]: 
+
+ 
+
+安装成功！！！
+6、安装 php-mysql
+复制
+
+yum -y install php-mysql
+
+直到返回：
+复制
+
+Installed:
+
+  php-mysql.x86_64 0:5.4.16-36.3.el7_2                                          
+
+ 
+
+Dependency Installed:
+
+  php-pdo.x86_64 0:5.4.16-36.3.el7_2                                            
+
+ 
+
+Complete!
+
+安装成功！！！
+三、安装基本常用扩展包
+
+1、安装Apache扩展包
+复制
+
+yum -y install httpd-manual mod_ssl mod_perl mod_auth_mysql 
+
+直到返回：
+
+复制
+
+......
+
+Installed:
+
+  httpd-manual.noarch 0:2.4.6-40.el7.centos.4                                   
+
+  mod_ssl.x86_64 1:2.4.6-40.el7.centos.4                                        
+
+ 
+
+Complete!
+
+安装成功！！！
+2、安装PHP扩展包
+复制
+
+yum -y install php-gd php-xml php-mbstring php-ldap php-pear php-xmlrpc php-devel
+
+
+直到返回：
+复制
+
+......
+
+Dependency Updated:
+
+  pcre.x86_64 0:8.32-15.el7_2.1                                                 
+
+ 
+
+Complete!
+
+安装成功！！！
+四、配置Apache、mysql开机启动
+
+重启Apache、mysql服务(注意这里和centos6有区别,Cenots7+不能使用6的方式)
+
+复制
+
+systemctl start httpd.service #启动apache
+
+systemctl stop httpd.service #停止apache
+
+systemctl restart httpd.service #重启apache
+
+systemctl enable httpd.service #设置apache开机启动
+
+如果是采用方法一安装的mariadb,安装完成以后使用下面的命令开启数据库服务：
+
+
+复制
+
+#启动MariaDB
+
+
+
+[root@localhost ~]# systemctl start mariadb.service   
+
+
+
+#停止MariaDB
+
+
+
+[root@localhost ~]# systemctl stop mariadb.service   
+
+
+
+#重启MariaDB
+
+
+
+[root@localhost ~]# systemctl restart mariadb.service  
+
+
+
+#设置开机启动
+
+
+
+
+
+[root@localhost ~]# systemctl enable mariadb.service  
+
+重启对应服务：
+复制
+
+service mysqld restart
+
+ 
+
+service php-fpm start
+
+ 
+
+service httpd restart
+
+五、配置Mysql
+
+初次安装mysql是没有密码的,我们要设置密码，mysql的默认账户为root
+
+设置 MySQL 数据 root 账户的密码：
+复制
+
+mysql_secure_installation
+
+当出现如下提示时候直接按回车：
+复制
+
+Enter current password for root
+
+出现如下再次回车：
+复制
+
+Set root password? [Y/n]
+
+出现如下提示输入你需要设置的密码，这里输入了root,输入密码是不显示的，回车后再输入一次确认：
+复制
+
+New password:
+
+接下来还会有四个确认，分别是：
+复制
+
+Remove anonymous users? [Y/n]
+
+Disallow root login remotely? [Y/n]
+
+Remove test database and access to it? [Y/n]
+
+Reload privilege tables now? [Y/n]
+
+直接回车即可。
+六、测试环境
+
+1、我们在浏览器地址栏输入http://localhost/如下图，说明我们的apache测试成功
+
+2、测试Php
+进入apache的web根目录：/var/www/html 中写一个最简单的php测试页面
+复制
+
+cd /var/www/html
+
+ 
+
+touch phpinfo-test.php
+
+ 
+
+vi phpinfo-test.php
+
+ 
+
+3、进入到了控制模式之后按键盘字母 i 进入到编辑模式，将如下代码输入到文件中
+复制
+
+<?php
+
+echo "<title>Phpinfo Test.php</title>";
+
+phpinfo()
+
+?>
+
+按 esc 退出编辑模式，回到控制模式，输入 :wq 然后回车，在浏览器中输入服地址http://localhost/phpinfo-test.php
+
+出现下图则成功。
+
+七、小结
+
+我们采用了yum在线安装，版本都是默认的Php是5.4，apache的版本是Server version: Apache/2.4.6 (CentOS)

