@@ -1,0 +1,51 @@
+ #include <stdarg.h>
+int simple(int num,...)
+{
+        int i, result=0;
+        va_list vl;     //va_list指针，用于va_start取可变参数，为char*
+        va_start(vl,num);       //取得可变参数列表中的第一个值
+        printf("num:%d, vl:%d\n",num,*vl);
+        for (i = 0; i < (num-1); i++)//这里num表示可变参数列表中有多少个参数  
+    {
+        result = va_arg(vl, int);//这里把vl往后跳过4个字节（sizeof(int)大小）指向下一个参数，返回的是当前参数（而非下
+一个参数）  
+        printf("in for  result:%d,  *vl:%d\n", result, *vl);//这里打印下，可以看出，vl总是指向result后面的那个参数  
+    }
+    va_end(vl);//结束标志  
+
+    return result;
+
+}
+int main(int argc, char **argv)
+{
+        int num = argc;
+        int i = 0;
+        simple(5,1,2,3,4,5);
+
+        return 1;
+
+}
+
+
+num:5, vl:1
+in for  result:1,  *vl:2
+in for  result:2,  *vl:3
+in for  result:3,  *vl:4
+in for  result:4,  *vl:5
+
+
+
+相关API介绍
+va_list  定义某个变量，内核中的定义：
+
+    typedef char *va_list;//字符指针类型  
+
+va_start(ap, type)   
+开始获取可变参数列表中的第一个参数（...里面的第一个），也就是跳过第一个参数（即num）
+
+va_arg(args, int)  
+循环获取到可变参数列表中的参数，args指向下一个参数地址，返回的则是当前参数地址
+
+va_end(ap)
+结束标志，可能只是在程序中作为一个可变参数列表的结束标志而已（stdarg.h里面只是仅仅定义了下，没有实现的代码部分）。
+

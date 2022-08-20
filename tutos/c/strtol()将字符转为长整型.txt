@@ -1,0 +1,18 @@
+#include <stdlib.h>
+long int strtol(const char *str, char **endptr, int base)
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+   char str[30] = "2030300 This is test";
+   char *ptr;
+   long ret;
+
+   ret = strtol(str, &ptr, 10);//最后的是字符串的进制
+   printf("数字（无符号长整数）是 %ld\n", ret);
+   printf("字符串部分是 |%s|", ptr);
+
+   return(0);
+}

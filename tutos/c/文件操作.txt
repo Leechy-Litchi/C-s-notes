@@ -1,0 +1,100 @@
+两种流式文件，字符流（ASCII），二进制流
+先写缓存区，最后一次性写入磁盘
+注意：如果打开多个文件，则需要关闭所有文件才会开始写入
+
+添加文件缓冲区
+FILE *fp;	//FILE用了typedef
+fp指向缓冲区
+
+
+typedef struct{
+	short level；/*缓冲区使用量*/
+	unsigned flags；/*文件状态标志*/
+	char fd；/*文件描述符*/
+	short bsize；/*缓冲区大小*/
+	unsigned char* buffer；/*文件缓冲区的首地址*/
+	unsigned char *curp；/*指向文件缓冲区的工作指针*/
+	unsigned char hold；/*无缓冲区时用于拒绝getc的字符*/
+	unsigned istemp；/*临时文件标识*/
+	short token；/*用于有效性检查*/
+}FILE
+//https://zhidao.baidu.com/question/2122422587663577027.html
+//上面为老师用的版本，下面为网上stdio内的版本
+struct _iobuf {
+        char *_ptr;  //文件输入的下一个位置
+        int   _cnt;   //当前缓冲区的相对位置
+        char *_base;  //文件的起始位置
+        int   _flag;  //文件标志
+        int   _file;  //文件的有效性验证
+        int   _charbuf;//检查缓冲区状况，若无缓冲区则不读取
+        int   _bufsiz; //文件的大小
+        char *_tmpfname;//临时文件名
+        };
+typedef struct _iobuf FILE;  
+//https://blog.csdn.net/weixin_37922654/article/details/71069514
+
+fopen
+fclose
+开关文件
+if((fp = fopen("x.x","w"))==NULL){打开失败}
+if(fclose(fp)){不能关闭}//非零无法关闭
+//注意，要用\\
+
+feof
+检测结尾
+while(!feof(fp)){非0则代表未结束}
+
+feof会出现最后一次输出重复的情况，下面可以用于替换
+fgets() 在遇到文件结束符的时候返回 NULL。实际上, 在任何情况下, 都完全没有必要使用 feof()。 
+注意补上\0
+if(fscanf(）<= 0)
+while(fread(stu,sizeof(struct Student),1,fp))
+
+
+fgetc
+fputc
+读写一个字节
+c = fgetc(fp)
+fputc(c,fp)
+
+fgets 
+fputs
+读写多个字符
+
+fscanf
+fprintf
+格式化读写
+注意！如果是char *的话不会有结束符！最好使用char[]
+
+fread
+fwrite
+块读写
+buffer,size,count,fp
+&struct,size,count,fp
+
+ferror
+检测读写出错
+
+clearerr
+清楚末尾和出错标志函数
+
+fseek
+文件定位
+
+描述符//注意，linux用0输入 1输出 2错误来表示
+r rb	
+w wb
+a ab	追加
+r+ rb+	打开可读写，文件必须在
+w+ wb+	打开可读写，存在文件则清零，不存在则新建
+a+ ab+	打开可读性，不存在新建，存在追加内容
+
+C自带的五个设备文件
+stdin stdout
+标准输入输出
+stdaux
+异步串行输入输出
+stdprn
+标准打印
+stderr
+标准错误

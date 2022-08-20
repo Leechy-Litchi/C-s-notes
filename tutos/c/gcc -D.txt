@@ -1,0 +1,12 @@
+https://blog.csdn.net/sdoyuxuan/article/details/85050553
+D选项
+
+D选项是用来在使用gcc/g++编译的时候定义宏的。
+
+    gcc -DDEBUG -D 后面直接跟宏命，相当于定义这个宏，默认这个宏的内容是1
+    gcc -DNAME=Peter -D 后面跟 key=value 表示定义key这个宏，它的内容是value
+
+常用场景
+
+    -DDEBUG 定义DEBUG宏，可能文件中有DEBUG宏部分的相关信息，用个DDEBUG来选择开启或关闭DEBUG
+    -Dprivate=public -Dprotected=public 通常用于测试环境，把private 与 protected全替换为public 的。这个还是很常用的，比如我们使用gtest去单元测试，直接测试目标类的成员函数，但是可能目标类的成员函数为了封装性，它可能是protected，所以我们使用这个宏把它全变成public。

@@ -1,0 +1,13 @@
+int setvbuf(FILE *stream, char *buffer, int mode, size_t size)
+
+mode
+_IOFBF	全缓冲：对于输出，数据在缓冲填满时被一次性写入。对于输入，缓冲会在请求输入且缓冲为空时被填充。
+_IOLBF	行缓冲：对于输出，数据在遇到换行符或者在缓冲填满时被写入，具体视情况而定。对于输入，缓冲会在请求输入且缓冲为空时被填充，直到遇到下一个换行符。
+_IONBF	无缓冲：不使用缓冲。每个 I/O 操作都被即时写入。buffer 和 size 参数被忽略。
+
+常用setvbuf(stdin,NULL,_IONBF,0);
+设置无缓冲，也就是有一个字就读取一个字
+
+
+至于stdin设置为满缓冲后，也表现为行缓冲效果
+https://www.zhihu.com/question/54681443/answer/2378633586

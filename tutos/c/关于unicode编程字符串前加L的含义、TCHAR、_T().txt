@@ -1,0 +1,125 @@
+https://blog.csdn.net/qbw_csdn/article/details/106607753
+“L” 表示 Long，就是用两个字节来表示一个字符
+https://blog.csdn.net/whz_zb/article/details/7446901
+一、 在字符串前加一个L作用: unicode字符集是两个字节组成的。L告示编译器使用两个字节的 unicode 字符集。
+   如  L"我的字符串"    表示将ANSI字符串转换成unicode的字符串，就是每个字符占用两个字节。
+  strlen("asd")   =   3;   
+  strlen(L"asd")   =   6;
+
+ 二、  _T宏可以把一个引号引起来的字符串，根据你的环境设置，使得编译器会根据编译目标环境选择合适的（Unicode还是ANSI）字符处理方式
+   如果你定义了UNICODE，那么_T宏会把字符串前面加一个L。这时 _T("ABCD") 相当于 L"ABCD" ，这是宽字符串。 
+   如果没有定义，那么_T宏不会在字符串前面加那个L，_T("ABCD") 就等价于 "ABCD"
+
+
+如果你接触过unicode你就明白在许多API函数中字符串都需要宽字符的，也就是用两个字节来表示一个字符，这与ANSI字符不同，后者使用一个字节表示一个字符，字符串前加L，就是将ANSI字符转换成UNICODE字符。
+
+
+https://blog.csdn.net/bestone0213/article/details/45867499
+TCHAR 就是当你的字符设置为什么就是什么
+例如：程序编译为 ANSI， TCHAR 就是相当于 CHAR
+当程序编译为 UNICODE， TCHAR 就相当于 WCHAR
+
+char :单字节变量类型，最多表示256个字符，
+wchar_t :宽字节变量类型，用于表示Unicode字符，
+它实际定义在<string.h>里：typedef unsigned short wchar_t
+为了让编译器识别Unicode字符串，必须以在前面加一个“L”
+
+TCHAR / _T( ) : 
+如果在程序中既包括ANSI又包括Unicode编码，需要包括头文件tchar.h。TCHAR是定义在该头文件中的宏，它视你是否定义了_UNICODE宏而定义成： 
+定义了_UNICODE：    typedef wchar_t TCHAR ; 
+没有定义_UNICODE： typedef char TCHAR ;
+如下是tchar.h头文件中部分代码摘抄：
+
+#ifdef  _UNICODE
+typedef wchar_t TCHAR;
+#define __T(x) L##x
+#define _T(x) __T(x)
+#else
+#define __T(x) x
+typedef char TCHAR;
+#endif 
+注意：
+　　“##”是ANSI C标准的预处理语法，它叫做“粘贴符号”，表示将前面的L添加到宏参数上。也就是说，如果我们写_T(“Hello”)，展开后即为L“Hello”
+
+_T( )也是定义在该头文件中的宏，视是否定义了_UNICODE宏而定义成： 
+定义了_UNICODE：    #define _T(x) L##x 
+没有定义_UNICODE： #define _T(x) x
+ 
+注意：如果在程序中使用了TCHAR，那么就不应该使用ANSI的strXXX函数或者Unicode的wcsXXX函数了，而必须使用tchar.h中定义的_tcsXXX函数
+宏	未定义_UNICODE(ANSI字符)	定义了_UNICODE(Unicode字符)
+_tcschr	 strchr				 wcschr
+_tcscmp	 strcmp				 wcscmp
+_tcslen	 strlen				 wcslen
+ANSI操作函数以str开头，如strcpy()，strcat()，strlen()；
+Unicode操作函数以wcs开头，如wcscpy，wcscpy()，wcslen()；
+ANSI/Unicode操作函数以_tcs开头 _tcscpy(C运行期库)；
+ANSI/Unicode操作函数以lstr开头 lstrcpy(Windows函数)；
+考虑ANSI和Unicode的兼容，我们需要使用以_tcs开头或lstr开头的通用字符串操作函数。
+
+https://blog.csdn.net/xiliang_pan/article/details/7081395
+Win32 API中定义了一些自己的字符数据类型。这些数据类型的定义在winnt.h头文件中。例如：
+
+typedef char CHAR; 
+typedef unsigned short WCHAR;    // wc,   16-bit UNICODE character 
+typedef CONST CHAR *LPCSTR, *PCSTR; 
+
+Win32 API在winnt.h头文件中定义了一些实现字符和常量字符串的宏进行ANSI/Unicode通用编程。同样，只例举几个最常用的：
+
+#ifdef  UNICODE 
+typedef WCHAR TCHAR, *PTCHAR;
+typedef LPWSTR LPTCH, PTCH;
+typedef LPWSTR PTSTR, LPTSTR;
+typedef LPCWSTR LPCTSTR;
+#define __TEXT(quote) L##quote      // r_winnt
+#else   /* UNICODE */               // r_winnt
+typedef char TCHAR, *PTCHAR;
+typedef LPSTR LPTCH, PTCH;
+typedef LPSTR PTSTR, LPTSTR;
+typedef LPCSTR LPCTSTR;
+#define __TEXT(quote) quote         // r_winnt
+#endif /* UNICODE */                // r_winnt
+
+从以上头文件可以看出，winnt.h根据是否定义了UNICODE（没有下划线），进行条件编译。
+Win32 API也定义了一套字符串函数，它们根据是否定义了“UNICODE”分别展开为ANSI和Unicode字符串函数。如：lstrlen。API的字符串操作函数和C++的操作函数可以实现相同的功能，所以，如果需要的话，建议您尽可能使用C++的字符串函数，没必要去花太多精力再去学习API的这些东西。 
+
+Win32 API实际上有两个版本。一个版本接受MBCS字符串，另一个接受Unicode字符串。
+例如：其实根本没有SetWindowText()这个API函数，相反，有SetWindowTextA()和SetWindowTextW()。
+后缀A表明这是MBCS函数，后缀W表示这是Unicode版本的函数。
+这些API函数的头文件在winuser.h中声明，下面例举winuser.h中的SetWindowText()函数的声明部分：
+
+#ifdef UNICODE
+#define SetWindowText  SetWindowTextW
+#else
+#define SetWindowText  SetWindowTextA
+#endif // !UNICODE
+
+UNICODE和_UNICODE的区别
+前者没有下划线，专门用于Windows头文件；
+后者有一个前缀下划线，专门用于C运行时头文件。
+换句话说，也就是在ANSI C++语言里面根据_UNICODE（有下划线）定义与否，各宏分别展开为Unicode或ANSI字符，
+在Windows里面根据UNICODE（无下划线）定义与否，各宏分别展开为Unicode或ANSI字符。 
+
+
+
+ANSI/Unicode通用数据类型
+常用的数据类型有_T ，TCHAR，LPTSTR,LPCTSTR
+LPCTSTR和const TCHAR*是完全等同的。
+L表示long指针，这是为了兼容Windows 3.1等16位操作系统遗留下来的，在Win32 中以及其它的32位操作系统中，long指针和near指针及far修饰符都是为了兼容的作用，没有实际意义。
+P（pointer）表示这是一个指针；
+C（const）表示是一个常量；
+T(_T宏)表示兼容ANSI和Unicode，
+STR（string）表示这个变量是一个字符串。
+综上可以看出，LPCTSTR表示一个指向常固定地址的可以根据一些宏定义改变语义的字符串。比如：
+
+TCHAR* szText=_T(“Hello!”);
+TCHAR szText[]=_T(“I Love You”);
+LPCTSTR lpszText=_T(“大家好！”);
+使用函数中的参数最好也要有变化，比如：
+MessageBox(_T(“你好”));
+其实，在上面的语句中，即使您不加_T宏，MessageBox函数也会自动把“你好”字符串进行强制转换。但我还是推荐您使用_T宏，以表示您有Unicode编码意识。 
+
+
+
+修改字符串运算问题
+一些字符串操作函数需要获取字符串的字符数(sizeof(szBuffer)/sizeof(TCHAR))，
+而另一些函数可能需要获取字符串的字节数sizeof(szBuffer)。

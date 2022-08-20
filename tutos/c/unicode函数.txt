@@ -1,0 +1,134 @@
+https://www.cnblogs.com/xiaoyusmile/p/3928778.html
+在VC6.0下使用Unicode的步骤如下：
+    1、project->Settings…->C/C++->Preprocessor Definitions，删除_MBCS，然后添加_UNICODE,UNICODE。
+    2、project->Settings…->Link->Category选择Output，Entry-point Symbol栏填入wWinMainCRTStartup。
+
+ 【注】如果是不是exe工程（比如DLL或LIB），不执行第二个步骤，否则会出现warning LNK4086错误。
+  C++使用wchar_t来表示一个宽字符，它在内部被定义为unsigned short，占两个字节。相对于普通字符，
+C++有一整套的宽字符操纵函数, 以下是一份宽字符处理函数函数与普通函数对照表：
+
+字符分类：
+宽字符函数    普通C函数    描述
+iswalnum（）    isalnum（）    测试字符是否为数字或字母
+iswalpha（）    isalpha（）    测试字符是否是字母
+iswcntrl（）    iscntrl（）    测试字符是否是控制符
+iswdigit（）    isdigit（）    测试字符是否为数字
+iswgraph（）    isgraph（）    测试字符是否是可见字符
+iswlower（）    islower（）    测试字符是否是小写字符
+iswprint（）    isprint（）    测试字符是否是可打印字符
+iswpunct（）    ispunct（）    测试字符是否是标点符号
+iswspace（）    isspace（）    测试字符是否是空白符号
+iswupper（）    isupper（）    测试字符是否是大写字符
+iswxdigit（）    isxdigit（）    测试字符是否是十六进制的数字
+ 
+大小写转换：
+宽字符函数    普通C函数    描述
+towlower（）    tolower（）    把字符转换为小写
+towupper（）    toupper（）    把字符转换为大写
+ 
+字符比较：
+宽字符函数    普通C函数    描述
+wcscoll（）    strcoll（）    比较字符串
+ 
+日期和时间转换：
+宽字符函数    描述
+strftime（）            根据指定的字符串格式和locale设置格式化日期和时间
+wcsftime（）            根据指定的字符串格式和locale设置格式化日期和时间， 并返回宽字符串
+strptime（）            根据指定格式把字符串转换为时间值， 是strftime的反过程
+ 
+打印和扫描字符串：
+宽字符函数            描述
+fprintf（）/fwprintf（）    使用vararg参量的格式化输出
+fscanf（）/fwscanf（）        格式化读入
+printf（）            使用vararg参量的格式化输出到标准输出
+scanf（）            从标准输入的格式化读入
+sprintf（）/swprintf（）    根据vararg参量表格式化成字符串
+sscanf（）            以字符串作格式化读入
+vfprintf（）/vfwprintf（）    使用stdarg参量表格式化输出到文件
+vprintf（）            使用stdarg参量表格式化输出到标准输出
+vsprintf（）/vswprintf（）    格式化stdarg参量表并写到字符串
+ 
+数字转换：
+宽字符函数    普通C函数    描述
+wcstod（）    strtod（）    把宽字符的初始部分转换为双精度浮点数
+wcstol（）    strtol（）    把宽字符的初始部分转换为长整数
+wcstoul（）    strtoul（）    把宽字符的初始部分转换为无符号长整数
+ 
+多字节字符和宽字符转换及操作：
+宽字符函数            描述
+mblen（）            根据locale的设置确定字符的字节数
+mbstowcs（）            把多字节字符串转换为宽字符串
+mbtowc（）/btowc（）        把多字节字符转换为宽字符
+wcstombs（）            把宽字符串转换为多字节字符串
+wctomb（）/wctob（）        把宽字符转换为多字节字符
+ 
+输入和输出：
+宽字符函数    普通C函数    描述
+fgetwc（）    fgetc（）    从流中读入一个字符并转换为宽字符
+fgetws（）    fgets（）    从流中读入一个字符串并转换为宽字符串
+fputwc（）    fputc（）    把宽字符转换为多字节字符并且输出到标准输出
+fputws（）    fputs（）    把宽字符串转换为多字节字符并且输出到标准输出串
+getwc（）    getc（）    从标准输入中读取字符， 并且转换为宽字符
+getwchar（）    getchar（）    从标准输入中读取字符， 并且转换为宽字符
+None        gets（）    使用fgetws（）
+putwc（）    putc（）    把宽字符转换成多字节字符并且写到标准输出
+putwchar（）    getchar（）    把宽字符转换成多字节字符并且写到标准输出
+None        puts（）    使用fputws（）
+ungetwc（）    ungetc（）    把一个宽字符放回到输入流中
+ 
+字符串操作：
+宽字符函数    普通C函数    描述
+wcscat（）    strcat（）    把一个字符串接到另一个字符串的尾部
+wcsncat（）    strncat（）    类似于wcscat（）， 而且指定粘接字符串的粘接长度.
+wcschr（）    strchr（）    查找子字符串的第一个位置
+wcsrchr（）    strrchr（）    从尾部开始查找子字符串出现的第一个位置
+wcspbrk（）    strpbrk（）    从一字符字符串中查找另一字符串中任何一个字符第一次出现的位置
+wcswcs（）/wcsstr（） strchr（）在一字符串中查找另一字符串第一次出现的位置
+wcscspn（）    strcspn（）    返回不包含第二个字符串的的初始数目
+wcsspn（）    strspn（）    返回包含第二个字符串的初始数目
+wcscpy（）    strcpy（）    拷贝字符串
+wcsncpy（）    strncpy（）    类似于wcscpy（）， 同时指定拷贝的数目
+wcscmp（）    strcmp（）    比较两个宽字符串
+wcsncmp（）    strncmp（）    类似于wcscmp（）， 还要指定比较字符字符串的数目
+wcslen（）    strlen（）    获得宽字符串的数目
+wcstok（）    strtok（）    根据标示符把宽字符串分解成一系列字符串
+wcswidth（）    None        获得宽字符串的宽度
+wcwidth（）    None        获得宽字符的宽度
+ 
+另外还有对应于memory操作的 wmemcpy（）,wmemchr（）,wmemcmp（）,wmemmove（）,wmemset（）。
+
+
+
+迁移到Unicode
+项目在一开始没有被设计为使用Unicode（没有使用_T()宏和TCHAR等类型），而现在出于国际化的需要要使其支持Unicode，那么在添加两个UNICODE宏和函数入口点后会可能会出现无数个编译错误。虽然修改的方式根据项目而不同，但也多少有点相似之处，有步骤地做总比漫无目的得改好。
+    1、搜索所有的AfxMessagebox和Messagebox函数，将其中的字符串加上_T()宏。
+    2、搜索所有的str.Format函数，为第一个参数加上_T()宏。
+    3、为字符串常量加上_T()宏。
+    4、将strlen、strcpy等函数替换为wcslen、wcscpy等宽字符版本。
+    5、如果wcsncpy、wcsncmp等函数的第三个参数是sizeof(dst)，那么现在就要改为sizeof(dst)/2，或者自定义一个宏tsizeof来实现。
+    6、如果某个函数确实需要char*等类型的参数，使用T2A()宏对参数进行转换，并在所在函数开头添加”USES_CONVERSION;”。
+    7、查找所有的char* p = (LPSTR)(LPCTSTR)CString这样的强制转换代码，并用char *p = T2A(CString);代替。
+    通常修改完以上内容，再次编译时错误应该减少了大半了，现在再一个一个地对照修改就容易多了。
+
+  最后，配置文件也要存储为Unicode的形式。
+Unicode的文件头有个0xFEFF标识，如果你是通过::WritePrivateProfileString()来写入配置文件的，那么只需要在调用此API之前往文件里写入0xFEFF文件头，此后WritePrivateProfileString会自动将后续内容保存成Unicode的形式。为了简单，可以将程序中调用的::WritePrivateProfileString()全都替换成如下改写版本即可：
+static BOOL _WritePrivateProfileString(LPCTSTR lpAppName, // section name
+                   LPCTSTR lpKeyName, // key name
+                   LPCTSTR lpString,   // string to add
+                   LPCTSTR lpFileName // initialization file
+                   )
+{
+    FILE *fp;
+    fp = _tfopen(lpFileName, _T("r"));
+    if (fp == NULL)
+    {
+        fp=_tfopen(lpFileName, _T("w+b"));
+ 
+        wchar_t m_strUnicode[1];
+        m_strUnicode[0] = wchar_t(0XFEFF);
+        fputwc(*m_strUnicode,fp);
+    }
+    fclose(fp);
+ 
+    return ::WritePrivateProfileString(lpAppName, lpKeyName, lpString, lpFileName);
+}

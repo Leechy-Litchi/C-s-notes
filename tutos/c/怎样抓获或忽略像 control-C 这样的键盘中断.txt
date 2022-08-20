@@ -1,0 +1,21 @@
+基本步骤是调用 signal()：
+
+	#include <signal.h>
+	singal(SIGINT, SIG_IGN);
+
+就可以忽略中断信号, 或者:
+
+	extern void func(int);
+	signal(SIGINT, func);
+
+使程序在收到中断信号时, 调用函数 func()。
+
+在多任务系统下 (例如 Unix), 最好使用更加深入的技巧：
+
+	extern void func(int);
+	if(signal(SIGINT, SIG_IGN) != SIG_IGN)
+	    signal(SIGINT, func);
+
+这个测试和额外的调用可以保证前台的键盘中断不会因疏忽而中断了在后台 运行的进程, 在所有的系统中都用这种调用 signal 的方法并不会 带来负作用。 
+
+ 在某些系统中, 键盘中断处理也是终端输入系统模式的功能, 参见问题 19.1。在某些系统中, 程序只有在读入输入时, 才查看 键盘中断, 因此键盘中断处理就依赖于调用的输入例程 (以及输入例程是否 有效)。在 MS-DOS 下, 可以使用 setcbrk() 或 ctrlbrk()。 

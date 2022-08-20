@@ -1,0 +1,3 @@
+定义：
+typedef unsigned int size_t
+用于方便在系统间移植，比如32位系统中定义为unsigned int，64位则是unsigned long

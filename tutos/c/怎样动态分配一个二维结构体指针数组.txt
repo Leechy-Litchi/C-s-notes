@@ -1,0 +1,19 @@
+//#include "stdafx.h"//vc++6.0加上这一行.
+#include "stdio.h"
+#include "stdlib.h"
+struct Data{
+    int x;
+};
+int main(void){
+    struct Data ***p,x,y;
+    int i;
+    p=(struct Data ***)malloc(2*sizeof(struct Data **));
+    for(i=0;i<2;i++)
+        p[i]=(struct Data **)malloc(3*sizeof(struct Data *));
+    p[0][0]=&x;//这两行是做存入struct Data *型指针试验
+    p[1][2]=&y;//
+    //...
+    for(i=0;i<2;free(p[i++]));
+    free(p);
+    return 0;
+}

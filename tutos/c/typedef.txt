@@ -1,0 +1,4 @@
+typedef int* POINTER
+POINTER p;
+
+可以用来转换语言

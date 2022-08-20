@@ -1,0 +1,5 @@
+在linux中有getchar_unlocked   putchar_unlocked等函数是无锁的，适合单线程（因为线程不安全），效率最高
+https://stackoverflow.com/questions/25143594/why-is-getchar-unlocked-faster-in-c-c#
+
+在WIN中据说有替代
+https://stackoverflow.com/questions/13010505/getchar-unlocked-in-windows-undeclared

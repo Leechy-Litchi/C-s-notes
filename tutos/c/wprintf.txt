@@ -1,0 +1,8 @@
+wsprintf专为UNICODE设计，其中的foramt参数以及需要打印的字串变量必须是UNICODE字符串，具体使用过程中只需将字串"string"改为_T("string")。
+sprintf与wsprintf的区别和用法同上。
+*****printf和sprintf的区别与用法。首先看函数声明：
+int printf (const char *format [,argument]...);
+int sprintf(char *buffer,
+const char *format [,argument] ... );
+注意比较，sprintf对了一个参数buffer，其实它相当于printf的“显示器”，也就是说它把格式化后的字串保存到了buffer指向的字符数组，而不是输出到显示器。
+这就是printf和sprintf的本质区别。用法自然就明显了，你想直接显示到屏幕就用printf，想保存到字符数组就用sprintf。

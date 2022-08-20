@@ -1,0 +1,12 @@
+(int)((double)rand() / ((double)RAND_MAX + 1) * N)
+
+如果你不希望使用浮点, 另一个方法是:
+
+rand() / (RAND_MAX / N + 1)
+
+两种方法都需要知道 RAND_MAX, 而且假设 N 要远远小于 RAND_MAX。  
+RAND_MAX 在 ANSI 里 #define 在 <stdlib.h>。
+
+顺便提一下, RAND_MAX 是个常数, 它告诉你 C 库函数 rand()  的固定范围。你不可以设RAND_MAX为其它的值, 也没有办法要求 rand()  返回其它范围的值。
+
+如果你用的随机数发生器返回的是 0 到 1 的浮点值, 要取得范围在 0 到  N - 1 内的整数, 只要将随机数乘以 N 就可以了。 

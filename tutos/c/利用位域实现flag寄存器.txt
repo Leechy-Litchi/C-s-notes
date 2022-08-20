@@ -1,0 +1,46 @@
+编写过51(MCU)程序的同学都知道51架构的MCU支持位操作，这是一个很方便的特性，在读取/修改寄存器某位的值时非常方便快捷。但其他架构的MCU大多都不支持该特性，即不支持位操作，所在在对寄存器中某一位进行操作的时候都是and/or两个操作共同使用，在编写程序时非常麻烦。在查找了大量资料后，笔者得出了本文中提到的一种折中方法。
+名词解释：
+共用体(union)表示几个变量共用一个内存位置，在不同的时间保存不同的数据类型和不同长度的变量。在union中，所有的共用体成员共用一个空间，并且同一时间只能储存其中一个成员变量的值。
+结构体(struct)是由一系列具有相同类型或不同类型的数据构成的数据集合，也叫结构。
+位域是指信息在存储时，并不需要占用一个完整的字节， 而只需占几个或一个二进制位。
+
+
+在程序中定义这样一个共用体(union):
+
+    typedef union FLAG  
+    {  
+        WORD flags;  
+        struct  
+        {  
+            unsigned int flag_bit0:1;  
+            unsigned int flag_bit1:1;  
+            unsigned int flag_bit2:1;  
+            unsigned int flag_bit3:1;  
+            unsigned int flag_bit4:1;  
+            unsigned int flag_bit5:1;  
+            unsigned int flag_bit6:1;  
+            unsigned int flag_bit7:1;  
+            unsigned int flag_bit8:1;  
+            unsigned int flag_bit9:1;  
+            unsigned int flag_bit10:1;  
+            unsigned int flag_bit11:1;  
+            unsigned int flag_bit12:1;  
+            unsigned int flag_bit13:1;  
+            unsigned int flag_bit14:1;  
+            unsigned int flag_bit15:1;  
+        }bit;  
+    }Flag;  
+
+
+
+上面的共用体给出了一个16位寄存器的定义，在操作中，既可以对整个寄存器一起操作，也可以针对某一位进行操作。
+
+例如，在程序中定义一个共用体的对象：
+
+Flag stFlag;
+
+stFlag.flags = 0xa5;
+
+int P0_0 = stFlag.bit.flag_bit0;
+
+int P0_1 = stFlag.bit.flag_bit1;

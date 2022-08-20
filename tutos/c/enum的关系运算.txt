@@ -1,0 +1,4 @@
+color枚举类可以
+color<=black
+赋值前记得类型转换(enum name)
+switch下枚举类会显示项而不是0~n

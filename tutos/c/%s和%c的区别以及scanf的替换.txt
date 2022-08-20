@@ -1,0 +1,5 @@
+%s时不会记录空格
+scanf遇到tab 退格也会结束
+
+gets()允许带空格
+puts()带空格，printf没有

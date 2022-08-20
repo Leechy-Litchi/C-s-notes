@@ -1,0 +1,5 @@
+	#include <math.h>
+
+	if (fabs(a - b)  <= epsilon * fabs(a))
+
+epsilon 被赋为一个选定的值来控制 ``接近度"。你也要确定  a 不会为 0。 
