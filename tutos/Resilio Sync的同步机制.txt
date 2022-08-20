@@ -1,0 +1,28 @@
+https://www.cnblogs.com/conorblog/p/15587802.html
+
+.sync文件夹
+
+在Resilio本地同步文件夹中，有一个隐藏文件夹，名为.sync，里面存储了设备信息、文件信息等，这些文件和文件夹的作用如下：
+
+
+    Archive文件夹：存储其他设备中修改或者删除的文件历史版本
+    ID文件：文件夹标识符，通过ID，Resilio可以找到其他同步设备上对应的文件夹
+    IgnoreList文件：标识出哪些文件无需同步，类似Git中的.gitignore文件
+    StreamsList文件：数据流文件白名单，Windows下的数据流即alternate streams，Mac/Linux下的数据流为extended attributes（这个不理解也没事）
+    .!sync 结尾的文件，表示此时正在同步，同步结束后，文件将被重命名，然后移动到正确的位置
+
+Archive文件夹和版本控制
+
+    Archive文件夹用于保存文件的历史版本
+    如果文件在任意节点更新或者删除，则旧版本的文件会移动到其他节点的Archive文件中
+
+
+    默认情况下，电脑端保留30天历史，手机端保留1天历史，时间数值可以修改 (Sync Preferences > Advanced > Power user preferences > sync_trash_ttl)
+    也可以设置进行版本控制的文件最大大小，默认为1000，即1000Mb，表示小于1000Mb的文件都会保存历史版本 (Sync Preferences > Advanced > Power user preferences > max_file_size_for_versioning)
+    历史版本会在文件名后添加序号，序号越大，表示版本越新，文件的修改时间即为当前版本被移动到archive文件的时间
+
+
+同步顺序
+
+    如果多人对同一个文件进行了操作，Resilio会按照时间顺序同步，最先修改的最先同步
+    只有设备上线才会进行同步
