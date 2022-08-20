@@ -1,0 +1,4 @@
+内联元素也可以称为行内元素，常见的标签：a、span、em、b、strong、i这些都是内联元素。
+块级元素不能在里面，要用inline-bliock
+块元素也可以称为行元素，常见的标签：div、p、ul、li、h1~h6、dl、dt、dd这些都是块元素。
+要不然float也可以
