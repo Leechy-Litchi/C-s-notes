@@ -1,0 +1,73 @@
+WDM是波分复用
+ASIO是专业声卡驱动
+MME是核心网其中的一个网元，是核心网中负责处理信令的网元，他的功能在23.401中有描述，我这里列举一下
+-NAS信令解析和处理
+-NAS信令的安全性
+-与其他3GPP网络的核心网交互，进行移动性控制
+-控制和执行寻呼的传递
+-TA列表的管理
+-维护TAI和UE位置区（LAI）的映射，UE时区的管理
+-PDN网关和服务网关的选择
+-切换到2G/3G时，选择SGSN
+-MME改变时，选择MME
+-漫游的处理
+-鉴权管理
+-承载管理
+等等功能
+GSIF是声卡驱动 
+
+
+https://qiaodahai.com/audio-apis.html
+MME（WaveIn/WaveOut）
+
+MME是最常见的Windows音频API，全称为MutiMedia Extensions，即多媒体扩展技术。它历史悠久，兼容性好，市面上基本所有设备都能良好支持。它属于高级的API，并不直接和硬件交流，需要通过层层接口才能访问音频硬件，这也为它带来了高延迟。虽说这种延迟在回放音频的时候并不会造成音质的劣化，但对音频的处理和录制却有着较大的负面影响。
+
+MME使用waveIn****/waveOut****系列API来完成对音频的处理。程序启动后用waveIn****系列函数打开声卡输入功能，同时将缓冲区设定到足够小的值，然后开始将音频数据录制到设定的缓冲区，当缓冲区满后再将缓冲区(WAVHDR)直接加入到waveOut****系列函数的输出队列中即可。此方法实现较简单，缺点是MME为高级API，因此在整个过程中需要走过很多系统处理阶段，导致延迟较大。若缓冲区太小会导致声音断断续续。一般最小延迟可到120毫秒左右。
+
+WaveOut是微软最早提出的音频流输出方式，所以它的兼容性也就好，几乎所有的微软操作系统和声卡都支持；但它无法支持“混和多重音频流”的功能，没有使用任何的硬件加速，所有的混音动作都是用软件来执行的。
+
+DirectSound（DS）
+
+Windows95发布后，微软发现游戏商还是乐意用DOS作为游戏平台，原因是游戏开发商发现Windows95并不适合执行视频和音频任务，因为WinAPI32包含的多媒体函数响应太慢了。微软于是推出了著名的DirectX，DirectX是一套视频音频API以及视频音频的DSP（效果器）API。DirectSound是其中的一部分，DirectSound有2D/3D之分，DirectSound有效果器函数，因此在输出的时候还可以加入回声等效果，用来仿真真实的声效环境。 DirectSound主要为游戏提供服务，在一些播放器以及音频编辑器上，DirectSound也被作为实时效果API使用。DirectSound 注重输出，输入方面并没有特色。只要硬件支持，DirectSound能够明显加速输出响应。Windows的音频输出响应速度提高到了一个新的档次。除了古老的某些声卡之外，几乎所有声卡都支持DirectSound，至少支持DirectSound 2D。
+
+2006年11月，微软发布Windows Vista，Vista出人意料的放弃了对DirectSound 3D 硬件层（HAL）的支持，也就是说，那些支持DirectSound 3D硬件加速的声卡，通通失去了加速能力。最新发布的Windows 7继承了Vista的这个特性，DirectSound 3D硬件加速退出历史舞台。
+
+DirectX Sound侧重于音频输出，能直接访问硬件，响应速度得到了极大的提升。设置DirectSound的工作模式为最高级别，一般最小延迟可到60毫秒左右。
+
+WDM
+
+WDM是Windows Driver Module的缩写，拥有低延迟、支持多个音频流等特性。这是Windows 98 SE/ME/2000的一个新特征，WDM驱动推出后，人们发现以前不支持多音频流的声卡都能播放多个音频流了。WDM也可以算是一套API，通讯的对象是驱动程序而不是普通的应用程序，只要驱动支持WDM，会增加不少功能，例如通用的软波表等。在输入输出方面，WDM比MultiMedia Extensions和DirectSound都要好点，现在几乎所有没有被淘汰的声卡都支持WDM。WDM可以让声卡的延时大大降低，某些时候甚至可以媲美ASIO，在一些专业的音频编辑创作软件中，已经对WDM提供了支持。
+
+MME延迟高，而Direct Sound并非为专业音频设计，WDM的出现很好地弥补了这些缺点。WDM直接和音频芯片的驱动程序交流，减少了大量中间环节，把延迟降低到一个新的层次，目前不少专业音频软件都提供了WDM接口。
+
+所谓WDM技术就是应用程序直接调用底层系统服务。总流程也是先接受一个缓冲区的数据，然后输出。在WinXP下，音频WDM也就是常说的Kernel Streaming(内核音频流)。此方案的优势在于可将延迟做到极低的状态，一般最小延迟可以到1毫秒~10毫秒，且在一定情况下可以使用非分页内存、直接硬件IRP和RT，独占声卡的所有资源。
+
+Kernel Streaming（KS）
+
+Kernel Streaming中文意思就是内核流，这是一种直接访问底层数据的方式，它可以绕开系统的混音器（Windows kernel mixer），直接与声卡通讯，这使得输出效率得到提高，输出延时降低。Kernel Streaming 不经过Kmixer，直接对音频数据进行内核模式（kernel-mode）处理，这样一来，我们就可以听到原汁原味的声音。
+
+但Kernel Streaming也有其局限性，首先使用这个API会直接霸占音频硬件，你听歌的时候就没法听到QQ响；其次这个API没有音频输入功能，也没法使用麦克风。
+
+需要注意的是由于Vista和Win7开始弃用了kmixer和依赖dma的audio IO，所以Kernel streaming不适用于Vista和Win7。
+
+UAA（WASAPI）
+
+UAA是最新的Windows音频架构，在Vista推出之时面世。UAA全称为Universal Audio Architecture，即通用音频架构，其中用于管理音频对话的API为WASAPI（Windows Audio Session API）。WASAPI可以对每组音频对话单独处理，这显得意义重大。
+
+举个例子，使用WASAPI的时候，如果正在用44.1kHz的采样率播放音乐，但此时音频采样率为48kHz的QQ又响了，就不必以混响解决，不会产生采样率转换（SRC）劣化音质的情况。事实上，WASAPI这个音频API是很多音乐发烧友的标配。
+
+WASAPI (Windows Audio Session API) 是从Windows Vista开始加入的UAA（Universal Audio Architecture）音频架构所属的API。WASAPI允许传输未经修改的比特流到音频设备，从而避开SRC（Sample Rate Conversion，取样率转换器）的干扰。对于Windows XP来说，与WASAPI类似的通道就是上面所说的Kernel streaming，WASAPI只能使用在Vista和Win7以上的系统。
+
+微软宣称，vista/7 已经开始弃用了kmixer 和依赖dma 的audio IO，而开发了他们所说的WaveRT (Wave RealTime)，他们的WASAPI、MMCSS 等就是使用WaveRT 做核心，而WaveRT 都有一个属于自己的mixer，但只要开动独占摸式就可以bypass 这个mixer，mute 掉所有其他程序的声音，MMCSS 是让你提高audio 出入IO 到最高时脉优先权，微软想做的其实就是使用实时clock timer控制audio 流，而不经dma，直接和UAA audio devices hareware 沟通，甚至让sound card or audio interface 的hareware clock 直接来控制audio data，这样的作用就是想做到和ASIO 很相近，就算是WASAPI 共享模式，都已经没有SRC 了，而是在控制台中可以自由让你设定共享混音后的共同目的sampling rate, bit size 及channels，所以的可以保留原来的44100Hz 讯号，不会再被SRC，而且现在所有intel motherboard 或intel chips 都已经有了HPET (High Precision Event Timer)，可以令video 和audio 的处理更实时精确处理高sampling rates，低bus latency，让每秒钟内可以回应资料流事件的次数大幅增加，但不知AMD 的有没有。
+
+ASIO
+
+ASIO的全称是“Audio Stream Input Output”，是由德国Steinberg公司所提出的一种音频技术规范，为音频API标准之一。ASIO的主要特点是低延迟和多轨多通道传输。ASIO完全摆脱了Windows操作系统对硬件的集中控制，它能实现在音频处理软件与硬件之间进行多通道传输的同时，将系统对音频流的响应时间降至最短。
+
+Windows自有的MME驱动程式其延迟时间为200~500毫秒，DirectSound为50~100毫秒，Mac OS的Sound Manager则为20~50毫秒，使用ASIO的情况下，缓冲器依照设定的不同可至10毫秒以下，也有因环境较佳而到1毫秒以下的情况产生。 因此，在录音作业与音乐制作上，可达到实时处理的效果。
+
+低延迟对声音录制和后期制作有着重大的意义，但是在声音回放上的效果却有争议。有的发烧友认为，ASIO的低延迟可以极大程度地减少音频Jitter（抖动），从而提高音质；但有另一种说法称ASIO对软硬件的环境要求都比较苛刻，如果音频驱动编写水平一般，很容易产生爆音、声音生冷等问题。
+
+EAX
+
+EAX 即 Environmental Audio Extensions，环境音效拓展集，它算不上是一套独立的API，它是以DirectSound 3D为基础，构筑的一套3D API，它的开发者就是大名鼎鼎的Creative。Creative推出EAX是为了和A3D竞争，并最终获得市场的胜利，创新收购Aureal后，A3D的一些先进算法被导入到EAX当中。

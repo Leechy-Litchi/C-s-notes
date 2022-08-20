@@ -1,0 +1,10 @@
+https://www.bilibili.com/read/cv16531177
+https://www.bilibili.com/video/BV1pA4y1Q7Tc
+1右键转换为智能对象
+2编辑-透视变形
+3点击板面，左上角
+4对齐
+5点击变形，在板面旁边
+6显示与隐藏透视变化
+在右下图层面板
+7单击“透视变形”可继续编辑

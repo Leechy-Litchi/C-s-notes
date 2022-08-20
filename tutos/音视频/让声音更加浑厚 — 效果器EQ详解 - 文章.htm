@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html data-lt-installed="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="在做视频后期的时候…… 我想让人声更清晰、更温暖，咋整？ 背景音乐很棒，但它盖过了人声，我又不想降低音乐的音量，咋整？ 我想让音乐轨更劲爆一点，咋整？  想让人声听起来是从电话、耳机里传出来的，咋整？..." name="description">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="initial-scale=1,minimum-scale=1">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>让声音更加浑厚 — 效果器EQ详解 - 文章</title>
+<link type="text/css" rel="stylesheet" charset="utf-8" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/frame.css" putoff="style/css/module/combination/extra.css?version=805f7554">
+					<link type="text/css" rel="stylesheet" charset="utf-8" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/skin.css">
+			<script type="text/javascript" charset="utf-8" async="" src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/suda.js"></script>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/nologin_profile.css" id="FM_16496604638786"><div style="position: absolute; top: -9999px;"></div><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_nodetop.css" id="FM_16496604638789"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_text_c.css" id="FM_164966046387814"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_pictext_a.css" id="FM_164966046387816"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_ut_b.css" id="FM_164966046387818"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_longwb.css" id="FM_164966046387820"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/comb_WB_feed_profile.css" id="FM_164966046387823"><link rel="stylesheet" type="text/css" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_user_a.css" id="FM_164966046387824"><style></style><style id="1.zcg2dufs1z">rt.katakana-terminator-rt::before { content: attr(data-rt); }</style><link href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/extra.css" type="text/css" rel="stylesheet"><link rel="Stylesheet" type="text/css" charset="utf-8" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/PCD_mplayer.css"><div style="position: absolute; top: -9999px; left: -9999px;"></div><style type="text/css">._th-container ._th-item{margin-bottom:3px;position:relative;width:0;height:0;cursor:pointer;opacity:.3;background-color:aquamarine;border-radius:100%;text-align:center;line-height:30px;-webkit-transition:all .35s;-o-transition:all .35s;transition:all .35s;right:30px}._th-container ._th-item,._th-container ._th-click-hover,._th_cover-all-show-times ._th_times{-webkit-box-shadow:-3px 4px 12px -5px black;box-shadow:-3px 4px 12px -5px black}._th-container:hover ._th-item._item-x2{margin-left:18px;width:40px;height:40px;line-height:40px}._th-container:hover ._th-item._item-x-2{margin-left:17px;width:38px;height:38px;line-height:38px}._th-container:hover ._th-item._item-xx2{width:36px;height:36px;margin-left:16px;line-height:36px}._th-container:hover ._th-item._item-xx-2{width:32px;height:32px;line-height:32px;margin-left:14px}._th-container:hover ._th-item._item-reset{width:30px;line-height:30px;height:30px;margin-left:10px}._th-click-hover{position:relative;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;height:45px;width:45px;cursor:pointer;opacity:.3;border-radius:100%;background-color:aquamarine;text-align:center;line-height:45px;right:0}._th-container:hover{left:-5px}._th-container{font-size:12px;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;left:-35px;top:20%;position:fixed;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:100000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}._th-container ._th-item:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th-container ._th-item:active{opacity:.9;background-color:#1b3a26;color:aliceblue}._th-container:hover ._th-click-hover{opacity:.8}._th-container:hover ._th-item{opacity:.6;right:0}._th-container ._th-click-hover:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th_cover-all-show-times{position:fixed;top:0;right:0;width:100%;height:100%;z-index:99999;opacity:1;font-weight:900;font-size:30px;color:#4f4f4f;background-color:rgba(0,0,0,0.1)}._th_cover-all-show-times._th_hidden{z-index:-99999;opacity:0;-webkit-transition:1s all;-o-transition:1s all;transition:1s all}._th_cover-all-show-times ._th_times{width:300px;height:300px;border-radius:50%;background-color:rgba(127,255,212,0.51);text-align:center;line-height:300px;position:absolute;top:50%;right:50%;margin-top:-150px;margin-right:-150px}</style><link href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/rewardModule.css" rel="stylesheet" type="text/css"><link rel="Stylesheet" type="text/css" charset="utf-8" href="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/comb_webim.css"></head><remove-web-limits-iqxin id="rwl-iqxin" class="rwl-exempt" style="position: fixed; top: 0px; left: 0px;"><qxinbutton type="qxinbutton" id="rwl-setbtn"> set </qxinbutton> <lalala style="cursor:move; font-size:12px;">限制解除</lalala> <input type="checkbox" name="" id="black_node"><style type="text/css">#rwl-iqxin{position:fixed;transform:translate(-95px,0);width:85px;height:25px;font-size:12px;font-weight: 500;font-family:Verdana, Arial, '宋体';color:#fff;background:#333;z-index:2147483647;margin: 0;opacity:0.05;transition:0.3s;overflow:hidden;user-select:none;text-align:center;white-space:nowrap;line-height:25px;padding:0 16px;border:1px solid #ccc;border-width:1px 1px 1px 0;border-bottom-right-radius:5px;box-sizing: content-box;}#rwl-iqxin input{margin: 0;padding: 0;vertical-align:middle;-webkit-appearance:checkbox;-moz-appearance:checkbox;position: static;clip: auto;opacity: 1;cursor: pointer;}#rwl-iqxin.rwl-active-iqxin{left: 0px;transform:translate(0,0);opacity: 0.9;height: 32px;line-height: 32px}#rwl-iqxin label{margin:0;padding:0;font-weight:500;}#rwl-iqxin #rwl-setbtn{margin: 0 4px 0 0;padding: 0 0 0 4px;border: none;border-radius: 2px;cursor: pointer;background: #fff;color: #000;} </style></remove-web-limits-iqxin><body class="FRAME_page">
+<div class="B_page S_page">
+  <div class="WB_miniblog">
+    <div class="WB_miniblog_fb">
+      
+      	    
+	    
+	    
+	    
+	    
+	    
+	    
+
+
+<!-- SUDA_CODE_END -->	          <div class="WB_main clearfix" id="plc_frame">
+      <div class="WB_frame">
+      
+                    		<div id="plc_main"><div class="WB_frame_c" fixed-box="true">
+			<div id="Pl_Official_CardLongFeedv6__2" anchor="-50"><div class="WB_cardwrap S_bg2"> 
+	<div class="PCD_longwb_content   ">
+		<div class="WB_innerwrap">
+									<div class="header">
+				<h1 class="title">让声音更加浑厚 — 效果器EQ详解</h1>
+					<div class="info clearfix">
+						<span class="time">2016年1月27日 11:23</span>
+						 						<span class="num"><em class="W_vline S_line1"></em>阅读 95906</span>
+			             						 						  							 
+					   						
+					</div>
+			</div>
+						
+			<div class="WBA_content">
+			<div><div><span style="white-space:pre"><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvzot7mdj30zk0k0dhr.jpg">&nbsp;</span></div><div>&nbsp; &nbsp; &nbsp; &nbsp; 在做视频后期的时候……</div><div><span style="white-space:pre"></span>我想让人声更清晰、更温暖，咋整？</div><div><span style="white-space:pre"></span>背景音乐很棒，但它盖过了人声，我又不想降低音乐的音量，咋整？</div><div><span style="white-space:pre"></span>我想让音乐轨更劲爆一点，咋整？&nbsp;</div><div><span style="white-space:pre"></span>想让人声听起来是从电话、耳机里传出来的，咋整？？</div><div><span style="white-space:pre"></span>想让声音听起来是从远方传来的，但只降低音量又不像，咋整？？？</div><div><span style="white-space:pre"></span><span style="font-weight:bold;">咋整，用EQ！！！</span></div><div><span style="white-space:pre"></span>看完本文，你会得到能马上应用的答案。</div></div><div><div><span style="font-weight:bold;">一、理解EQ</span></div><div><span style="font-weight:bold;">1.EQ是什么</span></div><div><span style="white-space:pre"></span>EQ的全称是Equalizer，EQ是Equalizer的前两个字母，中文名字叫做“均衡器”。Equal的意思是“相同的”，Equalizer就是“使相同者”，所以翻译成均衡器。</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvffi76dj30zk0k0dhr.jpg">&nbsp;<br></div><div>为什么叫它均衡呢，因为EQ之所以被发明出来，最早是用来提升电话信号在长距离的传输中损失的高频，由此得到一个各频带相对平衡的结果，所以叫它“均衡器”，它让各个频带的声音得到了均衡。</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvfq2vp2j30zk0k0gno.jpg">&nbsp;<br></div><div>EQ离我们并不远，多媒体音箱上的低音增强就是EQ，它通过增强低音来让你感受到“动次大次”的广场舞节奏：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvfv4ovkj30qo0p0ae3.jpg">&nbsp;<br></div><div><br></div><div><span style="font-weight: bold; font-size: 20px;">EQ的主要功能是：单独提升或降低一个声音特定频带的音量，而不影响其他频带。</span></div><div><br></div><div>什么是频带呢。人耳能听见的频率在20Hz到20000Hz之间（Hz是频率的单位，念“赫兹”），如果在这中间取一个区间，就叫做一个频带，比如100Hz－300Hz就是一个频带。</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvgqt12sj30tc0k077p.jpg">&nbsp;<br></div><div>各个频带的声音听起来是什么样的呢？请看本文对应的视频教程//doyoudo.com/p/5001077.html。</div><div>视频中有一段演示了一个声音的各个频带听起来是什么样的：</div><div>低频 20—300Hz</div><div>中频 300—2.4kHz</div><div>高频 2.4—20kHz</div><div>2.看懂EQ的操作界面</div><div><span style="white-space:pre"></span>最容易理解的EQ是图示均衡器（Graphic Equalizer），如下图</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvhd3l1lj30tk0lqgou.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>可以看到这种EQ是把频率分为若干个频带，你动其中一个频带的推子，就改变了这个频带的音量。</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvhoc5o9j30zk0xcgok.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>但是图示均衡器有一个缺点，它只能改变固定频带的音量，假如我们想改变1.5kHz处的音量，就没有办法了，因为它只提供了调整1kHz和2kHz的推子：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvhuzqjzj30s80ec40l.jpg"></div><div><span style="white-space:pre"></span></div><div>所以，最常用的是另一种EQ，叫做<span style="font-weight:bold;">参数均衡器</span>（Parametric Equalizer）：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvi2wwkzj317e0p0q9y.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>这种EQ可以随意定义频点的频率，在写有Hz数的地方输入不同的数值，再输入更改的dB数（分贝），就能改变这个频率的音量。</div><div><br></div><div>到这里有一个问题，我们前面说过，EQ是改变某个频带的音量，但我们设置的是单个的频率数值，并不是频带啊，怎么确定频带的宽度呢？</div><div><span style="white-space:pre"></span>有一个参数叫做Q值：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvijvwyyj30pu0c0tah.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>以频点为中心，Q值越大，受影响的频带就越窄：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dviq79ioj30ys0k8wic.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>Q值越小，受影响的频带就越宽：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dviv3556j30zg0k6q6y.jpg"></div><div><br></div><div><span style="white-space:pre"><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvji78ivj30fl0isdge.jpg">&nbsp;</span></div><div>&nbsp;
+ &nbsp; &nbsp; &nbsp; 
+在doyoudo吐血收集的黄金宝典“EQ在视频后期中的具体用法”里（就在下面），大家会看到这种描述：1.8kHz提升3dB（Q＝1）。它的实现方
+法就是这样：首先找一个与1.8kHz接近频点，然后将它的数值修改为1800，然后输入提升的数值3dB，最后把Q值改为1就可以了：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvj44egbj30zk0k078o.jpg">&nbsp;<br></div><div><span style="font-weight:bold;">如何单独提升低频、高频？</span></div><div>由于我们经常会有“把低频提升一些”这种想法，所以有一种快速的调整方式，叫做shelve，它跟我想象的“提升低频”这个动作是最接近的：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvjpmjjij30za0gqwhu.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>看，整个低频都被提升起来了，当然也可以衰减（降低音量）：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvjumls7j30z80jyn0w.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>低频的shelve叫做Low Shelve，高频的shelve则叫做High Shelve，比如这样：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvk36jznj30yq0jq77x.jpg">&nbsp;<br></div><div><br></div><div><span style="font-weight:bold;">低通、高通滤波器</span></div><div>在音乐制作中，一般会把100Hz以下的低频切掉，因为乐器和人声一般在这个频带没有声音，其中有的很可能是噪音，这个时候，我们就需要一个“高通滤波器（High Pass Filter，简称HP）”，如下图：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvkgzu4fj30za0k242a.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>所谓“高通”，就是“只让高频通过”的意思，只让高频通过，低频自然就没有了，所以记住切低频的时候要用高通滤波器。</div><div><span style="white-space:pre"></span>与之相对的，是低通滤波器，它自然就是用来切除高频的了：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvko6j8mj312w0ju787.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>到这里又有一个问题，不是说切掉低频吗，为什么不是这样：</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvkt2753j30zk0k0dhv.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>而是有一个斜坡呢？</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvky870lj30zk0k0dhw.jpg">&nbsp;<br></div><div><span style="white-space:pre"></span>这个斜坡叫做slope（斜率），它的单位是dB／Oct（中文念“分贝每八度”），我们可以先不去管它是什么意思，只要知道，斜率值越大，坡就越陡，就越接近我们想象中的“切掉”的样子：动图演示</div><div><img src="%E8%AE%A9%E5%A3%B0%E9%9F%B3%E6%9B%B4%E5%8A%A0%E6%B5%91%E5%8E%9A%20%E2%80%94%20%E6%95%88%E6%9E%9C%E5%99%A8EQ%E8%AF%A6%E8%A7%A3%20-%20%E6%96%87%E7%AB%A0_files/006esENyjw1f0dvl9xuy5g30f009q7ht.gif">&nbsp;<br></div><div><br></div><div>好了我们来回顾一下，理解这些名词的意思，你就能看懂90%的EQ界面了：</div><div><span style="white-space:pre"></span>均衡器 EQ＝Equalizer</div><div><span style="white-space:pre"></span>图示均衡器 Graphic Equalizer</div><div><span style="white-space:pre"></span>参数均衡器 Parametric Equalizer</div><div>&nbsp; &nbsp; &nbsp; &nbsp; 频带 Frequency Band&nbsp;</div><div><span style="white-space:pre"></span>增益 Gain</div><div><span style="white-space:pre"></span>衰减 Reduction</div><div><span style="white-space:pre"></span>高通滤波器 High Pass Filter 缩写 HP</div><div><span style="white-space:pre"></span>低通滤波器 Low Pass Filter 缩写LP</div><div><span style="white-space:pre"></span>斜率 Slope，单位是dB/Oct</div><div><span style="white-space:pre"></span>Q值 &nbsp;Q</div><div><span style="white-space:pre"></span>Hight Shelve 在auditon的参数均衡器中缩写为H</div><div><span style="white-space:pre"></span>Low Shelve 在audition的参数均衡器中缩写为L</div><div><span style="font-weight: bold; color: rgb(255, 0, 0); font-size: 18px;">重要内容：</span></div><div><span style="font-weight: bold; font-size: 20px;">二、EQ在视频后期中的具体用法</span></div><div><span style="font-weight:bold;">1.改善人声</span></div><div>1).加强人声</div><div>1.8kHz提升3dB（Q＝1）可以增加人声的清晰度，1.8kHz提升6dB（Q＝0.5）可以加强人声。（之所以能加强人声是因为1.75kHz是多数辅音的基频）</div><div><br></div><div>2).去掉齿音</div><div>齿音一般在4-5kHz，对5kHz进行－18dB的衰减（Q＝100）可以去掉一些齿音。但是EQ并不是去齿音的最好方法，专门去齿音的效果器叫de－esser。</div><div><br></div><div>3).处理音乐，让人声更容易被听见</div><div>人声说话的频率范围在1000到4000Hz之间，在音乐轨上把1.75kHz降低－3dB（Q＝1），这样音乐就不会淹没掉人声了。</div><div><br></div><div>4).提升温暖度</div><div>切掉90hz以下的声音，把240Hz提升3dB（Q＝7）增加温暖的感觉，但注意不要提升太多低频，它们会让大部分的视频音轨变的含混不清</div><div><br></div><div>5).让男性的声音更浑厚</div><div>160Hz提升2dB（Q＝1）。</div><div><br></div><div>6).去掉低频、高频噪声</div><div>如果人声录音中存在低频噪声，可以试试高斜率的高通滤波器，截止频点设置在130Hz（男声）或200Hz（女声）左右。如果人声录音中有高频噪声，可以添加一个高斜率的低通滤波器，截止频点设置在8kHz。</div><div><br></div><div><span style="font-weight:bold;">2.让音乐更劲爆</span></div><div>如果没有人声，可以对音乐进行：对100Hz 提升6dB（Q＝3），在3kHz做6dB的High Shelf。</div><div><br></div><div><span style="font-weight:bold;">3.利用EQ增强距离感</span></div><div>音乐音频工程师经常把midrange EQualizer称为“presence”控制，它会极大影响声音的远近，提升中频，特别是1.2kHz到2.5kHz，会让声音听起来靠前。</div><div>高频在空气中传播的时候会被吸收，在室内这不明显，但衰减室外声音的高频可以增加距离感。</div><div>例如，为了让室外的声音听起来更远，可以添加一个low shelve对500Hz进行+12dB的提升，然后用一个high shelve对1.5kHz进行-12dB的衰减，然后调低音量。</div><div><span style="white-space:pre"></span>示例视频：</div><div><span style="white-space:pre"></span>《Au 系列 1 让视频更好听: 08.Hey Jason！如何模拟声音的远近》</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//doyoudo.com/p/5001028.html</div><div><br></div><div><span style="font-weight:bold;">4.制作特殊效果</span></div><div>1).模拟电话人声</div><div>一般设置：高通滤波器截止频率设置在350Hz，然后再加一个低通滤波器，截止频率在3500Hz。</div><div>&nbsp; &nbsp; &nbsp; &nbsp; 参加doyoudo的教程 &nbsp;</div><div>&nbsp; &nbsp; &nbsp; &nbsp; 《Au 系列 1 让视频更好听: 06.如何让声音听起来像电话里传来的？》</div><div>&nbsp; &nbsp; &nbsp; &nbsp; //doyoudo.com/p/5001021.html</div><div><br></div><div>2).模拟耳机播放音乐</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 参见doyoudo的教程</div><div>&nbsp; &nbsp; &nbsp; &nbsp; 《Au 系列 1 让视频更好听: 06.如何让声音听起来像电话里传来的？》</div><div><span style="white-space:pre">     </span>//doyoudo.com/p/5001021.html</div><div>3).制作特殊的混响淡出效果</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 参见doyoudo的教程</div><div><span style="white-space:pre"></span>《淡出谁都会，见过音量不变也能淡出的么...》</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //doyoudo.com/p/5001064.html</div><div>4).模拟老式留声机的声音</div><div>&nbsp; &nbsp; &nbsp; &nbsp; 《复古人声的制作方法（黑白电影、老式留声机）》</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //doyoudo.com/p/5001063.html</div><div><br></div><div>附：</div><div>EQ使用建议</div><div>1.基本上所有的EQ处理都位于200Hz——10kHz，并且这个范围里大多在3kHz以下，在这个频带之外的处理可能会增加噪音。</div><div>2.一般来讲，增益和衰减不要超过6dB。</div><div>3.谨慎提升低频，EQ并不会增加本来不存在的频率，过度提升低频会让声音发闷，而不会增加低频位置原来没有的频谱。</div><div>4.衰减永远要比提升好</div><div>5.处理人声的时候，过窄的EQ最好不要用，用尽量宽的q值来达到想要的效果</div><div>6.关于预置：许多EQ效果器都带有预置，这些预置可以作为你调整的起点，但是注意这些预置很可能是为音乐制作设计的，所以很可能不适合视频后期的声音处理，最好是调用预置之后调整到适合你音轨的状态。</div></div><div><br></div><div><p style="margin-bottom: 0px; clear: both; color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 16px;"><span style="font-size: 14px;">更多音视频制作的内容欢迎访问doyoudo.com</span></p><p style="margin-bottom: 0px; font-family: Helvetica, STHeiti; clear: both;"><span style="">看幽默、超清、干货的视频教程，学习也会上瘾。</span></p></div>			</div>
+		</div>
+	</div>
+</div></div>
+			
+			
+	</div>
+
+</div>
+                 </div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
