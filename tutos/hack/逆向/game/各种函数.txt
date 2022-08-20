@@ -1,0 +1,18 @@
+getAddress
+将给定的字符串传递给Cheat Engine的符号处理程序，并以整数形式返回相应的地址。可以是模块名或导出项。如果要查询CE进程的符号表，请将local设置为true。如果errorOnLookupFailure设置为true(默认值)，如果你查找一个不存在的符号，它将抛出一个错误。当errorOnLookupFailure设置为false时，它将返回0。
+local cmdCall = getAddress("cmdCall")
+
+executeCodeEx(callmethod, timeout, address, {type=x,value=param1} or param1,{type=x,value=param2} or param2,..)
+无参数可以省略，比如executeCodeEx(0,nil,cmdCall)
+executeCodeEx(0, nil, "MessageBoxA", 0, {type=3,value="title"}, {type=3,value="content"}, 0)
+
+writePointer
+writeQword
+writeDouble
+writeFloat
+writeInteger
+writeSmallInteger
+writeByte
+writeString
+上述后面加local，比如
+writeStringLocal
