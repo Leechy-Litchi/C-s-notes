@@ -1,0 +1,30 @@
+https://liam.page/2017/08/27/mojibake-in-Windows-Notepad-due-to-wrong-encoding-detect/
+保存的过程
+Windows 记事本在以 ANSI 保存文件时，没有任何多余的动作，直接将 buffer 中的内容通过 WriteFile 系统调用写入到 txt 文件当中。
+
+打开的过程
+打开文件的过程中，记事本程序会调用 fDetermineFileType 来判断文件的编码类型。
+详细代码请查看链接
+
+首先，代码从文件头部取出了前 2 个字节，然后走 switch 分支判断。
+若前两个字节是 0xBBEF，且文件第三个字节是 0xBF，则组成 UTF-8 的 BOM（虽然 UTF-8 不需要）。那么据此判断文件编码是 UTF-8。
+若前两个字节是 0xFEFF，那么这是小端序 UTF-16 的 BOM。据此判断文件编码是（Windows 所谓的）Unicode 编码。
+若前两个字节是 0xFFFE，那么这是大端序的 UTF-16 的 BOM。据此判断文件编码是（Windows 所谓的）Unicode Big Endian 编码。
+
+否则，则需要做更深层次的判断。注意到，iType 被初始化为 0，代表 ANSI 编码（简体中文下是 CP936，相当于是 GBK 编码）。若已走到了 default 分支，要函数返回 0，当且仅当 IsTextUTF8( lpBuffer, cb ) 为 false 才行。这个函数的写法请查看链接
+
+从 buffer 中取出一个字节，保存在 signed char 当中。而后判断 if( c < 0 )。因为 c 是有符号的 char，所以 c < 0 意味着最高位是 1。这就意味着该字符肯定不是 ASCII 字符，可能是一个 UTF-8 字符。因此将 bUtf8 置为 true。
+而后，在 if( iLeftBytes == 0 ) 分支中，我们看到 c <<= 1; iLeftBytes++; 的 do-while 循环。这是在判断 UTF-8 编码的首字符中，有多少个前缀的 1。根据 UTF-8 的编码规则，这个数值就是该 UTF-8 字符的编码长度，记录在 iLeftBytes 当中。
+接下来，根据 iLeftBytes 的大小，逐一检查后续的字节，是否以 10 开头。
+一旦发现有不满足条件的字节，就能判定当前文档不是 UTF-8 编码的。或是（在 for 循环结束之后）发现 iLeftBytes 尚未自减到 0 就已经到了文档末尾，则也可以判定当前文档不是 UTF-8 编码的。
+
+这个函数的逻辑，是根据 UTF-8 编码规则，全文扫描。若发现有一个字符不符合 UTF-8 的编码规则，则返回 false；否则若全文都符合 UTF-8 的编码规则，则返回 true。
+
+「联通」都经历了什么？
+联通二字以 ANSI（CP936）保存的 txt 文件里只有 0xC1AACDA8 这些内容。因为无有 BOM，所以在 fDetermineFileType 函数中必然走到 default 分支，而后陷入 IsTextUTF8 函数当中。
+不巧的是，0xC1AA 和 0xCDA8 都符合 UTF-8 编码的要求。
+于是按照 UTF-8 编码去解读 0xC1AACDA8，那么就乱码了
+
+可以得到结论：如果一个以 ANSI（CP936/GBK）保存的文档，内里包含的所有字符，都不幸满足了 UTF-8 的编码规则。那么这个文档将被 Windows 记事本当做是 UTF-8 编码的文件打开，就会乱码。
+由于 GBK 是双字节的编码格式，只可能满足 UTF-8 中对 U+0080 至 U+07FF 编码的格式：110xxxxx, 10xxxxxx。
+完成这一任务的 Python 代码请查看链接
