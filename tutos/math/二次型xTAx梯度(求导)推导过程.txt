@@ -1,0 +1,18 @@
+https://blog.csdn.net/weixin_43342476/article/details/121562958
+y=xTAx ,x是n维向量，A是n阶方阵，求dy/dx
+A=[aij] x=(x1……xn)T
+y=sigma(n,i=1)sigma(n,j=1)aijxixj
+则有
+delta y/delta xk = sigma(,i!=k){delta(sigma(n,j=1)aij*xi*xj)/delta xk+delta(sigma(n,j=1)akj*xk*xj)/delta xk}
+=sigma(,i!=k){前半段+delta(aik*xi*xk)/delta xk}+sigma(,j!=k)delta(akj*xk*xj)/delta xk +delta(akk*xk^2)/delta xk
+=sigma(,i!=k)(0+aik*xi)+sigma(,j!=k)akj*xj+2akk*xk
+=sigma(n,i=1)aik*xi+sigma(n,j=1)akj*xj
+=(xTA)k+(Ax)k
+
+其中 (xTA)k 是行向量xTA的第k个分量，(Ax)k是列向量Ax的第k个分量。
+因此delta y /delta xk = (xTA)k + (xTAT)k
+
+所以Nabla y=xTA+xTAT=xT(A+AT)
+
+特别地，如果A是实对称矩阵
+Nabla y = xTA+xTAT=2xTA

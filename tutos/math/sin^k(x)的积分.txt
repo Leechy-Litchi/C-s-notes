@@ -1,0 +1,10 @@
+https://blog.csdn.net/weixin_43342476/article/details/119397195
+sum(pi/2,0)sin^kt=(k-1)!!/k!!  	     k为奇数,
+sum(pi/2,0)sin^kt=(k-1)!!/k!!*pi/2   k为偶数
+
+证明:
+In=sum(pi/2,0)sin^n(x)dx
+In=sum(pi/2,0)sin^n-1(x)d(-cosx)=-sin^n-1(x)cos(x)|(pi/2,0)+sum(pi/2,0)sin^n-2(x)cos^2(x)dx=0+sum(pi/2,0)sin^n-2(x)(1-sin^2(x))dx
+=(n-1)(sin(pi/2,0)sin^n-2(x)dx-sum(pi/2,0)sin^n(x)dx)=(n-1)In-2-(n-1)In
+所以有In=n-1/n In-2
+易知:I1=1,I0=pi/2

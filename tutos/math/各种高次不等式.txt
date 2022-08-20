@@ -1,0 +1,80 @@
+算术-几何均值不等式（AM-GM不等式）
+https://baike.baidu.com/item/均值不等式/8046796   最底下
+a1……an 为正实数
+a1+a2+……an/n >= sqrt(n,a1*a2*……an)
+//若没有则为1
+举例
+a^3+b^3=2,a,b为正实数,证明a+b<=2
+1+1+a^3/3 >= sqrt(3,a^3*1*1) = a
+a^3+2 >= 3a
+b^3+2 >= 3b
+a^3+b^3+4 >= 3(a+b)
+=> 6 >= 3(a+b)
+a+b <= 2
+
+
+https://www.sohu.com/a/419885303_614593
+柯西不等式
+(a1+……)(b1+……)>=(sqrt(a1b1)+……sqrt(anbn))^2
+
+卡尔松不等式
+m行n列矩阵(m×n矩阵)每行元素之和的几何平均值不小于每列元素的几何平均值的和。 //几何平均值:sqrt(n,x1……xn)
+sqrt(m,PI(m,i=1){sigma(n,j=1)xij}) >= sigma(n,j=1){sqrt(m,PI(m,j=1)xij)}
+
+
+https://zhuanlan.zhihu.com/p/351079165
+Holder不等式（赫尔德不等式）
+定理描述：
+a,b>=0,p,q>0且1/p+1/q=1,则有ab<=1/p * a^p + 1/q * b^q
+运用于积分
+sum(b,a)|f(x)g(x)|dx<={sum(b,a)|f(x)|^pdx}^1/p * {sum(b,a)|g(x)|^qdx}^1/q
+当p=q=2时，上述不等式变为：对于平方可积函数的柯西-施瓦茨不等式；
+
+
+原始的杨氏不等式
+a,b,x>=0,有ab<=sum(a,0)f(x)dx+sum(b,0)g(x)dx   当且仅当b=f(a)时取等号，g(x)为其反函数
+
+
+常用的杨氏不等式
+f(x)=x^p-1 => g(x)=x^(1/p-1)
+代入原始的杨氏不等式
+ab<=sum(a,0)f(x)dx+sum(b,0)g(x)dx=a^p/p + b^(p/p-1)/(p/p-1)=a^p/p+b^q/q
+q=p/p-1
+所以有1/p+1/q=1,为保证函数过原点，p,q>1
+ab<=a^p/p+b^q/q
+p,q称为“共轭指数”，当a^p=b^q时等号成立
+
+
+其他形式的杨氏不等式
+1.
+sigma>0时,1<p,q<inf,1/p+1/q=1
+则有ab=(sigma^(1/p) *a)(sigma^(1/q) *b)<=sigma*a^p/p +sigma^（-p/q）*b^q/q
+2.卷积形式，设f属于Ll(R^n),g属于Lp(R^n)(1<=p<=inf)
+有||f*g||p<=||f||l||g||p
+3.广义，条件同第一条加第二条
+则有f*g属于Lr(R^n)
+且||f*g||r<=||f||p||g||q,(1/p+1/q=1+1/r)
+4.在[0,c]严格连续递增，a属于其中，b属于[f(0),f(c)]
+有sum(a,0)f(x)dx+sum(b,f(0))f^-1(x)dx>=ab
+5.在[d,c]上连续，d>=0
+sum(a,d)f(x)dx+sum(b,f(d))f^-1(x)dx>=(a-d)b
+6.g(x)在[f(0),inf]上严格连续递增,g(f(x))>=x,x>0,a>=0,b>=f(0)
+sum(a,0)f(x)dx+sum(b,f(0))g(x)dx>=ab
+7.f,g在[d,c]连续正实函数,f',g'>=0或都<=0,x属于[d,c]，d<=a<=b<=c
+sum(a,d)f'(x)g(x)dx+sum(b,d)f(x)g'(x)dx>=f(a)g(b)-f(d)g(d)
+
+
+
+柯西—施瓦茨不等式 
+(sigma(n,k=1)ak*bk)^2<=(sigma(n,k=1)ak^2)*(sigma(n,k=1)bk^2)
+内积下的表达形式可看下面施瓦茨不等式
+
+
+施瓦茨不等式
+内积满足施瓦茨不等式
+[x,y]^2<=[x,x][y,y]=||x||*||y||    //[x,y]=(x,y)=xT*y=x1y1+x2y2+……
+可得|[x,y]/||x||*||y|||<=1  当||x||||y||!=0  
+//||x||=sqrt([x,x])=sqrt(x1^2+……)
+绝对值内的是夹角余弦
+
+
