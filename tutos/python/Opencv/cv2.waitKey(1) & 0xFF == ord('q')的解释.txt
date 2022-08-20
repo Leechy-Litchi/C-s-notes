@@ -1,0 +1,11 @@
+if cv2.waitKey(1) & 0xFF == ord('q'):
+	break
+
+
+cv2.waitKey(1)在有按键按下的时候返回按键的ASCII值，否则返回-1
+
+& 0xFF的按位与操作只取cv2.waitKey(1)返回值最后八位，因为有些系统cv2.waitKey(1)的返回值不止八位
+
+ord(‘q’)表示q的ASCII值
+
+总体效果：按下q键后break
