@@ -1,0 +1,85 @@
+https://blog.csdn.net/luckywang1103/article/details/103211560
+通过current指针获取当前进程信息
+
+current其实一个struct task_struct指针，指向当前进程
+
+struct task_struct *task又是struct thread_info的一个成员变量。
+
+thread_info可以从sp寄存器得到
+#define get_current() (current_thread_info()->task)
+#define current get_current()
+//linux-imx/arch/arm/include/asm/thread_info.h
+register unsigned long current_stack_pointer asm ("sp");
+static inline struct thread_info *current_thread_info(void)
+{return (struct thread_info *)(current_stack_pointer & ~(THREAD_SIZE - 1));}
+
+使用方法
+current 指针指向当前在运行的进程，内核代码可以通过使用 current 来使用进程特定的信息。
+指向 task_struct 的current指针在内核堆栈内，是一个全局项。
+printk("current process comm："%s", pid ：%i\n", current->comm, current->pid);
+//printk是在内核态的printf
+
+comm：当前进程执行的程序文件名，
+pid：当前进程的pid号。
+//实际来讲，current->pid指的并不是进程的pid，而是线程的tid，current指的也是线程，主线程
+
+
+current宏
+是一个全局指针，指向当前进程的struct task_struct结构体，即表示当前进程。
+例如current->pid就能得到当前进程的pid，current->comm就能得到当前进程的名称。
+  每个进程会有两个栈，一个用户栈，存在于用户空间，一个内核栈，存在于内核空间。
+　　
+  当进程在用户空间运行时，cpu堆栈指针寄存器里面的内容是用户堆栈地址，使用用户栈；	
+  当进程在内核空间时，cpu堆栈指针寄存器里面的内容是内核栈空间地址，使用内核栈。
+
+  在陷入内核后，系统调用中也是存在函数调用和自动变量，这些都需要栈支持。
+
+  当进程因为中断或者系统调用而陷入内核态时，进程所使用的堆栈也要从用户栈转到内核栈。
+
+通过init_task获取内核中所有struct task_struct信息
+linux-imx/init/init_task.c
+struct task_struct init_task = INIT_TASK(init_task);
+union thread_union init_thread_union __init_task_data =  { INIT_THREAD_INFO(init_task) };
+
+//https://lights.blog.csdn.net/article/details/3806630 init_thread_union猜想
+
+/*union thread_union init_thread_union
+   __attribute__ ((__section__(".data.init_task"))) = {INIT_THREAD_INFO(init_task)};
+*/
+//thread_union的定义在include/linux/shed.h中：
+//union thread_union {struct thread_info thread_info;unsigned long stack[THREAD_SIZE/sizeof(long)];}; 
+
+//_init_task_data会被保存到一个特殊的段中
+linux-imx/include/linux/init_task.h
+#define __init_task_data __attribute__((__section__(".data..init_task")))
+
+
+参考代码
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/sched.h>
+#include <linux/list.h>
+
+static __init int printPid(void) //安装模块函数
+{
+    struct task_struct *task,*p;
+    struct list_head *ps;
+    int count=0;
+    printk("begin.\n");
+    task=&init_task;
+    list_for_each(ps,&task->tasks)
+    {
+        p=list_entry(ps,struct task_struct,tasks);
+        count++;
+        printk("%d\t%s\n",p->pid,p->comm);
+    }
+    printk("Process counts:%d\n",count);
+    return 0;
+}
+static __exit void exitPid(void)  //卸载函数
+{
+    printk("exit!\n");
+}
+module_init(printPid); //实现的函数必须放入其中
+module_exit(exitPid);

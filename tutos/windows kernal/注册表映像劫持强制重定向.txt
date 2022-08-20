@@ -1,0 +1,5 @@
+为local machine下software下Microsoft下windows NT下currentversion下image File Execution Options
+这里面的文件夹名字是应用程序，在里面添加debugger然后可以输入重定向路径
+比如输入\就是无效
+
+映像劫持可以从系统层面进行修改

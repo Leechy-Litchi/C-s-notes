@@ -1,0 +1,7 @@
+HEKY_CLASSES_ROOT
+创建DWORD DefaultDropEffect
+值
+0 不执行任何操作
+1 复制
+2 剪切
+4 创建快捷方式

@@ -1,0 +1,2 @@
+HKEY_CURRENT_USERControl Panel\Desktop
+新建字符串AutoEndTasks 值为1

@@ -1,0 +1,57 @@
+症状
+无法将 RDP 连接或其他连接 (如 HTTP) Azure 中的 VM，因为 VM 配置为启动到 保险箱 模式。 当你在 Azure 门户中查看启动诊断中的屏幕截图时，你可能会看到 VM 正常启动，但网络接口不可用：
+
+
+原因
+RDP 服务在模式保险箱可用。 当 VM 启动到运行模式时，仅加载保险箱和服务。 这适用于两种不同版本的 保险箱 模式，即"保险箱最少启动"和"保险箱连接启动"。
+
+解决方案
+使用串行控件
+连接串行控制台并打开 CMD
+(https://docs.microsoft.com/zh-cn/troubleshoot/azure/virtual-machines/serial-console-windows#use-cmd-or-powershell-in-serial-console)
+
+检查启动配置数据：
+bcdedit /enum
+如果 VM 配置为启动到保险箱模式，你将在安全启动加载程序Windows下看到一 个****额外的标志。 如果看不到 safeboot 标志，则 VM 未保险箱模式。 本文不适用于你的方案。
+safeboot 标志可能会显示以下值：
+    最小(Minimal)
+    网络(Network)
+    在这两种模式中，RDP 将不会启动。 因此，修复保持不变。
+删除 safemoade 标志，以便 VM 将启动到正常模式：
+bcdedit /deletevalue {current} safeboot
+重新启动 VM，然后检查该问题是否已解决。
+
+
+
+脱机修复 VM
+打开提升的命令提示符会话 (以管理员) 。
+运行以下脚本：
+在此脚本中，我们假定分配给附加操作系统磁盘的驱动器号为 F。请将此驱动器号替换为 VM 的适当值。
+reg load HKLM\BROKENSYSTEM F:\windows\system32\config\SYSTEM
+
+REM Enable Serial Console
+bcdedit /store F:\boot\bcd /set {bootmgr} displaybootmenu yes
+bcdedit /store F:\boot\bcd /set {bootmgr} timeout 5
+bcdedit /store F:\boot\bcd /set {bootmgr} bootems yes
+bcdedit /store F:\boot\bcd /ems {<BOOT LOADER IDENTIFIER>} ON
+bcdedit /store F:\boot\bcd /emssettings EMSPORT:1 EMSBAUDRATE:115200
+
+REM Suggested configuration to enable OS Dump
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v CrashDumpEnabled /t REG_DWORD /d 1 /f
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v DumpFile /t REG_EXPAND_SZ /d "%SystemRoot%\MEMORY.DMP" /f
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v NMICrashDump /t REG_DWORD /d 1 /f
+
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v CrashDumpEnabled /t REG_DWORD /d 1 /f
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v DumpFile /t REG_EXPAND_SZ /d "%SystemRoot%\MEMORY.DMP" /f
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v NMICrashDump /t REG_DWORD /d 1 /f
+
+reg unload HKLM\BROKENSYSTEM
+
+配置Windows启动到正常模式
+打开提升的命令提示符会话 (以管理员) 。
+bcdedit /store F:\boot\bcd /enum
+记下具有 \windows 文件夹的分区的标识符名称。 默认情况下，标识符名称为"Default"。
+如果 VM 配置为启动到保险箱模式，你将在安全启动加载程序Windows下看到一 个****额外的标志。 如果您看不到 safeboot 标志，则本文不适用于您的方案。
+删除 safeboot 标志，以便 VM 将启动到正常模式：
+bcdedit /store F:\boot\bcd /deletevalue {Default} safeboot
+分离操作系统磁盘并重新创建 VM。 然后检查该问题是否已解决。

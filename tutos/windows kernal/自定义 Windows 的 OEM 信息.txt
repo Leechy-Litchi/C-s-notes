@@ -1,0 +1,2 @@
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion
+找到winve.exe的项目（如DisplayVersion、RegisterOwner）并修改其字符串，比如21H2、22000等

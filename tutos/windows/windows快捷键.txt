@@ -1,0 +1,52 @@
+﻿win+shift+s   截图
+win+.打开符号表情
+ctrl+shift+N 新建文件夹
+ctrl+alt+q打开微信
+ctrl+alt+z打开QQ
+win+E 打开我的电脑
+win+tab+左侧贴靠 分屏
+win+←/→快捷键分屏
+win+l 锁屏
+ctrl+shift+ESC打开任务管理器
+浏览器中ctrl+H快速打开浏览历史
+win+H语音输入
+win+m显示桌面
+
+win+r
+运行
+win+d
+桌面
+win+q 
+搜索
+win+i 
+设置
+win+数字
+打开锁定的应用	
+Windows+Shift+S 
+win10 截图快捷键
+Win+e 
+打开文件管理器
+win+v 
+剪切板 可以查看粘贴上上次或者更早的复制的内容
+ctrl+ z撤销
+ctrl+ y 取消撤销
+删除文件快捷键 ctrl+d
+ctrl+alt+del
+进入是否锁定、切换用户、改密码、开任务管理器界面
+ctrl+shift+del
+永久删除
+shift+f10 
+相当于鼠标右键
+ctrl+shift+n 
+新建文件夹
+alt+tab
+切换界面
+win+tab
+切换层级
+win+l
+锁屏
+ctrl+shift+esc
+任务管理器
+alt+esc
+切换到你上一次使用的程序窗口
+

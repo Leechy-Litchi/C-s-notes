@@ -1,0 +1,9 @@
+WIN10默认取消自动备份注册表
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Configuration Manager
+新建DWORD EnablePeriodicBackup 值为1
+
+手动保存命令
+REG SAVE HKLM\SOFTWARE SOFTWARE
+REG SAVE HKLM\SYSTEM SYSTEM
+REG SAVE HKU\.DEFAULT DEFAULT
+REG SAVE HKLM\SAM SAM

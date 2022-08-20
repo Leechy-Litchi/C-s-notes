@@ -1,0 +1,13 @@
+https://www.bilibili.com/video/BV1LL4y157uP
+阴间方法：左下角打开软键盘，点击options按键，点击最下方的蓝色超链接
+实际上背后已经打开了设置页，然后可以按tab锁定路径，输入cmd的位置打开cmd
+然后taskkill /f /im wwahost.exe
+又或是更阴间的，用粘滞键想办法打开edge，然后用file来找到cmd
+
+
+方便一点的可以用任务管理器用tab进入，然后找到进程del掉
+
+还有shift+F10让OOBE（开箱预览）处于后台让使用按钮出于前台
+完全关闭：（可以通过前面方法）进入注册表
+在current user——software——Microsoft——windows——current version——unserprofileengagement里新建DWORD叫ScoobeSystemSettingEnabled
+最后结束这个进程

@@ -1,0 +1,2 @@
+用resourse hacker找到system32->zh-CN->winlogon.exe.mui
+里面有详细文本

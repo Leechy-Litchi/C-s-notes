@@ -1,0 +1,2 @@
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control
+新建StorageDevicePolicies项，创建DWORD WriteProtect，值为1

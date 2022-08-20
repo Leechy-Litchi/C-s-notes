@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html data-lt-installed="true" lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/weixin_38526180/article/details/107414050">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content="{&quot;pid&quot;: &quot;blog&quot;, &quot;spm&quot;:&quot;1001.2101&quot;}">
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="#">
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon">
+    <title>(610条消息) WIndows内核学习笔记：分页机制——PAE分页模式_jungz7的博客-CSDN博客</title>
+    
+        <meta name="keywords" content="WIndows内核学习笔记：分页机制——PAE分页模式">
+        <meta name="csdn-baidu-search" content="{&quot;autorun&quot;:true,&quot;install&quot;:true,&quot;keyword&quot;:&quot;WIndows内核学习笔记：分页机制——PAE分页模式&quot;}">
+    <meta name="description" content="Chapter 4 Paging4.1 分页模式和控制位分页控制有关的寄存器CR0    标志位：WP（bit 16）、PG（bit 31）CR4    标志位：PSE（bit 4）、PAE（bit 5）、PGE（bit 7）、PCIDE（bit 17）、SMEP（bit 20）、SMAP（bit 21）、PKE（bit 22）、CET（bit 23）、PKS（bit 24）IA32_EFER MSR    标志位：LEM（bit 8）、NXE（bit 11)EFLAGS    标志位：AC（">
+    
+        <link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/detail_enter-6c2bc68709.css">
+    
+        <link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/skin-sea-d3a08c2048.css">
+    
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/sandalstrap.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/csdn-toolbar-default.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/user-login.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/collection-box.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/user-tooltip.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/user-medal.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/user-accusation.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/user-ordertip.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/order-payment.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/side-toolbar.css"><link rel="stylesheet" type="text/css" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/csdn-footer.css"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style id="1.wljtlg3lov">html, :not([class*="rwl-exempt"]) {-webkit-user-select:text!important; -moz-user-select:text!important;} :not([class*="rwl-exempt"]) ::selection {color:#fff; background:#3390FF!important;}</style><style id="1.kswpmp0ubz">rt.katakana-terminator-rt::before { content: attr(data-rt); }</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">._th-container ._th-item{margin-bottom:3px;position:relative;width:0;height:0;cursor:pointer;opacity:.3;background-color:aquamarine;border-radius:100%;text-align:center;line-height:30px;-webkit-transition:all .35s;-o-transition:all .35s;transition:all .35s;right:30px}._th-container ._th-item,._th-container ._th-click-hover,._th_cover-all-show-times ._th_times{-webkit-box-shadow:-3px 4px 12px -5px black;box-shadow:-3px 4px 12px -5px black}._th-container:hover ._th-item._item-x2{margin-left:18px;width:40px;height:40px;line-height:40px}._th-container:hover ._th-item._item-x-2{margin-left:17px;width:38px;height:38px;line-height:38px}._th-container:hover ._th-item._item-xx2{width:36px;height:36px;margin-left:16px;line-height:36px}._th-container:hover ._th-item._item-xx-2{width:32px;height:32px;line-height:32px;margin-left:14px}._th-container:hover ._th-item._item-reset{width:30px;line-height:30px;height:30px;margin-left:10px}._th-click-hover{position:relative;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;height:45px;width:45px;cursor:pointer;opacity:.3;border-radius:100%;background-color:aquamarine;text-align:center;line-height:45px;right:0}._th-container:hover{left:-5px}._th-container{font-size:12px;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;left:-35px;top:20%;position:fixed;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:100000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}._th-container ._th-item:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th-container ._th-item:active{opacity:.9;background-color:#1b3a26;color:aliceblue}._th-container:hover ._th-click-hover{opacity:.8}._th-container:hover ._th-item{opacity:.6;right:0}._th-container ._th-click-hover:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th_cover-all-show-times{position:fixed;top:0;right:0;width:100%;height:100%;z-index:99999;opacity:1;font-weight:900;font-size:30px;color:#4f4f4f;background-color:rgba(0,0,0,0.1)}._th_cover-all-show-times._th_hidden{z-index:-99999;opacity:0;-webkit-transition:1s all;-o-transition:1s all;transition:1s all}._th_cover-all-show-times ._th_times{width:300px;height:300px;border-radius:50%;background-color:rgba(127,255,212,0.51);text-align:center;line-height:300px;position:absolute;top:50%;right:50%;margin-top:-150px;margin-right:-150px}</style></head><remove-web-limits-iqxin id="rwl-iqxin" class="rwl-exempt" style="position: fixed; top: 0px; left: 0px;"><qxinbutton type="qxinbutton" id="rwl-setbtn"> set </qxinbutton> <lalala style="cursor:move; font-size:12px;">限制解除</lalala> <input type="checkbox" name="" id="black_node" checked="checked"><style type="text/css">#rwl-iqxin{position:fixed;transform:translate(-95px,0);width:85px;height:25px;font-size:12px;font-weight: 500;font-family:Verdana, Arial, '宋体';color:#fff;background:#333;z-index:2147483647;margin: 0;opacity:0.05;transition:0.3s;overflow:hidden;user-select:none;text-align:center;white-space:nowrap;line-height:25px;padding:0 16px;border:1px solid #ccc;border-width:1px 1px 1px 0;border-bottom-right-radius:5px;box-sizing: content-box;}#rwl-iqxin input{margin: 0;padding: 0;vertical-align:middle;-webkit-appearance:checkbox;-moz-appearance:checkbox;position: static;clip: auto;opacity: 1;cursor: pointer;}#rwl-iqxin.rwl-active-iqxin{left: 0px;transform:translate(0,0);opacity: 0.9;height: 32px;line-height: 32px}#rwl-iqxin label{margin:0;padding:0;font-weight:500;}#rwl-iqxin #rwl-setbtn{margin: 0 4px 0 0;padding: 0 0 0 4px;border: none;border-radius: 2px;cursor: pointer;background: #fff;color: #000;} </style></remove-web-limits-iqxin>
+  <body class="nodata " style="">
+        
+    
+    
+<link rel="stylesheet" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/blog_code-01256533b5.css">
+<link rel="stylesheet" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/chart-3456820cac.css">
+
+
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <script>
+        if(!isCookieConcision){
+            $('.main_father').removeClass('mainfather-concision')
+            $('.main_father .container').removeClass('container-concision')
+        }
+        </script>
+        <main>
+<script type="text/javascript">
+    function getQueryString(name) {   
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象  
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if( r != null ) return decodeURIComponent( r[2] ); return '';   
+    }
+    function stripscript(s){ 
+      var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%]") 
+      var rs = ""; 
+      for (var i = 0; i < s.length; i++) { 
+        rs = rs+s.substr(i, 1).replace(pattern, ''); 
+      } 
+      return rs; 
+    }
+    var blogHotWords = stripscript(getQueryString('utm_term')).length > 1 ? stripscript(getQueryString('utm_term')) : ''
+</script>
+<div class="blog-content-box">
+        <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">WIndows内核学习笔记：分页机制——PAE分页模式</h1>
+            </div>
+            
+        </div>
+    </div>
+        
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/ck_htmledit_views-163de54645.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p></p>
+<div class="toc">
+ <h3><a name="t0" target="_self"></a>目录</h3>
+ <ul><li><a href="#_1" target="_self">前言</a></li><li><a href="#Chapter_4_Paging_10" target="_self">Chapter 4 Paging</a></li><li><ul><li><a href="#41__11" target="_self">4.1 分页模式和控制位</a></li><li><ul><li><a href="#411__22" target="_self">4.1.1 四种分页模式</a></li><li><a href="#412__52" target="_self">4.1.2 启用和切换分页模式</a></li><li><a href="#413__58" target="_self">4.1.3 分页属性控制</a></li><li><a href="#414_Enumeration_of_Paging_Features_by_CPUID_98" target="_self">4.1.4 Enumeration of Paging Features by CPUID</a></li></ul>
+   </li><li><a href="#42__121" target="_self">4.2 分层页表结构概览</a></li><li><a href="#44_PAE__156" target="_self">4.4 PAE 分页模式</a></li><li><ul><li><a href="#441_PDPTE_164" target="_self">4.4.1 PDPTE寄存器</a></li><li><a href="#442__192" target="_self">4.4.2 线性地址转物理地址</a></li></ul>
+  </li></ul>
+  </li><li><a href="#_288" target="_self">实验题：实现页表浏览工具</a></li><li><ul><li><a href="#0__290" target="_self">0. 查看源码</a></li><li><a href="#1__294" target="_self">1. 环境设置</a></li><li><a href="#2_MFC_306" target="_self">2. MFC浏览工具的代码实现</a></li><li><a href="#3__392" target="_self">3. 驱动代码的实现</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<h1><a name="t1" target="_self"></a><a id="_1" target="_self"></a>前言</h1> 
+<p>物理地址扩展 Physical Address Extension（缩写<strong>PAE</strong>）。<br> 解释：正常情况32位CPU可以存取4G的物理内存，但在现实中，实际情况是内存的发展速度大于CPU的发展速度，所以才有了让32位CPU存取超过4G内存的需求。实现方式就是给CPU增加了4根地址线，达到36根，于是可寻址64G大小的内存。</p> 
+<p>Intel到目前为止设计了4种分页模式，分别是：32位、PAE、4-level、5-level这四种模式。本文主要讲了Intel是如何设计PAE模式的页表相关数据结构。</p> 
+<ul><li>“Chapter 4 Paging”部分，是笔者在阅读Intel手册时做的翻译笔记，对应原文的 <em>Volume3: Chapter 4 Paging</em>。翻译有不准确的地方，以原文为准。可以在这里下载手册。<a href="https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html" target="_self">Intel® 64 and IA-32 Architectures Software Developer Manuals</a></li><li>“实验题”部分，实现了一个可以浏览进程页表的小工具，可以在这里查看源码。<a href="https://github.com/jungz7/Learn-Windows" target="_self">github源码</a><br> <br></li></ul> 
+<h1><a name="t2" target="_self"></a><a id="Chapter_4_Paging_10" target="_self"></a>Chapter 4 Paging</h1> 
+<h2><a name="t3" target="_self"></a><a id="41__11" target="_self"></a>4.1 分页模式和控制位</h2> 
+<p>分页控制有关的<a href="https://so.csdn.net/so/search?q=%E5%AF%84%E5%AD%98%E5%99%A8&amp;spm=1001.2101.3001.7020" target="_blank" class="hl hl-1" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.7020&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=%E5%AF%84%E5%AD%98%E5%99%A8&amp;spm=1001.2101.3001.7020&quot;}" data-tit="寄存器" data-pretit="寄存器">寄存器</a></p> 
+<ul><li>CR0 标志位：WP（bit 16）、PG（bit 31）</li><li>CR4 标志位：PSE（bit 4）、PAE（bit 5）、PGE（bit 7）、PCIDE（bit 17）、SMEP（bit 20）、SMAP（bit 21）、PKE（bit 22）、CET（bit 23）、PKS（bit 24）</li><li>IA32_EFER MSR 标志位：LEM（bit 8）、NXE（bit 11)</li><li>EFLAGS 标志位：AC（bit 18）</li></ul> 
+<p>软件（应该指操作系统）如何启用分页功能：确保CR3中是分页结构表的物理内存地址，然后使用MOV指令置CR0.PG位。</p> 
+<br> 
+<h3><a name="t4" target="_self"></a><a id="411__22" target="_self"></a>4.1.1 四种分页模式</h3> 
+<p>本节内容：根据 CR0.PG、CR4.PAE、CR4.LA57和IA32_EFER.LME，判断是否启用分页，以及是开启的什么分页模式。</p> 
+<p><strong>CR0.PG = 0</strong> 表示未启用分页模式，此时会把线性地址直接当作物理地址使用。</p> 
+<p><strong>CR0.PG = 1</strong> 表示启用分页模式。 Paging can be enabled only if protection is enabled (CR0.PE = 1)。此时由CR4.PAE、CR4.LA57、和IA32_EFER.LME决定启用哪种分页模式。</p> 
+<ul><li><strong>32-bit paging 模式</strong> CR4.PAE = 0 （详见4.3节）</li><li><strong>PAE paging 模式</strong> CR4.PAE = 1 and IA32_EFER.LME = 0 （详见4.4节）</li><li><strong>4-level paging 模式</strong> CR4.PAE = 1, IA32_EFER.LME = 1, and CR4.LA57 = 0 （4表示4层表寻找Pages页，详见4.5节）</li><li><strong>5-level paging 模式</strong> CR4.PAE = 1, IA32_EFER.LME = 1, and CR4.LA57 = 1 （5表示5层表寻找Pages页，详见4.5节）<br> 32-bit 和PAG模式用于保护模式32位模式，IA32_EFER.LME = 0<br> 4-level和5-level模式用于64位模式（IA-32e表示64位模式），IA32_EFER.LME = 1</li></ul> 
+<p>四种模式的区别：</p> 
+<ul><li>线性地址宽度</li><li>物理地址宽度</li><li>分页大小：4K、2M、4M、1G</li><li>支持execute-disable，数据执行保护</li><li>支持PCIDs，操作系统可以启用缓存线性地址的功能，不是很懂，先放放</li><li>支持 protection keys，不知道干嘛的<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200717222807678.png" alt="四种分页模式的差异"><br> <strong>4-level</strong> 和 <strong>5-level</strong>模式还有两个子模式：</li><li>兼容模式：兼容32位的模式</li><li>64位模式：虽然是64位线性地址，但是实际上4-level只使用了低48位做线性地址，而5-level页只使用低57位，物理地址线都只有52根。</li></ul> 
+<br> 
+<h3><a name="t5" target="_self"></a><a id="412__52" target="_self"></a>4.1.2 启用和切换分页模式</h3> 
+<p>本节内容：根据 CR0.PG、CR4.PAE、CR4.LA57和IA32_EFER.LME，如何启用并且切换不同的分页模式<br> 讲解在不同模式之间切换的规则，这部分不感兴趣，略过。</p> 
+<br> 
+<h3><a name="t6" target="_self"></a><a id="413__58" target="_self"></a>4.1.3 分页属性控制</h3> 
+<p>本节内容：通过CR0.WP、CR4.PSE、CR4.PGE、CR4.PCIDE、CR4.SMEP、CR4.SMAP、CR4.PKE、CR4.CET、CR4.PKS和IA32_EFER.NXE控制在不同分页模式下Pages的属性</p> 
+<ul><li> <p><strong>CR0.WP</strong><br> 写入数据保护标志位：<br> 等于0， supervisor-mode（应该指0环应用程序）可以向具有只读属性的页写数据；等于1，则不可以操作。<br> 这个标志位对User-mode（应该时3环应用程序）没有影响，因为只要是只读属性的页，3环程序都不能写。<br> （4.6节有更详细的介绍）</p> </li><li> <p><strong>CR4.PSE</strong><br> 是否启用4M分页：<br> 只对<strong>32-bit paging 模式</strong>作用，等于0，表示分页大小只能是4K；等于1，可以选择4K或4M分页。其它三种模式的分页大小可以自由选择，不受该位的控制。（4.3节有更详细的介绍）</p> </li><li> <p><strong>CR4.PGE</strong><br> 是否启用全局共享页：<br> 等于0，不同进程间不会共享物理内存；等于1，进程间可以共享物理内存。（可能翻译的不对，帖上原文）<br> CR4.PGE enables global pages. If CR4.PGE = 0, no translations are shared across address spaces; if CR4.PGE = 1,<br> specified translations may be shared across address spaces.（4.10.2.4节有更详细的介绍）</p> </li><li> <p><strong>CR4.PCIDE</strong><br> 启用process-context identifiers，对<strong>4-level</strong> 和 <strong>5-level</strong>模式作用。<br> PCIDs逻辑处理器缓存多个线性地址。（4.10.1节有更详细的介绍）</p> </li><li> <p><strong>CR4.SMEP</strong><br>
+ If CR4.SMEP = 1, software operating in supervisor mode cannot fetch 
+instructions from linear addresses that are accessible in user 
+mode.（4.6节有更详细的介绍）</p> </li><li> <p><strong>CR4.SMAP</strong><br> If 
+CR4.SMAP = 1, software operating in supervisor mode cannot access data 
+at linear addresses that are accessible in user mode. Software can 
+override this protection by setting EFLAGS.AC.</p> </li><li> <p><strong>CR4.PKE and CR4.PKS</strong><br> 4-level和5-level模式将每一个线性地址与保护key相关联。<br> CR4.PKE=1时，PKRU寄存器表示，user-mode的线性地址所关联的保护key，是否可读或可写。<br> CR4.PKS=1时， the IA32_PKRS MSR does the same for supervisor-mode linear addresses.</p> </li><li> <p><strong>CR4.CET</strong><br> 这个好难理解。<br> If CR4.CET = 1, certain memory accesses are identified as shadow-stack accesses and certain linear addresses translate to<br> shadow-stack pages.</p> </li><li> <p><strong>IA32_EFER.NXE</strong><br> 执行保护，对<strong>4-level</strong> 和 <strong>5-level</strong>模式作用。如果设为1，则不能执行指令，但是可以读指令。</p> </li></ul> 
+<br> 
+<h3><a name="t7" target="_self"></a><a id="414_Enumeration_of_Paging_Features_by_CPUID_98" target="_self"></a>4.1.4 Enumeration of Paging Features by CPUID</h3> 
+<p>这部分保护标志位的意义和用法。<br> PSE: page-size extensions for 32-bit paging.<br> PAE: physical-address extension.<br> PGE: global-page support.<br> PAT: page-attribute table.<br> PSE-36: page-size extensions with 40-bit physical-address extension.<br> PCID: process-context identifiers.<br> SMEP: supervisor-mode execution prevention.<br> SMAP: supervisor-mode access prevention.<br> PKU: protection keys for user-mode pages.<br> OSPKE: enabling of protection keys for user-mode pages.<br> CET: control-flow enforcement technology.<br> LA57: 57-bit linear addresses and 5-level paging.<br> PKS: protection keys for supervisor-mode pages.<br> NX: execute disable.<br> Page1GB: 1-GByte pages.<br> LM: IA-32e mode support.<br> CPUID.80000008H:EAX[7:0] reports the physical-address width supported by the processor.<br> CPUID.80000008H:EAX[15:8] reports the linear-address width supported by the processor.</p> 
+<br> 
+<h2><a name="t8" target="_self"></a><a id="42__121" target="_self"></a>4.2 分层页表结构概览</h2> 
+<p>不同模式使用的页表结构是不一样的，有的只是用2张表，有的则更多。<br> 每张表的大小都是4096字节，对于32-bit模式，每一项是4字节，共1024项；对于其它三种模式，每一项是8字节，每张表512项。PAE模式是个特例，它的第一张表只有4项。</p> 
+<p>不同模式对线性地址的处理是不一样的，详细章节会讲。</p> 
+<p>这里提出了两个名词：<strong>page frame</strong> 线性地址中用来寻址的部分；<strong>page offset</strong> 线性地址中用作偏移的部分。</p> 
+<p>每一项中的地址部分都是物理内存地址。</p> 
+<p>第一张表总是保存在CR3寄存器中。</p> 
+<p>四种模式解析线性地址（4K分页举例）：</p> 
+<ul><li>32-bit模式：32:22（10位）表1下标，21:12（10位）表2下标，11:0（12位）用作分页内的偏移量。</li><li>PAE模式：31:30（2位）表1下标，29:21（9位）表2下标，20:12（9位）表3下标，11:0（12位）分页内的偏移量。</li><li>4-level模式：每张表都是512项，总共4张表，所以47:39、38:30、29:21、20:12对应4张表的下标，11:0（12位）分页内的偏移量。</li><li>5-level模式：使用5张表，56:48是第一张表下标，其余的根4-level模式的一样。</li></ul> 
+<p>总结上面的解析线性地址过程，其实就是查表，查表，再查表。有些情况查表过程可能会中断，比如说遇到缺页异常时。<br> 还有两种特殊的情况：</p> 
+<ul><li>查表过程中，剩余没有解析的线性地址宽度超过12位，如果当前表项的属性位bit 7（PS位—page size）等于1，当前项就是最后的页</li><li>查表过程中，剩余没有解析的线性地址宽度等于12位，bit 7不再是PS位，另有它用，当前项则指向另一个表</li></ul> 
+<p>对上述的第一种情况举例：<br> 32-bit模式，如果分页大小是4M（CR4.PSE=1），那么表1就是存储的页，总共1024项，1024*4M=4G，正好寻址4G空间，表2就不存在了。再比如，PAE模式下，如果分页大小是2M，查到第2张表就时页了，此时没有了表3。</p> 
+<p>不同的表结构都有名字，参考下图：<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200717233806804.png" alt="不同分页模式的分页结构体"><br> 对于上面的缩写，通常我们有下面的叫法：<br> PTE 页表，存放的每一项是最终的Pages物理地址，32位的分页大小有4K、2M、4M，64位则能扩展到1G大小<br> PDE 页目录表，存放的每一项是PTE<br> PDPTE页目录指针表，PAE模式只有4项，4-level和5-level模式都是填满的512项，每一项指向一个页目录表。<br> PML4E和PML5E暂时也不知道，实际上用法类似，各增加一层表的<br> <br></p> 
+<h2><a name="t9" target="_self"></a><a id="44_PAE__156" target="_self"></a>4.4 PAE 分页模式</h2> 
+<p>寄存器标志位：<br> CR0.PG = 1<br> CR4.PAE = 1<br> IA32_EFER.LME = 0</p> 
+<br> 
+<h3><a name="t10" target="_self"></a><a id="441_PDPTE_164" target="_self"></a>4.4.1 PDPTE寄存器</h3> 
+<p>CR3指向 page-directory-pointer表。其中：<br> 4:0 没有用<br> 31:5 存放指向表的物理地址<br> 63:52 没有用</p> 
+<p>page-dirctory-pointer表中由4个8字节的大小的PDPTEs组成，每个可寻址1-GByte大小的线性地址空间。<br> 对应这4个PDPTE，逻辑处理器内部维护着与之对应的四个non-architectural寄存器，分别是PDPTE0、PDPTE1、PDPTE2、PDPTE3。出现下面几种情况时，逻辑处理器会重新加载内存中的PDPTEs到4个寄存器：</p> 
+<ul><li>如果使用MOV to CR0或MOV to CR4指令修改了这些寄存器中的标志位（CR0.CD, CR0.NW, CR0.PG, CR4.PAE, CR4.PGE, CR4.PSE, or CR4.SMEP），PDPTESs会从CR3中执行的地址重新加载</li><li>在PAE分页模式，如果下执行MOV to CR3指令，PDPTESs会从CR3中执行的地址重新加载</li><li>在PAE分页模式，如果CR3中的值被task switch修改，会从新的CR3中加载PDPTEs<br> 下表中说明了PDPTE的结构：</li></ul> 
+<div class="table-box"><table><thead><tr><th>位</th><th>用途</th></tr></thead><tbody><tr><td>0（P）</td><td>Present，等于1表示此项指向一个页目录表，等于0则此项不包含页目录表</td></tr><tr><td>2:1</td><td>保留位，必须填0</td></tr><tr><td>3（PWT）</td><td>Page-level write-through，用来间接确定访问页目录表所需要的内存属性（详见4.9节）</td></tr><tr><td>4（PCD）</td><td>Page-level cache disable，用来间接确定访问页目录表所需要的内存属性（详见4.9节）</td></tr><tr><td>8:5</td><td>保留位，必须填0</td></tr><tr><td>11:9</td><td>忽略</td></tr><tr><td>(M-1):12</td><td>指向页目录表的4K对齐的物理地址</td></tr><tr><td>63:M</td><td>保留位，必须填0</td></tr></tbody></table></div>
+<p>注：M表示MAXPHYADDR，最大物理地址宽度，该手册中是52根地址线。</p> 
+<br> 
+<h3><a name="t11" target="_self"></a><a id="442__192" target="_self"></a>4.4.2 线性地址转物理地址</h3> 
+<p>PAE模式下，可以使用4K或2M分页。<br> 如何确定是4K分页还是2M分页：</p> 
+<ul><li>线性地址的31:30（2位）用来选择4个PDPTE寄存器中一个，称为<em>PDPTEi</em>，i等于这两位的值。每个<em>PDPTEi</em>可以对应1G大小的线性地址空间。如果<em>PDPTEi</em>的P位是0，那么这一项就是无效的，就是说该项不包含对应的页目录表，同时会产生一个page-fault异常（详见4.7节）。</li><li>如果<em>PDPTEi</em>的P位是1，那么其51:12（40位）指向了页目录表的物理地址。每个页目录表由512项8字节的PDEs组成。</li></ul> 
+<p>意思就是线性地址的前两位用于确定页目录指针表(PDPTE)的下标，找到4个中的一个页目录表。<br> 页目录表，每个页面录表含有512个表项，每个表项8字节大小，指向一个页表或者指向一个2M的页，这要根据下面介绍的PS标志位来确定。</p> 
+<ul><li>如果PDE’s页目录表项的PS位等于1，说明这一项指向的就是一个最终的2M的分页，物理地址由该项的51:21（31位）和
+20:0（21位）确定。物理地址线最大52根，有的CPU是36根，那么高位就是35:21（15位），有的CPU有52根的，高位才是51:21。</li><li>如果PDE’s页目录表项的PS位等于0，说明这一项指向的是页表。页表的物理地址跟上面的情况一样也分为36根物理地址线和52根物理地址线。</li></ul> 
+<p>如果是2M分页，那么线性地址后30位中，29:21（9位）用来作为表2（页目录表）的下标索引，来确定最终的页地址；20:0（21位）作为2M页内的偏移量。<br> 如果是4K分页，那么线性地址后30位中，29:21（9位）作为表2（页目录表）的下标索引，20:12（9位）作为表3（页表）的下标索引，11:0（12位)作为4K页内的偏移量。</p> 
+<p>如果页目录表项（PDE）或者页表项（PTE）的P位（bit 0）等于0，或者置位它们的任意一位保留位，这个表项将会失效，并且会引起page-fault异常（详见4.7节）。</p> 
+<p>PAE模式中的保留位有下面几个：</p> 
+<ul><li>If the P flag (bit 0) of a PDE or a PTE is 1, bits 62:MAXPHYADDR are reserved.</li><li>If the P flag and the PS flag (bit 7) of a PDE are both 1, bits 20:13 are reserved.</li><li>If IA32_EFER.NXE = 0 and the P flag of a PDE or a PTE is 1, the XD flag (bit 63) is reserved</li><li>If the PAT is not supported:<br> — If the P flag of a PTE is 1, bit 7 is reserved.<br> — If the P flag and the PS flag of a PDE are both 1, bit 12 is reserved.</li></ul> 
+<p>下图是4K分页的线性地址转物理地址的过程示意图。<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200718105306699.png" alt="4K分页的地址转换"></p> 
+<p>下图是2M分页的线性地址转物理地址的过程示意图。<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200718105329769.png" alt="2M分页的地址转换"></p> 
+<p>下图是PDPTE、PDE-2M、PDE-4K、PTE各表项结构的示意图：<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200718114431402.png" alt="PAE分页模式下各表项的结构"></p> 
+<p>手册中给出了PDE-2M、PDE、PTE结构的详细解释，是下面三个表：<br> <br></p> 
+<p>首先是PDE-2M表项结构解析：Table 4-9. Format of a PAE Page-Directory Entry that Maps a 2-MByte Page</p> 
+<div class="table-box"><table><thead><tr><th>位</th><th>用途</th></tr></thead><tbody><tr><td>0（P）</td><td>Present，必须等于1，表示该项指向一个2M分页</td></tr><tr><td>1（R/W）</td><td>Read/Write，如果为0，不允许向2M的分页写数据</td></tr><tr><td>2（U/S）</td><td>User/supervisor，权限标志位，等于0则3环程序不能访问2M的分页</td></tr><tr><td>3（PWT）</td><td>Page-level write-through，用来间接确定访问2M分页所需要的内存属性</td></tr><tr><td>4（PCD）</td><td>Page-level cache disable，用来间接确定访问2M分页所需要的内存属性</td></tr><tr><td>5（A）</td><td>Accessed，标志这个2M分页是否已经被访问过</td></tr><tr><td>6（D）</td><td>Dirty，标志这个2M分页是否已经被写入过数据</td></tr><tr><td>7（PS）</td><td>Page size，分页大小标志位，必须等于1（否则这项的意义变为指向4K分页的页表）</td></tr><tr><td>8（G）</td><td>Gloabe，如果CR4.PGE等于1，该位用来确定这个页是否是全局共享的页</td></tr><tr><td>11:9</td><td>Ignored</td></tr><tr><td>12（PAT）</td><td>如果支持PAT，则用来间接确定访问2M分页所需要的内存属性</td></tr><tr><td>20:13</td><td>Reserved，保留位，必须是0</td></tr><tr><td>(M-1):21</td><td>2M分页的物理地址，36根物理线是35:21（15位），有的CPU有52根线的，是51:21</td></tr><tr><td>62:M</td><td>Reserved，保留位，必须是0</td></tr><tr><td>63（XD）</td><td>如果 IA32_EFER.NXE标志位等于1，则该页中的数据不可执行（从该页中获取指令将被禁止）； IA32_EFER.NXE等于0，该位位保留位，必须填0</td></tr></tbody></table></div>
+<br> 
+<p>PDE表项结构解析：Table 4-10. Format of a PAE Page-Directory Entry that References a Page Table</p> 
+<div class="table-box"><table><thead><tr><th>位</th><th>用途</th></tr></thead><tbody><tr><td>0（P）</td><td>Present，必须等于1，表示该项指向一个页表</td></tr><tr><td>1（R/W）</td><td>Read/Write，如果为0，不允许向其包含的1024个页（共2M）写数据</td></tr><tr><td>2（U/S）</td><td>User/supervisor，权限标志位，等于0则3环程序不能访问其包含的1024个页（共2M）</td></tr><tr><td>3（PWT）</td><td>Page-level write-through，用来间接确定访问页表所需要的内存属性</td></tr><tr><td>4（PCD）</td><td>Page-level cache disable，用来间接确定访问页表所需要的内存属性</td></tr><tr><td>5（A）</td><td>Accessed，标志这个表项已经被访问了（被线性地址翻译器访问了）</td></tr><tr><td>6（D）</td><td>Ignored</td></tr><tr><td>7（PS）</td><td>Page size，分页大小标志位，必须等于0</td></tr><tr><td>11:8</td><td>Ignored</td></tr><tr><td>(M-1):12</td><td>页表的物理地址，36根物理线的CPU是25:12（24位），有的CPU有52根线的，是51:12（40位）</td></tr><tr><td>62:M</td><td>Reserved，保留位，必须是0</td></tr><tr><td>63（XD）</td><td>如果 IA32_EFER.NXE标志位等于1，则该项指向的页表中的所有页（1024个页）中的数据不可执行； IA32_EFER.NXE等于0，该位位保留位，必须填0</td></tr></tbody></table></div>
+<br> 
+<p>PTE表项结构解析：Table 4-11. Format of a PAE Page-Table Entry that Maps a 4-KByte Page</p> 
+<div class="table-box"><table><thead><tr><th>位</th><th>用途</th></tr></thead><tbody><tr><td>0（P）</td><td>Present，必须等于1，表示该项指向一个4K分页</td></tr><tr><td>1（R/W）</td><td>Read/Write，如果为0，不允许向4K的分页写数据</td></tr><tr><td>2（U/S）</td><td>User/supervisor，权限标志位，等于0则3环程序不能访问4K的分页</td></tr><tr><td>3（PWT）</td><td>Page-level write-through，用来间接确定访问4K分页所需要的内存属性</td></tr><tr><td>4（PCD）</td><td>Page-level cache disable，用来间接确定访问4K分页所需要的内存属性</td></tr><tr><td>5（A）</td><td>Accessed，标志这个4K分页是否已经被访问过</td></tr><tr><td>6（D）</td><td>Dirty，标志这个4K分页是否已经被写入过数据</td></tr><tr><td>7（PAT）</td><td>如果支持PAT，则用来间接确定访问4K分页所需要的内存属性</td></tr><tr><td>8（G）</td><td>Gloabe，如果CR4.PGE等于1，该位用来确定这个页是否是全局共享的页</td></tr><tr><td>11:9</td><td>Ignored</td></tr><tr><td>(M-1):12</td><td>4K分页的物理地址，36根物理线的CPU是25:12（24位），有的CPU有52根线的，是51:12（40位）</td></tr><tr><td>62:M</td><td>Reserved，保留位，必须是0</td></tr><tr><td>63（XD）</td><td>如果 IA32_EFER.NXE标志位等于1，则该页中的数据不可执行（从该页中获取指令将被禁止）； IA32_EFER.NXE等于0，该位位保留位，必须填0</td></tr></tbody></table></div>
+<br> 
+<h1><a name="t12" target="_self"></a><a id="_288" target="_self"></a>实验题：实现页表浏览工具</h1> 
+<h2><a name="t13" target="_self"></a><a id="0__290" target="_self"></a>0. 查看源码</h2> 
+<p><a href="https://github.com/jungz7/Learn-Windows" target="_self">github源码</a><br> <br></p> 
+<h2><a name="t14" target="_self"></a><a id="1__294" target="_self"></a>1. 环境设置</h2> 
+<p>测试操作系统：winxp sp3</p> 
+<p>开发环境配置：<br> VS2015 实现MFC对话框工程<br> <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads" target="_self">WDK 7.1.0</a>开发winxp驱动</p> 
+<p>如何启用PAE模式？<br> 读者可以检索关键字“winxp pae”，会搜索到很多关于winxp系统启用PAE模式的教程。<br> <br></p> 
+<h2><a name="t15" target="_self"></a><a id="2_MFC_306" target="_self"></a>2. MFC浏览工具的代码实现</h2> 
+<p>工具的使用效果如下图：</p> 
+<p>第一栏，显示系统中的所有进程，通过调用<em>CreateToolhelp32Snapshot</em> 实现遍历进程。<br> 第二栏，展示页目录指针表的表项（PDPTE），选中上级目录的某个进程后，MFC程序调用驱动程序接口，加载该进程的PDPTE，最后展示有效表项。<br> 第三栏，展示页目录表的表项（PDE），选中上级目录的某个PDPTE表项后，与上述类似流程。<br> 第四栏，展示页表项（PTE），流程与上述类似。<br> <img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/20200721103245154.png" alt="GetPages工具"></p> 
+<p><strong>关于加载进程页表速度慢的问题：</strong><br> 对于PAE模式，进程的页表项数量总共有：4 PDPTE x 512 PDE x 512 PTE<br> 在最初版本的工具设计中，使用3层循环来遍历页表项，一次性加载某个进程的所有页表。但是出现加载速度慢的问题。所以改进了加载方式，变成根据索引加载一个PDPTE表项下的512项PDE，或者加载一个PDE表项下的512个PTE，这样改进之后，加载速度明显改善。<br> <br><br> 代码：定义保存页表数据的结构体</p> 
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="token keyword">namespace</span> PAEPaging 
+<span class="token punctuation">{<!-- --></span>
+	<span class="token keyword">struct</span> PDE_T
+	<span class="token punctuation">{<!-- --></span>
+		PDE val<span class="token punctuation">;</span>
+		PTE PTEs<span class="token punctuation">[</span><span class="token number">512</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		BOOL LoadedFlag<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> PDPTE_T
+	<span class="token punctuation">{<!-- --></span>
+		PDPTE val<span class="token punctuation">;</span>
+		PDE_T PDEs<span class="token punctuation">[</span><span class="token number">512</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		BOOL LoadedFlag<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> PDPTE_TT
+	<span class="token punctuation">{<!-- --></span>
+		ULONG cr3Val<span class="token punctuation">;</span>
+		PDPTE_T PDPTEs<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<div class="hljs-button {2}" data-title="复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li></ul></pre> 
+<p>代码：调用驱动接口，加载页表的实现</p> 
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;">BOOL COperateKernel<span class="token operator">::</span><span class="token function">LoadPages</span><span class="token punctuation">(</span>DWORD dwPID<span class="token punctuation">,</span> __in DWORD dwPDPTEIdx<span class="token punctuation">,</span> __in DWORD dwPDEIdx<span class="token punctuation">,</span> PAEPaging<span class="token operator">::</span>PDPTE_TT<span class="token operator">*</span> tt<span class="token punctuation">)</span>
+<span class="token punctuation">{<!-- --></span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">DeviceIoControl</span><span class="token punctuation">(</span>hFile<span class="token punctuation">,</span> IOCTL_GET_PAGES_PAE<span class="token punctuation">,</span> inBuff<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>inBuff<span class="token punctuation">)</span><span class="token punctuation">,</span> outBuff<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>outBuff<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token operator">&amp;</span>dwBytesRead<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{<!-- --></span>
+        DWORD dwOutBuffOffset <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token comment">// 加载 PDPTE 表</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dwPDPTEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> dwPDEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{<!-- --></span>
+                PAEPaging<span class="token operator">::</span>PDPTE <span class="token operator">*</span>pPDPTE <span class="token operator">=</span> <span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PDPTE<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>DWORD<span class="token punctuation">)</span>outBuff <span class="token operator">+</span> dwOutBuffOffset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                tt<span class="token operator">-</span><span class="token operator">&gt;</span>PDPTEs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>val <span class="token operator">=</span> <span class="token operator">*</span>pPDPTE<span class="token punctuation">;</span>
+                dwOutBuffOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PDPTE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 加载 PDE 表</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>dwPDPTEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> dwPDEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">512</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{<!-- --></span>
+                PAEPaging<span class="token operator">::</span>PDE <span class="token operator">*</span>pPDE <span class="token operator">=</span> <span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PDE<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>DWORD<span class="token punctuation">)</span>outBuff <span class="token operator">+</span> dwOutBuffOffset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                tt<span class="token operator">-</span><span class="token operator">&gt;</span>PDPTEs<span class="token punctuation">[</span>dwPDPTEIdx<span class="token punctuation">]</span><span class="token punctuation">.</span>PDEs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>val<span class="token punctuation">.</span>uint64 <span class="token operator">=</span> pPDE<span class="token operator">-</span><span class="token operator">&gt;</span>uint64<span class="token punctuation">;</span>
+                dwOutBuffOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PDE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 加载 PTE 表</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>dwPDPTEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> dwPDEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">512</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{<!-- --></span>
+                PAEPaging<span class="token operator">::</span>PTE <span class="token operator">*</span>pPTE <span class="token operator">=</span> <span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PTE<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>DWORD<span class="token punctuation">)</span>outBuff <span class="token operator">+</span> dwOutBuffOffset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                tt<span class="token operator">-</span><span class="token operator">&gt;</span>PDPTEs<span class="token punctuation">[</span>dwPDPTEIdx<span class="token punctuation">]</span><span class="token punctuation">.</span>PDEs<span class="token punctuation">[</span>dwPDEIdx<span class="token punctuation">]</span><span class="token punctuation">.</span>PTEs<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">*</span>pPTE<span class="token punctuation">;</span>
+                dwOutBuffOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>PAEPaging<span class="token operator">::</span>PTE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        bRet <span class="token operator">=</span> TRUE<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+<div class="hljs-button {2}" data-title="复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li><li style="color: rgb(153, 153, 153);">21</li><li style="color: rgb(153, 153, 153);">22</li><li style="color: rgb(153, 153, 153);">23</li><li style="color: rgb(153, 153, 153);">24</li><li style="color: rgb(153, 153, 153);">25</li><li style="color: rgb(153, 153, 153);">26</li><li style="color: rgb(153, 153, 153);">27</li><li style="color: rgb(153, 153, 153);">28</li><li style="color: rgb(153, 153, 153);">29</li><li style="color: rgb(153, 153, 153);">30</li><li style="color: rgb(153, 153, 153);">31</li><li style="color: rgb(153, 153, 153);">32</li><li style="color: rgb(153, 153, 153);">33</li><li style="color: rgb(153, 153, 153);">34</li><li style="color: rgb(153, 153, 153);">35</li><li style="color: rgb(153, 153, 153);">36</li><li style="color: rgb(153, 153, 153);">37</li><li style="color: rgb(153, 153, 153);">38</li><li style="color: rgb(153, 153, 153);">39</li><li style="color: rgb(153, 153, 153);">40</li><li style="color: rgb(153, 153, 153);">41</li><li style="color: rgb(153, 153, 153);">42</li><li style="color: rgb(153, 153, 153);">43</li></ul></pre> 
+<br> 
+<h2><a name="t16" target="_self"></a><a id="3__392" target="_self"></a>3. 驱动代码的实现</h2> 
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;">NTSTATUS <span class="token function">GetProcessPages</span><span class="token punctuation">(</span>PVOID pInBuff<span class="token punctuation">,</span> PVOID pOutBuff<span class="token punctuation">,</span> ULONG nOutLength<span class="token punctuation">,</span> ULONG<span class="token operator">*</span> nBytes<span class="token punctuation">)</span>
+<span class="token punctuation">{<!-- --></span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment">// 加载 PDPTE 表</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>nPDPTEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> nPDEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{<!-- --></span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            ULONG64 paPDPTE <span class="token operator">=</span> paCR3 <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> i<span class="token punctuation">;</span>
+            ULONG64 PDPTE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPDPTE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token operator">*</span><span class="token punctuation">(</span>ULONG64<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ULONG<span class="token punctuation">)</span>pOutBuff <span class="token operator">+</span> nWriteOffset<span class="token punctuation">)</span> <span class="token operator">=</span> PDPTE<span class="token punctuation">;</span>
+            nWriteOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ULONG64<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 加载 PDE 表</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>nPDPTEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> nPDEIdx <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{<!-- --></span>
+        ULONG64 paPDPTE <span class="token operator">=</span> paCR3 <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> nPDPTEIdx<span class="token punctuation">;</span>
+        ULONG64 PDPTE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPDPTE<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFFFFFF000</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">512</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            ULONG64 paPDE <span class="token operator">=</span> PDPTE <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> i<span class="token punctuation">;</span>
+            ULONG64 PDE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPDE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token operator">*</span><span class="token punctuation">(</span>ULONG64<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ULONG<span class="token punctuation">)</span>pOutBuff <span class="token operator">+</span> nWriteOffset<span class="token punctuation">)</span> <span class="token operator">=</span> PDE<span class="token punctuation">;</span>
+            nWriteOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ULONG64<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 加载 PTE 表</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>nPDPTEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> nPDEIdx <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{<!-- --></span>
+        ULONG64 paPDPTE <span class="token operator">=</span> paCR3 <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> nPDPTEIdx<span class="token punctuation">;</span>
+        ULONG64 PDPTE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPDPTE<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFFFFFF000</span><span class="token punctuation">;</span>
+        ULONG64 paPDE <span class="token operator">=</span> PDPTE <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> nPDEIdx<span class="token punctuation">;</span>
+        ULONG64 PDE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPDE<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFFFFFF000</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">512</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{<!-- --></span>
+            ULONG64 paPTE <span class="token operator">=</span> PDE <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> i<span class="token punctuation">;</span>
+            ULONG64 PTE <span class="token operator">=</span> <span class="token function">GetQuadByPA</span><span class="token punctuation">(</span>paPTE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token operator">*</span><span class="token punctuation">(</span>ULONG64<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ULONG<span class="token punctuation">)</span>pOutBuff <span class="token operator">+</span> nWriteOffset<span class="token punctuation">)</span> <span class="token operator">=</span> PTE<span class="token punctuation">;</span>
+            nWriteOffset <span class="token operator">+</span><span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ULONG64<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+<div class="hljs-button {2}" data-title="复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li><li style="color: rgb(153, 153, 153);">21</li><li style="color: rgb(153, 153, 153);">22</li><li style="color: rgb(153, 153, 153);">23</li><li style="color: rgb(153, 153, 153);">24</li><li style="color: rgb(153, 153, 153);">25</li><li style="color: rgb(153, 153, 153);">26</li><li style="color: rgb(153, 153, 153);">27</li><li style="color: rgb(153, 153, 153);">28</li><li style="color: rgb(153, 153, 153);">29</li><li style="color: rgb(153, 153, 153);">30</li><li style="color: rgb(153, 153, 153);">31</li><li style="color: rgb(153, 153, 153);">32</li><li style="color: rgb(153, 153, 153);">33</li><li style="color: rgb(153, 153, 153);">34</li><li style="color: rgb(153, 153, 153);">35</li><li style="color: rgb(153, 153, 153);">36</li><li style="color: rgb(153, 153, 153);">37</li><li style="color: rgb(153, 153, 153);">38</li><li style="color: rgb(153, 153, 153);">39</li><li style="color: rgb(153, 153, 153);">40</li><li style="color: rgb(153, 153, 153);">41</li><li style="color: rgb(153, 153, 153);">42</li><li style="color: rgb(153, 153, 153);">43</li><li style="color: rgb(153, 153, 153);">44</li><li style="color: rgb(153, 153, 153);">45</li></ul></pre>
+                </div><div><div></div></div>
+                <link href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/markdown_views-89f5acb30b.css" rel="stylesheet">
+                <link href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/style-49037e4d27.css" rel="stylesheet">
+        </div>
+        
+    </article>
+  <script>
+  $(function() {
+    setTimeout(function () {
+      var mathcodeList = document.querySelectorAll('.htmledit_views img.mathcode');
+      if (mathcodeList.length > 0) {
+        var testImg = new Image();
+        testImg.onerror = function () {
+          mathcodeList.forEach(function (item) {
+            $(item).before('<span class="img-codecogs">\\(' + item.alt + '\\)</span>');
+            $(item).remove();
+          })
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        }
+        testImg.src = mathcodeList[0].src;
+      }
+    }, 1000)
+  })
+  </script>
+</div>
+
+
+
+
+
+                
+            
+            
+
+
+            
+            
+
+
+        </main>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/atom-one-light.css">
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pointDivs"><div class="point-outer point-pre"><div class="point-inner"></div></div><div class="point-outer point-pre"><div class="point-inner"></div></div><div class="point-outer point-pre"><div class="point-inner"></div></div><div class="point-outer point-pre"><div class="point-inner"></div></div><div class="point-outer point-pre"><div class="point-inner"></div></div></div><div id="st_mask" onclick="closeMask()" style="width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4) none repeat scroll 0% 0%; position: fixed; left: 0px; top: 0px; display: none; z-index: 1;"></div><div id="st_confirmBox" style="width: 360px; position: fixed; text-align: left; display: none; z-index: 100; inset: 0px; height: 208px; margin: auto;"><div id="st_confirm" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; border-radius: 4px; overflow: hidden; padding: 24px; width: 360px; height: 208px;"><span id="st_confirm_tit" style="width: 100%; max-height: 24px; font-size: 18px; font-weight: 500; color: rgb(34, 34, 38); line-height: 24px; text-align: left; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span><span id="st_confirm_text" style="text-align: left; height: 44px; font-size: 14px; font-weight: 400; color: rgb(85, 86, 102); line-height: 22px; overflow: hidden; display: -webkit-box; -moz-box-orient: vertical; text-overflow: ellipsis; -webkit-line-clamp: 2; margin-top: 16px; margin-bottom: 40px;"></span><span class="st_confirm_btn success" style="background: rgb(252, 85, 51) none repeat scroll 0% 0%; color: rgb(255, 255, 255); text-align: center; display: block; width: 88px; height: 36px; line-height: 36px; margin-left: 16px; float: right; border-radius: 18px;">确定</span><span class="st_confirm_btn cancel" style="color: rgb(34, 34, 38); text-align: center; display: block; width: 88px; height: 36px; line-height: 36px; margin-left: 16px; float: right; box-sizing: border-box; border: 1px solid rgb(204, 204, 216); border-radius: 18px;">取消</span><span id="st_confirm_close" style="display: block; width: 12px; height: 12px; position: absolute; text-align: center; z-index: 100; top: 24px; right: 24px;"><img src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/closeBt.png" style="display: block; width: 12px; height: 12px;"></span><div style="clear: both; display: block;"></div></div></div><div id="st_alertBox" style="width: 100%; position: fixed; left: 0px; top: 34%; text-align: center; display: none; z-index: 2;"><div id="st_alert" style="width: 80%; margin: 0px auto; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border-radius: 2px; overflow: hidden; padding-top: 20px; text-align: center;"><span id="st_alert_text" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; overflow: hidden; padding: 15px 8px 30px; text-align: center; display: block;"></span><span id="st_alert_btn" onclick="closeMask()" style="background: rgb(27, 121, 248) none repeat scroll 0% 0%; color: rgb(255, 255, 255); padding: 8px; text-align: center; display: block; width: 72%; margin: 0px auto 20px; border-radius: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span></div></div><div id="st_toastBox" style="width: 100%; position: fixed; left: 0px; bottom: 10%; text-align: center; display: none;"><span id="st_toastContent" style="color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.8) none repeat scroll 0% 0%; padding: 8px 24px; border-radius: 4px; max-width: 80%; display: inline-block; font-size: 16px;"></span></div> <div class="report-box">  <div class="pos-boxer">      <div class="pos-content">          <div class="box-title">              <p>举报</p>              <img class="icon btn-close" src="WIndows%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E2%80%94%E2%80%94PAE%E5%88%86%E9%A1%B5%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%89%A9%E5%B1%95%E5%9C%B0%E5%9D%80%E4%BD%BF%E7%94%A8%E8%B6%85%E8%BF%874GB_files/closeBlack.png">          </div>          <div class="box-header">              <div class="box-top"><span>选择你想要举报的内容（必选）</span></div>              <div class="box-botoom">                  <ul>                      <li data="1" type="nei">内容涉黄</li>                      <li data="2" type="nei">政治相关</li>                      <li data="3" type="nei">内容抄袭</li>                      <li data="4" type="nei">涉嫌广告</li>                      <li data="5" type="nei">内容侵权</li>                      <li data="6" type="nei">侮辱谩骂</li>                      <li data="8" type="nei">样式问题</li>                      <li data="7" type="nei">其他</li>                  </ul>              </div>          </div>          <div>          <div class="box-content">          </div>          <div class="box-content">          </div>                    <div class="box-content" style="display:none;">                  <div class="box-content-top">                          <span>原文链接（必填）</span>                      </div>                      <div class="box-content-bottom" style="padding-bottom: 16px;">                        <div class="box-input" style="height: 32px;line-height: 32px;">                        <input class="content-input" type="text" id="originalurl" name="originalurl" placeholder="请输入被侵权原文链接">                        </div>                      </div>          </div>          <div class="box-content">          </div>          <div class="box-content" style="display:none;">                  <div class="box-content-top">                          <span>请选择具体原因（必选）</span>                      </div>                  <div class="box-content-bottom">                          <ul>                              <li sub_type="1">包含不实信息</li>                              <li sub_type="2">涉及个人隐私</li>                          </ul>                      </div>          </div>          <div class="box-content" style="display:none;">                  <div class="box-content-top">                          <span>请选择具体原因（必选）</span>                      </div>                  <div class="box-content-bottom">                          <ul>                              <li sub_type="1">侮辱谩骂</li>                              <li sub_type="2">诽谤</li>                          </ul>                  </div>          </div>          <div class="box-content" style="display:none;">                <div class="box-content-top">                        <span>请选择具体原因（必选）</span>                    </div>                <div class="box-content-bottom">                        <ul>                            <li sub_type="1">搬家样式</li>                            <li sub_type="2">博文样式</li>                        </ul>                </div>          </div>          <div class="box-content" style="display:none;">          </div>          </div>            <div id="cllcont" style="display:none;">            <div class="box-content-top">              <span class="box-content-span">补充说明（选填）</span>            </div>                <div class="box-content-bottom">                  <div class="box-input">                    <textarea class="ipt ipt-textarea" style="padding:0;" name="description" placeholder="请详细描述您的举报内容"></textarea>                  </div>                </div>            </div>            </div>      <div class="pos-footer">          <p class="btn-close">取消</p>          <p class="box-active">确定</p>      </div>  </div></div><div class="imgViewDom disnone" style="display: none;"><img src=""></div><style>.imgViewDom{display:none;position:fixed;top:0;left:0;height:100%;width:100%;z-index:99999999;background: rgba(255, 255, 255,0.8);overflow: auto;display:-webkit-box;-webkit-box-align:center;-webkit-box-pack:center;display:-moz-box;-moz-box-align:center;-moz-box-pack:center;display:-o-box;-o-box-align:center;-o-box-pack:center;display:-ms-box;-ms-box-align:center;-ms-box-pack:center; display:box;box-align:center;box-pack:center;}.imgViewDom img{cursor: zoom-out;}</style><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="sousuo" viewBox="0 0 1024 1024"><path d="M719.6779726 653.55865555l0.71080936 0.70145709 191.77828505 191.77828506c18.25658185 18.25658185 18.25658185 47.86273439 0 66.12399318-18.26593493 18.26125798-47.87208744 18.26125798-66.13334544 0l-191.77828505-191.77828506c-0.2338193-0.2338193-0.4676378-0.4676378-0.69678097-0.71081014-58.13206223 44.25257003-130.69075187 70.51978897-209.38952657 70.51978894C253.06424184 790.19776156 98.14049639 635.27869225 98.14049639 444.17380511S253.06424184 98.14049639 444.16912898 98.14049639c191.10488633 0 346.02863258 154.92374545 346.02863259 346.02863259 0 78.6987747-26.27189505 151.25746514-70.51978897 209.38952657z m-275.50884362 43.11621045c139.45428506 0 252.50573702-113.05145197 252.50573702-252.50573702s-113.05145197-252.50573702-252.50573702-252.50573783-252.50573702 113.05145197-252.50573783 252.50573783 113.05145197 252.50573702 252.50573783 252.50573702z"></path></symbol><symbol id="gonggong_csdnlogo_" viewBox="0 0 4096 1024"><path d="M1234.16069807 690.46341551c62.96962316 23.02318413 194.30703694 45.91141406 300.51598128 45.91141406 114.44114969 0 178.13952547-31.68724287 183.2407937-80.86454822 4.642424-44.8587714-42.21366937-50.93170978-171.44579784-81.53931916-178.57137886-43.77913792-292.49970264-111.55313011-281.32549604-219.86735976 12.9825927-125.75031047 181.27046257-220.78504823 439.49180199-220.78504822 125.88526465 0 247.93783044 8.87998544 311.17736197 29.60894839l-21.7006331 158.57116851c-41.05306337-14.27815288-198.1937175-34.11641822-304.48363435-34.11641822-107.7744129 0-163.56447339 33.90049151-167.42416309 71.06687432-4.85835069 47.04502922 51.14763648 49.23128703 191.14910897 86.50563321 189.58364043 48.09767188 272.47250144 115.81768239 261.6221849 220.81203906-12.71268432 123.51007099-164.13128096 228.53141851-466.48263918 228.53141851-125.85827383 0-234.33444849-22.96920244-294.09216204-45.93840492l19.730302-157.86940672zM3010.8325562 172.75216735c688.40130256-129.79893606 747.80813523 103.42888812 726.53935551 309.80082928l-40.08139323 381.78539207h-218.51781789l36.57258439-348.20879061c7.90831529-76.68096846 57.13960232-226.66905073-180.54170997-221.05495659-82.26807176 1.99732195-123.05122675 13.2794919-123.05122677 13.27949188s-7.15257186 92.65954408-15.81663059 161.13529804l-41.43093509 394.84895728h-214.3072473l42.53755943-389.15389062 28.09746151-302.43233073z m-869.48282929-18.05687008c49.12332368-5.34418577 124.58970448-10.76934404 228.45044598-10.76934405 173.38913812 0 313.57954648 30.17575597 400.38207891 93.63121421 77.94953781 59.16391512 129.82592689 154.95439631 115.4668015 293.74128117-13.25250106 129.15115596-80.405704 219.57046055-178.16651631 275.4954752-89.44763445 52.74009587-202.16137055 75.27744492-371.66382812 75.27744493-99.94707012 0-195.27870708-5.39816743-267.77609576-16.14052064L2141.37671774 154.69529727z m143.26736381 569.85754561c16.70732823 3.23890047 38.67786969 6.45081009 81.99816339 6.45081009 173.44311979 0 295.7386031-85.23706385 308.01943403-205.07638097 17.84094339-173.2271931-90.63523129-233.79463176-273.39018992-232.74198912-23.67096422 0-56.57279475 0-73.98188473 3.1849188l-42.6725136 428.15565036z" fill="#262626"></path><path d="M1109.8678928 870.30336371c-41.10704503 14.25116203-126.26313639 23.96786342-245.23874671 23.96786342-342.13585224 0-526.8071603-160.59548129-504.97157302-372.90540663C385.78470347 268.40769434 659.36382925 126.08500985 958.9081404 126.08500985c116.00661824 0 184.32042718 9.33882968 248.31570215 24.99351522l-20.5400271 170.42014604c-42.56455024-14.33213455-142.32268451-27.50366309-223.07926938-27.50366311-176.25016686 0-325.94134993 52.49717834-343.10752238 218.57179958-15.30380469 148.50358623 89.7715245 219.48948804 288.04621451 219.48948804 69.0155707 0 170.77102691-9.8786464 217.81605614-24.15679928l-16.49140154 162.40386737z" fill="#CA0C16"></path></symbol><symbol id="gonggong_csdnlogodanse_" viewBox="0 0 4096 1024"><path d="M1229.41995733 690.46341551c62.96962316 23.02318413 194.30703694 45.91141406 300.51598128 45.91141406 114.44114969 0 178.13952547-31.68724287 183.2407937-80.86454822 4.642424-44.8587714-42.21366937-50.93170978-171.44579784-81.53931916-178.57137886-43.77913792-292.49970264-111.55313011-281.32549604-219.86735976 12.9825927-125.75031047 181.27046257-220.78504823 439.49180199-220.78504822 125.88526465 0 247.93783044 8.87998544 311.17736197 29.60894839l-21.7006331 158.57116851c-41.05306337-14.27815288-198.1937175-34.11641822-304.48363435-34.11641822-107.7744129 0-163.56447339 33.90049151-167.42416309 71.06687432-4.85835069 47.04502922 51.14763648 49.23128703 191.14910897 86.50563321 189.58364043 48.09767188 272.47250144 115.81768239 261.6221849 220.81203906-12.71268432 123.51007099-164.13128096 228.53141851-466.48263918 228.53141851-125.85827383 0-234.33444849-22.96920244-294.09216204-45.93840492l19.730302-157.86940672zM3006.09181546 172.75216735c688.40130256-129.79893606 747.80813523 103.42888812 726.53935551 309.80082928l-40.08139323 381.78539207h-218.51781789l36.57258439-348.20879061c7.90831529-76.68096846 57.13960232-226.66905073-180.54170997-221.05495659-82.26807176 1.99732195-123.05122675 13.2794919-123.05122677 13.27949188s-7.15257186 92.65954408-15.81663059 161.13529804l-41.43093509 394.84895728h-214.3072473l42.53755943-389.15389062 28.09746151-302.43233073z m-869.48282929-18.05687008c49.12332368-5.34418577 124.58970448-10.76934404 228.45044598-10.76934405 173.38913812 0 313.57954648 30.17575597 400.38207891 93.63121421 77.94953781 59.16391512 129.82592689 154.95439631 115.4668015 293.74128117-13.25250106 129.15115596-80.405704 219.57046055-178.16651631 275.4954752-89.44763445 52.74009587-202.16137055 75.27744492-371.66382812 75.27744493-99.94707012 0-195.27870708-5.39816743-267.77609576-16.14052064L2136.635977 154.69529727z m143.26736381 569.85754561c16.70732823 3.23890047 38.67786969 6.45081009 81.99816339 6.45081009 173.44311979 0 295.7386031-85.23706385 308.01943403-205.07638097 17.84094339-173.2271931-90.63523129-233.79463176-273.39018992-232.74198912-23.67096422 0-56.57279475 0-73.98188473 3.1849188l-42.6725136 428.15565036z m-1174.74919792 145.75052083c-41.10704503 14.25116203-126.26313639 23.96786342-245.23874671 23.96786342-342.13585224 0-526.8071603-160.59548129-504.97157303-372.90540663C381.04396273 268.40769434 654.62308851 126.08500985 954.16739966 126.08500985c116.00661824 0 184.32042718 9.33882968 248.31570215 24.99351522l-20.5400271 170.42014604c-42.56455024-14.33213455-142.32268451-27.50366309-223.07926938-27.50366311-176.25016686 0-325.94134993 52.49717834-343.10752238 218.57179958-15.30380469 148.50358623 89.7715245 219.48948804 288.04621451 219.48948804 69.0155707 0 170.77102691-9.8786464 217.81605614-24.15679928l-16.49140154 162.40386737z"></path></symbol><symbol id="xieboke1" viewBox="0 0 1024 1024"><path d="M204.70021457 751.89799169h657.99199211a33.6932867 33.6932867 0 0 1 0 67.33536736H163.68452703a33.53966977 33.53966977 0 0 1-18.74125054-5.68382181c-18.63883902-9.4218307-18.17798882-29.44322156-15.20806401-39.17228615C199.0675982 570.27171976 309.41567149 409.58853908 435.38145354 290.12586836A243.22661203 243.22661203 0 0 1 536.97336934 234.20935065c138.10150976-33.79569759 228.3257813-29.95527721 318.60125827-28.52152054-17.15387692 20.48224105-36.20236071 41.6301547-57.29906892 62.93168529-3.1747472 3.22595323-164.67721739 19.91897936-187.97576692 47.05794871-23.29854894 27.13896932 129.60138005 7.37360691 125.19769798 11.11161576-21.6599699 18.33160576-44.90731339 36.4071831-69.94685287 53.8682939-4.50609297 3.1747472-149.52035944-0.35843931-174.61110436 27.85584737-25.19315641 28.16308124 101.89914903 18.12678338 96.0617103 21.40394206-67.43777825 37.63611797-125.96578207 64.62147036-212.70807253 93.8086635-57.65750823 19.4069231-121.8181284 133.13456658-146.5504346 179.06599187a435.75967738 435.75967738 0 0 0-23.04252112 49.10617311z" fill="#CA0C16"></path></symbol><symbol id="gitchat" viewBox="0 0 1024 1024"><path d="M892.08971773 729.08552746h-108.597062v-162.89559374H403.40293801v-108.59706198h488.68677972v271.49265572z m-651.58237345 54.298531V783.49265572h488.68678045v108.59706201H131.91028227V131.91028227h760.17943546v217.19412473h-108.597062V240.50734428H240.50734428v542.87671418z m542.98531145 0h108.597062v108.59706199h-108.597062v-108.59706199z" fill="#FF9100"></path></symbol><symbol id="toolbar-memberhead" viewBox="0 0 1303 1024"><path d="M1061.51168438 433.79527648A78.51879902 78.51879902 0 1 1 1129.35192643 472.74060007h-1.80593246l-48.05350474 403.97922198c-4.55409058 38.16013652-39.41643684 67.133573-80.79584389 67.13357302H319.35199503c-41.30088817 0-76.00619753-28.81639958-80.717325-66.97653526L189.01078861 472.74060007H187.12633728a78.51879902 78.51879902 0 1 1 67.76172401-38.86680556l193.31328323 119.81968805 158.13686148-336.06046024A78.5973179 78.5973179 0 0 1 658.23913228 80.14660493a78.51879902 78.51879902 0 0 1 51.58685077 137.721974l158.13686147 335.82490362 193.54883986-119.89820607z" fill="#FDD840"></path><path d="M1050.8331274 394.22180104a78.51879902 78.51879902 0 1 1 78.51879903 78.51879903h-1.80593246l-48.05350474 403.97922198c-4.55409058 38.16013652-39.41643684 67.133573-80.79584389 67.13357302H659.02432018C658.47468805 793.25433807 658.23913228 505.32590231 658.23913228 80.14660493a78.51879902 78.51879902 0 0 1 51.58685077 137.721974l158.13686147 335.82490362 193.54883986-119.89820607A78.51879902 78.51879902 0 0 1 1050.8331274 394.22180104z" fill="#FFBE00"></path></symbol><symbol id="toolbar-m-memberhead" viewBox="0 0 1303 1024"><path d="M1062.74839935 433.79527648A78.51879902 78.51879902 0 1 1 1130.58864141 472.74060007h-1.80593246l-48.05350474 403.97922198c-4.55409058 38.16013652-39.41643685 67.133573-80.79584389 67.13357302H320.58871c-41.30088817 0-76.00619753-28.81639958-80.71732499-66.97653526L190.24750358 472.74060007H188.36305226a78.51879902 78.51879902 0 1 1 67.761724-38.86680556l193.31328324 119.81968805 158.13686147-336.06046024A78.5973179 78.5973179 0 0 1 659.47584726 80.14660493a78.51879902 78.51879902 0 0 1 51.58685076 137.721974l158.13686148 335.82490362 193.54883985-119.89820607z" fill="#D6D6D6"></path><path d="M1052.06984238 394.22180104a78.51879902 78.51879902 0 1 1 78.51879903 78.51879903h-1.80593246l-48.05350474 403.97922198c-4.55409058 38.16013652-39.41643685 67.133573-80.79584389 67.13357302H660.26103515C659.71140302 793.25433807 659.47584726 505.32590231 659.47584726 80.14660493a78.51879902 78.51879902 0 0 1 51.58685076 137.721974l158.13686148 335.82490362 193.54883985-119.89820607A78.51879902 78.51879902 0 0 1 1052.06984238 394.22180104z" fill="#C1C1C1"></path></symbol><symbol id="csdnc-upload" viewBox="0 0 1024 1024"><path d="M216.37466416 723.16095396v84.46438188h591.25067168v-84.46438188c0-23.32483876 18.90735218-42.23219094 42.23219093-42.23219021s42.23219094 18.90735218 42.23219096 42.23219021v84.46438188c0 46.64967827-37.81470362 84.46438188-84.46438189 84.46438189H216.37466416c-46.64967827 0-84.46438188-37.81470362-84.46438189-84.4643819v-84.46438187c0-23.32483876 18.90735218-42.23219094 42.23219096-42.23219021s42.23219094 18.90735218 42.23219094 42.23219021zM469.76780906 275.55040991L246.55378774 499.53305726a42.30820888 42.30820888 0 0 1-59.99082735 0c-16.56346508-16.62259056-16.56346508-43.57095155 0-60.19354139L480.51167818 144.38144832A42.21952103 42.21952103 0 0 1 512 131.93984464a42.20262858 42.20262858 0 0 1 31.48409853 12.44160369l293.95294108 294.95806754c16.56346508 16.62259056 16.56346508 43.57095155 0 60.19354139a42.30820888 42.30820888 0 0 1-59.99082735 0L554.23219094 275.55040991V680.92876375c0 23.32483876-18.90735218 42.23219094-42.23219094 42.23219021s-42.23219094-18.90735218-42.23219094-42.23219021V275.55040991z"></path></symbol></svg><div class="notification" style="position: fixed; left:initial; right: 24px; top: 50px; bottom: initial; z-index: 99999;"></div></body></html>

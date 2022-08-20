@@ -1,0 +1,46 @@
+https://baijiahao.baidu.com/s?id=1704042551167503757
+方法一、替换 appraiserres.dll 文件
+找到 Win10 ISO 的 sources 文件夹下的appraiserres.dll 文件，替换 Win11 ISO 同位置的同名文件。
+完成后，需要使用第三方工具（如 Rufus或 AnyBurn）重新创建 ISO 镜像，然后再次运行安装文件。或者先制作启动盘后再替换也可以。
+
+
+二、修改注册表
+1、如果是直接运行 Setup.exe 来直接更新到 Windows 11 系统，可以修改当前系统的注册表，来屏蔽 "The PC must support TPM 2.0" 提示。
+
+快捷键 Win+R，输入 regedit，然后定位到如下的位置：
+
+HKEY_LOCAL_MACHINE\SYSTEM\Setup
+
+接着新建 LabConfig 的项，在 LabConfig 下创建两个 DWORD 值：
+
+BypassTPMCheck，值：00000001
+BypassSecureBootCheck，值：00000001
+
+2、如果是从U盘或其它介质启动，在进行镜像安装时，Win11 会提示“该电脑无法运行 Win11”。
+不要慌，在这个界面按 Shift+F10，打开命令行界面，输入 regedit 打开注册表，后面的操作和上面相同，也是定位到同样的注册表位置并新建两个DWORD
+
+保存退出后，上图的提示就消失了，就可以正常安装 Win11。
+
+
+
+方法三、强制升级(开启安全启动)
+升级之前你需要使用 UEFI + GPT 的方式安装系统（基本上预装 Win8、Win10 的电脑都是这种方式），在 BIOS 里打开安全启动(Secure Boot），即可用 ISO 文件直接升级。
+（全局唯一标识分区表（GUID Partition Table，缩写：GPT）是指全局唯一标示磁盘分区表格式。它是可扩展固件接口（EFI）标准（被Intel用于替代个人计算机的BIOS）的一部分）
+
+
+附：强制开启DEV通道的方法
+没有达到 Windows 11 的硬件要求，可能无法顺利加入 Insider 计划，也就是无法获得 Windows 11 测试版的推送。下面给大家提供修改注册表的方式，强制加入 DEV 通道，这样也能获得推送了。
+
+快捷键 Win+R，输入 regedit，然后定位到如下的位置：
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection
+
+把 UIBranch 的值更改为 Dev把 ContentType 的值更改为 Mainline把 Ring 的文本更改为 External
+
+接着注册表定位到如下的位置：
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability
+
+把 BranchName 的值更改为 Dev把 ContentType 的值更改为 Mainline把 Ring 的值更改为 External
+
+注册表修改好后，重启系统然后进入设置应用 - 系统更新，点击左侧的 Windows Insider 选项检查所处通道，显示为 Dev 就是成功了。

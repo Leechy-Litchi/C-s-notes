@@ -1,0 +1,17 @@
+[HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\TermService]  下记录着“系统服务”的相关设置。那么ControlSet001、ControlSet002、ControlSet有什么区别呢？
+
+          默认情况下：
+          ControlSet001：系统真实的配置信息。
+          ControlSet：运行时配置。
+          windows启动时会从ControlSet001复制一份副本，作为操作系统当前的配置信息。我们对于计算机配置所作的修改都是直接写入到CurrentControlSet，在重启过程中，windows会用CurrentControlSet的内容覆盖掉ControlSet001，以 保证这两个控件组一致。
+          ControlSet002：“最近一次成功启动的配置信息”。
+          当操作系统每成功启动一次（指成功登录），它都将CurrentControlSet和ControlSet001中的数据复制到ControlSet002中。
+
+----------------------------------------------------------------------------
+
+          但是，这个顺序和数目不是一成不变的，改变就发生在使用过“最近一次的正确配置”之后。这个时候，系统会把002当作系统真实的配置信息，而001这个存 在问题的控件组会被备份封存起来。
+          [HKEY_LOCAL_MACHINE\SYSTEM\system\select]  下记录着下次将要使用的配置:
+          “Current”数据项目表示 Windows 在这次启动过程中使用的控件组。 
+          “Default”数据项目表示 Windows 在下次启动时将使用的控件组，它与这次启动使用的控件组相同。  
+         “LastKnownGood ”数据项目表示您在启动过程中选择“最近一次的正确配置”时 Windows 将使用的控件组。  
+           “Failed”数据项表示 Windows 在其中保存失败启动产生的数据的控件组。 此控件组在用户第一次调用“最近一次的正确配置”选项之前并不实际存在。

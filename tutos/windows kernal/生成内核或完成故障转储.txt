@@ -1,0 +1,70 @@
+系统崩溃 (错误检查"或"停止错误") 运行Windows错误时发生。 此事件生成的转储文件称为系统故障转储。
+
+手动内核或完整内存转储文件在解决若干问题时很有用，因为进程在崩溃时捕获系统内存记录。
+
+设置页面文件
+有关 系统崩溃转储的页面 文件大小要求，请参阅支持系统故障转储。
+(https://docs.microsoft.com/zh-CN/windows/client-management/determine-appropriate-page-file-size#support-for-system-crash-dumps  如何确定 64 位版本的 Windows 的相应页面文件大小)
+
+
+启用内存转储设置
+您必须以管理员或安全组管理员组登录才能完成此过程。 如果计算机已连接到网络，则网络策略设置可能会阻止您完成此过程。
+
+若要启用内存转储设置，请按照以下步骤操作：
+    在 "控制面板" 中，选择 "系统和安全 > 系统"。
+    选择 "高级系统设置"， 然后选择" 高级" 选项卡。
+    在"启动和恢复"区域中，选择 "设置"。
+    确保已选择"编写调试信息"下的"内核内存转储"或"完成内存转储"。
+    重新启动计算机。
+
+可以通过编辑转储文件字段来更改 转储文件 路径。 换句话说，您可以将路径从 %SystemRoot%\Memory.dmp 更改为指向具有足够磁盘空间的本地驱动器，例如 E：\Memory.dmp。
+
+
+
+使用技巧内存转储
+当计算机崩溃并重新启动时，物理 RAM 的内容将写入到位于安装操作系统的分区上的分页文件中。
+
+根据安装硬盘的硬盘Windows，转储超过 2 GB (GB) 可能需要很长时间。 即使在最佳情况下，如果转储文件配置为驻留在另一个本地硬盘驱动器上，也会读取大量数据并写入硬盘。 这可能会导致服务器长时间中断。
+
+使用此方法可谨慎生成完整的内存转储文件。 理想情况下，只有在 Microsoft 支持工程师明确请求时，才应这样做。 所有标准疑难解答方法全部用尽后，任何内核或完整的内存转储文件调试都应是最后的方法。
+
+
+手动生成内存转储文件
+使用 NotMyFault 工具
+如果在出现问题时可以登录，可以使用 Microsoft Sysinternals NotMyFault 工具。 为此，请执行下列
+(https://download.sysinternals.com/files/NotMyFault.zip)
+cmd中:notMyfault.exe /crash
+此操作将生成内存转储文件和 D1 停止错误。
+
+
+使用 NMI(不可屏蔽调用)
+在某些计算机上，不能使用键盘生成故障转储文件。 例如，Hewlett-Packard () 开发公司的 HP Hewlett-Packard BladeSystem 服务器通过基于浏览器的图形用户界面和 GUI (进行管理) 。 键盘未连接到 HP BladeSystem 服务器。
+
+在这些情况下，必须使用导致系统处理器上 NMI 的不可屏蔽中断 (NMI) 开关生成完整的故障转储文件或内核故障转储文件。
+为此，请执行下列步骤：
+如果注册表修改不正确，可能会发生严重问题。 在修改注册表 之前，请备份注册表 以在出现问题时进行还原。
+
+对于运行 Windows 8 及更高版本的客户端，或运行 Windows Server 2012 及更高版本的服务器，不需要此注册表项。 在更高版本的注册表项上设置Windows不起作用。
+
+
+在注册表编辑器中，找到以下注册表子项：
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CrashControl
+右键单击CrashControl， 指向 "新建"，然后单击 "DWORD 值"。
+键入 NMICrashDump，然后按 Enter。
+右键单击 "NMICrashDump"， 然后选择"修改 "。
+在"值数据" 框中，键入"1"， 然后选择"确定 "。
+重新启动计算机。
+
+硬件供应商（如 HP、IBM 和 Dell）可能会提供自动系统恢复 (ASR) 功能。 在疑难解答期间，应禁用此功能。 例如，如果在 BIOS 中启用了 HP 和 Comppc ASR 功能，在排除故障时禁用此功能以生成完整的 Memory.dmp 文件。 有关确切步骤，请与硬件供应商联系。
+在 BIOS 中启用 NMI 开关，或者使用 iLO (集成光) Web 界面。
+有关确切步骤，请参阅 BIOS 参考手册或联系硬件供应商。
+使用 NMI 开关生成转储文件，在服务器上测试此方法。 你将看到 STOP 0x00000080硬件故障。
+
+
+使用键盘
+通过键盘强制系统崩溃
+https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/forcing-a-system-crash-from-the-keyboard
+
+使用调试器
+从调试器强制系统崩溃
+https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/forcing-a-system-crash-from-the-debugger

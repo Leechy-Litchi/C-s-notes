@@ -1,0 +1,8 @@
+PS命令行的有PsExec
+
+推荐NSudo，这个能获取多种权限，包括一般管理员、SYSTEM和TrustedInstaller权限，命令行版本还有更高级的功能
+
+相关软件：ExecTI
+https://winaero.com/downloads/ExecTI.zip
+
+Vista开始既有了此账户，定位是注册表和系统文件拥有者

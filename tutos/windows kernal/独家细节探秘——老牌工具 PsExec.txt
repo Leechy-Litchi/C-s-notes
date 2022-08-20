@@ -1,0 +1,79 @@
+https://baijiahao.baidu.com/s?id=1612571076198980047
+
+三台机器：
+
+PC-1PC-2PC-3
+
+非域环境（其实域环境下也类似），三台机器上 Administrator 的密码全是 123456
+
+
+
+背景知识存储
+
+NTLMSSP 的基础知识（略过）
+Windows 核心编程的一些基础
+PsExec 远程执行的大概原理
+PsExec 利用某一个账号，通过 SMB 协议连接远程机器的命名管道（基于 SMB 的 RPC），在远程机器上创建并启动一个名为 PSEXESVC 的服务PSEXESVC 服务会注册新的命名管道
+PsExec 连接至 PSEXESVC 新创建的命名管道，通过此管道通知 PSEXESVC 服务在远程机器上面启动我们指定的程序，并将程序的 stdin 与 stdout 通过命名管道转回本地 Shell，现实远程命令的本地交互（是不是有点像反弹 Shell？）。
+
+上面说到 “PsExec 利用某一个账号”与远程机器进行身份验证，这里的某一个账号有可能是：
+
+执行 psexec 时利用 -u 与 -p 参数手动指定的账号密码当没有手动指定账号时，则利用当前用户的凭据信息（与 psexec 进程相关联的 token 中的凭据信息）
+
+（实际根据 PsExec 版本的不同，有时就算手动指定了某个账号，PsExec 依然会先尝试利用当前用户的凭据去进行身份验证）
+
+
+
+以 Administrator 登陆 PC-1：
+psexec \\PC-2 cmd.exe没有给 psexec 指定账号密码，psexec 会利用当前用户的凭据成功从 PC-1 连接到 PC-2，并获取到了一个可以伪交互的 cmd shell。
+随后在 cmd shell 中执行：psexec \\PC-3 hostname尝试利用 PC-2 的 cmd shell 去连接 PC-3，并执行 hostname，期待能够看到 hostname 命令的输出，也就是：PC-3。但是，失败了。我本地的错误信息是：句柄无效。
+
+psexec \\PC-2 -u administrator -p 123456 cmd.exe虽然通过第一回测试我们知道就算不手动指定 adminstrator 账号与密码也可以连接成功，但是这里我们还是指定吧。成功从 PC-1 连接到了 PC-2，并获取到了一个可以交互的 cmd shell。随后在 cmd shell 中执行：psexec \\PC-3 hostname
+成功从 PC-2 连接到了 PC-3，并执行了 hostname 命令，并成功得到回显：PC-3
+
+
+
+那么为什么第一回的测试中，从 PC-2 连接至 PC-3 执行命令失败了，但在第二回的测试中可以成功呢？
+
+PC-1 上通过 psexec \\PC-2 cmd.exe 连接至 PC-2 后，我猜测 PC-2 上的 PSEXESVC 通过类似 ImpersonateNamedPipeClient 的函数 impersonate 了客户端的身份（也就是 Administrator）。
+
+impersonate 分为两个级别：
+
+impersonation。此级别的 impersonate，使得服务端可以使用客户端的身份来访问本地资源，但是无法访问网络资源，这也被称为 SSP 的 double hop 的问题。（想了解更多的 Google "authentication double hop"）
+delegation。此级别的 impersonate，使得服务端可以使用客户端的身份访问本地资源以及网络资源。
+
+
+在微软提供的所有 SSP 中，只有 Kerberos 是支持 delegation 级别的 impersonate 的（MSDN 里面是这么说的），而且还需要在域控上进行特别的配置才可以。
+
+所以，我猜测 PC-2 上的 PSEXESVC 对客户端进行了 impersonation 级别的 impersonate（事实也无法进行 delegation 级别的 impersonate，因为 NTLMSSP 不支持），所以它无法访问网络资源，自然也就无法再去远程访问 PC-3。
+
+“无法再去远程访问 PC-3” 具体体现在，在 PC-2 上尝试远程连接 PC-3 的时候，与 PC-3 进行的是空会话认证，也就是所谓的 anonymous logon，即匿名登陆
+
+在 NTLMSSP-TYPE 3 消息中， Negotiate Anonymous 标志位被设置为 1，且Domain name/User name/NTLM Response 处的值均为空。
+
+
+
+第二回为什么成功了
+在运行 psexec 的时候，没有指定用户名与密码，则 psexec 会使用当前的身份与远程机器进行验证。验证成功后服务端会 impersonate 客户端，此时无法通过远程机器访问任何的网络资源。
+
+如果手动指定了用户名与密码，则在验证通过后，PsExec 会将账号密码以明文的方式发送至远端服务器（从 2.1 版本开始，不再是明文发送）。
+通过这段描述，大概能猜到在手动指定了用户名与密码的情况下，PSEXESVC 不再是利用 impersonate 来获取客户端身份，而是通过其他的方式。
+
+
+
+猜测第二回的过程应该是这样的
+PsExec 通过当前用户的凭据或者我们手动指定的凭据（根据 psexec 版本的不同）连接至远程机器，创建并启动 PSEXESVC 服务。
+
+PSEXESVC 服务会创建新的命名管道
+
+PsExec 连接至 PSEXESVC 创建的管道，将我们指定的账号、密码、以及要执行的命令发送至管道
+
+PSEXESVC 从管道处接收到我们发送的账号、密码、要执行的命令等信息
+
+PSEXESVC 将账号、密码传入 LogonUser 类的函数，在远程机器上创建了一个新的 logon session。新的 logon session 就代表着一个新的 token。并以这个 token 启动了我们指定的程序，也就是 cmd.exe
+
+新的 token 中带有我们传入的凭据，所以在 PC-2 的这个 cmd shell 中再去执行 psexec \\PC-3 hostname，会利用 token 中的凭据与 PC-3 进行验证。验证成功。
+
+
+
+PsExec 通过将凭据发送至远程机器，避开了 NTLM 无法 delegation 的问题（也就是 double hop）的问题。如果你了解 CredSSP 的话，你会发现 PsExec 的这种做法与 CredSSP 非常相似。

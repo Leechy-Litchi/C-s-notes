@@ -1,0 +1,15 @@
+如果你是插U盘，就会出现这种情况，因为U盘是「外接硬盘」，但本例明明是内接的M.2 SSD，怎么会这样？
+
+Step1：(记事本)新增一个文字文件，文件名任意皆可
+
+Step2：复制下列语法并存档
+Windows Registry Editor Version 5.00
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\-{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}]
+
+
+补充：
+如果是第11代I7-11700+B560主板就算插2条M.2 SSD也不会遇到，但为何i7-10700+B560就会遇到？
+我猜是因为插到主板最下方那个M.2 SSD槽的关系。

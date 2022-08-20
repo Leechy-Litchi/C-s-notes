@@ -1,0 +1,87 @@
+症状
+
+虚拟机在等待用户提示时卡住，除非手动指示，否则不会启动。
+
+当你使用 启动诊断查看 VM 的屏幕截图时，你将看到屏幕截图显示 Windows 启动管理器，并显示"选择要启动的操作系统"消息，或按 Tab 选择工具：。
+
+
+原因
+
+此错误是由于启动管理器中的 BCD 标志 Windows 标志。 启用标志后，Windows管理器在启动过程中提示用户选择要运行的加载程序，从而导致启动延迟。 在 Azure 中，此功能可能会增加启动 VM 所花的时间。
+
+
+解决方案
+如果你有 VM 的最新备份，可以尝试从备份 还原 VM 以修复启动问题。
+
+流程概述：
+
+    使用串行控制台配置以加快启动时间。
+    创建和访问修复 VM。
+    配置修复 VM 以加快启动时间。
+    建议：在重新生成 VM 之前，请启用串行控制台和内存转储集合。
+    重新生成 VM。
+
+使用串行控制台配置以加快启动时间
+选项 A：缩短等待时间
+默认情况下，等待时间设置为 30 秒，但可以更改为更快的时间 (例如 5 秒) 。
+在串行控制台中使用以下命令调整超时值：
+bcdedit /set {bootmgr} timeout 5
+
+选项 B：删除 BCD 标志
+若要完全阻止显示启动菜单提示，请输入以下命令：
+bcdedit /deletevalue {bootmgr} displaybootmenu
+
+
+如果无法使用串行控制台在以上步骤中配置更快的启动时间，可以继续执行以下步骤。 现在，你将在脱机模式下进行故障排除以解决此问题。
+
+
+创建和访问修复 VM
+    使用 VM 修复命令的步骤 1-3 准备修复 VM。(https://docs.microsoft.com/zh-cn/troubleshoot/azure/virtual-machines/repair-windows-vm-using-azure-virtual-machine-repair-commands)
+    使用远程桌面连接连接到修复 VM。
+
+
+配置修复 VM 以加快启动时间
+    打开提升的命令提示符。
+    输入以下内容以启用 DisplayBootMenu：
+    对第 1 代 VM 使用此命令：
+    bcdedit /store <BCD文件夹所在盘符>:\boot\bcd /set {bootmgr} displaybootmenu yes
+(\boot\bcd，如果系统有隐藏的保留分区，则是在隐藏分区的boot\bcd。boot文件夹是隐藏的。)
+    将此命令用于 第 2 代 VM：
+    bcdedit /store <efi系统分区的卷字母>:EFI\Microsoft\boot\bcd /set {bootmgr} displaybootmenu yes
+
+
+
+建议：在重新生成 VM 之前，请启用串行控制台和内存转储集合
+    打开提升的命令提示符会话 (以管理员角色) 。
+    运行以下命令：
+    启用串行控制台
+    bcdedit /store <BCD文件夹所在盘符>:\boot\bcd /ems {<引导加载程序标识符>} ON
+
+    bcdedit /store <BCD文件夹所在盘符>:\boot\bcd /emssettings EMSPORT:1 EMSBAUDRATE:115200
+
+    验证操作系统磁盘上的可用空间是否与 VM 上 (内存) 大小相同。
+    如果操作系统磁盘上的空间不足，应更改内存转储文件的创建位置，并引用附加到具有足够可用空间的 VM 的任何数据磁盘。
+    要更改位置，请将"%SystemRoot%"替换为驱动器号 (例如，以下命令) "F："表示数据磁盘的驱动器号。
+
+
+
+用于启用操作系统转储的建议配置
+加载损坏的操作系统磁盘：
+REG LOAD HKLM\BROKENSYSTEM <VOLUME LETTER OF BROKEN OS DISK>:\windows\system32\config\SYSTEM
+
+在 ControlSet001 上启用：
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v CrashDumpEnabled /t REG_DWORD /d 1 /f
+
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v DumpFile /t REG_EXPAND_SZ /d "%SystemRoot%\MEMORY.DMP" /f
+
+REG ADD "HKLM\BROKENSYSTEM\ControlSet001\Control\CrashControl" /v NMICrashDump /t REG_DWORD /d 1 /f
+
+在 ControlSet002 上启用：
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v CrashDumpEnabled /t REG_DWORD /d 1 /f
+
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v DumpFile /t REG_EXPAND_SZ /d "%SystemRoot%\MEMORY.DMP" /f
+
+REG ADD "HKLM\BROKENSYSTEM\ControlSet002\Control\CrashControl" /v NMICrashDump /t REG_DWORD /d 1 /f
+
+卸载损坏的操作系统磁盘：
+REG UNLOAD HKLM\BROKENSYSTEM
