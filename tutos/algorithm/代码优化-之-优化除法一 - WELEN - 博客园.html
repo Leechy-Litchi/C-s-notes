@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="http://blog.sina.com.cn/s/blog_65ba9a5e0102v2ih.html 在近期优化系统的过程中，发现有个函数在高压力下，竟然占用13.3%的时间，这个函数内部很简单，" />
+    <meta property="og:description" content="http://blog.sina.com.cn/s/blog_65ba9a5e0102v2ih.html 在近期优化系统的过程中，发现有个函数在高压力下，竟然占用13.3%的时间，这个函数内部很简单，" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>代码优化-之-优化除法一 - WELEN - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside.min.css?v=Nm2Ml12ubXJAdcm3180h4L-mMTjPAyv-IjhJ2LC5-6U" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside-mobile.min.css?v=F-Vr_SgF1vdl0HhO54w_Z6DuSs5uH_730Vc5aVo_c2k" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/welen/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/welen/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/welen/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 147849;
+        var currentBlogApp = 'welen';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = false;
+        var skinName = 'ThinkInside';
+        var visitorUserId = '5adef592-c39a-443f-1803-08d7eb74c09a';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-03-05 11:44';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=NxvwWFDi0mgqBpd084u9l6HDleMzYcdaVbndeWyroqA"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-thinkinside has-navbar">
+ 
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/welen/articles/5246294.html">
+    <span>代码优化-之-优化除法一</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>&nbsp;</p>
+<p>http://blog.sina.com.cn/s/blog_65ba9a5e0102v2ih.html</p>
+<p align="left">&nbsp;</p>
+<p>在近期优化系统的过程中，发现有个函数在高压力下，竟然占用13.3%的时间，这个函数内部很简单，基本就是这样：</p>
+<p align="left">&nbsp;</p>
+<p>id_to_type(id)</p>
+<p align="left">&nbsp;</p>
+<p>{</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int iIndex = id0000;</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return g_data[iIndex].cType;</p>
+<p align="left">&nbsp;</p>
+<p>}</p>
+<p align="left">&nbsp;</p>
+<p>核心基本上就在这个%取余上，这往往使我们分组提高效率的常用方法，但是对于高频率调用上，则可以避免了。</p>
+<p align="left">&nbsp;</p>
+<p>如何解决呢？下面的附录说明了一些替代方法，但是显然并不是符合我们现在要解决的这个问题，当前我采用了修改设计的方法，将type合入到id的一 部分钟，必须 id 0x10000000 表示type=0的非等最大值，0x20000000表示type=1的非等最大值。</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p>=============附录============</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p>(说明：文章中的很多数据可能在新的CPU或不同的CPU或不同的系统环境下有不同的结果，可能不能面面俱到)<br>x86系列的CPU对于位运 算、加、减等基本指令都能在1个CPU周期内完成(现在的CPU还能乱序执行，从而使指令的平均CPU周期更小)；现在的CPU,做乘法也是很快的(1个 CPU周期左右，或者是需要两/三个周期，但每个周期能启动一个新的乘指令)，但作为基本指令的除法却超出很多人的预料，它是一条很慢的操作，整数和浮点 的除法都慢；我测试的英特尔P5赛扬CPU浮点数的除法差不多是37个CPU周期，整数的除法是80个CPU周期，AMD2200+浮点数的除法差不多是 21个CPU周期，整数的除法是40个CPU周期。(改变FPU运算精度对于除法无效)(SSE指令集的低路单精度数除法指令DIVPS 18个CPU周期,四路单精度数除法指令DIVSS 36个CPU周期)&nbsp;(x86求余运算和除法运算是用同一条CPU指令实现的；据说，很多CPU的整数除法都是用数学协处理器的浮点除法器完成的；有一个推论就是，浮点除法和 整数除法不能并行执行)<br>&nbsp;&nbsp;本文将给出一些除法的优化方法或替代算法&nbsp;&nbsp;(警告:某些替代算法并不能保证完全等价!)<br>&nbsp;&nbsp;1.尽量少用除法<br>&nbsp;&nbsp;&nbsp;比如： if (x/y&gt;z) ...<br>&nbsp;&nbsp;&nbsp;改成： if ( ((y&gt;0)&amp;&amp;(x&gt;y*z))||((y&lt;0)&amp;&amp;(x<br>&nbsp;&nbsp;&nbsp;(少用求余)<br>&nbsp;&nbsp;&nbsp;比如： ++index; if (index&gt;=count) index=index % count;&nbsp;&nbsp;//assert(index<br>&nbsp;&nbsp;&nbsp;改成： ++index; if (index&gt;=count) index=index - count;<br>&nbsp;&nbsp;2.用减法代替除法<br>&nbsp;&nbsp;&nbsp;如果知道被除数是除数的很小的倍数，那么可以用减法来代替除法<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;uint32 x=200;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 y=70;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 z=x/y;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;uint z=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (x&gt;=y)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x-=y;&nbsp;&nbsp;++z;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;一个用减法和移位完成的除法 (如果你没有除法指令可用:)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 div(uint64 s,uint32 z) //return u/z&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 x=(uint32)(s&gt;&gt;32);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 y=(uint32)s;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y保存商 x保存余数<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i=0;i&lt;32;++i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 t=((int32)x) &gt;&gt; 31;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x=(x&lt;&lt;1)|(y&gt;&gt;31);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y=y&lt;&lt;1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((x|t)&gt;=z)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x-=z;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++y;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return y;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(该函数经过了测试；z==0需要自己处理；对于有符号除法，可以用取绝对值的方法(当然也不是轻松就能<br>写出完全等价的有符号除法的:)； 如果不需s的64bit长度，仅需要32bit,那么可以化简这个函数，但改进不多)<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;3.用移位代替除法&nbsp;&nbsp;(很多编译器能自动做好这个优化)<br>&nbsp;&nbsp;&nbsp;要求除数是2的次方的常量； (同理：对于某些应用，可以优先选取这样的数来做除数)<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;uint32 x=213432575;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 y=x/8;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;y=x&gt;&gt;3;<br>&nbsp;&nbsp;&nbsp;对于有符号的整数；<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;int32 x=213432575;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int32 y=x/8;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;if (x&gt;=0)&nbsp;&nbsp;y=x&gt;&gt;3;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;y=(x+(1&lt;&lt;3-1))&gt;&gt;3;<br>&nbsp;&nbsp;4.合并除法&nbsp;&nbsp;&nbsp;(替代方法不等价，很多编译器都不会(而且不应该)帮你做这种优化)<br>&nbsp;&nbsp;&nbsp;适用于不能用其它方法避免除法的时候；<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;double x=a/b/c;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;double x=a/(b*c);<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;double x=a/b+c/b;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;double x=(a+c)/b;<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;double x=a/b;<br>&nbsp;&nbsp;&nbsp;&nbsp;double y=c/d;<br>&nbsp;&nbsp;&nbsp;&nbsp;double z=e/f;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;double tmp=1.0/(b*d*f);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x=a*tmp*d*f;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y=c*tmp*b*f;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double z=e*tmp*b*d;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;5.把除法占用的时间充分利用起来<br>&nbsp;&nbsp;&nbsp;CPU在做除法的时候，可以不用等待该结果(也就是后面插入的指令不使用该除法结果)，而插入多条简单整数<br>指令(不包含整数除法，而且结果不能是一个全局或外部变量等)，把除法占用的时间节约出来；<br>&nbsp;&nbsp;&nbsp;(当除法不可避免的时候，这个方法很有用)<br>&nbsp;&nbsp;6.用查表的方法代替除法<br>&nbsp;&nbsp;&nbsp;&nbsp;（适用于除数和被除数的可能的取值范围较小的情况，否则空间消耗太大）<br>&nbsp;&nbsp;&nbsp;&nbsp;比如&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;x;&nbsp;&nbsp;uint8 y;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;z=x/y;<br>&nbsp;&nbsp;&nbsp;&nbsp;改成&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;z=table[x][y];&nbsp;&nbsp;&nbsp;&nbsp;//其中table是预先计算好的表，table[j]=i/j;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//对于除零的情况需要根据你的应用来处理<br>&nbsp;&nbsp;&nbsp;&nbsp;或者：uint8&nbsp;&nbsp;z=table[x&lt;&lt;8+y];&nbsp;&nbsp;//其中table=(i&gt;&gt;8)/(i&amp;(1&lt;&lt;8-1));<br>&nbsp;&nbsp;&nbsp;&nbsp;比如&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;z=x/17;<br>&nbsp;&nbsp;&nbsp;&nbsp;改成&nbsp;&nbsp;&nbsp;uint8&nbsp;&nbsp;z=table[x];&nbsp;&nbsp;&nbsp;&nbsp;//其中table=i/17;&nbsp;<br>&nbsp;&nbsp;7.用乘法代替除法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(替代方法不等价，很多编译器都不会(而且不应该)帮你做这种优化)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;double x=y/21.3432575;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;double x=y*(1/21.3432575); //如果编译器不能优化掉(1/21.3432575),请预先计算出该结果<br>&nbsp;&nbsp;&nbsp;对于整数，可以使用与定点数相似的方法来处理倒数<br>&nbsp;&nbsp;&nbsp;(该替代方法不等价)<br>&nbsp;&nbsp;&nbsp;比如：&nbsp;&nbsp;uint32 x,y;&nbsp;&nbsp;x=y/213;<br>&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;x=y*((1&lt;&lt;16)/213)&nbsp;&nbsp;&gt;&gt; 16;<br>&nbsp;&nbsp;&nbsp;某些应用中y*((1&lt;&lt;16)/213)可能会超出值域，这时候可以考虑使用int64来扩大值域<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 x=((uint64)y)*((1&lt;&lt;31)/213)&nbsp;&nbsp;&gt;&gt; 31;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;也可以使用浮点数来扩大值域<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32 x=(uint32)(y*(1.0/213)); (警告: 浮点数强制类型转换到整数在很多高级语言里都是<br>一条很慢的操作，在下几篇文章中将给出其优化的方法)<br>&nbsp;&nbsp;&nbsp;对于这种方法，某些除法是有与之完全等价的优化方法的：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无符号数除以3：&nbsp;&nbsp;uint32 x,y;&nbsp;&nbsp;&nbsp;x=y/3;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推理:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1&lt;&lt;33)+1&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x=y/3&nbsp;&nbsp;=&gt;&nbsp;&nbsp;x=[-]&nbsp;&nbsp;=&gt;&nbsp;&nbsp;x=[- + ---------]&nbsp;&nbsp;=&gt; x=[--------- * -------] // []表示取整<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;3*(1&lt;&lt;33)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1&lt;&lt;33)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(可证明: 0 &lt;= --------- &lt; - )<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3*(1&lt;&lt;33)&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;即： x=(uint64(y)*M)&gt;&gt;33;&nbsp;&nbsp;其中魔法数M=((1&lt;&lt;33)+1)/3=2863311531=0xAAAAAAAB;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无符号数除以5：&nbsp;&nbsp;uint32 x,y;&nbsp;&nbsp;&nbsp;x=y/5;&nbsp;&nbsp;(y&lt;(1&lt;&lt;31))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推理:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3*y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1&lt;&lt;33)+3&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x=y/5&nbsp;&nbsp;=&gt;&nbsp;&nbsp;x=[-]&nbsp;&nbsp;=&gt;&nbsp;&nbsp;x=[- + ---------]&nbsp;&nbsp;=&gt; x=[--------- * -------]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;5*(1&lt;&lt;33)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1&lt;&lt;33)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3*y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(可证明: 0 &lt;= --------- &lt; - )<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5*(1&lt;&lt;33)&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;即： x=(uint64(y)*M)&gt;&gt;33;&nbsp;&nbsp;其中魔法数M=((1&lt;&lt;33)+3)/5=1717986919=0x66666667;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无符号数除以7：&nbsp;&nbsp;uint32 x,y;&nbsp;&nbsp;&nbsp;x=y/7;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推理 ：略&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;即：x=((uint64(y)*M)&gt;&gt;33+y)&gt;&gt;3; 其中魔法数M=((1&lt;&lt;35)+3)/7-(1&lt;&lt;32)=613566757=0x24924925;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于这种完全等价的替代,还有其他替代公式不再讨论，对于有符号除法的替代算法没有讨论，很多数都有完全等价的替代算法，那些魔法数也是有规律可循的；有 “进取心”的编译器应该帮助用户处理掉这个优化(vc6中就已经见到!&nbsp;&nbsp;偷懒的办法是直接看vc6生成的汇编码:)；<br>&nbsp;&nbsp;8.对于已知被除数是除数的整数倍数的除法，能够得到替代算法；或改进的算法；<br>&nbsp;&nbsp;&nbsp;&nbsp;这里只讨论除数是常数的情况；<br>&nbsp;&nbsp;&nbsp;&nbsp;比如对于(32位除法)：x=y/a; //已知y是a的倍数,并假设a是奇数<br>&nbsp;&nbsp;&nbsp;&nbsp;(如果a是偶数,先转化为a=a0*(1&lt;&lt;k); y/a==(y/a0)&gt;&gt;k;a0为奇数)<br>&nbsp;&nbsp;&nbsp;&nbsp;求得a',使 (a'*a)&nbsp;&nbsp;% (1&lt;&lt;32) =&nbsp;&nbsp;1；//利用a为奇数,y是a的倍数可以推导出a'的存在性<br>&nbsp;&nbsp;&nbsp;&nbsp;那么: x=y/a&nbsp;&nbsp;=&gt; x=(y/a)*((a*a')&nbsp;&nbsp;%(1&lt;&lt;32))&nbsp;&nbsp;=&gt;&nbsp;&nbsp;x=(y*a') % (1&lt;&lt;32);&nbsp;&nbsp;//这里并不需要实际做一个求余指令&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;(该算法可以同时支持有符号和无符号除法)<br>&nbsp;&nbsp;&nbsp;&nbsp;比如&nbsp;&nbsp;&nbsp;uint32&nbsp;&nbsp;y;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32&nbsp;&nbsp;x=y/7;&nbsp;&nbsp;&nbsp;//已知y是7的倍数<br>&nbsp;&nbsp;&nbsp;&nbsp;改成&nbsp;&nbsp;&nbsp;uint32&nbsp;&nbsp;x=(uint32)(y*M);&nbsp;&nbsp;&nbsp;//其中M=(5*(1&lt;&lt;32)+1)/7</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;&nbsp;9.近似计算除法 (该替代方法不等价)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优化除数255的运算(257也可以,或者1023,1025等等)(1026也可以,推导出的公式略有不同)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如颜色处理中 ：&nbsp;&nbsp;uint8 color=colorsum/255;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改成：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint8 color=colorsum/256;&nbsp;&nbsp;也就是 color=colorsum&gt;&gt;8;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个误差在颜色处理中很多时候都是可以接受的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果要减小误差可以改成:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint8 color=(colorsum+(colorsum&gt;&gt;8))&gt;&gt;8;　<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推导: x/255=(x+x/255)/(255+1)=(x+A)&gt;&gt;8; A=x/255;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把A改成A=x&gt;&gt;8 (引入小的误差);带入公式就得到了:　x/255约等于(x+(x&gt;&gt;8))&gt;&gt;8的公式<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同理可以有x/255约等于(x+(x&gt;&gt;8)+(x&gt;&gt;16))&gt;&gt;8等其它更精确的公式(请推导出误差项已确定是否精度足够)<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;10. 牛顿迭代法实现除法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(很多CPU的内部除法指令就是用该方法或类似的方法实现的)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设有一个函数y=f(x);&nbsp;&nbsp;求0=f(x)时，x的值;(这里不讨论有多个解的情况或逃逸或陷入死循环或陷入混沌状态的问题)<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(参考图片)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求函数的导函数为 y=f'(x);&nbsp;&nbsp;&nbsp;//可以这样来理解这个函数的意思：x点处函数y=f(x)的斜率；<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.取一个合适的x初始值x0; 并得到y0=f(x0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b.过(x0,y0)作一条斜率为f'(x0)的直线，与x轴交于x1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.然后用得到的x1作为初始值，进行迭代；<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当进行足够多次的迭代以后，认为x1将会非常接近于方程0=f(x)的解，这就是牛顿迭代；<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;把上面的过程化简,得到牛顿迭代公式: x(n+1)=x(n)-y(x(n))/y'(x(n))<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里给出利用牛顿迭代公式求倒数的方法； (用倒数得到除法: y = x/a = x* (1/a) )<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求1/a,&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令a=1/x;&nbsp;&nbsp;有方程 y=a-1/x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求导得y'=1/x^2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代入牛顿迭代方程 x(n+1)=x(n)-y(x(n))/y'(x(n));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有迭代式 x_next=(2-a*x)*x; //可证明：该公式为2阶收敛公式；&nbsp;&nbsp;&nbsp;也就是说计算出的解的有效精度成倍增长<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证明收敛性:令x=(1/a)+dx;&nbsp;&nbsp;//dx为一个很小的量<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;则有x_next-(1/a)=(2-a*(1/a+dx))*(1/a+dx)-1/a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=(-a)*dx^2&nbsp;&nbsp;//^表示指数运算符<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证毕.<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;程序可以用该方法来实现除法，并按照自己的精度要求来决定迭代次数；<br>&nbsp;&nbsp;&nbsp;&nbsp;(初始值的选取不再讨论)<br>&nbsp;&nbsp;&nbsp;&nbsp;附录: 用牛顿迭代法来实现开方运算&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//开方运算可以表示为 y=x^0.5=1/(1/x^0.5)； 先求1/x^0.5<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求1/a^0.5,&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令a=1/x^2;&nbsp;&nbsp;有方程y=a-1/x^2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求导得y'=2/x^3;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代入牛顿方程 x(n+1)=x(n)-y(x(n))/y'(x(n));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有迭代式 x_next=(3-a*x*x)*x*0.5; //可证明：该公式为2阶收敛公式&nbsp;&nbsp;//方法同上 证明过程略</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;&nbsp;11. 用快速乘法器实现快速除法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是存在的一种快速除法算法，当前最好用硬件实现,请查阅相关资料</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p><br>如何优化C语言代码</p>
+<p align="left">&nbsp;</p>
+<p>1、选择合适的算法和数据结构<br>　　应该熟悉算法语言，知道各种算法的优缺点，具体资料请参见相应的参考资料，有很多计算机书籍上都有介 绍。将比较慢的顺序查找法用较快的二分查找或乱序查找法代替，插入排序或冒泡排序法用快速排序、合并排序或根排序代替，都可以大大提高程序执行的效率。. 选择一种合适的数据结构也很重要，比如你在一堆随机存放的数中使用了大量的插入和删除指令，那使用链表要快得多。数组与指针语句具有十分密码的关系，一般 来说，指针比较灵活简洁，而数组则比较直观，容易理解。对于大部分的编译器，使用指针比使用数组生成的代码更短，执行效率更高。但是在Keil中则相反， 使用数组比使用的指针生成的代码更短。。</p>
+<p align="left">&nbsp;</p>
+<p>　　2。。。</p>
+<p align="left">&nbsp;</p>
+<p>　　3、使用尽量小的数据类型<br>能够使用字符型(char)定义的变量，就不要使用整型(int)变量来定义；能够使用整型变量定义的变量 就不要用长整型(long int)，能不使用浮点型(float)变量就不要使用浮点型变量。当然，在定义变量后不要超过变量的作用范围，如果超过变量的范围赋值，C编译器并不报 错，但程序运行结果却错了，而且这样的错误很难发现。<br>在ICCAVR中，可以在Options中设定使用printf参数，尽量使用基本型参数(%c、<br>%d、%x、%X、%u和%s格式说明符)，少用长整型参数(%ld、%lu、%lx和%lX格式说明 符)，至于浮点型的参数(%f)则尽量不要使用，其它C编译器也一样。在其它条件不 变的情况下，使用%f参数，会使生成的代码的数量增加很多，执行速度降低。</p>
+<p align="left">&nbsp;</p>
+<p>　　4、使用自加、自减指令<br>　　通常使用自加、自减指令和复合赋值表达式(如a-=1及a+=1等)都能够生成高质量的<br>程序代码，编译器通常都能够生成inc和dec之类的指令，而使用a=a+1或a=a-1之类<br>的指令，有很多C编译器都会生成二到三个字节的指令。在AVR单片适用的ICCAVR、 GCCAVR、IAR等C编译器以上几种书写方式生成的代码是一样的，也能够生成高质量 的inc和dec之类的的代码。</p>
+<p align="left">&nbsp;</p>
+<p>　　5、减少运算的强度<br>　　可以使用运算量小但功能相同的表达式替换原来复杂的的表达式。如下：</p>
+<p align="left">&nbsp;</p>
+<p>(1)、求余运算。<br>a=a%8;<br>可以改为：<br>a=a&amp;7;<br>说明：位操作只需一个指令周期即可完成，而大部分的C编译器的“%”运算均是调 用子程序来完成，代码长、执行速度慢。通常，只要求是求2n方的余数，均可使用 位操作的方法来代替。</p>
+<p align="left">&nbsp;</p>
+<p>(2)、平方运算<br>a=pow(a,2.0);<br>可以改为：<br>a=a*a;<br>说明：在有内置硬件乘法器的单片机中 (如51系列)，乘法运算比求平方运算快得多，因为浮点数的求平方是通过调用子程序来实现的，在自带硬件乘法器的AVR单片机中，如ATMega163 中，乘法运算只需2个时钟周期就可以完成。既使是在没有内置 硬件乘法器的AVR单片机中，乘法运算的子程序比平方运算的子程序代码短，执行速度快。<br>如果是求3次方，如：<br>a=pow(a,3.0);<br>更改为：<br>a=a*a*a；<br>则效率的改善更明显。</p>
+<p align="left">&nbsp;</p>
+<p>(3)、用移位实现乘除法运算<br>a=a*4;<br>b=b/4;<br>可以改为：<br>a=a&lt;&lt;2;<br>b=b&gt;&gt;2;<br>说 明：通常如果需要乘以或除以2n，都可以用移位的方法代替。在ICCAVR中，如果 乘以2n，都可以生成左移的代码，而乘以其它的整数或除以任何数，均调用乘除法 子程序。用移位的方法得到代码比调用乘除法子程序生成的代码效率高。实际上， 只要是乘以或除以一个整数，均可以用移位的方法得到结果，如：<br>a=a*9<br>可以改为：<br>a=(a&lt;&lt;3)+a</p>
+<p align="left">&nbsp;</p>
+<p>　　6、循环</p>
+<p align="left">&nbsp;</p>
+<p>(1)、循环语<br>对于一些不需要循环变量参加运算的任务可以把它们放到循环外面，这里的任务包括表达式、函数的调用、指针运算、数组访问等，应该将没有必要执行多次的操作全部集合在一起，放到一个init的初始化程序中进行。</p>
+<p align="left">&nbsp;</p>
+<p>(2)、延时函数：<br>通常使用的延时函数均采用自加的形式：<br>void delay (void)<br>{<br>unsigned int i;<br>for (i=0;i&lt;1000;i++)<br>;<br>}<br>将其改为自减延时函数：<br>void delay (void)<br>{<br>unsigned int i;<br>for (i=1000;i&gt;0;i--)<br>;<br>}<br>　 　两个函数的延时效果相似，但几乎所有的C编译对后一种函数生成的代码均比前一种代码少1~3个字节，因为几乎所有的MCU均有为0转移的指令，采用后一 种方式能够生成这类指令。在使用while循环时也一样，使用自减指令控制循环会比使用自加指令控制循环生成的代码更少1~3个字母。但是在循环中有通过 循环变量“i”读写数组的指令时，使用预减循环时有可能使数组超界，要引起注意。</p>
+<p align="left">&nbsp;</p>
+<p>(3)while循环和do…while循环<br>用while循环时有以下两种循环形式：<br>unsigned int i;<br>i=0;<br>while (i&lt;1000)<br>{<br>i++;<br>//用户程序<br>}<br>或：<br>unsigned int i;<br>i=1000;<br>do<br>i--;<br>//用户程序<br>while (i&gt;0);<br>在这两种循环中，使用do…while循环编译后生成的代码的长度短于while循环。</p>
+<p align="left">&nbsp;</p>
+<p>　　7、查表<br>　　在程序中一般不进行非常复杂的运算，如浮点数的乘除及开方等，以及一些复杂的数学模型的插补运算，对这些即消耗时间又消 费资源的运算，应尽量使用查表的方式，并且将数据表置于程序存储区。如果直接生成所需的表比较困难，也尽量在启了，减少了程序执行过程中重复计算的工作 量。</p>
+<p align="left">&nbsp;</p>
+<p>　　8、其它<br>　　比如使用在线汇编及将字符串和一些常量保存在程序存储器中，均有利于优化&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p>编写高效简洁的C语言代码，是许多软件工程师追求的目标。本文就工作中的一些体会和经验做相关的阐述，不对的地方请各位指教。</p>
+<p align="left">&nbsp;</p>
+<p>　　第1招：以空间换时间</p>
+<p align="left">&nbsp;</p>
+<p>　　计算机程序中最大的矛盾是空间和时间的矛盾，那么，从这个角度出发逆向思维来考虑程序的效率问题，我们就有了解决问题的第1招——以空间换时间。<br>例如：字符串的赋值。<br>方法A，通常的办法：</p>
+<p align="left">&nbsp;</p>
+<p>#define LEN 32<br>char string1 [LEN];<br>memset (string1,0,LEN);<br>strcpy (string1,“This is a example!!”）;<br>方法B：<br>const char string2[LEN] =“This is a example!”;<br>char * cp;<br>cp = string2 ;</p>
+<p align="left">&nbsp;</p>
+<p>　　(使用的时候可以直接用指针来操作。)</p>
+<p align="left">&nbsp;</p>
+<p>　　从上面的例子可以看出，A和B的效率是不能比的。在同样的存储空间下，B直接使用指针就可以操作了，而A需要调用两个字符函数才能完成。B的缺 点在于灵活性没有A好。在需要频繁更改一个字符串内容的时候，A具有更好的灵活性；如果采用方法B，则需要预存许多字符串，虽然占用了大量的内存，但是获 得了程序执行的高效率。<br>如果系统的实时性要求很高，内存还有一些，那我推荐你使用该招数。</p>
+<p align="left">&nbsp;</p>
+<p>　　该招数的变招——使用宏函数而不是函数。举例如下：<br>方法C：</p>
+<p align="left">&nbsp;</p>
+<p>#define bwMCDR2_ADDRESS 4<br>#define bsMCDR2_ADDRESS 17<br>int BIT_MASK(int __bf)<br>{<br>return ((1U &lt;&lt; (bw ## __bf)) - 1) &lt;&lt; (bs ## __bf);<br>}<br>void SET_BITS(int __dst, int __bf, int __val)<br>{<br>__dst = ((__dst) &amp; ~(BIT_MASK(__bf))) | /<br>(((__val) &lt;&lt; (bs ## __bf)) &amp; (BIT_MASK(__bf))))<br>}</p>
+<p align="left">&nbsp;</p>
+<p>SET_BITS(MCDR2, MCDR2_ADDRESS, RegisterNumber);<br>方法D：<br>#define bwMCDR2_ADDRESS 4<br>#define bsMCDR2_ADDRESS 17<br>#define bmMCDR2_ADDRESS BIT_MASK(MCDR2_ADDRESS)<br>#define BIT_MASK(__bf) (((1U&lt;&lt;(bw ## __bf))-1)&lt;&lt; (bs ## __bf))<br>#define SET_BITS(__dst, __bf, __val) /<br>((__dst) = ((__dst) &amp; ~(BIT_MASK(__bf))) | /<br>(((__val) &lt;&lt; (bs ## __bf)) &amp; (BIT_MASK(__bf))))</p>
+<p align="left">&nbsp;</p>
+<p>SET_BITS(MCDR2, MCDR2_ADDRESS, RegisterNumber);</p>
+<p align="left">&nbsp;</p>
+<p>　　函数和宏函数的区别就在于，宏函数占用了大量的空间，而函数占用了时间。大家要知道的是，函数调用是要使用系统的栈来保存数据的，如果编译器里 有栈检查选项，一般在函数的头会嵌入一些汇编语句对当前栈进行检查；同时，CPU也要在函数调用时保存和恢复当前的现场，进行压栈和弹栈操作，所以，函数 调用需要一些CPU时间。而宏函数不存在这个问题。宏函数仅仅作为预先写好的代码嵌入到当前程序，不会产生函数调用，所以仅仅是占用了空间，在频繁调用同 一个宏函数的时候，该现象尤其突出。</p>
+<p align="left">&nbsp;</p>
+<p>　　D方法是我看到的最好的置位操作函数，是ARM公司源码的一部分，在短短的三行内实现了很多功能，几乎涵盖了所有的位操作功能。C方法是其变体，其中滋味还需大家仔细体会。</p>
+<p align="left">&nbsp;</p>
+<p>　　第2招：数学方法解决问题</p>
+<p align="left">&nbsp;</p>
+<p>　　现在我们演绎高效C语言编写的第二招——采用数学方法来解决问题。</p>
+<p align="left">&nbsp;</p>
+<p>　　数学是计算机之母，没有数学的依据和基础，就没有计算机的发展，所以在编写程序的时候，采用一些数学方法会对程序的执行效率有数量级的提高。<br>举例如下，求 1~100的和。<br>方法E<br>int I , j;<br>for (I = 1 ;I&lt;=100; I ++）{<br>j += I;<br>}<br>方法F<br>int I;<br>I = (100 * (1+100)) / 2</p>
+<p align="left">&nbsp;</p>
+<p>　　这个例子是我印象最深的一个数学用例，是我的计算机启蒙老师考我的。当时我只有小学三年级，可惜我当时不知道用公式 N×（N+1）/ 2 来解决这个问题。方法E循环了100次才解决问题，也就是说最少用了100个赋值，100个判断，200个加法（I和j）；而方法F仅仅用了1个加法，1 次乘法，1次除法。效果自然不言而喻。所以，现在我在编程序的时候，更多的是动脑筋找规律，最大限度地发挥数学的威力来提高程序运行的效率。</p>
+<p align="left">&nbsp;</p>
+<p>　　第3招：使用位操作</p>
+<p align="left">&nbsp;</p>
+<p>　　实现高效的C语言编写的第三招——使用位操作，减少除法和取模的运算。</p>
+<p align="left">&nbsp;</p>
+<p>　　在计算机程序中，数据的位是可以操作的最小数据单位，理论上可以用“位运算”来完成所有的运算和操作。一般的位操作是用来控制硬件的，或者做数据变换使用，但是，灵活的位操作可以有效地提高程序运行的效率。举例如下：</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;方法G int I,J; I = 257 /8; J = 456 % 32; 方法H int I,J; I = 257 &gt;&gt;3; J = 456 - (456 &gt;&gt; 4 &lt;&lt; 4); 　　　　在字面上好像H比G麻烦了好多，但是，仔细查看产生的汇编代码就会明白，方法G调用了基本的取模函数和除法函数，既有函数调用，还有很多汇编代码 和寄存器参与运算；而方法H则仅仅是几句相关的汇编，代码更简洁，效率更高。当然，由于编译器的不同，可能效率的差距不大，但是，以我目前遇到的MS C ,ARM C 来看，效率的差距还是不小。相关汇编代码就不在这里列举了。 运用这招需要注意的是，因为CPU的不同而产生的问题。比如说，在PC上用这招编写的程序，并在PC上调试通过，在移植到一个16位机平台上的时候，可能 会产生代码隐患。所以只有在一定技术进阶的基础下才可以使用这招。 　　　　　　　第4招：汇编嵌入 　　高效C语言编程的必杀技，第四招——嵌入汇编。 　　“在熟悉汇编语言的人眼里，C语言编写的程序都是垃圾”。这种说法虽然偏激了一些，但是却有它的道理。汇编语言是效率最高的计算机语言，但是，不可 能*着它来写一个操作系统吧?所以，为了获得程序的高效率，我们只好采用变通的方法 ——嵌入汇编，混合编程。 　　举例如下，将数组一赋值给数组二,要求每一字节都相符。char string1[1024],string2[1024];方法Iint I;for (I =0 ;I&lt;1024;I++)*(string2 + I) = *(string1 + I)方法J#ifdef _PC_int I;for (I =0 ;I&lt;1024;I++)*(string2 + I) = *(string1 + I);#else#ifdef _ARM___asm{MOV R0,string1MOV R1,string2MOV R2,#0loop:LDMIA R0!, [R3-R11]STMIA R1!, [R3-R11]ADD R2,R2,#8CMP R2, #400BNE loop}#endif　　　　方法I是最常见的方法，使用了1024次循环；方法J则根据平台不同做了区分，在ARM平台下，用嵌入汇编仅用128次循 环就完成了同样的操作。这里有朋友会说，为什么不用标准的内存拷贝函数呢?这是因为在源数据里可能含有数据为0的字节，这样的话，标准库函数会提前结束而 不会完成我们要求的操作。这个例程典型应用于LCD数据的拷贝过程。根据不同的CPU，熟练使用相应的嵌入汇编，可以大大提高程序执行的效率。　　虽然是 必杀技，但是如果轻易可能使用会付出惨重的代价。这是因为，使用了嵌入汇编，便限制了程序的可移植性，使程序在不同平台移植的过程中，卧虎藏龙。</p>
+<p align="left"><span style="color: rgba(128, 128, 128, 1); font-family: 宋体; font-size: large"><strong><span>&nbsp;</span></strong></span></p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2016-03-05 23:44</span>&nbsp;
+<a href="https://www.cnblogs.com/welen/">WELEN</a>&nbsp;
+阅读(<span id="post_view_count">1268</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=5246294" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(5246294);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '5adef592-c39a-443f-1803-08d7eb74c09a', targetType: 'blogPost', targetId: '5246294', targetLink: 'https://www.cnblogs.com/welen/articles/5246294.html', title: '代码优化-之-优化除法一' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 147849, cb_blogApp = 'welen', cb_blogUserGuid = '16dc73a2-17dc-df11-ac81-842b2b196315';
+    var cb_entryId = 5246294, cb_entryCreatedDate = '2016-03-05 23:44', cb_postType = 2;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 WELEN
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1qJBjxKGGMU-OA0Lv-NQgT_kpkWVZ3QZeWTs9i1gdgA_QjPoBFJ2CCu4A-AYs0SsfIoozYJKnytn1TmZYrg9MF9RaKlovOxwAndHsfBH_27kHrDgqhMSp6G-Sop1y9cdxfpKHvjFI6RICtZ189muQO-vIJzR7ASkGVgQllcNfOvDA" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>
