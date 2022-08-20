@@ -1,0 +1,16 @@
+mshta vbscript:msgbox("1",64,"提示")(window.close)
+
+mshta vbscript:execute("msgbox ""2的1"":msgbox ""2的2 "":window.close") 
+
+mshta vbscript:createobject("sapi.spvoice").speak("Good luck")(window.close) 
+
+mshta vbscript:CreateObject("Wscript.Shell").popup("该干活了，伙计！",7,"提示",64)(window.close) 
+
+mshta javascript:window.execScript("msgBox('hello world!'):window.close","vbs") 
+
+mshta vbscript:window.execScript("alert('hello world!');","javascript") 
+
+echo msgbox "我是提示内容",64,"我是提示标题">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs
+
+tree C:\
+树状图

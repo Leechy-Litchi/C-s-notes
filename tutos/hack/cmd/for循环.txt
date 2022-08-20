@@ -1,0 +1,11 @@
+FOR /L %i in （1，2，10）     
+do echo %i
+第一个数是开始的数，第二个是步长，第三个是结尾的数
+（L即loop，循环）
+批处理应用：FOR /L %%i in （1，1，5） do start www.bilibili.com
+---------------会打开5个B站网页
+for /l %i in (1,1,100) do md X:\X%i    创建100个文件夹，名称分别叫新建文件夹1~100
+
+for /f %i in (xxx.txt) do md X:\X%i
+用/f读取出文档中每一个名字，一一设定为i，并以i的名字创建文件夹
+网页也可以如此设置

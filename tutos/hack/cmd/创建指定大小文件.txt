@@ -1,0 +1,2 @@
+fsutil file createnew null.txt 5278350000
+//后面是字节数

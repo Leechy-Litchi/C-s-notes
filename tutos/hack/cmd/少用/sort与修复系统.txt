@@ -1,0 +1,18 @@
+sort能自动排序，type不能
+sort /+3 xxx.txt
+比较第三个字符进行排序
+/r倒叙
+
+
+chkdsk 查看磁盘状态以及可能的问题
+convert f: /fs:ntfs 将F盘由fs格式转换道ntfs，这个指令只能这样
+diskpart  然后list disk 列出磁盘信息，比如可用大小和总大小
+select disk 1 选择磁盘1
+clean 格式化磁盘
+creat partition primary  创建主分区
+format fs=ntfs quick label='E:'  定义磁盘
+fat ntfs ExtFAT（单个文件最大限制、最大文件数量、分区最大容量）
+
+sfc /scannow 进行查看系统
+sfc /verifyonly  只扫描不修复  去掉only会进行修理
+/scanfile 扫描并修复文件

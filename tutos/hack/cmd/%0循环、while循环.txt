@@ -1,0 +1,4 @@
+%0  循环此命令本身，无法中断
+%0|%0  疯狂循环
+while True:while True 
+

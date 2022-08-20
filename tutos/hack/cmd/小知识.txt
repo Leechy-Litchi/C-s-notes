@@ -1,0 +1,497 @@
+一.找回误删并清除了回收站的文档
+
+　　步骤：
+
+　　1、单击“开始——运行，然后输入regedit (打开注册表)
+
+　　2、依次展开：HEKEY——LOCAL——MACHIME/SOFTWARE/microsoft/WINDOWS/　　CURRENTVERSION/EXPLORER/DESKTOP/NAMESPACE 在左边空白外点击“新建”，选择：“主键”，把它命名为“645FFO40——5081——101B——9F08——00AA002F954E”
+
+　　再把右边的“默认”的主键的键值设为“回收站”，然后退出注册表。就OK啦。
+
+　　3、要重启你的计算机。
+
+　　只要你机器没有运行过磁盘整理。系统完好.任何时候的文件都可以找回来。
+
+　　稽查局就是用这种方法在公司电脑里查到了销售清单，才发现我们偷税的)
+
+二 .最简单的隐藏文件夹方法(别人绝对找不到)
+
+　　隐藏的方法如下：
+
+　　eg:现需隐藏e盘bak目录下的tools文件夹e:\bak\tools
+
+　　运行：cmd
+
+　　键入：attrib s a h r e:\bak\tools
+
+　　然后，你再进去看e盘bak目录下，是否还有tools这个文件夹!
+
+　　这样就做到了真正的隐藏，不管你是否显示隐藏文件，此文件夹都看不见
+
+　　自己需要访问的时候怎么办?
+
+　　打开我的电脑---键入e:\bak\tools就可以直接进入，条件是，你必须要记得自己的隐藏文件夹名(切记)
+
+　　现在需要取消该隐藏文件夹，命令如下：
+
+　　运行：cmd
+
+　　键入：attrib -a -s -h -r e:\bak\tools
+
+　　进入e盘bak目录下，会发现tools文件夹显示出来了
+
+　　如果你想要真正隐藏文件夹，还是按上面说的比较保险。
+
+　　(至于放什么，放在哪就是你的问题了，千万别说我把你教坏哦)
+
+　　PS:“隐藏文件”方法有点实用，采用此方法隐藏后，只要在“我的电脑”-工具-文件夹选项-查看-“隐藏受保护的操作系统文件”前的√除掉-确定，隐藏的文件将被显示出来。
+
+　　真正防止别人阅览的好方法是借助软件设密码加密。(在此向指点本菜鸟的同志致敬!~)
+
+　三.防止别人趁你不在的时候开你的电脑
+
+　　@ color 4f
+
+　　@echo off
+
+　　echo 删除计算机的C盘的所有文件......
+
+　　ping -n 2 127.1>nul
+
+　　echo 已删除完毕
+
+　　echo.
+
+　　echo 删除计算机的D盘的所有文件......
+
+　　ping -n 2 127.1>nul
+
+　　echo 已删除完毕
+
+　　echo.
+
+　　echo.
+
+　　echo 删除计算机的E盘的所有文件...... ping -n 2 127.1>nul
+
+　　echo 已删除完毕
+
+　　@ color
+
+　　echo.
+
+　　echo. =========================================
+
+　　echo. 木马制造者：***(当然是保密啦) o(∩_∩)o...
+
+　　echo. =========================================
+
+　　echo. 系统60秒后自动重启，干脆直接把XP安装盘放进去吧......
+
+　　echo. 这是一个木马程序......所有资料已经传到 *****@163.com
+
+　　shutdown /r /t 60
+
+　　echo
+
+　　echo.
+
+　　echo.
+
+　　echo. 没有时间了.我要闪了..88， 装好系统后我再联系你哈。。
+
+　　pause
+
+　　----------------------------------------------------------------------
+
+　　--------------
+
+　　请把以上内容保存为123.bat添加到启动项里。
+
+　　————————————————————————————
+
+　　虽然是个恶作剧，不过还是很有用的，比如防止别人趁你不在的时候打开你的电脑，肯定会被吓到。o(∩_∩)o...
+
+　　这个程序终止的方法是
+
+　　开始——运行——shutdown -a
+
+　四.腾讯2008QQ里的10个“隐藏表情”
+
+　　QQ2008 全新功能--十个“隐藏表情”，只要打出这十个隐藏的词汇，就可以出现相应的特殊表情.贺岁版以后就都有这个表情。其实这几个词汇，全都现成保存在QQ2008程序里面，
+
+　　在聊天窗口输入快捷键： /08奥运我要哗——红
+
+　　在聊天窗口输入快捷键： /密码保护就是不抛弃不放弃
+
+　　在聊天窗口输入快捷键： /我顶你个贴
+
+　　在聊天窗口输入快捷键： /过春节
+
+　　在聊天窗口输入快捷键： /08红人非你莫鼠
+
+　　在聊天窗口输入快捷键： /群里你不是一个人
+
+　　在聊天窗口输入快捷键： /RPWT
+
+　　在聊天窗口输入快捷键： /新春佳节
+
+　　在聊天窗口输入快捷键： /有意义就是好好活，好好活就是做有意义的事
+
+　　在聊天窗口输入快捷键： /我是会员我最水产最强大
+
+　五.教你建立一个别人不能碰触的无敌文件夹
+
+　　教大家建立一个别人既无法进入又无法删除的文件夹相信大家都遇到过自己的一些隐私文件不愿意让别人看到的情况吧，怎么解决呢?隐藏起来?换个名字?或者加密?这些办法都可以办到，其实还有一种方法，就是建立一个别人既不能进入又不能删除的文件夹，把自己的隐私文件放进去，别人就看不到啦，下面讲讲
+
+　　如何实现，很简单的。^_^
+
+　　第一步：在运行中输入cmd，回车，打开命令行窗口
+
+　　第二步：在命令行窗口中切换到想要建立文件夹的硬盘分区，如D盘
+
+　　第三步：输入MD123..\回车，注意文件夹名后有2个小数点OK，搞定，看看你的D盘下面是不是多了一个名为123.的文件夹了?它是既不
+
+　　能进入又不能被删除的!不信你就试试看吧^_^
+
+　　那么，如果自己想删除或者进入这个文件夹，又应该如何操作呢?同样也很简单。
+
+　　如果想删除，在命令行窗口中输入rd123..\回车，即可删除，当然删除前请确认里面的文件都是不需要的，不要删错了，呵呵。如果想进入，在命令行窗口中输入startd:\123..\(注意这里一定要是文件夹的绝对路径，否则无法打开即可打开此文件夹，你就可以随心所欲的把不想让别人看到的资料放进去啦!
+
+
+
+　　通常放在这里面的都是不太方便让人看到的，因为自己看都不太方便)
+
+　六.个性化把你的名字刻在IE上
+
+　　正常我们看到IE浏览器，一直以来的都是微软的那串英文字母，我们修改台头
+
+　　Title来个性化一点 呵呵
+
+　　打开注册表(运行 regedit)
+
+　　[HKEY_CURRENT_USER\Software\microsoft\Internet Explorer\Main]
+
+　　在里面添加字符串值“Window Title”
+
+　　例如：
+
+　　"Window Title"="丄.谛"
+
+
+
+　　我写的是：恭喜发财、大吉大利、龙马精神、四季平安、招财进宝、美女如云，哇哈哈哈……结果发现写不下)
+
+　七.教你让一台电脑只能上允许的QQ
+
+　　简单的说就是叫你本机电脑只能上你想上的QQ ,别人的全部上不了(.
+
+　　不要错了步骤
+
+　　首选，将自己的QQ号码登录一次(意思是说,登陆QQ的框框中只有你一个人的QQ号)，必须做这一步，否则经过下面的操作后，连你自己也不能使用QQ了。然后打开QQ安装目录，把其他人的QQ号都删掉,在安装目录中找到“WizardCtrl.dll”(动态链接库文件)，将该文件删除或者移动到其他的目录中(如果你删了 想再叫别人上就难了 如果把它移动到你的QQ帐号里 那样什么时候想解除本功能 弄回来就好了)
+
+　　然后再看 哈哈 别人的QQ根本登陆不上去 除非他知道这样做 把这个文件再恢复过来 否则........嘿嘿 别上.不让别人上QQ又一方法
+
+　　看了会P处理，随便写了个。。。
+
+　　你是学生吗?是住在宿舍吗?
+
+　　你有电脑吗?你的同学是不是经常用你的电脑玩网络游戏?而你又不好意思不让玩?
+
+　　教你一招。自造一个程序即可实现。(本程序只对需要访问网络的程序有效)
+
+　　比如不想让你的朋友上QQ。那么请你依次打开QQ的安装目录。如：X:\ProgramFiles\Tencent\qq (X代表你QQ的安装盘)
+
+　　X:\Program Files\Thunder
+
+　　X:\Program Files\魔兽世界
+
+　　新建文本文件输入
+
+　　——————————
+
+　　taskkill /im qq.exe /f
+
+　　echo >ws2_32.dll
+
+　　——————————
+
+　　以上代码保存为“禁止.bat”
+
+　　——————————
+
+　　del /f /s /q ws2_32.dll
+
+　　_________________
+
+　　以上代码保存为“允许.bat”
+
+　　前几天还看到一个删除WizardCtrl.dll文件的方法。这个方法也不错，不过把QQ
+
+　　本身的文件删来删去的毕竟不太好吧。
+
+　　压缩后仅218字节。
+
+　　(以上的方法用可以，但是千万别让人知道是你做的)
+
+　八.Word小技巧：遇到不会读的字怎么办
+
+　　查字典吗，太麻烦，虽然有输入法可以用笔画输入后找到该字的拼音，但一来输入比较麻烦;二来也没有声调，让人很不愉快。其实在Word2003中集成了一个读音字典，很多字都能查到读音和声调，超方便。启动Word2003，新建一个文档，将不认识的字拷贝到文档中，选中它们，然后用鼠标点击“格式→中文版式→拼音指南”，在弹出的窗口中就有这些字词的拼音，上面还有音调，好玩吧!
+
+　　(教点有用的吧，不然很影响本人在同学心目中的形象)
+
+  九.开始→运行(cmd)命令大全
+
+　　gpedit.msc-----组策略　　　　　　　　　　　　　　　　 sndrec32--　　-----录音机
+
+　　Nslookup-------IP地址侦测器　　　　　　　　　　　　　 explorer----　　---打开资源管理器
+
+　　logoff---------注销命令　　　　　　　　　　　　　　　 tsshutdn----　　---60秒倒计时关机命令
+
+　　lusrmgr.msc----本机用户和组　　　　　　　　　　　　　 services.msc　　---本地服务设置
+
+　　oobe/msoobe /a----检查XP是否激活　　　　　　　　　　　notepad-----　　---打开记事本
+
+　　cleanmgr-------垃圾整理　　　　　　　　　　　　　　　 net start　　messenger----开始信使服务
+
+　　compmgmt.msc---计算机管理　　　　　　　　　　　　　　 net stop　　messenger-----停止信使服务
+
+　　conf-----------启动netmeeting　　　　　　　　　　　　 dvdplay-----　　---DVD播放器
+
+　　charmap--------启动字符映射表　　　　　　　 diskmgmt.msc---磁盘管理
+
+　　实用程序
+
+　　calc-----------启动计算器　　　　　　　　　　　　　　 dfrg.msc----　　---磁盘碎片整理程序
+
+　　chkdsk.exe-----Chkdsk磁盘检查　　　　　　　　　　　　 devmgmt.msc-　　-- 设备管理器
+
+　　regsvr32 /u *.dll----停止dll文件运行　　　　　　　　　drwtsn32----　　-- 系统医生
+
+　　rononce -p ----15秒关机　　　　　　　　　　　　　　　 dxdiag------　　---检查DirectX信息
+
+　　regedt32-------注册表编辑器　　　　　　　　　　　　　 Msconfig.exe　　---系统配置实用程序
+
+　　rsop.msc-------组策略结果集　　　　　　　　　　　　　 mem.exe-----　　---显示内存使用情况
+
+　　regedit.exe----注册表　　　　　　　　　　　　　　　　 winchat-----　　---XP自带局域网聊天
+
+　　progman--------程序管理器　　　　　　　　　　　　　　 winmsd------　　---系统信息
+
+　　perfmon.msc----计算机性能监测程序　　　　　　　　　　 winver------　　---检查Windows版本
+
+　　sfc /scannow-----扫描错误并复原　　　　　　　　　　　 winipcfg----　　---IP配置
+
+　　taskmgr-----任务管理器(2000/xp/2003)　　　　　　　command-----　　---cmd
+
+　　fsmgmt.msc 共享文件夹　　　　　　　　　　　　　　　　 netstat -an-　　---查看端口
+
+　　osk 屏幕键盘　　　　　　　　　　　　　　　　　　　　　install.asp-　　---修改注册网页
+
+　　eventvwr.msc 时间查看器
+
+　　secpol.msc 本地安全设置
+
+　　services.msc 服务
+
+　　2K
+
+　　accwiz.exe > 辅助工具向导
+
+　　acsetups.exe > acs setup dcom server executable
+
+　　actmovie.exe > 直接显示安装工具
+
+　　append.exe > 允许程序打开制定目录中的数据
+
+　　arp.exe > 显示和更改计算机的ip与硬件物理地址的对应列表
+
+　　at.exe > 计划运行任务
+
+　　atmadm.exe > 调用管理器统计
+
+　　attrib.exe > 显示和更改文件和文件夹属性
+
+　　autochk.exe > 检测修复文件系统
+
+　　autoconv.exe > 在启动过程中自动转化系统
+
+　　autofmt.exe > 在启动过程中格式化进程
+
+　　autolfn.exe > 使用长文件名格式
+
+　　bootok.exe > boot acceptance application for registry
+
+　　bootvrfy.exe > 通报启动成功
+
+　　cacls.exe > 显示和编辑acl
+
+　　calc.exe > 计算器
+
+　　cdplayer.exe > cd播放器
+
+　　change.exe > 与终端服务器相关的查询
+
+　　charmap.exe > 字符映射表
+
+　　chglogon.exe > 启动或停用会话记录
+
+　　chgport.exe > 改变端口(终端服务)
+
+　　chgusr.exe > 改变用户(终端服务)
+
+　　chkdsk.exe > 磁盘检测程序
+
+　　chkntfs.exe > 磁盘检测程序
+
+　　cidaemon.exe > 组成ci文档服务
+
+　　cipher.exe > 在ntfs上显示或改变加密的文件或目录
+
+　　cisvc.exe > 索引内容
+
+　　ckcnv.exe > 变换cookie
+
+　　cleanmgr.exe > 磁盘清理
+
+　　cliconfg.exe > sql客户网络工具
+
+　　clipbrd.exe > 剪贴簿查看器
+
+　　clipsrv.exe > 运行clipboard服务
+
+　　clspack.exe > 建立系统文件列表清单
+
+　　cluster.exe > 显示域的集群
+
+　　_cmd_.exe > 没什么好说的!
+
+　　cmdl32.exe > 自动下载连接管理
+
+　　cmmgr32.exe > 连接管理器
+
+　　cmmon32.exe > 连接管理器监视
+
+　　cmstp.exe > 连接管理器配置文件安装程序
+
+　　comclust.exe > 集群
+
+　　comp.exe > 比较两个文件和文件集的内容*
+
+　　compact.exe > 显示或改变ntfs分区上文件的压缩状态
+
+　　conime.exe > ime控制台
+
+　　control.exe > 控制面板
+
+　　convert.exe > 转换文件系统到ntfs
+
+　　convlog.exe > 转换iis日志文件格式到ncsa格式
+
+　　cprofile.exe > 转换显示模式
+
+　　cscript.exe > 较本宿主版本
+
+　　csrss.exe > 客户服务器runtime进程
+
+　　csvde.exe > 日至格式转换程序
+
+　　dbgtrace.exe > 和terminal server相关
+
+　　dcomcnfg.exe > dcom配置属性
+
+　　dcphelp.exe > ?
+
+　　dcpromo.exe > ad安装向导
+
+　　ddeshare.exe > dde共享
+
+　　ddmprxy.exe >
+
+　　debug.exe > 就是debug啦!
+
+　　dfrgfat.exe > fat分区磁盘碎片整理程序
+
+　　dfrgntfs.exe > ntfs分区磁盘碎片整理程序
+
+　　dfs_cmd_.exe > 配置一个dfs树
+
+　　dfsinit.exe > 分布式文件系统初始化
+
+　　dfssvc.exe > 分布式文件系统服务器
+
+　　diantz.exe > 制作cab文件
+
+　　diskperf.exe > 磁盘性能计数器
+
+　　dllhost.exe > 所有com 应用软件的主进程
+
+　　dllhst3g.exe >
+
+　　dmadmin.exe > 磁盘管理服务
+
+　　dmremote.exe > 磁盘管理服务的一部分
+
+　　dns.exe > dns applications dns
+
+　　doskey.exe > 命令行创建宏
+
+　　dosx.exe > dos扩展
+
+　　dplaysvr.exe > 直接运行帮助
+
+　　drwatson.exe > 华生医生错误检测
+
+　　drwtsn32.exe > 华生医生显示和配置管理
+
+　　dtcsetup.exe > installs mdtc
+
+　　dvdplay.exe > dvd播放
+
+　　dxdiag.exe > direct-x诊断工具
+
+　　edlin.exe > 命令行的文本编辑器(历史悠久啊!)
+
+　　edlin.exe > 命令行的文本编辑器(历史悠久啊!)
+
+　　esentutl.exe > ms数据库工具
+
+　　eudcedit.exe > type造字程序
+
+　　eventvwr.exe > 事件查看器
+
+　　evnt_cmd_.exe > event to trap translator; configuration tool
+
+　　evntwin.exe > event to trap translator setup
+
+　　exe2bin.exe > 转换exe文件到二进制
+
+　　expand.exe > 解压缩
+
+　　extrac32.exe > 解cab工具
+
+　　fastopen.exe > 快速访问在内存中的硬盘文件
+
+　　faxcover.exe > 传真封面编辑
+
+　　faxqueue.exe > 显示传真队列
+
+　　faxsend.exe > 发送传真向导
+
+　　faxsvc.exe > 启动传真服务
+
+　　fc.exe > 比较两个文件的不同
+
+　　find.exe > 查找文件中的文本行
+
+　　findstr.exe > 查找文件中的行
+
+　　finger.exe > 一个用户并显示出统计结果
+
+　　fixmapi.exe > 修复mapi文件
+
+　　flattemp.exe > 允许或者禁用临时文件目录
+
+　　fontview.exe > 显示字体文件中的字体
+
+　freecell.exe > popular windows game 空当接龙

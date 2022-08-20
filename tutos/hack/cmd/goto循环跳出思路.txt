@@ -1,0 +1,5 @@
+tasklist | findstr cmd | find /v /c ""
+@rem 也可以单独使用 tasklist | find /c "cmd"
+@rem find /v 可以显示字符串行数，/c可以仅显示包含字符串行数
+@rem 单独/v后面""的内容是去除掉的，比如/v "cmd"则不显示含有cmd的项 
+@rem 所以find /v /c ""的意思是查找非空的条目并显示行数

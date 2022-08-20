@@ -1,0 +1,43 @@
+for /r X:\ %i in(*.txt) do echo %i
+查找X盘所有txt文件并显示
+
+for %i in （1 2 3 4 5） do echo %i
+把12345给辨认出来，并回答出来
+批处理应用：for %%i in （1 2 3 4 5） do echo %%i
+（注：批处理中要用两个%）
+
+for %i in (D:\233*) do echo %i
+辨认D盘种名字含有233的全部文件并显示
+for %i in (D:\*.txt) do echo %i
+辨认D盘种含有233后缀的全部文件并显示
+
+for /d %i in (*) do echo %i
+筛选出所有目录（/d即是筛选）
+for /d %i in (D：\*) do echo %i
+筛选出D盘所有目录
+因为是直接扫描目录的，所以前面/d后面不可以加盘，要在括号内加
+
+for /r f:\ %i in (*.txt)
+扫描出F盘所有txt文件（/r即是扫描）
+因为是扫描文件的，所以可以在/r后面直接加盘
+
+for /f … 可以打开文件对内容进行操作
+for /f %i in (D:\233.txt) do echo %i
+显示D盘233.txt的内容
+for %i in (D:\233.txt) do echo %i
+只打印出来233的路径
+
+for /f "delims= " %i in (D:\233.txt) do echo %i
+以空格作为分格符，即字符与字符间多个空格为分格，
+若文档为1 3 5  则只会显示1，因为后面默认为第一列
+for /f "delims=" %i in (D:\233.txt) do echo %i
+则完全显示，因为没有分格
+
+for /f "token=2 delims= " %i in (D:\233.txt) do echo %i %j
+token代表提取的列数，需要先分格，否则不能提取第2列，因为这只算1列
+
+for /f "token=1,2 delims= " %i in (D:\233.txt) do echo %i %j
+提取1、2列，因为文档只有一个变量不够，所以需要用两个变量来显示两列
+
+for /f "skip=1 token=1,2 delims= " %i in (D:\233.txt) do echo %i %j
+跳掉第一行，提取1、2列，就显示第2、3行的前两个列

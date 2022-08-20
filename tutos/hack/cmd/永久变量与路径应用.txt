@@ -1,0 +1,12 @@
+set一般是临时变量
+setx为永久变量
+
+setx PATH "%path%；C：\pyhon"改变python路径
+通常要重新开启一次cmd才能生效
+
+set查看变量
+然后其中显示到 PATH=pyhon
+之后你便可以直接输入python进入 python的界面
+
+否则会显示既不是内部也不是外部应用，
+不能直接跳转到python

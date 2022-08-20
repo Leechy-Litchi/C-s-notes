@@ -1,0 +1,12 @@
+ping -t IP/网站
+一直发送直到ctrl+c停止
+ping -n 数量 网站
+发多少次
+
+ping -l 大小 IP/网站   （l即large）
+默认32字节
+
+ping -a IP
+显示主机名称及主机地址
+hostname查看自身主机名字
+

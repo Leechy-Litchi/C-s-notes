@@ -1,0 +1,12 @@
+shutdown /p为关闭计算机无警告   /s 关闭  /t 加时间  /r关闭重启
+/i  可以打开GUI，对于多个计算机可以远程关闭
+/c 加说的话        /m \\计算机名 /f 强制关闭 
+
+
+attrib XXX.xxx
+调查XXX问卷的属性，txt一般为A  存档文件
+attrib +r XXX.txt  （可以用多个 比如 +r +s）
+XXX.txt变成存档+可读文件
+attrib -r XXX.txt （可以用多个 比如 -r -s）
+取消可读
+h为隐藏文件 

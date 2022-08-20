@@ -1,0 +1,30 @@
+netstat 
+-a全部 -an全部且用数字显示IP与端口
+-ano IP、端口、状态、找到进程pid号
+
+一般状态有LISTENING监听状态，只是开启端口未连接
+ESTABLISHED已经开了的   还有一个超时的
+
+netstat -ano |findstr XXXXX
+单独提取端口未XXXXX的网络协议
+
+taskklist |findstr XXXX
+找到PID号为XXXX的软件进程
+
+taskkill /im 软件 /f
+/im进程树 /f强制关
+
+net user 查看当前网络的用户
+net user 用户名 /add
+net user 用户名 /del
+net user 已有的用户名 /active:yes（no） 有箭头为关闭
+lusrmgr.msc查看网络用户
+
+net localgroup administrators 用户名 /add
+将某成员加入本地组
+
+net share 查看分享
+net share f=F：/    共享F盘
+net share f /del  取消共享
+net view \\主机名   查看某机的共享文件
+net start/stop 服务（可打开services.msc查看）打开/停止某服务

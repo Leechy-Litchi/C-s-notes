@@ -1,0 +1,18 @@
+wget获得资源 相当于爬虫
+支持断点下载以及网站下载
+
+wget www.XXX.com
+
+-r（recursive）下载整个网站以及目录（有的网站很大，小心使用）
+-o (output)下载到某文件夹
+-i (input)从文件中取得url
+
+
+HKEY_CURRENT_USER对当前计算机用户生效
+HKEY_LOCAL_MACHINE对该机器所有用户生效
+
+reg进行修改注册表
+reg query 注册表目录   可以查询该目录下的注册信息
+reg add 添加一个值
+reg del
+reg export  reg import（很少用）

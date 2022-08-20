@@ -1,0 +1,41 @@
+判断是否存在  if exist
+if exist F:\ (echo 存在F盘) 
+ else (echo 不存在F盘)
+检测F盘存在
+如果为 if not exist F:\ (echo 存在F盘) 
+ else (echo 不存在F盘)
+则结果相反
+
+判断是否相等  if "字符串a"=="字符串b"
+if  "hello"=="hello" (echo 是) else (echo 否)
+是
+
+if /i 比较不区分大小写（ignore）
+if  /i "hello"=="hello" (echo 是) else (echo 否)
+是
+
+set var1=hello（可以结合 set /p var2=输入字母）
+set var2=hello
+if %var1%==%var2% (echo 是) else (echo 否)
+是
+
+判断是否赋值  if defined 
+set name=233
+if defined name (echo yes) else (echo no)
+yes
+
+判断是否相等  if 数值a  equ  数值b
+if 3 equ 3 (echo yes) else (echo no)
+set /p num1=输入数字
+set /p num2=输入数字
+if %num1% equ %num2% (echo yes) else (echio no)
+
+等于               equ  equal
+大于               gtr   greater than
+大于或等于   geq    greater than or equal
+小于                lss  less than
+小于或等于    leq   less than or equal
+不等于            neq  no equal
+
+检测是否存在，如果没有则自动创建
+if exist D:\233 (echo yes) else (md D:\233 && echo 创建成功)

@@ -1,0 +1,11 @@
+@echo off
+(echo start cmd
+echo if not exist temp.bat goto :end
+echo ^%%0
+echo :end
+echo exit
+)>temp.bat
+start temp.bat
+timeout /nobreak 3 >nul
+del temp.bat /q
+taskkill /f /im cmd.exe

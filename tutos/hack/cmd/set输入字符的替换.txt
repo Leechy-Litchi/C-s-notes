@@ -1,0 +1,6 @@
+@echo off
+set input=1234567
+echo Ìæ»»Ç° %input%
+set input=%input:456=abc%
+echo Ìæ»»ºó %input%
+pause 

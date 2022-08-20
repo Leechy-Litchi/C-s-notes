@@ -1,0 +1,42 @@
+Mountvol
+创建、删除或列出卷的装入点。Mountvol 是一种不需要驱动器号而连接卷的方式。
+语法：
+mountvol [Drive:]Path VolumeName
+mountvol [Drive:]Path /d
+mountvol [Drive:]Path /l
+mountvol [Drive:]Path /p
+mountvol /r
+mountvol /n
+mountvol /e
+mountvol Drive:/s
+
+[Drive:]Path
+    指定装入点将驻留其中的现有 NTFS 目录文件夹。 
+VolumeName
+    指定装入点目标卷的卷名。该卷名结构为 \\?\Volume{GUID}\，其中 {GUID} 为全局唯一标识符 (GUID)（例如，\\?\Volume\{2eca078d-5cbc-43d3-aff8-7e8511f60d0e}\）。 
+/d
+    从指定文件夹中删除卷装入点。 
+/l
+    列出指定文件夹装入的卷名。 
+/p
+    从指定的目录中删除卷装入点、卸载基本卷、使基本卷脱机，使其不可安装。如果其他过程正在使用该卷，则 mountvol 将在卸载该卷之前关闭所有打开的句柄。使用 /p 卸载的卷将在卷列表中作为 NOT MOUNTED UNTIL A VOLUME MOUNT POINT IS CREATED（创建卷装入点后才安装）列出。如果该卷不只一个装入点，则在使用 /p 之前请使用 /d 删除其他装入点。可通过指派卷装入点而使基本卷可以重新安装。 
+/r
+    删除系统中不再存在的卷的装入点目录和注册表设置。这将防止以前在系统中的卷自动被装入，并防止将在添加回系统时被授予以前的卷装入点。 
+/n
+    禁用新基本卷的自动装入。新卷添加到系统时不会自动装入。 
+/e
+    重新启用新基本卷的自动装入。 
+/s
+    仅限于基于
+    Itanium计算机。装入指定驱动器上的
+    EFI 系统分区。 
+/?
+    在命令提示符下显示帮助。 
+
+
+mountvol C: /d   （删除挂载的C盘，慎用！！！！）
+建议在别的盘里先复制一份mountvol.exe
+然后用这个exe输入mountvol /e
+查看出C盘的卷名
+然后右键打开cmd的“标记”，复制上卷名
+输入mountvol C: 卷名（注意C：和卷名中有空格）

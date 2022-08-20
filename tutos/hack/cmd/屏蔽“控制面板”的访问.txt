@@ -1,0 +1,6 @@
+1、首先在开始菜单中的运行栏中输入regedit命令，打开注册表编辑器操作界面；
+　　2、接着在该界面中，依次用鼠标访问//HKEY_CURRENT_USER/Software/Microsoft/ Windows/CurrentVersion/Policies/System键值；
+
+　　3、随后在对应System键值的右边窗口中，用鼠标右键单击该窗口的空白处，并从弹出的快捷菜单中选择“新建”/“DWORD”命令，来新建一个DWORD值；
+
+　　4、把DWORD值的名称命名为NoDispCPL，同时设置NoDispCPL的值为1。

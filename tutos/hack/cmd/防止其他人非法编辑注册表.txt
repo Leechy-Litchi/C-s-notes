@@ -1,0 +1,7 @@
+　　1、首先在注册表编辑界面中，找到HKEY_CURRENT_USER/Software/Microsoft/Windows/CurrentVersion/Policies/键值；
+
+　　2、然后在Policies键值的下面新建一个System主键，如果该主键已经存在的话，可以直接进行下一步；
+
+　　3、接着在对应System主键右边窗口的空白处再新建一个DWORD串值，并命名为DisableRegistryTools；
+
+　　4、把DisableRegistryTools的值设置为1，设置好以后，重新启动计算机就可以达到防止其他人非法编辑注册表的目的了。

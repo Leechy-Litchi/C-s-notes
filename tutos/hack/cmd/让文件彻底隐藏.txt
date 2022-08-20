@@ -1,0 +1,4 @@
+“运行”对话框中输入“regedit”，打开注册表编辑器；
+HKEY_LOCAL_MACHINESoftwareMicrosoftWindowsCurrentVersionexplorerAdvancedFolderHiddenSHOWALL，CheckedValue键值项，将它的键值修改为“0”，如果没有该健值的话，可以自己新建一个名为“CheckedValue”的“DWORD值”，然后将其值修改为“0”即可。
+
+最后退出注册表编辑器，重新启动计算机，接下来你就发现设置为“隐藏”属性的文件可以彻底隐身了，即使是在“文件夹选项”窗口中选择“显示所有文件”，我们隐藏的文件也不会露出来了。

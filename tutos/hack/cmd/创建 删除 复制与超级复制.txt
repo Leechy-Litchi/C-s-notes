@@ -1,0 +1,14 @@
+md  用法：md e：\XXX   创建文件夹
+注：如del /q X：\233\*（删掉233内所有文件）
+  后面加/q代表命令实行时不显示 
+
+copy 文件或文件夹名 X：\xxx
+copy X：\xxx.xxx X：\
+（注：copy基本只能复制一个文件，而xcopy可以复制整个目录）
+xcopy XXX X：\XXX /e 
+把XXX文件夹复制到X盘的XXX中  /e代表复制所有文件
+/s不复制空目录
+（ctrl+c可以中断指令）
+
+rename XXX xxx   将XXX文件夹改名xxx
+rename XXX.txt xxx.ttx  可以随便改后缀，重命名文件

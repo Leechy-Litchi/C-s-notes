@@ -1,0 +1,32 @@
+打开gpedit.msc
+计算机配置
+管理模块
+网络
+Qos
+限制可保留宽带
+启用，然后调成0
+
+刷新DNS缓存
+ipconfig /flushdns
+
+netsh interface tcp show global
+接受端缩放状态
+接受窗口自动调节级别
+若不是正常可以用
+接收方缩放状态：netsh int tcp set global rss=enabled
+烟囱卸载状态 ：netsh int tcp set global chimney=automatic
+NetDMA 状态：netsh int tcp set global netdma=enabled
+直接缓存访问(DCA)：netsh int tcp set global dca=enabled
+接收窗口自动调谐级别：netsh int tcp set global autotuninglevel=normal
+附加拥塞控制提供程序 netsh interface tcp set global congestionprovider=ctcp
+ECN 功能：netsh int tcp set global ecncapability=disabled
+RFC 1323 时间戳：netsh int tcp set global timestamps=enabled
+
+优化网卡缓存配合使用
+MSINFO32.EXE
+硬件资源→IRQ
+在右侧的资源框中找出网卡所使用的IRQ资源
+修改“system.ini”文件，开始，搜索system.ini 
+找到“[386enh]”段落，在下面加上“IRQ16=6144”保存该文件，重新启动
+系统
+更改前可先复制默认状态，觉得不好，把最后的参数与你的默认值匹配就好了

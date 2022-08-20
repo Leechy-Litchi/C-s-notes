@@ -1,0 +1,20 @@
+|  命令管道符 将第一条的结果沿用到第二条命令
+
+if exist D:xxx.rar (echo 存在合格压缩文件)
+else (type nul>D:\xxx.rar && echo echo 创建成功)
+pasue >nul
+在else里的xxx.rar后可加errorlevel来进行判断，如果成功为0，失败为数值
+
+直接输入errorlevel会错误
+echo %errorlevel%  显示上一条命令执行失败
+
+dir D：\ |find "xxx"
+dir为查询作用，find寻找D盘内与“xxx”有关的文件
+
+dir D：\ |findstr "xxx"与上面的差不多，不过有筛选的能力
+
+netstat -ano
+找网络连接
+netstat -ano |findstr TCP
+只寻找TCP
+

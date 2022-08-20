@@ -1,0 +1,22 @@
+>   将输出信息指向某处(只保留本次操作，因为第二次的操作覆盖了上一次)
+如:ping www.zjsnwiki.com >a.txt
+dir >1.txt会生成一个txt里面是dir出的信息
+type nul>XXX.txt
+最后XXX.txt会无字符
+
+>> 同上(可保留所以操作信息，不会覆盖)
+
+<   将储存的信息导出进行操作
+     如:sort<a.txt
+相当于type a.txt
+
+句柄数字代码描述:
+     0 键盘输入  
+     1 输出到命令提示窗口
+     2 错误输出
+
+di >right.txt 2>error.txt
+若正确则输入至right.txt  错误则输入与error.txt
+
+paust>nul可以不显示文字的暂停
+set /p=XXX <nul可以不输入地显示文字

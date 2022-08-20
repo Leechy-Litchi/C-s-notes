@@ -1,0 +1,25 @@
+set 显示、设置、删除变量
+比如：programfiles即系统文件夹   
+变量名：programfiles=C：\programfiles
+
+set systemdrive 打开拥有系统变量的文件
+
+set name=xxx
+（设name=xxx）
+set name  （显示name的意义）
+显示：name=xxx
+
+set name=
+即取消定义
+
+set /a 5+7   （表达式运算）
+
+set /a var=4/2 （设var=4除2，求var）
+echo %var%  （回答var值）
+pause >nul  （不显示请按任意键继续）  
+
+set /p var=请输入数字：
+echo 你输入的数字是%var% 
+/p可以让你手动输入进行更改定义
+（下面为动态环境变量）
+var=%DATE%（变量的数值为时间）   var=%RANDOM%  var=%CD%

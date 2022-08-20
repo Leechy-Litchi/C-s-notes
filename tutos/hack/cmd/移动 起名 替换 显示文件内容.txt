@@ -1,0 +1,18 @@
+move XXX或xxx.txt X:\
+
+move d:\xxx.txt f:\XXX.TXT
+可以复制时改名，相当于重命名
+
+ren f:\xxx.txt d:\XXX.TXT
+相当于rename 不过少写了字
+
+type X：\xxx.txt 
+显示文档内容
+
+replace /s f:\xxx.txt d:\
+（substitute代替）替换掉所有子目录同名的文件
+/p  提醒你是否替换
+/u 将老文件替换成新文件
+
+replace /a f:\xxx.txt d:\
+添加新文件  

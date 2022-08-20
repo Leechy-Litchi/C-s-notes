@@ -1,0 +1,1 @@
+如果其他磁盘还有空间 并且不想用分区软件拓展分区的话可以试试复制以后 mklink把一些目录link到其他磁盘以减少c盘空间使用 先要确保软件已经停止运行 写了一点简单的命令 复制下来粘贴到命令提示符管理员模式 回车以后按照提示输入或右键粘贴即可使用 set /p original_folder=源目录(例如C:\test Application\test):&amp;&amp;set /p target_folder=要移动到的目录(例如X:\test):&amp;&amp;move "%original_folder%" "%target_folder%"&amp;&amp;mklink /j "%original_folder%" "%target_folder%"

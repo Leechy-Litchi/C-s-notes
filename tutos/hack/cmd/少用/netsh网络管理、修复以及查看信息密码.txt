@@ -1,0 +1,24 @@
+netsh dump > X:\X.txt
+将网络配置倒入X.txt
+netsh interface ipv4
+查看IPV4的文件
+
+改IP地址
+set address name="本地连接" source=static（静态） addr=你的IP地址 mask=255.255.255.0
+改为动态IP即自动获取，将static改为dscp
+
+set address name="本地连接" gateway=要改的网关 gwmetric=要改的DNS
+
+netsh winsock reset  重置winsock目录，将协议重置
+netsh int ip reset c:\resetlog.txt重置TCP/IP协议，回到初次安装时的状态
+（打开Firewall.cpl）
+netsh firewalls set opmode mode=disable（enable启用） （关闭防火墙）
+
+netsh wlan show profiles 查看当前系统已经保存的网络
+netsh wlan show profile name="XXXXX"key=clear 查看wifi密码
+
+
+解决网络故障
+ipconfig /release 释放IP
+IPconfig /renew 重新获得IP
+ipconfig /flushdns 刷新DNS

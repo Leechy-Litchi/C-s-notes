@@ -1,0 +1,30 @@
+curl -x -post
+curl -XPOST
+使用post
+-d 指定数据
+比如加入'{"token":""}'
+
+还有更新用的-XPUT
+删除用的-XDELETE
+
+-h 指定header
+注意每个header要独立写
+比如-h 'Content-Type:xxx'   -h 'Application/json:xxx'
+
+-I 获取响应的首部
+
+-L  跟随重定向
+
+-O 	      下载文件
+-o 名称 链接  下载文件
+
+--limit-rate  限速，不设置单位默认是字节，可以用k/m/t
+
+-C - 重连下载，注意，不需要额外参数要补充-
+
+-v 显示详细信息，比如握手信息，常用-Iv
+
+-u 用户名:密码    常用于FTP
+-u 用户名:密码 -T 文件 FTP   以某用户上传文件 
+
+--proxy 协议://用户名:密码@代理地址:端口
