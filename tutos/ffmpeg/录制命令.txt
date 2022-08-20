@@ -1,0 +1,36 @@
+FFmpeg也可以用于录制视频音频
+
+录制屏幕
+
+# 录制屏幕，输出到d:/out.mp4
+ffmpeg -f gdigrab -i desktop -f mp4 d:/out.mp4
+# -r设置帧率
+
+
+
+此命令用于录制视频，无法录制声音，按q退出
+
+录制音频
+
+# 查看设备
+ffmpeg -f dshow -list_devices true -i dummy
+
+
+
+执行完看到如下结果
+
+设备
+
+# 录制麦克风
+ffmpeg -f dshow -i audio="麦克风 (Realtek High Definition Audio)" -acodec libmp3lame audio.mp3
+# 录制系统声音，立体声看不见可能是被禁用了
+ffmpeg -f dshow -i audio="立体声混音 (Realtek High Definition Audio)" -acodec libmp3lame audio.mp3
+
+
+
+同时录制音频视频
+
+# 录制屏幕和系统声音
+ffmpeg -f dshow -i audio="立体声混音 (Realtek High Definition Audio)" -f gdigrab -i desktop -f mp4 d:/out.mp4
+# 录制屏幕和麦克风
+ffmpeg -f dshow -i audio="麦克风 (Realtek High Definition Audio)" -f gdigrab -i desktop -f mp4 d:/out.mp4

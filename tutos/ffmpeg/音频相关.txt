@@ -1,0 +1,35 @@
+格式转换
+
+和视频格式转换基本一致
+
+ffmpeg -i input.mp2 output.wav
+# 转换过程中也可以指定其他参数
+ffmpeg -i null.ape -ar 44100 -ac 2 -ab 16k -vol 50 -f mp3 null.mp3
+
+
+-i代表输入参数
+-acodec aac（音频编码用AAC） 
+-ar 设置音频采样频率
+-ac  设置音频通道数
+-ab 设定声音比特率
+-vol <百分比> 设定音量
+
+    
+音频合成
+
+# 直接拼接
+ffmpeg -i "concat:input1.mp3|input2.mp3|input3.mp3" -c copy output.mp3
+# 或者混合在一起
+ffmpeg -i INPUT1 -i INPUT2 -i INPUT3 -filter_complex amix=inputs=3:duration=first:dropout_transition=3 OUTPUT
+
+
+音视频合成
+
+如果音频比视频长，就会停在最后一帧继续播放音频
+
+ffmpeg -i a.wav  -i a.avi out.avi
+
+
+截取音频
+
+ffmpeg64.exe -i 124.mp3 -vn -acodec copy -ss 00:00:00 -t 00:01:32 output.mp3
