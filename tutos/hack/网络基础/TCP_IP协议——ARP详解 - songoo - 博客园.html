@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="本文主要讲述了ARP协议的作用、ARP分组格式、ARP高速缓存、免费ARP和代理ARP。" />
+    <meta property="og:description" content="本文主要讲述了ARP协议的作用、ARP分组格式、ARP高速缓存、免费ARP和代理ARP。" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TCP/IP协议——ARP详解 - songoo - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=Y9jZElSXd1_SIyCam0BlUieX_j5gRAI1zEaKq7gMqLM" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=n3U4q5QAEaErnOJP8KTU7vRDG-uCbq1FKqkEeF0Yz9o" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/songwenlong/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/songwenlong/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/songwenlong/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 301628;
+        var currentBlogApp = 'songwenlong';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '5adef592-c39a-443f-1803-08d7eb74c09a';
+        var hasCustomScript = true;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-11-26 02:53';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8yHqQbEMVqWgCEBNqpXAa87B4C2SyNErr7L-TCIg-A0"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-coffee has-navbar">
+ 
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/songwenlong/p/6103406.html">
+    <span>TCP/IP协议——ARP详解</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			    <div id="cnblogs_post_description" style="display: none">
+        
+        本文主要讲述了ARP协议的作用、ARP分组格式、ARP高速缓存、免费ARP和代理ARP。
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>本文主要讲述了ARP的作用、ARP分组格式、ARP高速缓存、免费ARP和代理ARP。</p>
+<h2>1.学习ARP前要了解的内容</h2>
+<h3>建立TCP连接与ARP的关系</h3>
+<p>应用接受用户提交的数据，触发TCP建立连接，TCP的第一个SYN报文通过connect函数到达IP层，IP层通过查询路由表：</p>
+<p>　　如果<span style="color: rgba(255, 0, 0, 1)">目的IP和自己在同一个网段</span>：</p>
+<p><span style="color: rgba(0, 0, 255, 1)">　　当IP层的ARP高速缓存表中存在目的IP对应的MAC地址时</span>，则调用网络接口send函数（参数为IP Packet和目的MAC））将数据提交给网络接口，网络接口完成Ethernet Header + IP + CRC的封装，并发送出去；</p>
+<p><span style="color: rgba(0, 0, 255, 1)">　　当IP层的ARP高速缓存表中<span style="color: rgba(255, 0, 0, 1)">不</span>存在目的IP对应的MAC地址时</span>，则IP层将TCP的SYN缓存下来，发送ARP广播请求目的IP的MAC，收到ARP应答之后，将应答之中的&lt;IP地址，对应的MAC&gt;对缓存在本地ARP高速缓存表中，然后完成TCP SYN的IP封装，调用网络接口send函数（参数为IP Packet和目的MAC））将数据提交给网络接口，网络接口完成Ethernet Header + IP + CRC的封装，并发送出去；。</p>
+<p>　　如果<span style="color: rgba(255, 0, 0, 1)">目的IP地址和自己不在同一个网段</span>，就需要将包发送给默认网关，这需要知道默认网关的MAC地址：</p>
+<p>　　<span style="color: rgba(0, 0, 255, 1)">当IP层的ARP高速缓存表中存在默认网关对应的MAC地址时</span>，则调用网络接口send函数（参数为IP Packet和默认网关的MAC）将数据提交给网络接口，网络接口完成Ethernet Header + IP + CRC</p>
+<div>
+<div class="zm-editable-content clearfix"><span style="color: rgba(0, 0, 255, 1)">　　当IP层的ARP高速缓存表中<span style="color: rgba(255, 0, 0, 1)">不</span>存在默认网关对应的MAC地址时</span>，则IP层将TCP的SYN缓存下来，发送ARP广播请求默认网关的MAC，收到ARP应答之后，将应答之中的&lt;默认网关地址，对应的MAC&gt;对缓存在本地ARP高速缓存表中，然后完成TCP SYN的IP封装，调用网络接口send函数（参数为IP Packet和默认网关的MAC）将数据提交给网络接口，网络接口完成Ethernet Header + IP + CRC的封装，并发送出去。</div>
+</div>
+<h3>ARP的位置</h3>
+<p>　　OSI模型有七层，TCP在第4层传输层，IP在第3层网络层，而ARP在第2层数据链路层。高层对低层是有强依赖的，所以TCP的建立前要进行ARP的请求和应答。</p>
+<p>　　ARP高速缓存表在IP层使用。如果每次建立TCP连接都发送ARP请求，会降低效率，因此在主机、交换机、路由器上都会有ARP缓存表。建立TCP连接时先查询ARP缓存表，如果有效，直接读取ARP表项的内容进行第二层数据包的发送；只有表失效时才进行ARP请求和应答进行MAC地址的获取，以建立TCP连接。</p>
+<h3>ARP的作用</h3>
+<p><span class="fontstyle0">　　要了解ARP的作用，首先要分清两个“地址”：</span></p>
+<p><span class="fontstyle0">　　（1）TCP/IP的32bit IP地址。仅知道主机的IP地址不能让内核发送数据帧给主机。</span></p>
+<p><span class="fontstyle0">　　（2）网络接口的硬件地址，它是一个48bit的值，用来标识不同的以太网或令牌环网络接口。在硬件层次上，进行数据交换必须有正确的接口地址，内核必须知道目的端的硬件地址才能发送数据。</span></p>
+<p>　　简言之，就是<span class="fontstyle0">在以太网中，一台主机要把数据帧发送到同一局域网上的另一台主机时，</span><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">设备驱动程序必须知道以太网地址才能发送数据。而我们只知道IP地址，这时就需要采用ARP协议将IP地址映射为以太网地址。</span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　要注意一点，一般认为ARP协议只使适用于局域网。</span></span></span></p>
+<h2>2.ARP分组格式</h2>
+<p>　　ARP分组的格式如下图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/802212/201611/802212-20161126102714893-597098126.png" alt="" width="814" height="156"></p>
+<p>&nbsp;</p>
+<p>　　先要清楚，一般说<strong>以太网地址就是指MAC地址</strong>。</p>
+<p>　　字段1是ARP请求的目的以太网地址，全1时代表广播地址。</p>
+<p>　　字段2是发送ARP请求的以太网地址。</p>
+<p>　　字段3以太网帧类型表示的是后面的数据类型，ARP请求和ARP应答这个值为0x0806。</p>
+<p>　　字段4表示硬件地址的类型，硬件地址不只以太网一种，是以太网类型时此值为1。</p>
+<p>　　字段5表示要映射的协议地址的类型，要对IPv4地址进行映射，此值为0x0800。</p>
+<p>　　字段6和7表示硬件地址长度和协议地址长度，MAC地址占6字节，IP地址占4字节。</p>
+<p>　　字段8是操作类型字段，值为1，表示进行ARP请求；值为2，表示进行ARP应答；值为3，表示进行RARP请求；值为4，表示进行RARP应答。</p>
+<p>　　字段9是发送端ARP请求或应答的硬件地址，这里是以太网地址，和字段2相同。</p>
+<p>　　字段10是发送ARP请求或应答的IP地址。</p>
+<p>　　字段11和12是目的端的硬件地址和协议地址。</p>
+<p>&nbsp;</p>
+<p>下面是抓取的ARP数据包，可以对照上面的说明进行理解。</p>
+<p>图中红框圈起来的是一对ARP请求和ARP应答。</p>
+<p><img src="https://images2015.cnblogs.com/blog/802212/201611/802212-20161126102146893-49545375.png" alt="" width="843" height="243"></p>
+<p>&nbsp;</p>
+<p>下面两张图分别是ARP请求和相应的ARP应答的分组格式截图。</p>
+<p>&nbsp;</p>
+<p>　　ARP请求分组中，字段11目的MAC地址未知，用全0进行填充。</p>
+<p><img src="https://images2015.cnblogs.com/blog/802212/201611/802212-20161126111221659-1104961836.png" alt=""></p>
+<p>&nbsp;</p>
+<p>ARP应答分组中，将ARP请求中的源和目的地址进行交换，此外，变化的还有字段8 Opcode。其余字段内容不会发生变化。</p>
+<p><img src="https://images2015.cnblogs.com/blog/802212/201611/802212-20161126111229706-1754966155.png" alt=""></p>
+<p>那么我们是如何区分ARP请求和ARP应答分组的呢？</p>
+<p>　　分组中的地址字段和其他相同的字段无法作为区分依据，这时Opcode字段就发挥了作用，根据Opcode的值可以确定是请求还是应答，是ARP还是RARP。</p>
+<p>&nbsp;</p>
+<h2>3.ARP高速缓存</h2>
+<p>定义</p>
+<p>　　ARP缓存是一个缓冲区，用来储存IP地址和MAC地址，本质就是&lt;IP地址，MAC地址&gt;的对应表。表中一个条目记录了网络上一个主机的IP地址和其对应的MAC地址。</p>
+<p>　　每一个以太网或令牌环网络适配器都有自己单独的表。</p>
+<p>　　当地址解析协议被询问一个已知IP地址节点的MAC地址时，先在ARP缓存中查看，若存在，就直接返回与之对应的MAC地址，若不存在，才发送ARP请求向局域网查询。</p>
+<p>ARP缓存表项的生存时间TTL</p>
+<p>　　ARP缓存包含动态和静态项目：</p>
+<p>　　动态项目随时间推移自动添加和删除，每个动态ARP缓存项都有都设置了TTL(生存时间)，TTL为0时此项目就从表中删除，Windows下TTL一般不超过10分钟。</p>
+<p>　　静态 ARP 缓存条目是永久性的，可以使用 TCP/IP 工具手动添加和删除。静态 ARP 缓存条目用来禁止节点发送对常用的本地IPv4地址（例如路由器和服务器的 IPv4 地址）的ARP请求。</p>
+<p>ARP高速缓存的使用</p>
+<p align="left">　　当主机发送一个ARP请求时，先查看ARP高速缓存表，如果存在对应条目，则直接返回MAC地址，否则向局域网发送ARP请求广播。</p>
+<p>ARP高速缓存的优缺点</p>
+<p>　　优点：从ARP高速缓存的使用中可以看到，ARP高速缓存可以减小广播量，进而减小网络通信量，提高计算机之间的通信效率。</p>
+<p>　　缺点：造成安全隐患（参考下面免费ARP的作用）。</p>
+<h2>4.免费ARP</h2>
+<p>定义</p>
+<p>　　免费ARP指<span class="fontstyle0">主机发送<span class="fontstyle2">ARP<span class="fontstyle0">查找自己的<span class="fontstyle2">IP<span class="fontstyle0">地址，通常发生在系统引导期间进行接口配置时。</span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　与标准ARP的区别就是免费ARP分组的目的IP地址字段封装的是自己的IP地址，即向所在网络请求自己的MAC地址。</span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0">作用　</span></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0">　　免费<span class="fontstyle1">ARP的<span class="fontstyle0">作用有：<br><span class="fontstyle1">　　1) <span class="fontstyle0">一个主机可以通过它来确定另一个主机是否设置了相同的 <span class="fontstyle1">IP<span class="fontstyle0">地址。</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0">　　　正常情况下发送免费ARP请求不会收到ARP应答，如果收到了一个ARP应答，则说明网络中存在与本机相同的IP地址的主机，发生了地址冲突。</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle3"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><br><span class="fontstyle1">　　2)更新其他主机高速缓存中旧的硬件地址进行。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle3"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1">　　　<span class="fontstyle0">如果发送免费<span class="fontstyle1">ARP<span class="fontstyle0">的主机正好改变了硬件地址，如更换了接口卡。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle3"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0"><span class="fontstyle1"><span class="fontstyle0">　　　其他主机接收到这个ARP请求的时候，发现自己的ARP高速缓存表中存在对应的IP地址，但是MAC地址不匹配，那么就需要利用接收的ARP请求来更新本地的ARP高速缓存表表项。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><br></span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　3)网关利用免费ARP防止ARP攻击</span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　有些网关设备在一定的时间间隔内向网络主动发送免费ARP报文，让网络内的其他主机更新ARP表项中的网关MAC地址信息，以达到防止或缓解ARP攻击的效果。</span></span></span></span></span></p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　4)利用免费ARP进行ARP攻击</span></span></span></span></span></p>
+<p>　　ARP协议并不只在发送了ARP请求才接收ARP应答，计算机只要接收到ARP应答数据包，就会使用应答中的IP和MAC地址对本地的ARP缓存进行更新。</p>
+<p><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0"><span class="fontstyle2"><span class="fontstyle0">　　主机可以构造虚假的免费ARP应答，将ARP的源MAC地址设为错误的MAC地址，并把这个虚假的免费ARP应答发送到网络中，那么所有接收到这个免费ARP应答的主机都会更新本地ARP表项中相应IP地址对应的MAC地址。更新成功后，这些主机的数据报文就会被转发到错误的MAC地址，从而实现了ARP欺骗的攻击。</span></span></span></span></span></p>
+<p>&nbsp;</p>
+<h2>5.代理ARP</h2>
+<p>定义</p>
+<p>　　代理ARP就是通过使用一个主机(通常为router)，来作为指定的设备使用自己的 MAC 地址来对另一设备的ARP请求作出应答。</p>
+<p>为什么需要代理ARP？</p>
+<p>　　先要了解，路由器的重要功能之一就是把局域网的广播包限制在该网内，阻止其扩散，否则会造成网络风暴。</p>
+<p>　　ARP请求是个广播包，它询问的对象如果在同一个局域网内，就会收到应答。但是如果询问的对象不在同一个局域网该如何处理？路由器就提供的代理ARP为这个问题提供了解决方案。</p>
+<p>工作过程</p>
+<p>　　两台主机A和B处于同一网段但不同的广播段时，主机A发送ARP请求主机B的MAC地址时，因为路由器不转发广播包的原因，ARP请求只能到达路由器。如果路由器启用了代理ARP功能，并知道主机B属于它连接的网络，那么路由器就用自己接口的MAC地址代替主机B的MAC地址来对主机A进行ARP应答。主机A接收ARP应答，但并不知道代理ARP的存在。</p>
+<p>代理ARP的优缺点</p>
+<p>　　优点：代理ARP能在不影响路由表的情况下添加一个新的Router，使子网对该主机变得透明化。一般代理ARP应该使用在主机没有配置默认网关或没有任何路由策略的网络上。</p>
+<p>　　缺点：从工作工程可以看到，这其实是一种ARP欺骗。而且，通过两个物理网络之间的路由器的代理ARP功能其实互相隐藏了物理网络，这导致无法对网络拓扑进行网络概括。此外，代理ARP增加了使用它的那段网络的ARP流量，主机需要更大的ARP缓存空间，也不会为不使用ARP进行地址解析的网络工作。</p>
+<p><img id="uploading_image_99932" src="https://common.cnblogs.com/images/loading.gif" alt=""></p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2016-11-26 14:53</span>&nbsp;
+<a href="https://www.cnblogs.com/songwenlong/">songoo</a>&nbsp;
+阅读(<span id="post_view_count">39419</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=6103406" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(6103406);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '5adef592-c39a-443f-1803-08d7eb74c09a', targetType: 'blogPost', targetId: '6103406', targetLink: 'https://www.cnblogs.com/songwenlong/p/6103406.html', title: 'TCP/IP协议——ARP详解' })">举报</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 301628, cb_blogApp = 'songwenlong', cb_blogUserGuid = '91de0f6d-394a-e511-b908-9dcfd8948a71';
+    var cb_entryId = 6103406, cb_entryCreatedDate = '2016-11-26 14:53', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 songoo
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script language="javascript" type="text/javascript">
+
+// 生成目录索引列表
+
+function GenerateContentList()
+{
+    var mainContent = $('#cnblogs_post_body');
+    var h2_list = $('#cnblogs_post_body h1');//如果你的章节标题不是h2,只需要将这里的h2换掉即可
+
+    if(mainContent.length < 1)
+        return;
+ 
+    if(h2_list.length>0)
+    {
+        var content = '<a rel="nofollow"  name="_labelTop"></a>';
+        content += '<div id="navCategory">';
+        content += '<p style="font-size:18px"><b>目录</b></p>';
+        content += '<ul>';
+        for(var i=0; i<h2_list.length; i++)
+        {
+            var go_to_top = '<div style="text-align: right"><a rel="nofollow"  href="#_labelTop">回到顶部</a><a rel="nofollow"  name="_label' + i + '"></a></div>';
+            $(h2_list[i]).before(go_to_top);
+            
+            var h3_list = $(h2_list[i]).nextAll("h3");
+            var li3_content = '';
+            for(var j=0; j<h3_list.length; j++)
+            {
+                var tmp = $(h3_list[j]).prevAll('h2').first();
+                if(!tmp.is(h2_list[i]))
+                    break;
+                var li3_anchor = '<a rel="nofollow"  name="_label' + i + '_' + j + '"></a>';
+                $(h3_list[j]).before(li3_anchor);
+                li3_content += '<li><a rel="nofollow"  href="#_label' + i + '_' + j + '">' + $(h3_list[j]).text() + '</a></li>';
+            }
+            
+            var li2_content = '';
+            if(li3_content.length > 0)
+                li2_content = '<li><a rel="nofollow"  href="#_label' + i + '">' + $(h2_list[i]).text() + '</a><ul>' + li3_content + '</ul></li>';
+            else
+                li2_content = '<li><a rel="nofollow"  href="#_label' + i + '">' + $(h2_list[i]).text() + '</a></li>';
+            content += li2_content;
+        }
+        content += '</ul>';
+        content += '</div><p>&nbsp;</p>';
+        content += '<p style="font-size:18px"><b>正文</b></p>';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }   
+
+}
+
+GenerateContentList();
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1pF65ZOU0L4lNwAnxTk9Gha_9j17LRSVeBy-OP5DT_bWLbNQ_mkc7KvbiGFXuaozwuWgMb115bEabm-85BxIl8H10uh5jqTJsnjJ4TPMQByXkQVYsqU-FvqdFAMPGvp7oz75NQuqWdtA93o7dm2LG8xBcl7mJLhlOCQsNbNj9Y0kQ" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>

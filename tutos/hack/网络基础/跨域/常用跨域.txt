@@ -1,0 +1,6 @@
+get请求跨域用jsonp
+但其他的要根据cors
+使用时需要添加请求头
+Access-Control-Allow-Origin:  a.com
+Access-Control-Allow-Credentials:true  //允许跨域，可包含cookies
+在setCookie时加httponly然后最后面加个true时代表无法被跨域读取，但是有cors可以

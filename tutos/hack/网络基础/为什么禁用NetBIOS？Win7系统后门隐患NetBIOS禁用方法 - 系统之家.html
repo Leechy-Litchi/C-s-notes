@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">var mUrl,mc,mp,ma,urlStyle,channelStyle;urlStyle='article',channelStyle='',ma = 99912; </script>
+    <script type="text/javascript"  src="http://static.xitongzhijia.net/theme/2017/js/m.js"></script>
+    <meta charset="gb2312">
+    <meta name="applicable-device" content="pc">
+    <title>为什么禁用NetBIOS？Win7系统后门隐患NetBIOS禁用方法 - 系统之家</title>
+    <meta name="keywords" content="启用netbios有什么用,网卡的netbios禁用,Win7 netbios禁用" />
+    <meta name="description" content="NetBIOS可允许用户通过局域网进行访问硬盘，同样，专业人士也可以通过此后门进入你的计算机硬盘查看文件，为避免安全隐患阅读下文了解Win7系统后门隐患NetBIOS禁用方法。" />
+    <link href="http://static.xitongzhijia.net/theme/2020/css/icon.css" rel="stylesheet" />
+    <link href="http://static.xitongzhijia.net/theme/2020/css/page_new.css" rel="stylesheet" />
+
+    <!--IE8以下 圆角等补丁-->
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://static.xitongzhijia.net/theme/2017/js/PIE.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!--顶栏、头部、导航-->
+    
+    <!-- 顶栏 -->
+    <div class="topbar">
+        <div class="wrap auto fix">
+            <p class="fl">
+                <a href="http://www.xitongzhijia.net/" target="_blank">系统之家</a> - 系统光盘下载网站！
+            </p>
+        </div>
+    </div>
+    <!-- / 顶栏 -->
+    <!-- 头部 -->
+    <div class="header">
+        <div class="wrap auto fix">
+            <div class="logo">
+                <a href="http://www.xitongzhijia.net/" class="logo-link" title="系统之家">系统之家</a>
+            </div>
+            
+            <div class="c-search">
+    <div class="search-wrapper">
+        <div class="fix">
+            <div class="search-cate ui-bg">
+
+            	<span class="J_selectSearch" rel="6" id="J_selectSearch">文章</span>
+
+                <ul class="cate-toggle J_selectToggle">
+                    <li class="cate-item J_cate_item" rel='1'>综合</li>
+                    <li class="cate-item J_cate_item" rel='4'>软件</li>
+                    <li class="cate-item J_cate_item" rel='6'>文章</li>
+                    <li class="cate-item J_cate_item" rel='7'>安卓</li>
+                </ul>
+            </div>
+            <input class="search-input" type="text" autocomplete="off" placeholder="请输入搜索关键词" id="searchV">
+            <a href="javascript:;" class="search-btn" id='search'>搜 索</a>
+        </div>
+        <p class="search-keyword">
+        
+                热搜：<a href="http://www.xitongzhijia.net/win7/fqhy/" target="_blank" class="keyword-item">番茄花园</a>
+                <a href="http://www.xitongzhijia.net/win7/dngs/" target="_blank" class="keyword-item">电脑公司</a>
+                <a href="http://www.xitongzhijia.net/win7/lbjy/" target="_blank" class="keyword-item">萝卜家园</a>
+                <a href="http://www.xitongzhijia.net/win7/sd/" target="_blank" class="keyword-item">深度技术</a>
+                <a href="http://www.xitongzhijia.net/win7/ylmf/" target="_blank" class="keyword-item">雨林木风</a>
+        </p>
+    </div>
+</div>
+
+        </div>
+    </div>
+    <!-- / 头部 -->
+    <!-- 导航 -->
+    <div class="navbar">
+        <div class="wrap auto fix">
+            <a href="http://www.xitongzhijia.net/" class="nav-item ">首页</a>
+            <a href="http://www.xitongzhijia.net/win10/"  class="nav-item ">Win10系统</a>
+            <a href="http://www.xitongzhijia.net/win7/"  class="nav-item ">Win7系统</a>
+            <a href="http://www.xitongzhijia.net/win11/"  class="nav-item ">Win11系统</a>
+            <a href="http://www.xitongzhijia.net/xp/"  class="nav-item ">XP系统</a>
+            <a href="http://www.xitongzhijia.net/soft/"  class="nav-item ">电脑软件</a>
+            <a href="http://www.xitongzhijia.net/xtjc/"  class="nav-item cur">教程</a>
+            <a href="//u.xitongzhijia.net/" target="_blank" class="nav-item">一键重装</a>
+            <div class="expand-column">
+                <img class="jiantou_icon" src="http://static.xitongzhijia.net/theme/2017/images/temp/jiantou_icon.png">
+                <a href="javascript:void(0);" class="nav-item open-all">其他</a>
+                <ul>
+                    <li>
+                        <a href="http://www.xitongzhijia.net/news/"  class="open-item">IT资讯</a>
+                    </li>
+                    <li>
+                        <a href="http://www.xitongzhijia.net/windows8/"  class="open-item">Win8系统</a>
+                    </li>
+                    <li>
+                        <a href="http://www.xitongzhijia.net/linux/"  class="open-item">Linux系统</a>
+                    </li>
+                    <li>
+                        <a href="http://www.xitongzhijia.net/macos/"  class="open-item">MacOS系统</a>
+                    </li>
+                    <li>
+                        <a href="http://www.xitongzhijia.net/sbzz/"  class="open-item">鼠标指针</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="sub-navbar">
+        <div class="wrap auto fix sub-navbar-inner">
+            <a href="http://www.xitongzhijia.net/xtjc/windows11/"  class="sub-nav-item">Win11教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/windows10/"  class="sub-nav-item">Win10教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/win7/"  class="sub-nav-item">Win7教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/Windows8/"  class="sub-nav-item">Win8教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/xp/"  class="sub-nav-item">WinXP教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/linux/"  class="sub-nav-item">Linux教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/upan/"  class="sub-nav-item">U盘教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/soft/"  class="sub-nav-item">软件教程</a>
+            <a href="http://www.xitongzhijia.net/xtjc/qt/"  class="sub-nav-item">其他教程</a>
+        </div>
+    </div>
+    <!-- / 导航 -->
+    <!--顶栏、头部、导航-->
+
+    <!-- / 导航 -->
+    <div class="page-course-art">
+        <div class="wrap auto">
+
+            <div class="AD_1200_108 ovh mb15" id="top_gg"></div>
+            
+            <!-- 教程内容页 -->
+            <div class="s-news-art fix">
+                <div class="art-main col-l-w">
+                    <div class="c-cur-pos">
+                         <span class="pos-txt">当前位置：</span><a href='http://www.xitongzhijia.net/' class='pos-link'>系统之家</a> > <a href='http://www.xitongzhijia.net/xtjc/' class='pos-link'>系统教程</a> > <span>Win7系统后门隐患NetBIOS禁用方法</span>
+                    </div>
+                    <div class="art-title">
+                        <h1 class="title">为什么禁用NetBIOS？Win7系统后门隐患NetBIOS禁用方法</h1>
+                        <p class="sub">
+                            <span>时间：2017-06-12 10:48:27</span>
+                            <span class="ml30">作者：quers</span>
+                            <span class="ml30">来源：<a href="http://www.xitongzhijia.net">系统之家</a></span>
+                            <span class="ml30 look-move">
+                                <span class="look-txt">
+                                    <span class="look-txt-l">
+                                        <span class="txt">1. 扫描二维码随时看资讯</span>
+                                        <span class="txt">2. 请使用手机浏览器访问：</span>
+                                        <span class="txt links">http://m.xitongzhijia.net/article/99912.html</span>
+                                    </span>
+                                    <span class="look-txt-r">
+                                        <img src="https://api.pwmqr.com/qrcode/create/?url=http://m.xitongzhijia.net/article/99912.html" alt="">
+                                    </span>
+
+                                </span>
+                                <i class="look-txt-ico"></i>
+                                <i class="look-ico"></i> 手机查看
+                            </span>
+                            <span class="ml30"><a href="#mark">评论</a></span>
+                        </p>
+                    </div>
+
+                    <div class="m-soft-recom art-xtjc">
+                        <img class="fl" src="http://img5.xitongzhijia.net/190912/102-1Z9121R01X25.png" width="94" height="94" alt="萝卜家园 GHOST WIN7 64位极速专业版 V2020.10">
+                        <div class="soft-dl mt0">
+                            <a href="https://win78.xiaoguaniu.com/TY/TY_GHOST_WIN7_X64_Q8_V8.iso" class="dl-btn mb10" target="_blank" rel="nofollow">
+                                <i class="ico ico-1"></i>本地下载
+                            </a>
+                        </div>
+                        <div class="soft-info">
+                            <h2 class="name"><a href="/win7/202010/190941.html" target="_blank">萝卜家园 GHOST WIN7 64位极速专业版 V2020.10</a></h2>
+                            <p class="mb20"><span>大小：5.71 GB</span><span class="ml30">类别：<a href="http://www.xitongzhijia.net/win7/lbjy" target="_blank">萝卜家园Win7系统</a></span></p>
+                            <p><span>下载：6059</span></p>
+                        </div>
+                    </div>
+
+                    <div class="m-art-cont">
+                        <p>
+	　　NetBIOS是应用程序接口是在计算机安装TCP/IP协议的同时被默认安装的，NetBIOS可允许用户通过局域网进行访问硬盘，同样，专业人士也可以通过此后门进入你的计算机硬盘查看文件，为避免安全隐患请阅读下文了解Win7系统后门隐患NetBIOS禁用方法。</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110153-water.jpg" /></p>
+<p>
+	　　NetBIOS（Network Basic Input Output System，网络基本输入输出系统），是一种应用程序接口（API），作用是为局域网（LAN）添加特殊功能，几乎所有的局域网电脑都是在NetBIOS基础上工作的。在我们的Windows 95、99、或Me中，NetBIOS是和TCP/IP捆绑在一起的这是十分危险的！</p>
+<p>
+	　　NetBIOS有悠久的历史，它在1985年最先被IBM使用，当微软首次发布基于Windows的网络操作系统Windows For Workgroups时，它使用的就是在NetBIOS基础上稍加改变的NetBEUI。当互联网以惊人的速度增长时，TCP/IP的时代来临了，Windows 95、98、 Me都通过TCP/IP协议来访问互联网。实际上，我们访问互联网时只需要TCP/IP协议就行了，但当我们安装TCP/IP协议时，默认情况下NetBIOS（和它的文件与打印共享功能）也一起被装进了系统。当NetBIOS运行时，你的后门打开了：因为NetBIOS不光允许局域网内的用户访问你的硬盘资源，Internet上的黑客也能！</p>
+<p>
+	　　你也许要说，黑客只对大公司和知名网站感兴趣，可能还&ldquo;关心&rdquo;不到我们这些个人用户吧？（何况又是拨号上网，IP地址不固定！） 如果你这样想，那就错了（更准硬地说应该是，&ldquo;那就危险了！&rdquo;） 。现在网络上端口扫描程序很多，如果有人扫描一下，发现那些粗心地打开NetBEUI和文件与打印共享功能的计算机就闯进去&hellip;&hellip;而这一切都是在后台发生的，你并不知道！</p>
+<p>
+	　　所以我们必须关上这扇后门，杜绝安全隐患！</p>
+<p>
+	　　<strong>Win7系统后门隐患NetBIOS禁用方法：</strong></p>
+<p>
+	　　如前所述，在安装TCP/IP协议时，NetBIOS被毫无必要地（对于我们这些一般用户而言）一起装上了（或者说NetBIOS被捆绑在TCP/IP上）。我们要做的就是将NetBIOS从TCP/IP上解下来！</p>
+<p>
+	　　1、右键<a href="http://www.xitongzhijia.net/zt/rwlsz/" target="_blank" class="anchor">任务栏</a>网络图标或开打<a href="http://www.xitongzhijia.net/zt/kzmbszjq" target="_blank" class="anchor">控制面板</a>找到&ldquo;网络与共享中心&rdquo;选项；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110153-50.jpg" /></p>
+<p>
+	　　2、点击&ldquo;更改适配器设置&rdquo;；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110153-51-water.jpg" /></p>
+<p>
+	　　3、右键本地连接或无线连接的&ldquo;属性&rdquo;；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110153-52-water.jpg" /></p>
+<p>
+	　　4、双击&ldquo;IPv4&rdquo;；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110153-53-water.jpg" /></p>
+<p>
+	　　5、在常规选项卡上点击&ldquo;高级&rdquo;；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110154-water.jpg" /></p>
+<p>
+	　　6、点击WINS选项卡如下图位置勾选&ldquo;禁用 TCP/IP 上的 NetBIOS&rdquo;，对所有已打开的选项窗口点击&ldquo;确定&rdquo;；</p>
+<p style="text-align: center;">
+	<img alt="Win7系统后门隐患NetBIOS禁用方法" src="/uploads/allimg/170612/76-1F612110154-50-water.jpg" /></p>
+<p>
+	　　7、证实己取消绑定。重新进入&ldquo;TCP/IPv4 属性&rdquo;对话框，重复以上打开顺序查看禁用项是否已勾选，点击&ldquo;取消&rdquo;退出&ldquo;网络&rdquo;对话框（不要点&ldquo;确认&rdquo;，免得出现什么意外）。</p>
+<p>
+	　　以上步骤便是Win7系统后门隐患NetBIOS禁用方法，该后门属于装机之后的优化项之一，如果你在使用计算机的过程中会用到NetBIOS，在装机时告诉技术员说明是否关闭NetBIOS，一些用户禁用NetBIOS之后会出现无法上网的情况，这时候启用NetBIOS即可解决。</p>
+
+                    </div>
+
+                    <!--设置全局变量id、分页标题-->
+                    
+                    <!--设置全局变量id、分页标题-->
+
+                    <!--最外围DIV-->
+                    
+                    <!--最外围DIV-->
+
+                            <!--分页标题内容块-->
+                            
+                            <!--分页标题内容块-->
+                        
+
+                        <!--文章分页内容块-->
+                        
+                        
+                            <!--分页标签-->
+                            
+                            <!--分页标签-->
+
+                            <!--剩下全文按钮-->
+                            
+                            <!--剩下全文按钮-->
+
+                        <!--文章分页内容块-->
+
+                    
+                    <!--最外围DIV-->
+
+                    <div class="fix">
+                        <div class="m-art-tag fl">
+                             <span class="tag">标签</span>
+
+                              
+                                <a href="/tags/Netbios" target="_blank" class="link">
+                                 <i class="l"></i><span class="txt">Netbios</span>
+                                </a>
+                             
+                             
+                        </div>
+                        <div class="m-guide-share">
+                            分享到：
+                            <!-- Baidu Button BEGIN -->
+                            <div class="bdsharebuttonbox" data-tag="bdshare">
+                                <a class="bds_more" data-cmd="more"></a>
+                                <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+                                <a class="bds_tsina" data-cmd="tsina"></a>
+                                <a class="bds_weixin" data-cmd="weixin"></a>
+                            </div>
+                            <!-- Baidu Button END -->
+                        </div>
+                    </div>
+                    <div class="">
+                        <ul class="m-news-opt fix">
+                            <li class="opt-item">
+                                <a href='/xtjc/20170612/99907.html' target='_blank'><p>< 上一篇</p><p class="ellipsis">Win7系统权限不够文件夹无法去掉只读属性怎么办？</p></a>
+                            </li>
+                            <li class="opt-item ta-r">
+                                <a href='/xtjc/20170613/100013.html' target='_blank'><p>下一篇 ></p><p class="ellipsis">word打开是乱码怎么办？word文档打开出现乱码的解决技巧</p></a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="m-art-about">
+                        <div class="g-title fix">
+                            <h2 class="title-txt">相关教程</h2>
+                        </div>
+                        <ul class="g-dot-list m-about-recom ovh">
+
+                            <li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229641.html" target="_blank" class="link" title="Win11怎么显示隐藏的文件？Win11显示隐藏文件的方法">Win11怎么显示隐藏的文件？Win11显示隐藏文件...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229643.html" target="_blank" class="link" title="苹果台式机怎么安装Win11系统？苹果台式电脑虚拟机安装Win11教程">苹果台式机怎么安装Win11系统？苹果台式电脑...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229640.html" target="_blank" class="link" title="Win11怎么复制路径？Win11复制路径的方法">Win11怎么复制路径？Win11复制路径的方法</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229639.html" target="_blank" class="link" title="Win11怎么去除快速搜索？Win11去除快速搜索的操作方法">Win11怎么去除快速搜索？Win11去除快速搜索的...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229526.html" target="_blank" class="link" title="完美解决Win10更新KB5006670后电脑打印机共享错误0x00000709">完美解决Win10更新KB5006670后电脑打印机共享...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229636.html" target="_blank" class="link" title="Win11怎么取消登陆密码？Wn11登陆密码取消方法">Win11怎么取消登陆密码？Wn11登陆密码取消方...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20210914/225612.html" target="_blank" class="link" title="Windows 10产品密钥在哪里？找到Win10产品密钥操作方法">Windows 10产品密钥在哪里？找到Win10产品密...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229637.html" target="_blank" class="link" title="Win10提示无法正常启动你的电脑错误代码0xc0000001的解决办法">Win10提示无法正常启动你的电脑错误代码0xc00...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229634.html" target="_blank" class="link" title="Windows10更新KB5006670 无法连接到打印机 错误代码0x00000709">Windows10更新KB5006670 无法连接到打印机 错...</a>
+                            </li><li class="item">
+                                <i></i>
+                                <a href="http://www.xitongzhijia.net/xtjc/20211014/229624.html" target="_blank" class="link" title="Win10 无法连接网络打印机 错误代码0x00000709 解决方法！">Win10 无法连接网络打印机 错误代码0x0000070...</a>
+                            </li>
+                            
+                        </ul>
+                        <div class="c-img-title multi fix">
+
+                            <a href="/xtjc/20201225/198331.html" target="_blank" title="怎么自己重装系统Win7" class="t-item">
+                                <img src="http://img4.xitongzhijia.net/allimg/201225/122-2012251553160-L.png" class="t-img" width="180" height="120" alt="怎么自己重装系统Win7">
+                                <p class="txt">怎么自己重装系统Win7</p>
+                            </a>
+<a href="/xtjc/20201222/197913.html" target="_blank" title="电脑系统开机显示0xc0000102错误代码是什么意思?怎么解决" class="t-item">
+                                <img src="http://img5.xitongzhijia.net/allimg/201222/122-2012221GP60-L.jpg" class="t-img" width="180" height="120" alt="电脑系统开机显示0xc0000102错误代码是什么意思?怎么解决">
+                                <p class="txt">电脑系统开机显示0xc0000102错误代码是什么意思?怎么解决</p>
+                            </a>
+<a href="/xtjc/20201118/193825.html" target="_blank" title="Win7可以安装office2019吗？Win7系统安装Office2019教程" class="t-item">
+                                <img src="http://img4.xitongzhijia.net/allimg/201117/120-20111GF6060-L.png" class="t-img" width="180" height="120" alt="Win7可以安装office2019吗？Win7系统安装Office2019教程">
+                                <p class="txt">Win7可以安装office2019吗？Win7系统安装Office2019教程</p>
+                            </a>
+<a href="/xtjc/20210616/214680.html" target="_blank" title="2021Win7cf烟雾头怎么调？Win7cf烟雾头最新调法2021" class="t-item">
+                                <img src="http://img1.xitongzhijia.net/allimg/210616/118-2106160I056-lp.jpg" class="t-img" width="180" height="120" alt="2021Win7cf烟雾头怎么调？Win7cf烟雾头最新调法2021">
+                                <p class="txt">2021Win7cf烟雾头怎么调？Win7cf烟雾头最新调法2021</p>
+                            </a>
+
+            
+                        </div>
+                    </div>
+                    <div class="m-changyan">
+                        <!--畅言-->
+                        <div class="comment J_tab_cont" style="padding-left:0;padding-right:0;" id="mark">
+	<input type="hidden" id="aid" value="99912">
+	<input type="hidden" id="commentid" value="">
+	<input type="hidden" id="host" value="http://www.xitongzhijia.net">
+	<div class="g-title border-blue mb25 fix" id="comment_anchor">
+		<h2 class="title-txt">发表评论</h2>
+		<p>共<span id="total_comment">0</span>条</p>
+	</div>
+	<div class="default_input_box">
+		<div class="comment_input default_input">
+			<div class="head_portrait fl">
+				<img src="http://static.xitongzhijia.net/theme/2020/images/head.png" alt="">
+			</div>
+			<div class="input_box fl">
+				<textarea class="textarea" placeholder="您的评论会经编辑或作者筛选后显示，全站可见，请文明发言。"></textarea>
+				<div class="verification">
+					<label>验证码</label>
+					<div class="code">
+						<input type="text" class="input_val" placeholder="请输入验证码">
+						<canvas id="canvas" width="120" height="50"></canvas>
+					</div>
+				</div>
+				<input type="submit" class="submit_comment" value="提交评论">
+			</div>
+		</div>
+	</div>
+	<div class="comment_list" id="comment_list"></div>
+	<div class="on_earth">
+		<i></i>
+		<span>没有更多评论了</span>
+		<i></i>
+	</div>
+	<div class="comment_hint">
+		<p>评论就这些咯，让大家也知道你的独特见解</p>
+		<a href="#comment_anchor" class="immediate_comm">立即评论</a>
+		<p>以上留言仅代表用户个人观点，不代表系统之家立场</p>
+	</div>
+</div>
+                        <!--畅言-->
+                    </div>
+                </div>
+                <div class="m-side-col col-r-w">
+                            <div class="m-soft-else mb40 mt-n13">
+                        <div class="g-title fix m-new-soft">
+                            <h2 class="title-txt">其他版本软件</h2>
+                        </div>
+                        <div>
+                            <ul class="related-list"><li class="item fix">
+                            <img src="http://img3.xitongzhijia.net/190911/102-1Z9111103232c.png" alt="技术员联盟 WIN7 64位安全装机版 V2020.10" class="img16 fl">
+                            <a href="/win7/202010/190919.html" target="_blank" title="技术员联盟 WIN7 64位安全装机版 V2020.10" class="g-list-a fl">技术员联盟 WIN7 64位安全装机版 V2020.10</a>
+                        </li><li class="item fix">
+                            <img src="http://img5.xitongzhijia.net/190912/102-1Z9121A44G32.png" alt="雨林木风 WIN7 64位极速优化版 V2020.10" class="img16 fl">
+                            <a href="/win7/202009/190596.html" target="_blank" title="雨林木风 WIN7 64位极速优化版 V2020.10" class="g-list-a fl">雨林木风 WIN7 64位极速优化版 V2020.10</a>
+                        </li><li class="item fix">
+                            <img src="http://img3.xitongzhijia.net/190911/102-1Z9111044294K.png" alt="深度技术 WIN7 64位喜迎国庆版 V2020.10" class="img16 fl">
+                            <a href="/win7/202010/190456.html" target="_blank" title="深度技术 WIN7 64位喜迎国庆版 V2020.10" class="g-list-a fl">深度技术 WIN7 64位喜迎国庆版 V2020.10</a>
+                        </li></ul>
+                        </div>
+                    </div>
+                
+                    <div class=" J_g_mouseover_tab">
+                        <div class="g-title fix mb25">
+                            <h2 class="title-txt">热门教程</h2>
+                            <ul class="g-tab sty-2 J_tab fr">
+                                <li class="sys_side_item">年</li>
+                                <li class="sys_side_item">月</li>
+                                <li class="sys_side_item cur">周</li>
+                            </ul>
+                        </div>
+                        <div class="J_tab_cont">
+                            <div class="tab-cont-item fix">
+                                <div class="m-rank u-dashed mb40">
+                                    <ul>
+                        <li class="rank-item">
+                                <a href="/xtjc/20201225/198331.html" title='怎么自己重装系统Win7' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">1328362次</span>
+                                    <span class="g-sort-num top">1</span>
+                                    怎么自己重装系统Win7
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20201222/197913.html" title='电脑系统开机显示0xc0000102错误代码是什么意思?怎么解决' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">14234次</span>
+                                    <span class="g-sort-num second">2</span>
+                                    电脑系统开机显示0xc0000102错误代码...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20201118/193825.html" title='Win7可以安装office2019吗？Win7系统安装Office2019教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">7826次</span>
+                                    <span class="g-sort-num third">3</span>
+                                    Win7可以安装office2019吗？Win7系统...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210616/214680.html" title='2021Win7cf烟雾头怎么调？Win7cf烟雾头最新调法2021' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">6787次</span>
+                                    <span class="g-sort-num ">4</span>
+                                    2021Win7cf烟雾头怎么调？Win7cf烟雾...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210202/202157.html" title='怎么解决电脑电流麦？麦克风电流麦的5个解决方案介绍' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">4520次</span>
+                                    <span class="g-sort-num ">5</span>
+                                    怎么解决电脑电流麦？麦克风电流麦的...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210204/202085.html" title='Win7旗舰版无法打开照片并提示内存不足怎么回事呢？' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">4116次</span>
+                                    <span class="g-sort-num ">6</span>
+                                    Win7旗舰版无法打开照片并提示内存不...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210506/210020.html" title='Win7电脑清理垃圾的运行命令代码是什么？' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">2481次</span>
+                                    <span class="g-sort-num ">7</span>
+                                    Win7电脑清理垃圾的运行命令代码是什...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210306/205159.html" title='一分钟教您Win7系统如何删除流氓弹窗' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">2461次</span>
+                                    <span class="g-sort-num ">8</span>
+                                    一分钟教您Win7系统如何删除流氓弹窗
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20201203/195770.html" title='Win7系统卸载32位Office程序方法！' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">2355次</span>
+                                    <span class="g-sort-num ">9</span>
+                                    Win7系统卸载32位Office程序方法！
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210111/199860.html" title='如何避免Win7系统安装垃圾软件' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">2093次</span>
+                                    <span class="g-sort-num ">10</span>
+                                    如何避免Win7系统安装垃圾软件
+                                </a>
+                            </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-cont-item fix">
+                                <div class="m-rank u-dashed mb40">
+                                    <ul>
+                        <li class="rank-item">
+                                <a href="/xtjc/20210918/226339.html" title='Win7共享打印机一直安装驱动半截就提示0*0000011b怎么解决？' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">536次</span>
+                                    <span class="g-sort-num top">1</span>
+                                    Win7共享打印机一直安装驱动半截就提...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210925/227342.html" title='Ghost怎么重装Win7系统？Windows7一键ghost重装系统步骤' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">328次</span>
+                                    <span class="g-sort-num second">2</span>
+                                    Ghost怎么重装Win7系统？Windows7一...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210928/228119.html" title='Win7有任务视图吗？Win7打开任务视图教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">277次</span>
+                                    <span class="g-sort-num third">3</span>
+                                    Win7有任务视图吗？Win7打开任务视图...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210928/228056.html" title='Win7专业版忘记开机密码怎么办？Win7专业版忘记密码如何进入桌面' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">277次</span>
+                                    <span class="g-sort-num ">4</span>
+                                    Win7专业版忘记开机密码怎么办？Win7...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210914/225532.html" title='Win7打开文件鼠标一直转圈怎么办？Win7打开文件鼠标一直转圈的解决方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">262次</span>
+                                    <span class="g-sort-num ">5</span>
+                                    Win7打开文件鼠标一直转圈怎么办？Wi...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210927/227828.html" title='Win7如何连接Win10打印机？Win7连接Win10打印机的方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">246次</span>
+                                    <span class="g-sort-num ">6</span>
+                                    Win7如何连接Win10打印机？Win7连接W...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210929/228366.html" title='Win7电脑虚拟网卡不存在或者被禁用怎么处理？' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">243次</span>
+                                    <span class="g-sort-num ">7</span>
+                                    Win7电脑虚拟网卡不存在或者被禁用怎...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210916/225941.html" title='Win7如何更改保存新内容的位置？Win7更改保存新内容位置的方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">240次</span>
+                                    <span class="g-sort-num ">8</span>
+                                    Win7如何更改保存新内容的位置？Win7...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210927/227833.html" title='Win7提示0xt000000f蓝屏代码怎么办？0xt000000f蓝屏代码的解决方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">238次</span>
+                                    <span class="g-sort-num ">9</span>
+                                    Win7提示0xt000000f蓝屏代码怎么办？...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20210924/227002.html" title='Win7更改适配器设置显示空白怎么办？Win7更改适配器设置显示空白的解决方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">236次</span>
+                                    <span class="g-sort-num ">10</span>
+                                    Win7更改适配器设置显示空白怎么办？...
+                                </a>
+                            </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-cont-item fix" style="display: block">
+                                <div class="m-rank u-dashed mb40">
+                                    <ul>
+                        <li class="rank-item">
+                                <a href="/xtjc/20211007/228093.html" title='Win7软件开机自启动怎么关闭？Win7开机自启动程序关闭方法' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">215次</span>
+                                    <span class="g-sort-num top">1</span>
+                                    Win7软件开机自启动怎么关闭？Win7开...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20211007/228379.html" title='Win7系统点击音量图标没反应怎么办？' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">147次</span>
+                                    <span class="g-sort-num second">2</span>
+                                    Win7系统点击音量图标没反应怎么办？
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20211014/229533.html" title='Win7电脑安装打印机显示无法找到打印机驱动程序包要求的核心驱动程序包' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">8次</span>
+                                    <span class="g-sort-num third">3</span>
+                                    Win7电脑安装打印机显示无法找到打印...
+                                </a>
+                            </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-title fix">
+                        <h2 class="title-txt">人气教程排行</h2>
+                    </div>
+                    <div class="m-rank u-dashed mb40">
+                        <ul>
+                            <li class="rank-item">
+                                <a href="/xtjc/20210719/218811.html" title='系统之家装机大师怎么用？系统之家装机大师使用教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">16777215次</span>
+                                    <span class="g-sort-num top">1</span>
+                                    系统之家装机大师怎么用？系统之...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20110507/58.html" title='如何用u盘重装系统？用U盘装win7/XP系统的操作图解' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">15210628次</span>
+                                    <span class="g-sort-num second">2</span>
+                                    如何用u盘重装系统？用U盘装win7...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20150212/38251.html" title='如何激活office2010？Office 2010安装及激活教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">8451234次</span>
+                                    <span class="g-sort-num third">3</span>
+                                    如何激活office2010？Office 201...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20201120/194175.html" title='如何用u盘装系统？用系统之家U盘启动制作盘安装Win7系统教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">4150272次</span>
+                                    <span class="g-sort-num ">4</span>
+                                    <font color='#FF0000'>如何用u盘装系统？用系统之家U盘...</font>
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20161115/87215.html" title='系统之家一键还原工具图文教程：支持gpt分区安装Win7' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">3304485次</span>
+                                    <span class="g-sort-num ">5</span>
+                                    <font color='#FF0000'>系统之家一键还原工具图文教程：...</font>
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20110529/110.html" title='怎么装win7系统？本地硬盘安装win7/XP系统详细教程' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">3091391次</span>
+                                    <span class="g-sort-num ">6</span>
+                                    <font color='#FF0000'>怎么装win7系统？本地硬盘安装wi...</font>
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20140925/27125.html" title='office2007怎么安装？分享Microsoft office 2007的安装步骤' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">2229803次</span>
+                                    <span class="g-sort-num ">7</span>
+                                    office2007怎么安装？分享Micros...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20140919/26874.html" title='已安装迅雷下载时却还是提示安装该怎么办?' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">1691930次</span>
+                                    <span class="g-sort-num ">8</span>
+                                    已安装迅雷下载时却还是提示安装...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20121126/18748.html" title='怎么用u盘安装win7系统？高手教你巧用U盘安装Win7系统' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">1384278次</span>
+                                    <span class="g-sort-num ">9</span>
+                                    怎么用u盘安装win7系统？高手教...
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/xtjc/20201225/198331.html" title='怎么自己重装系统Win7' class="item-name ellipsis" target="_blank">
+                                    <span class="g-art-count fr">1328362次</span>
+                                    <span class="g-sort-num ">10</span>
+                                    怎么自己重装系统Win7
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    
+                    <div class="AD_360_300 mb40" id="article_course_ad2"></div>
+
+                    <div class="g-title fix">
+                        <h2 class="title-txt">Win7系统推荐</h2>
+                    </div>
+                    <div class="m-rank u-dashed mb40">
+                        <ul>
+                            <li class="rank-item">
+                                <a href="/win7/202110/229391.html"  target="_blank" title="萝卜家园 Ghost Win7 32位 旗舰版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num top">1</span>
+                                    萝卜家园 Ghost Win7 32位 旗舰版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/229057.html"  target="_blank" title="番茄花园 Ghost Win7 64位 快速装机版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num second">2</span>
+                                    番茄花园 Ghost Win7 64位 快速装机版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/228886.html"  target="_blank" title="番茄花园 Ghost Win7 32位 精简版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num third">3</span>
+                                    番茄花园 Ghost Win7 32位 精简版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/229041.html"  target="_blank" title="大地 Ghost Win7 64位 旗舰版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num ">4</span>
+                                    大地 Ghost Win7 64位 旗舰版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/228839.html"  target="_blank" title="电脑公司 Ghost Win7 32位 快速装机版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num ">5</span>
+                                    电脑公司 Ghost Win7 32位 快速装机版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/228840.html"  target="_blank" title="电脑公司 Ghost Win7 64位 极速稳定版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num ">6</span>
+                                    电脑公司 Ghost Win7 64位 极速稳定版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202110/228902.html"  target="_blank" title="技术联盟 Ghost Win7 32位 稳定版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num ">7</span>
+                                    技术联盟 Ghost Win7 32位 稳定版 V2021.10
+                                </a>
+                            </li>
+<li class="rank-item">
+                                <a href="/win7/202109/227983.html"  target="_blank" title="风林火山 Ghost Win7 64位 旗舰版 V2021.10" class="item-name ellipsis">
+                                    <span class="g-sort-num ">8</span>
+                                    风林火山 Ghost Win7 64位 旗舰版 V2021.10
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="J_fixed">
+                        <div class="g-title fix">
+                            <h2 class="title-txt">猜你想搜</h2>
+                        </div>
+                        <div class="m-rank u-dashed mb40">
+                            <ul class="fix">
+                                <li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/45742.html" target="_blank" title="360安全卫士下载"><span class="num top">1</span><span class="tit">360安全卫士下载</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/92769.html" target="_blank" title="驱动人生网卡版"><span class="num second">2</span><span class="tit">驱动人生网卡版</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/win10/" target="_blank" title="Win10下载"><span class="num third">3</span><span class="tit">Win10下载</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/72939.html" target="_blank" title="酷我音乐盒"><span class="num">4</span><span class="tit">酷我音乐盒</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/68611.html" target="_blank" title="微信电脑版下载"><span class="num">5</span><span class="tit">微信电脑版下载</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/21058.html" target="_blank" title="讯飞输入法"><span class="num">6</span><span class="tit">讯飞输入法</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/win7/64/" target="_blank" title="win7 64"><span class="num">7</span><span class="tit">win7 64</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/111604.html" target="_blank" title="快吧游戏盒"><span class="num">8</span><span class="tit">快吧游戏盒</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/166977.html" target="_blank" title="office2019"><span class="num">9</span><span class="tit">office2019</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/2588.html" target="_blank" title="360杀毒软件"><span class="num">10</span><span class="tit">360杀毒软件</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/34220.html" target="_blank" title="鲁大师"><span class="num">11</span><span class="tit">鲁大师</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/20819.html" target="_blank" title="迅雷极速版"><span class="num">12</span><span class="tit">迅雷极速版</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/131338.html" target="_blank" title="福昕pdf编辑器"><span class="num">13</span><span class="tit">福昕pdf编辑器</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/48792.html" target="_blank" title="CPU-Z"><span class="num">14</span><span class="tit">CPU-Z</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/109849.html" target="_blank" title="photoshop cc"><span class="num">15</span><span class="tit">photoshop cc</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/20658.html" target="_blank" title="印象笔记"><span class="num">16</span><span class="tit">印象笔记</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/15317.html" target="_blank" title="有道词典"><span class="num">17</span><span class="tit">有道词典</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/34129.html" target="_blank" title="钉钉电脑版"><span class="num">18</span><span class="tit">钉钉电脑版</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/44009.html" target="_blank" title="爱剪辑"><span class="num">19</span><span class="tit">爱剪辑</span></a></li><li class="guess"><a class="guess-link" href="http://www.xitongzhijia.net/soft/2582.html" target="_blank" title="美图秀秀"><span class="num">20</span><span class="tit">美图秀秀</span></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="AD_360_151 mb40" id="article_course_ad3"></div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- / 教程内容页 -->
+        </div>
+    </div>
+    
+    <!-- 页尾 -->
+    <!-- sidebar -->
+<div class="m-sidebar m-sidebar-b">
+    <a class="contact" target="_blank" rel="nofollow" href="https://jq.qq.com/?_wv=1027&k=65E70g9v">
+        <i class="ico"></i>
+        官方交流群
+    </a>
+    <a class="soulv" target="_blank" rel="nofollow" onclick="document.getElementsByClassName('soulvbox')[0].style.display='block'">
+        <i class="ico"></i>
+        软件收录
+    </a>
+    <div class="soulvbox" style="display: none;">您好，如有软件收录需求，请将软件打包，并附上软件名称、软件介绍、软件相关截图、软件iocn、软著、营业执照（个人没有营业执照请提供对应的开发者身份证正反面以及手持身份证本人照片），发送至邮箱<span>xitongzhijia@qq.com  </span><p onclick="document.getElementsByClassName('soulvbox')[0].style.display='none'">收起&gt;&gt;</p></div>
+    <div class="go-top J_gotop"><i class="ico"></i></div>
+</div>
+<!-- / sidebar -->
+<!-- 页尾 -->
+<div class="footer">
+    <div class="wrap auto fix">
+        <div class="footer-link mb15">
+            <a href="/submit.html" target="_blank" class="link-item" rel="nofollow">软件发布</a>|
+            <a href="/tags.php" target="_blank" class="link-item">Tag标签</a>|
+            <a href="/copyright.html" target="_blank" class="link-item" rel="nofollow">版权声明</a>|
+            <a href="/data/sitemap.html" target="_blank" class="link-item" rel="nofollow">网站地图</a>|
+            <a href="/zt/soft/" target="_blank" class="link-item">软件专题</a>
+        </div>
+    </div>
+    <script src="http://static.xitongzhijia.net/theme/2017/js/footer.js"></script>
+
+</div>
+<!-- / 页尾 -->
+
+<script src="http://static.xitongzhijia.net/theme/2017/js/jquery-1.9.1.min.js"></script>
+<script src="http://static.xitongzhijia.net/theme/2017/js/lazyLoad.js"></script>
+<script src="http://static.xitongzhijia.net/theme/2017/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="http://static.xitongzhijia.net/theme/2020/js/main.js"></script>
+<div style="display: none;">
+<script src="http://static.xitongzhijia.net/theme/2017/js/total.js"></script>
+</div>
+
+    <!-- / 页尾 -->
+
+    <script type="text/javascript" src="http://static.xitongzhijia.net/theme/2017/js/hosLightBox.js"></script>
+    <script type="text/javascript" src="http://static.xitongzhijia.net/theme/2017/js/ZeroClipboard.min.js"></script>
+    <script>
+        //显示手机查看
+        $('.look-move').mouseover(function () {
+            $(this).find('.look-txt').css('display', 'block');
+            $(this).find('.look-txt-ico').css('display', 'block');
+        })
+        $('.look-move').mouseout(function () {
+            $(this).find('.look-txt').css('display', 'none');
+            $(this).find('.look-txt-ico').css('display', 'none');
+        })
+        // 点击查看大图
+        $(".m-art-cont img").hosLightBox();
+        // 缓存复制内容
+        $(".copyBtn").show();
+        var copyTmp = [];
+        $(".codeBlock .source").each(function (index) {
+            copyTmp[index] = $(this).html();
+        })
+        $(".copyBtn").each(function (index) {
+            var self = $(this);
+            var clip=new ZeroClipboard($(this), {
+                moviePath: 'http://static.xitongzhijia.net/theme/2015/js/ZeroClipboard.swf'
+            });
+            $(".copyBtn").click(function () {
+                let oCopy = document.querySelector("textarea.copy");
+                if (!oCopy){
+                    let transfer = document.createElement('textarea');
+                    transfer.className = "copy";
+                    transfer.style.cssText = "position: absolute;opacity: 0;z-index: -1;";
+                    document.body.appendChild(transfer);
+                    transfer.value = copyTmp[index];  // 这里表示想要复制的内容
+                    transfer.select();
+                }else {
+                    oCopy.value = copyTmp[index];  // 这里表示想要复制的内容
+                    oCopy.select();
+                }
+                if (document.execCommand('copy')) {
+                    document.execCommand('copy');
+                }
+                self.html("已复制");
+                setTimeout(function () {
+                    self.html("复制代码");
+                },2000)
+            })
+            // clip.on("copy", function(e){
+            //     e.clipboardData.setData("text/plain", copyTmp[index]);
+            // });
+            // clip.on("aftercopy", function(){
+            //     self.html("已复制");
+            //     setTimeout(function () {
+            //         self.html("复制代码");
+            //     },2000)
+            // });
+        })
+    </script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="http://static.xitongzhijia.net/theme/2020/js/comment.js" charset="UTF-8"></script>
+    <script>
+    $(function(){
+        commentList('http://www.xitongzhijia.net','99912');
+    });
+    </script>
+    <script>
+        window._bd_share_config = {
+            share : [{
+            }]
+        }
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+    <!--百度联盟广告懒加载-->
+    <script type="text/javascript">
+        $.getScript("http://dup.baidustatic.com/js/os.js", function() {
+            BAIDU_CLB_fillSlotAsync("3542252","top_gg");
+            BAIDU_CLB_fillSlotAsync("3543138","article_course_ad2");
+            BAIDU_CLB_fillSlotAsync("7157681","article_course_ad3");
+        });
+    </script>
+
+    <div style="display: none;">
+        <script src="http://static.xitongzhijia.net/theme/2017/js/total_article.js"></script>
+    </div>
+
+    <script src="/plus/count.php?aid=99912&mid=76" language="javascript"></script>
+</body>
+
+</html>

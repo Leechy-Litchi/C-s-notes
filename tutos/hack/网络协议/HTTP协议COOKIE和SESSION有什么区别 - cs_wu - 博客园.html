@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="1、为什么会有COOKIE这种机制 首先一种场景， 在一个网站上面， 我发起一次请求，那服务器怎么知道我是谁？是谁发起的这次请求呢， HTTP协议是无状态的协议， 浏览器的每一次请求，服务器都当做一次" />
+    <meta property="og:description" content="1、为什么会有COOKIE这种机制 首先一种场景， 在一个网站上面， 我发起一次请求，那服务器怎么知道我是谁？是谁发起的这次请求呢， HTTP协议是无状态的协议， 浏览器的每一次请求，服务器都当做一次" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>HTTP协议COOKIE和SESSION有什么区别 - cs_wu - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=7g5gOKcn7oN77JERPfnHYGtKZZ_9q-gZn4Sp6JkXL2w" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=fhjD3LBAogwv4msY5hZj1-Lqop0E8TBlvILoIM_o3fE" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wuyepeng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wuyepeng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wuyepeng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 456781;
+        var currentBlogApp = 'wuyepeng';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '5adef592-c39a-443f-1803-08d7eb74c09a';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-10-16 10:06';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8yHqQbEMVqWgCEBNqpXAa87B4C2SyNErr7L-TCIg-A0"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-codinglife has-navbar">
+ 
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wuyepeng/p/9801023.html">
+    <span>HTTP协议COOKIE和SESSION有什么区别</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>1、为什么会有COOKIE这种机制</p>
+<p>&nbsp; 首先一种场景， 在一个网站上面， 我发起一次请求，那服务器怎么知道我是谁？是谁发起的这次请求呢， &nbsp;HTTP协议是无状态的协议， 浏览器的每一次请求，服务器都当做一次新请求， 但是在实际应用中我们需要知道这个请求来自于谁，需要查找哪些信息返回给访问者，</p>
+<p>这个时候就引入了COOKIE机制， COOKIE机制是什么呢？ 其实就是服务器给客户端返回数据的时候，中间加了一个标识， 然后客户端再次请求数据的时候，数据中带上这个标识， 那么服务器接收到请求消息时就知道这个请求来自于谁了（相当于服务器接收到请求时，如果没有带识别码，生成一个识别码给客户端， 如果有识别码，就把这个识别码需要的对应内容返回给客户端）<br><br></p>
+<div>
+<div>
+<p>cookie保存在客户端，比较不安全；session保存在服务器端，比较安全。</p>
+<p>cookie目的可以跟踪会话，也可以保存用户喜好或者保存用户名密码，session用来跟踪会话。</p>
+<p>建议用户名，密码保存在session，其它信息可保存在cookie。</p>
+<p>先来了解一下各自的工作机制</p>
+<h3>1. cookie的工作机制</h3>
+<p>1、服务器向客户端响应请求的时候，会在响应头中设置set-cookie的值，其值的格式通常是name = value的格式</p>
+<p>2、浏览器将 cookie 保存下来</p>
+<p>3、每次请求浏览器都会自动将 cookie 发向服务器</p>
+<p>4、cookie最初是在客户端用于存储会话信息的。</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="640" data-height="436"><img src="//upload-images.jianshu.io/upload_images/3085866-03335ce1f9938801?imageMogr2/auto-orient/strip%7CimageView2/2/w/640/format/webp" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3085866-03335ce1f9938801" data-original-width="640" data-original-height="436" data-original-format="image/jpeg" data-original-filesize="22488"></div>
+
+</div>
+<div class="image-caption">&nbsp;</div>
+
+</div>
+<h3>2. session的工作机制？</h3>
+<p>1、当客户端第一次请求session对象时，服务器会创建一个session，并通过特殊算法算出一个session的ID，用来标识该session对象，然后将这个session序列放置到set-cookie中发送给浏览器</p>
+<p>2、浏览器下次发请求的时候，这个sessionID会被放置在请求头中，和cookie一起发送回来</p>
+<p>3、服务器再通过内存中保存的sessionID跟cookie中保存的sessionID进行比较，并根据ID在内存中找到之前创建的session对象，提供给请求使用，也就是服务器会通过session保存一个状态记录，浏览器会通过cookie保存状态记录，服务器通过两者的对比实现跟踪状态，这样的做，也极大的避免了cookie被篡改而带来的安全性问题</p>
+<p>4、由于cookie可以被人为的禁止，必须有其他机制以便在cookie被禁止时仍然能够把session id传递回服务器。经常被使用的一种技术叫做URL重写，就是把session id直接附加在URL路径的后面，附加方式也有两种，一种是作为URL路径的附加信息，另一种是作为查询字符串附加在URL后面</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="640" data-height="501"><img src="//upload-images.jianshu.io/upload_images/3085866-7fbcb29a50d25ed9?imageMogr2/auto-orient/strip%7CimageView2/2/w/640/format/webp" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3085866-7fbcb29a50d25ed9" data-original-width="640" data-original-height="501" data-original-format="image/jpeg" data-original-filesize="26742"></div>
+
+</div>
+<div class="image-caption">&nbsp;</div>
+
+</div>
+<p>总之，cookie、session都会保存在浏览器，都会向服务器请求，只是实现的工作机制不同，使用的场景不同。</p>
+
+</div>
+
+<br><br></div>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2018-10-16 22:06</span>&nbsp;
+<a href="https://www.cnblogs.com/wuyepeng/">cs_wu</a>&nbsp;
+阅读(<span id="post_view_count">3321</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9801023" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(9801023);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '5adef592-c39a-443f-1803-08d7eb74c09a', targetType: 'blogPost', targetId: '9801023', targetLink: 'https://www.cnblogs.com/wuyepeng/p/9801023.html', title: 'HTTP协议COOKIE和SESSION有什么区别' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 456781, cb_blogApp = 'wuyepeng', cb_blogUserGuid = '437f307c-c913-4be0-cd58-08d49c352df2';
+    var cb_entryId = 9801023, cb_entryCreatedDate = '2018-10-16 22:06', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 cs_wu
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1oGDMjdwmXnZduD-Rb4Eros42lWyZUIxCvYstu3WjetmwtDdqCbM30mN1Hwpj7g0wLVONsZiAKAYSsTOmke3DaX-u4udxEX8Rf3HCAYmiXpvOa45XXWsz_fCSnVt7ZrYPagqVm2MDhoUWGDdZtuiWrBCpDqBDpvtJ1YiaRLmqoJlw" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>

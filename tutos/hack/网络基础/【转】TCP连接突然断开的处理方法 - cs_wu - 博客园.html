@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="TCP是因特网中的传输层协议，使用三次握手协议建立连接，下面是TCP建立连接的全过程。 TCP断开连接的过程：TCP四次挥手。 TCP/IP 协议簇分层结构 数据链路层主要负责处理传输媒介等众多的物理" />
+    <meta property="og:description" content="TCP是因特网中的传输层协议，使用三次握手协议建立连接，下面是TCP建立连接的全过程。 TCP断开连接的过程：TCP四次挥手。 TCP/IP 协议簇分层结构 数据链路层主要负责处理传输媒介等众多的物理" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>【转】TCP连接突然断开的处理方法 - cs_wu - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=7g5gOKcn7oN77JERPfnHYGtKZZ_9q-gZn4Sp6JkXL2w" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=fhjD3LBAogwv4msY5hZj1-Lqop0E8TBlvILoIM_o3fE" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wuyepeng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wuyepeng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wuyepeng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 456781;
+        var currentBlogApp = 'wuyepeng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-10-16 10:19';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8yHqQbEMVqWgCEBNqpXAa87B4C2SyNErr7L-TCIg-A0"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-codinglife has-navbar has-bannerbar">
+    <a name="top"></a>
+        <img src="https://img2020.cnblogs.com/blog/35695/202111/35695-20211105105426393-708940416.jpg" style="display:none" onload="countImpressions('ad', 'C0-baidu')" />
+        <a target="_blank" href="https://cloud.baidu.com/campaign/20211111/index.html?track=cp:bokeyuan|pf:pc|pp:H-bokeyuan-21shuangshiyi-C0neiyedingbuPCtonglanbanner-cpc|pu:21shuangshiyi-C0neiyedingbuPCtonglanbanner-cpc|ci:21ssy|kw:10511932" onclick="clickBanner(497);countClicks('ad', 'C0-baidu')">
+            <div class="bannerbar aliyun forpc" style="background-size: contain; background-image: url(https://img2020.cnblogs.com/blog/35695/202111/35695-20211105105426393-708940416.jpg)">
+            </div>
+        </a>     
+
+    <!--done-->
+<div id="home">
+
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wuyepeng/p/9801095.html">
+    <span>【转】TCP连接突然断开的处理方法</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>TCP是因特网中的传输层协议，使用三次握手协议建立连接，下面是TCP建立连接的全过程。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1169746/201810/1169746-20181016222041581-68535125.png" alt=""></p>
+<p><img src="https://img2018.cnblogs.com/blog/1169746/201810/1169746-20181016222100535-1420119234.png" alt=""></p>
+<p><img src="https://img2018.cnblogs.com/blog/1169746/201810/1169746-20181016222110439-1190195302.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2018.cnblogs.com/blog/1169746/201810/1169746-20181016222116131-1100960086.png" alt=""></p>
+<p>&nbsp;</p>
+<p>TCP断开连接的过程：TCP四次挥手。</p>
+<p>&nbsp;<img src="https://img2018.cnblogs.com/blog/1169746/201810/1169746-20181016222128418-1355760234.png" alt=""></p>
+<p>&nbsp;</p>
+<p>TCP/IP 协议簇分层结构</p>
+<p>数据链路层主要负责处理传输媒介等众多的物理接口细节；</p>
+<p>网络层负责处理数据分组在网络中的活动，包括上层数据报文的分割、选路 等；</p>
+<p>传输层则负责为两台主机提供端到端的通信；</p>
+<p>应用层将负责处理应用程序的特定细节。</p>
+<p>其中，IP 协议是网络层的核心协议，用来提供不可靠、无连接的数据传递服务；而 TCP 协议则处于传输层，其基于不可靠无连接的 IP 协议能够为两台主机提供面向连接的、可靠的通信。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>探测 TCP 连接断连的三种常用方法</p>
+<p>探测 TCP 连接是否断连或是工作正常的原理比较简单：定期向连接的远程通信节点发送一定格式的信息并等待远程通信节点的反馈，如果在规定时间内收到来自远程节点的正确的反馈信息，那么该连接就是正常的，否则该连接已经断连。依据该原理，目前常用的探测方法有以下三种。</p>
+<p>应用程序的自我探测</p>
+<p>应用程序本身附带探测其自身建立的 TCP 连接的功能。这种方法具有极大的灵活性，可以依据应用本身的特点选择相应的探测机制和功能实现。然而，实际应用中，大部分应用程序均没有附带自我探测的功能。</p>
+<p>第三方应用程序的探测</p>
+<p>此种方法就是在服务节点上安装相应的第三方应用程序来探测该节点上所有的 TCP 连接是否正常或是已经断连。该方法最大的不足就是需要所有支持探测的客户端能够识别来自该探测应用的数据报文，因此，实际应用中比较少见。</p>
+<p>TCP 协议层的保活探测</p>
+<p>最常用的探测方法就是采用 TCP 协议层提供的保活探测功能即 TCP 连接保活定时器。尽管该功能并不是 RFC 规范的一部分，但是几乎所有的类 Unix 系统均实现了该功能，所以使得该探测方法被广泛使用。</p>
+<p>&nbsp;</p>
+<p>转载：http://www.ibm.com/developerworks/cn/aix/library/0808_zhengyong_tcp/&nbsp;TCP 连接断连问题剖析</p>
+<p>http://blog.csdn.net/hguisu/article/details/38700899&nbsp;&nbsp;TCP连接的状态详解以及故障排查</p>
+<p>http://blog.csdn.net/kkkkkxiaofei/article/details/12966407&nbsp;Tcp通信中服务器处理客户端意外断开</p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2018-10-16 22:19</span>&nbsp;
+<a href="https://www.cnblogs.com/wuyepeng/">cs_wu</a>&nbsp;
+阅读(<span id="post_view_count">5645</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9801095" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(9801095);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '9801095', targetLink: 'https://www.cnblogs.com/wuyepeng/p/9801095.html', title: '【转】TCP连接突然断开的处理方法' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 456781, cb_blogApp = 'wuyepeng', cb_blogUserGuid = '437f307c-c913-4be0-cd58-08d49c352df2';
+    var cb_entryId = 9801095, cb_entryCreatedDate = '2018-10-16 22:19', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 cs_wu
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1p2_sYPTOVWCOs8dU-0HEPa2kX1jUiEuAPFbeecy5XrPvmOng5T6UjIln8VBOhAf3ChLUP-vqRmAgoOb7fkNskmnRm9Kn4_fb1DcHGJrWAXrqD7-M2nDBj1uG0dfDoXc1M" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>

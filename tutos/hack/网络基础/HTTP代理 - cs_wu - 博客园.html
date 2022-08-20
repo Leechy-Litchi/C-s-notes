@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="HTTP代理存在两种形式： 第一种是&amp;#160;RFC 7230 - HTTP/1.1: Message Syntax and Routing（即修订后的 RFC 2616，HTTP/1.1 协议的第" />
+    <meta property="og:description" content="HTTP代理存在两种形式： 第一种是&amp;#160;RFC 7230 - HTTP/1.1: Message Syntax and Routing（即修订后的 RFC 2616，HTTP/1.1 协议的第" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>HTTP代理 - cs_wu - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=7g5gOKcn7oN77JERPfnHYGtKZZ_9q-gZn4Sp6JkXL2w" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=fhjD3LBAogwv4msY5hZj1-Lqop0E8TBlvILoIM_o3fE" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wuyepeng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wuyepeng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wuyepeng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 456781;
+        var currentBlogApp = 'wuyepeng';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '5adef592-c39a-443f-1803-08d7eb74c09a';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-06 08:00';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8yHqQbEMVqWgCEBNqpXAa87B4C2SyNErr7L-TCIg-A0"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-codinglife has-navbar">
+ <div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wuyepeng/p/14736557.html">
+    <span>HTTP代理</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>HTTP代理存在两种形式：</p>
+<p>第一种是&nbsp;<a href="http://tools.ietf.org/html/rfc7230">RFC 7230 - HTTP/1.1: Message Syntax and Routing</a>（即修订后的 RFC 2616，HTTP/1.1 协议的第一部分）描述的普通代理。这种代理扮演的是「中间人」角色，对于连接到它的客户端来说，它是服务端；对于要连接的服务端来说，它是客户端。它就负责在两端之间来回传送 HTTP 报文。</p>
+<p>第二种是&nbsp;<a href="https://tools.ietf.org/html/draft-luotonen-web-proxy-tunneling-01">Tunneling TCP based protocols through Web proxy servers</a>（通过 Web 代理服务器用隧道方式传输基于 TCP 的协议）描述的隧道代理。它通过 HTTP 协议正文部分（Body）完成通讯，以 HTTP 的方式实现任意基于 TCP 的应用层协议代理。这种代理使用 HTTP 的 CONNECT 方法建立连接，但 CONNECT 最开始并不是 RFC 2616 - HTTP/1.1 的一部分，直到 2014 年发布的 HTTP/1.1 修订版中，才增加了对 CONNECT 及隧道代理的描述，详见&nbsp;<a href="https://tools.ietf.org/html/rfc7231#section-4.3.6">RFC 7231 - HTTP/1.1: Semantics and Content</a>。实际上这种代理早就被广泛实现。</p>
+<p>本文描述的第一种代理，对应《HTTP 权威指南》一书中第六章「代理」；第二种代理，对应第八章「集成点：网关、隧道及中继」中的 8.5 小节「隧道」。</p>
+<p>第一种普通代理：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1169746/202105/1169746-20210506194050244-792335171.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>第二种隧道代理：HTTP 客户端通过 CONNECT 方法请求隧道代理创建一条到达任意目的服务器和端口的 TCP 连接，并对客户端和服务器之间的后继数据进行盲转发。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1169746/202105/1169746-20210506194158072-386705990.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>假如我通过代理访问 A 网站，浏览器首先通过 CONNECT 请求，让代理创建一条到 A 网站的 TCP 连接；一旦 TCP 连接建好，代理无脑转发后续流量即可。所以这种代理，理论上适用于任意基于 TCP 的应用层协议，HTTPS 网站使用的 TLS 协议当然也可以。这也是这种代理为什么被称为隧道的原因。对于 HTTPS 来说，客户端透过代理直接跟服务端进行 TLS 握手协商密钥，所以依然是安全的，下图中的抓包信息显示了这种场景：</p>
+<p><img src="https://st.imququ.com/i/webp/static/uploads/2015/11/wireshark_connect.png.webp" alt="wireshark_connect" width="800" height="560" class="loaded"></p>
+<p>可以看到，浏览器与代理进行 TCP 握手之后，发起了 CONNECT 请求，报文起始行如下：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">CONNECT imququ.com:443 HTTP/1.1</pre>
+</div>
+<p>对于 CONNECT 请求来说，只是用来让代理创建 TCP 连接，所以只需要提供服务器域名及端口即可，并不需要具体的资源路径。代理收到这样的请求后，需要与服务端建立 TCP 连接，并响应给浏览器这样一个 HTTP 报文：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">HTTP/1.1 200 Connection Established</pre>
+</div>
+<p>浏览器收到了这个响应报文，就可以认为到服务端的 TCP 连接已经打通，后续直接往这个 TCP 连接写协议数据即可。通过 Wireshark 的 Follow TCP Steam 功能，可以清楚地看到浏览器和代理之间的数据传递：</p>
+<p><img src="https://st.imququ.com/i/webp/static/uploads/2015/11/wireshark_connect_detail.png.webp" alt="wireshark_connect_detail" width="800" height="555" class="loaded"></p>
+<p>可以看到，浏览器建立到服务端 TCP 连接产生的 HTTP 往返，完全是明文，这也是为什么 CONNECT 请求只需要提供域名和端口：如果发送了完整 URL、Cookie 等信息，会被中间人一览无余，降低了 HTTPS 的安全性。HTTP 代理承载的 HTTPS 流量，应用数据要等到 TLS 握手成功之后通过 Application Data 协议传输，中间节点无法得知用于流量加密的 master-secret，无法解密数据。而 CONNECT 暴露的域名和端口，对于普通的 HTTPS 请求来说，中间人一样可以拿到（IP 和端口很容易拿到，请求的域名可以通过 DNS Query 或者 TLS Client Hello 中的 Server Name Indication 拿到），所以这种方式并没有增加不安全性。</p>
+<p>&nbsp;</p>
+<p><strong>HTTP代理和HTTPS代理的区别？</strong></p>
+<div>HTTP和HTTPS代理服务器，一般指的是代理服务器支持HTTPS协议和HTTP协议，</div>
+<div>如果请求的URL是http的，使用HTTP代理服务器，客户端-&gt;代理服务器-&gt;服务器之间数据都是明文的，不安全的。如果请求的URL是https,且代理服务器支持https协议，那么使用代理服务器时，代理服务器一般会使用CONNECT method（隧道模式，客户端和代理服务器之间建立隧道进行通信）数据是安全的。</div>
+<div>HTTP代理有多种做法，通常使用CONNECT method，通过proxy建立一条隧道(隧道代理)，这样proxy无法解密数据；此外，还有一种类似于中间人攻击的代理手法。</div>
+<div>&nbsp;</div>
+<div>connect 建立过程都是明文的，但是&nbsp;CONNECT 请求只需要提供域名和端口，这样子保证了请求的安全性，真正的数据需要等到TLS 握手成功后才用加密发送出去。</div>
+<div>也就是说，使用了proxy后，代理服务器和客户端之间的通信是明文的，但是两者之间交换的只有域名和端口，proxy对客户端传过来的数据做解析取出域名和端口，跟服务器建立连接，建立好连接后给客户端返回，此时就算是建立好隧道了，建立好隧道后，客户端直接在隧道里跟服务器通信，此时proxy只是做个转发，不会再处理客户端的数据</div>
+<p></p>
+<div><strong>connect方法</strong></div>
+<div>http 1.1定义了8种方法，connect为其中之一，HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。通常用于SSL加密服务器的链接（经由非加密的HTTP代理服务器）。</div>
+<div>并非所有的http隧道支持connect方法，Http隧道分为两种：</div>
+<div>1 &nbsp;不使用CONNECT的隧道</div>
+<div>不使用CONNECT的隧道，实现了数据包的重组和转发。在Proxy收到来自客户端的Http请求之后，会重新创建Request请求，并发送到目标服务器，。当目标服务器返回Response给Proxy之后，Proxy会对Response进行解析，然后重新组装Response，发送给客户端。所以，在不使用CONNECT方式建立的隧道，Proxy有机会对客户端与目标服务器之间的通信数据进行窥探，而且有机会对数据进行串改。</div>
+<div>&nbsp;</div>
+<div>2 &nbsp;使用CONNECT的隧道</div>
+<div>而对于使用CONNECT的隧道则不同。当客户端向Proxy发起Http CONNECT Method的时候，就是告诉Proxy，先在Proxy和目标服务器之间先建立起连接，在这个连接建立起来之后，目标服务器会返回一个回复给Proxy，Proxy将这个回复转发给客户端，这个Response是Proxy跟目标服务器连接建立的状态回复，而不是请求数据的Response。在此之后，客户端跟目标服务器的所有通信都将使用之前建立起来的建立。这种情况下的Http隧道，Proxy仅仅实现转发，而不会关心转发的数据。这也是为什么在使用Proxy的时候，Https请求必须首先使用Http CONNECT建立隧道。因为Https的数据都是经过加密的，Proxy是无法对Https的数据进行解密的，所以只能使用CONNECT，仅仅对通信数据进行转发。</div>
+<p>&nbsp;</p>
+<p>用curl对使用代理和不使用代理做分析：</p>
+<p>使用代理，隧道模式</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">curl -v -I   https://sp.com.cn/v
+* Uses proxy env variable https_proxy == 'http://127.0.0.1:808'
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 808 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to xx
+&gt; CONNECT sp.com.cn:443 HTTP/1.1
+&gt; Host: xx
+&gt; User-Agent: curl/7.61.0
+&gt; Proxy-Connection: Keep-Alive
+&gt;
+&lt; HTTP/1.1 200 OK
+HTTP/1.1 200 OK
+&lt; Date: Thu, 29 Apr 2021 03:29:45 GMT
+Date: Thu, 29 Apr 2021 03:29:45 GMT
+&lt; Transfer-Encoding: chunked
+Transfer-Encoding: chunked
+* Ignoring Transfer-Encoding in CONNECT 200 response
+&lt;
+
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: none
+  CApath: /etc/ssl/certs
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384</pre>
+</div>
+<p>不使用代理：　</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">curl -v -I   https://sp.com.cn/v
+*   Trying 121.46.8.134...
+* TCP_NODELAY set
+* Connected to sp.com.cn  port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: none
+  CApath: /etc/ssl/certs
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+
+</pre>
+</div>
+<p>　　</p>
+<p>以上可以看使用隧道模式的代理和不使用代理，都会进行TLS握手，隧道模式的代理是安全的。</p>
+<p>&nbsp;</p>
+<p>参考资料：</p>
+<p>https://imququ.com/post/x-forwarded-for-header-in-http.html</p>
+<p>http://www.verydoc.net/http/00004337.html</p>
+<p>https://lilywei739.github.io/2017/01/25/principle_for_http_https.html</p>
+<p>https://www.cnblogs.com/a3192048/p/12241059.html</p>
+<p>https://blog.csdn.net/dashenpanguge/article/details/105290116</p>
+<p>《HTTP 权威指南》</p>
+<p>&nbsp;</p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-06 20:00</span>&nbsp;
+<a href="https://www.cnblogs.com/wuyepeng/">cs_wu</a>&nbsp;
+阅读(<span id="post_view_count">205</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14736557" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14736557);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '5adef592-c39a-443f-1803-08d7eb74c09a', targetType: 'blogPost', targetId: '14736557', targetLink: 'https://www.cnblogs.com/wuyepeng/p/14736557.html', title: 'HTTP代理' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 456781, cb_blogApp = 'wuyepeng', cb_blogUserGuid = '437f307c-c913-4be0-cd58-08d49c352df2';
+    var cb_entryId = 14736557, cb_entryCreatedDate = '2021-05-06 20:00', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 cs_wu
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1qaQPkUKikrE9pLe6MInCgeucek_ho11meKvJJys2sIuILW7q4mXR6pbrBtXqId8Ov4rUuKvt9vro1lePG0WcNDaePnoGpcsPjyq2mFL_u1YwhPala-G2WoKCFIP3h2GYQMWo7Nh-trlHTZ2P7hRrtTxZ3xS7WLClvK1t217pSziA" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>
