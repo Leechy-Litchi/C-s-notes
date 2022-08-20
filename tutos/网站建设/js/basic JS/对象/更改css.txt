@@ -1,0 +1,12 @@
+removeProperty()
+移除css属性
+function myFunction() {
+  var declaration = document.styleSheets[0].cssRules[0].style;
+  var removedvalue = declaration.removeProperty("color");
+  alert(removedvalue);
+}
+
+getPropertyPriority() 	返回指定的 CSS 属性是否设置了 "important!" 属性。
+getPropertyValue() 	返回指定的 CSS 属性值。
+item() 	通过索引方式返回 CSS 声明中的 CSS 属性名。
+setProperty() 	在 CSS 声明块中新建或者修改 CSS 属性。

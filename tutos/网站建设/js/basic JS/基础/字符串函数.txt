@@ -1,0 +1,50 @@
+let name = "  gjlnb  ";
+name.toUpperCase();//大写
+name.toLowerCase();//小写
+name.trim();//去空格
+
+//以下三个其实正常用法差不多
+name.slice(2,4);//接取3到5个
+name.substring(2,4);//不能有负数，负数看为0
+name.substr(2,4);//接取3到6个
+
+
+//检索
+name.indexOf("h");//输出1或-1，对应布尔真假
+if (name.indexOf("j") != -1){
+  console.log("true")
+}//后面不加数字则返回该字符所在位置
+//lastindesOf同上
+
+
+name.includes("j",1);
+//后面的数字是指查找的位置，数值返回布尔值turte / false
+
+
+name.startWith("g");//是否以g开头，区分大小写
+name.toLowerCase().startWith("g");//全部转小写即不区分大小写
+
+
+const word = ["php","css"];
+const string = "I love php & css";
+word.some(word => {
+ return string.includes(word);
+});//默认只输出成功匹配的关键字
+const replacestring = word.reduce((pre,word) => {//此处方括号可以省略
+ console.log(pre);
+ //return 'ok'，这里的pre显示上个循环产生的结果，而后面没有则返回ok
+ pre.replace(word,'<a href="?W=${word}">${word};
+}，string)//此处将两次循环中的php和css替换为超链接
+console.log(replacestring);
+document.body.ineerHTML += replacestring;
+
+
+
+function phone(number,len=3){
+ return String(number).slice(0,len*-1)+"*".repeat(len);
+}
+console.log(phone(84361345134,10));//数字可以不写
+
+//转为string方法
+number.toString();
+let num = new String(number)

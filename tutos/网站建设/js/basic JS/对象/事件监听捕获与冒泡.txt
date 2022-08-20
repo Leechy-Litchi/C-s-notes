@@ -1,0 +1,24 @@
+<div id="myDiv">
+	<p id="myP">点击该段落， 我是冒泡</p>
+</div><br>
+<div id="myDiv2">
+	<p id="myP2">点击该段落， 我是捕获</p>
+</div>
+document.getElementById("myP").addEventListener("click", function() 
+{
+    alert("你点击了 P 元素!");
+}, false);
+document.getElementById("myDiv").addEventListener("click", function()
+{
+    alert("你点击了 DIV 元素!");
+}, false);
+document.getElementById("myP2").addEventListener("click", function() 
+{
+    alert("你点击了 P 元素!");
+}, true);
+document.getElementById("myDiv2").addEventListener("click", function() 
+{
+    alert("你点击了 DIV 元素!");
+}, true);
+/*点击文字，冒泡先弹P再弹DIV，捕获先弹DIV再弹P
+捕获是从外到内,冒泡是从内往外,p在div内，所以冒泡是先P后div*/

@@ -1,0 +1,20 @@
+source 命令导入数据库需要先登录到数库终端：
+
+ create database abc;      # 创建数据库
+ use abc;                  # 使用已创建的数据库 
+ set names utf8;           # 设置编码
+ source /home/abc/abc.sql  # 导入备份数据库
+
+
+插入数据
+LOAD DATA LOCAL INFILE 'dump.txt' INTO TABLE mytbl;
+
+指定一个 FIELDS 子句,以:分割每一个数据
+LOAD DATA LOCAL INFILE 'dump.txt' INTO TABLE mytbl
+   FIELDS TERMINATED BY ':'
+   LINES TERMINATED BY '\r\n';
+
+在数据文件中的列顺序是 a,b,c，但在插入表的列顺序为b,c,a，则导入语法如下：
+LOAD DATA LOCAL INFILE 'dump.txt' 
+     INTO TABLE mytbl (b, c, a);
+

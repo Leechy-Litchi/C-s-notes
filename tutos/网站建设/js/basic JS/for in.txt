@@ -1,0 +1,33 @@
+var obj = {a:1, b:2, c:3};
+    
+for (var prop in obj) {
+  console.log("obj." + prop + " = " + obj[prop]);
+}
+
+// Output:
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"
+
+
+
+继承的属性不显示。
+
+var triangle = {a: 1, b: 2, c: 3};
+function ColoredTriangle() {
+  this.color = 'red';
+}
+
+ColoredTriangle.prototype = triangle;
+var obj = new ColoredTriangle();
+for (var prop in obj) {
+//判断有没有prop值，有则传入obj，obj是个函数，传入函数，输出red
+  if (obj.hasOwnProperty(prop)) {
+    console.log(`obj.${prop} = ${obj[prop]}`);
+  } 
+}
+
+// Output:
+// "obj.color = red"
+
+hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。

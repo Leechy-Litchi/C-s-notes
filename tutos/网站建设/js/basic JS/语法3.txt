@@ -1,0 +1,156 @@
+getter 是一个获取某个特定属性的值的方法。
+setter 是一个设定某个属性的值的方法。
+
+var o = {
+  a: 7,
+  get b() { 
+    return this.a + 1;
+  },
+  set c(x) {
+    this.a = x / 2
+  }
+};
+
+console.log(o.a); // 7
+console.log(o.b); // 8
+o.c = 50;
+console.log(o.a); // 25
+
+o 对象的属性如下：
+
+    o.a — 数字
+    o.b — 返回 o.a + 1 的 getter
+    o.c — 由  o.c 的值所设置 o.a 值的 setter
+
+
+
+
+在一个对象字面量语法中定义getter和setter使用"[gs]et property()"的方式（相比较于__define[GS]etter__)时，并不是获取和设置某个属性自身，容易让人误以为是"[gs]et propertyName(){ }"这样错误的使用方法。
+定义一个getter或setter函数使用语法"[gs]et property()"，定义一个已经声明的函数作为的getter和setter方法，使用Object.defineProperty(或者Object.prototype.__defineGetter__ 旧语法回退)
+
+使用getter和setter方法扩展 Date原型，为预定义好的Date类添加一个year的属性。定义属性year的getter和setter方法用到了Date类中已存在的getFullYear和setFullYear方法。
+
+定义属性year的getter和setter：
+
+var d = Date.prototype;
+Object.defineProperty(d, "year", {
+  get: function() { return this.getFullYear() },
+  set: function(y) { this.setFullYear(y) }
+});
+
+通过一个Date对象使用getter和setter:
+var now = new Date();
+console.log(now.year); // 2000
+now.year = 2001; // 987617605170
+console.log(now);
+// Wed Apr 18 11:13:25 GMT-0700 (Pacific Daylight Time) 2001
+
+
+
+var o = { a:0 }
+
+Object.defineProperties(o, {
+    "b": { get: function () { return this.a + 1; } },
+    "c": { set: function (x) { this.a = x / 2; } }
+});
+o.c = 10 // Runs the setter, which assigns 10 / 2 (5) to the 'a' property
+console.log(o.b) // Runs the getter, which yields a + 1 or 6
+
+
+
+delete 操作符删除一个不是继承而来的属性。
+
+
+var myobj = new Object;
+myobj.a = 5;
+myobj.b = 12;
+delete myobj.a;
+
+如果一个全局变量不是用 var 关键字声明的话，你也可以用 delete 删除它：
+g = 17;
+delete g;
+
+
+
+
+为对象类型定义属性
+
+prototype 属性为之前定义的对象类型增加属性。
+是该类型的所有对象，不仅仅一个对象增加了一个属性。
+
+为 car 的对象增加了 color 属性，然后为对象 car1 的 color 属性赋值：
+
+Car.prototype.color = null;
+car1.color = "black";
+
+
+定义方法
+一个方法 是关联到某个对象的函数
+或说，一个方法是一个值为某个函数的对象属性。
+定义方法就像定义普通的函数，除了它们必须被赋给对象的某个属性。
+
+objectName.methodname = function_name;
+
+var myObj = {
+  myMethod: function(params) {
+    // ...do something
+  }
+  
+  // 或者 这样写也可以
+  
+  myOtherMethod(params) {
+    // ...do something else
+  }
+};
+这里 objectName 是一个已经存在的对象，methodname 是方法的名称，而 function_name 是函数的名称。
+你可以在对象的上下文中这样调用：
+object.methodname(params);
+
+
+可以在对象的构造函数中包含方法定义来为某个对象类型定义方法。
+例如，你可以为之前定义的 car 对象定义一个函数格式化并显示其属性：
+
+function displayCar() {
+  var result = `A Beautiful ${this.year} ${this.make} ${this.model}`;
+  pretty_print(result);
+}
+
+pretty_print 是一个显示横线和一个字符串的函数。注意使用 this 指代方法所属的对象。
+
+可以在对象定义中通过增加下述语句将这个函数变成 Car 的方法：
+this.displayCar = displayCar;
+
+然后你可以按如下方式为每个对象调用 displayCar 方法：
+car1.displayCar();
+car2.displayCar();
+
+
+
+this 引用对象
+this可以在方法中使用以指代当前对象。
+例如，假设你有一个名为 validate 的函数，它根据给出的最大与最小值检查某个对象的 value 属性：
+
+function validate(obj, lowval, hival) {
+  if ((obj.value < lowval) || (obj.value > hival)) {
+    alert("Invalid Value!");
+  }
+}
+
+然后，你可以在每个元素的 onchange 事件处理器中调用 validate，并通过 this 传入相应元素，代码如下：
+
+<input type="text" name="age" size="3"
+  onChange="validate(this, 18, 99)">
+
+总的说来， this 在一个方法中指调用的对象。
+与 form 属性一起使用时，this 可以指代当前对象的父窗体。
+
+窗体 myForm 包含一个 Text 对象和一个按钮，用户点击按键，Text 对象的值被设为窗体的名称。按钮的 onclick 事件处理器使用 this.form 以指代其父窗体，即 myForm。
+
+<form name="myForm">
+<p><label>Form name:<input type="text" name="text1" value="Beluga"></label>
+<p><input name="button1" type="button" value="Show Form Name"
+     onclick="this.form.text1.value = this.form.name">
+</p>
+</form>
+
+

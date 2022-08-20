@@ -1,0 +1,13 @@
+"use strict";
+var public = "233";
+console.log(public);
+//这样的话会出错，在严格模式下系统变量会报错，以提示你不能用它
+//假如这里使用use strict 以下两个都会显示未设
+function show(){
+web = "233";
+//假如这里加use strcit，则web会显示没设
+}
+function show2(){
+hh = "ok";
+}
+show()

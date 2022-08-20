@@ -1,0 +1,29 @@
+// ==UserScript==
+// @name         贴吧自动签到收集
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  负责收集贴吧
+// @author       CraftDeadMRC
+// @match        https://tieba.baidu.com/home/main?un=%E9%AB%98%E6%99%AF%E7%8F%91sky
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+   // window.open("http://www.baidu.com")
+    $('.j_text').click();
+    var namelist = [];
+    namelist = document.getElementsByClassName("u-f-item unsign");
+    console.log(namelist.length);
+    var num = namelist.length;
+    for( let i = 0;i < num ; i++){
+        console.log(namelist[i].href);
+        setTimeout(function (){
+        window.open(namelist[i].href);
+        }, (i + 1) * 5000);
+};
+
+  //  $('j_signbtn signstar_signed').click();
+
+    // Your code here...
+})();

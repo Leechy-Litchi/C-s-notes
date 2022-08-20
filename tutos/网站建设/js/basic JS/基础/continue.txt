@@ -1,0 +1,19 @@
+hh:for(let i = 0;i<= 10;i++){
+ if(i%2)continue hh;//i%2的值为除后的余，比如5%2=1
+ console.log(i); 
+
+}
+
+
+
+
+hh:for(let i = 0;i<= 10;i++){
+ oh: for(let n = 0;n<=10;n++){
+  if(n%2 == 0){
+   console.log(i,n);
+  }
+  if(n+i>18){
+   break hh;//若n+i大于18则跳出
+  }
+ } 
+}

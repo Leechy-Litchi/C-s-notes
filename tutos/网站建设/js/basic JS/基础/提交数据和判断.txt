@@ -1,0 +1,26 @@
+<html>
+<body>
+<form action="https://www.baidu.com" id = "form">
+用户名:<input type="text" name="user"/>
+<hr /> 
+<input type="checkbox" name="copyright"/>接受协议
+<hr />
+<button>提交<.button>
+<script>
+function query(el){
+ return document.querySelector(el);
+}
+query("#form").addEventListener("submit",
+function(event){
+ let user = query("[name='user']").value.trim();//trim去空格
+ let copyright = query("[name='copyright']).checked;
+ console.log(copyright);//检测copyright是否点击
+//event.preventDefault();如果像这样直接写，会变为默认事件，检测是否填写而无法提交
+ if (!user || copyright == false){
+  event.preventDefault();
+  alert("请接收协议并输入用户名");
+ }
+});
+</script>
+</body>
+</html>

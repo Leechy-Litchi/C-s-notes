@@ -1,0 +1,183 @@
+relatedTarget 事件属性返回与事件的目标节点相关的节点。
+对于 mouseover 事件来说，该属性是鼠标指针移到目标节点上时所离开的那个节点。
+对于 mouseout 事件来说，该属性是离开目标时，鼠标指针进入的节点。
+对于其他类型的事件来说，这个属性没有用。
+判断鼠标是否移动到指定位置
+<script>
+function getRelatedElement(event){ 
+	alert("鼠标指针移到了 " + event.relatedTarget.tagName + " 元素");
+}
+</script>
+<p onmouseover="getRelatedElement(event)">鼠标移到这一段。</p>
+
+
+检测鼠标在屏幕上的坐标
+<script type="text/javascript">
+function coordinates(event){
+	x=event.screenX
+	y=event.screenY
+	alert("X=" + x + " Y=" + y)
+}
+</script>
+</head>
+<body onmousedown="coordinates(event)">
+
+<p>
+在文档中点击某个位置。消息框会提示出指针相对于屏幕的 x 和 y 坐标。
+</p>
+</body>
+
+
+
+element.childNodes 	返回元素的一个子节点的数组
+element.children 	返回元素的子元素的集合
+
+function myFunction(){
+	var txt="";
+	var c=document.body.childNodes;
+	for (i=0; i<c.length; i++){
+		txt=txt + c[i].nodeName + "<br>";
+	};
+
+function myFunction() {
+    var c = document.body.children;
+    var txt = "";
+    var i;
+    for (i = 0; i < c.length; i++) {
+        txt = txt + c[i].tagName + "<br>";
+    }
+建议用children
+parentNode：获取父元素
+offsetParent：获取第一个设置定位的父元素
+1 元素自身有fixed定位，offsetParent的结果为null:
+2 当元素自身有fixed固定定位时，固定定位的元素相对于视口进行定位，此时没有定位父级， offsetParent的结果为null
+3 元素自身无fixed定位，且父级元素都未经过定位,输出正常结果
+4 元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素
+
+
+classlist 
+对元素的class进行操作
+function myFunction() {
+    document.getElementById("myDIV").classList.add("mystyle");
+}
+
+add(class1, class2, ...) 	在元素中添加一个或多个类名。
+指定的类名已存在，则不添加
+
+contains(class)    		判断指定的类名是否存在。
+值：true false
+
+item(index) 	返回元素中索引值对应的类名。索引值从 0 开始。
+索引值在区间范围外则返回 null
+classList.item(0);显示第一个元素名
+
+remove(class1, class2, ...) 	移除一个或多个类名。
+注意： 移除不存在的类名，不会报错。
+
+toggle(class, true|false) 	在元素中切换类名。
+第一个参数为移除的类名，并返回 false。
+如果类名不存在则在添加类名，并返回 true。
+第二个是可选参数，是个用于设置元素是否强制添加或移除类，不管该类名是否存在。例如：
+
+移除一个 class: element.classList.toggle("classToRemove", false);
+添加一个 class: element.classList.toggle("classToAdd", true);
+
+document.getElementById('myid').className
+输出id为myid的元素的classname
+
+
+cloneNode
+复制一个元素
+function myFunction(){
+	var itm=document.getElementById("myList2").lastChild;
+	var cln=itm.cloneNode(true);
+	document.getElementById("myList1").appendChild(cln);
+}
+
+compareDocumentPosition
+比较两个元素的位置
+function myFunction(){
+	var p1=document.getElementById("p1").lastChild;
+	var p2=document.getElementById("p2").lastChild;
+	var x=document.getElementById("demo");
+	x.innerHTML=p1.compareDocumentPosition(p2);
+}
+
+contentEidtable
+检测是否可以编辑
+值为布尔
+function myFunction() {
+    document.getElementById("myP").contentEditable = true;
+    document.getElementById("demo").innerHTML = "以上 p 元素现在可编辑，尝试修改文本。";
+}
+
+
+insertBefore
+在某项前插入
+function myFunction(){
+	var newItem=document.createElement("LI")
+	var textnode=document.createTextNode("Water")
+	newItem.appendChild(textnode)
+	var list=document.getElementById("myList")
+	list.insertBefore(newItem,list.childNodes[0]);
+}
+
+
+isDefaultNamespace
+是否在该网站，少用
+function myFunction(){
+	var d=document.documentElement;
+	var x=document.getElementById("demo");
+	x.innerHTML=d.isDefaultNamespace("http://www.w3.org/1999/xhtml");
+}
+
+
+isEqualNode
+比较两个节点是否相同
+如果满足下列条件两个节点就相等并返回true：
+
+    有相同节点类型
+    相同的节点名，节点值，本地名，命名空间URI和前缀。
+    他们与所有的后代都有相同的子节点
+    有相同的属性和属性值(属性没有相同的排序方式)
+
+function myFunction(x,y){
+	var item1=document.getElementById(x).firstChild;
+	var item2=document.getElementById(y).firstChild;
+	var x=document.getElementById("demo");
+	x.innerHTML=item1.isEqualNode(item2);
+}
+
+
+isSameNode
+查看两个节点是否在同一个父节点下
+function myFunction(){
+	var item1=document.getElementById("myList");
+	var item2=document.getElementsByTagName("UL")[0];
+	var x=document.getElementById("demo");
+	x.innerHTML=item1.isSameNode(item2);
+}
+
+document.body.nodeName;
+返回节点名
+
+nextElementSibling
+指定下一个元素
+    nextSibling 属性返回元素节点之后的兄弟节点（包括文本节点、注释节点）；
+    nextElementSibling 属性只返回元素节点之后的兄弟元素节点（不包括文本节点、注释节点）；
+function myFunction() {
+    var x = document.getElementById("item1").nextElementSibling.innerHTML; 
+    document.getElementById("demo").innerHTML = x;
+}
+
+
+
+element.offsetHeight 	返回任何一个元素的高度包括边框和填充，但不是边距
+element.offsetWidth 	返回元素的宽度，包括边框和填充，但不是边距
+element.offsetLeft 	返回当前元素的相对水平偏移位置的偏移容器
+element.offsetParent 	返回元素的偏移容器
+element.offsetTop 	返回当前元素的相对垂直偏移位置的偏移容器
+element.ownerDocument 	返回元素的根元素（文档对象）
+element.parentNode 	返回元素的父节点
+element.previousSibling 	返回某个元素紧接之前元素
+element.previousElementSibling 	返回指定元素的前一个兄弟元素（无注释与文本）

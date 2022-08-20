@@ -1,0 +1,133 @@
+forEach
+每个都调用
+<button onclick="numbers.forEach(myFunction)">点我</button>
+var numbers = [4, 9, 16, 25];//因为是全局变量，所以前面可以调用
+function myFunction(item, index) {
+    demoP.innerHTML = demoP.innerHTML + "index[" + index + "]: " + item + "<br>"; 
+}
+
+
+
+<button onclick="numbers.forEach(myFunction)">点我</button>
+var sum = 0;//声明
+var numbers = [65, 44, 12, 4];
+function myFunction(item) {
+    sum += item;
+    demo.innerHTML = sum;//因为forEach，全部的数都加了一遍
+}
+
+<p>乘以: <input type="number" id="multiplyWith" value="10"></p>
+function myFunction(item,index,arr) {
+    arr[index] = item * document.getElementById("multiplyWith").value;
+    demo.innerHTML = numbers;
+}
+乘法也是，不过输出的所有数都是乘了之后的数
+
+
+
+from
+通过字符串创建一个数组
+语法
+Array.from(object, mapFunction, thisValue)
+参数 	描述
+object 	必需，要转换为数组的对象。
+mapFunction 	可选，数组中每个元素要调用的函数。
+thisValue 	可选，映射函数(mapFunction)中的 this 对象。
+
+var myArr = Array.from("RUNOOB");
+if(myArr instanceof Array) {/8instanceof检测是否是Array，判断其左边对象是否为其右边类的实例*/
+    document.getElementById("demo").innerHTML = myArr[0];
+} else {
+	document.getElementById("demo").innerHTML = "该对象不是数组！";
+}
+
+返回集合中包含的对象数组。
+var setObj = new Set(["a", "b", "c"]);
+var objArr = Array.from(setObj);
+objArr[1] == "b";  // true
+
+
+使用箭头语法和映射函数更改元素的值。
+var arr = Array.from([1, 2, 3], x => x * 10);
+// arr[0] == 10;
+// arr[1] == 20;
+// arr[2] == 30;
+
+
+includes
+检测是否包含
+let site = ['runoob', 'google', 'taobao'];
+document.write(site.includes('runoob')); 
+// true 
+document.write("<br>"); 
+document.write(site.includes('baidu')); 
+
+
+indexOf
+返回数组中某个指定的元素位置
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var a = fruits.indexOf("Apple");
+a 结果输出：
+2
+以上输出结果意味着 "Apple" 元素位于数组中的第 3 个位置。
+// false
+
+
+Array.isArray(obj)
+判断对象是否为数组：
+function myFunction() {
+    var fruits = ["Banana", "Orange", "Apple", "Mango"];
+    var x = document.getElementById("demo");
+    x.innerHTML = Array.isArray(fruits);
+}
+
+
+join()
+加入元素
+把数组中的所有元素转换为一个字符串：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var energy = fruits.join();
+energy输出结果：
+Banana,Orange,Apple,Mango
+ 
+使用不同的分隔符：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var energy = fruits.join(" and ");
+energy 结果输出：
+Banana and Orange and Apple and Mango 
+
+
+keys
+输出键值（即编号，比如0 Banana）
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var x = fruits.keys();
+document.getElementById("demo1").innerHTML = x.next().value;
+document.getElementById("demo2").innerHTML = x.next().value;
+document.getElementById("demo3").innerHTML = x.next().value;
+
+
+map()
+map() 返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+map() 方法按照原始数组元素顺序依次处理元素。
+array.map(function(currentValue,index,arr), thisValue)
+
+返回一个数组，数组中元素为原始数组的平方根:
+var numbers = [4, 9, 16, 25];
+function myFunction() {
+    x = document.getElementById("demo")
+    x.innerHTML = numbers.map(Math.sqrt);
+}
+输出结果为:
+2,3,4,5
+
+
+pop
+移除最后一个元素
+shift
+移除第一个元素
+
+移除最后一个数组元素
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.pop();
+fruits 结果输出：
+Banana,Orange,Apple

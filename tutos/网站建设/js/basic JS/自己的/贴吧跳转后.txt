@@ -1,0 +1,31 @@
+// ==UserScript==
+// @name         贴吧签到跳转后
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  负责贴吧点击签到
+// @author       CraftDeadMRC
+// @match        https://tieba.baidu.com/f?*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    document.onreadystatechange = subSomething;//当页面加载状态改变的时候执行这个方法.
+    function subSomething(){
+     if(document.readyState == "complete") //当页面加载状态
+       $('.j_signbtn').click();
+       //
+       for( let i = 0;i < 5 ; i++){
+         setTimeout(function (){
+         $(".j_captcha_input").val("sdfg")
+         let event = JQuery.event('keydown');
+         event.keyCode = 13;
+         $(".j_captcha_input").trigger(e)
+         window.close();
+        }, (i + 1) * 1000);
+ };//
+};
+
+
+
+})();

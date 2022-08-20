@@ -1,0 +1,19 @@
+PHP脚本执行完成后，该临时表也会自动销毁
+关闭客户端程序时才会销毁临时表
+
+CREATE TEMPORARY TABLE SalesSummary (
+     product_name VARCHAR(50) NOT NULL
+     , total_sales DECIMAL(12,2) NOT NULL DEFAULT 0.00
+     , avg_unit_price DECIMAL(7,2) NOT NULL DEFAULT 0.00
+     , total_units_sold INT UNSIGNED NOT NULL DEFAULT 0
+);
+
+
+
+用查询直接创建临时表的方式：
+
+CREATE TEMPORARY TABLE 临时表名 AS
+(
+    SELECT *  FROM 旧的表名
+    LIMIT 0,10000
+);

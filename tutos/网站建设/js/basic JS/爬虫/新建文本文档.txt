@@ -1,0 +1,7 @@
+axios是JavaScript中很常用的异步网络请求库，相比jQuery，它更轻量、更专业。既能够用于浏览器端，也可以用于Node。它的语法风格是promise形式的。在本任务中，只需要了解如下用法就足够了：
+
+axios.get(url).then((resp) => {
+    请求成功，处理resp.data中的html数据
+}).catch((err) => {
+    请求失败，错误处理
+})

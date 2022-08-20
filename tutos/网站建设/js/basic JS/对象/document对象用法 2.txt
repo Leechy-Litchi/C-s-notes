@@ -1,0 +1,162 @@
+显示本页URL
+document.baseURI;
+
+
+添加属性
+document.createAttribute；
+
+<style type="text/css">
+.democlass{
+	color:red;
+}
+</style>
+<h1>Hello World</h1>
+<p id="demo">单击按钮来创建一个“类”属性值“democlass”插入到上面的H1元素。</p>
+<button onclick="myFunction()">点我</button>
+function myFunction(){
+	var h1=document.getElementsByTagName("H1")[0];
+	var att=document.createAttribute("class");
+	att.value="democlass";
+	h1.setAttributeNode(att);
+}
+
+
+
+document.createComment("My personal comments");
+创建注释，一般不用
+
+
+createDocumentFragment
+将元素附加到文档片段，然后将文档片段附加到DOM树（即先创造，再插入）
+<ul><li>Coffee</li><li>Tea</li></ul>
+<p id="demo">使用createDocumentFragment,列表的最后一子添加列表项。</p>
+<button onclick="myFunction()">点我</button>
+<script>
+function myFunction(){
+	var d=document.createDocumentFragment();
+	d.appendChild(document.getElementsByTagName("LI")[0]);//子节点添加一个li
+	d.childNodes[0].childNodes[0].nodeValue="Milk";//虚拟节下的li属性text为milk
+	document.getElementsByTagName("UL")[0].appendChild(d);
+/*d是fragment，d.childNodes[0]就是fragment的第一个子元素，就是第一个li元素，d.childNodes[0].childNodes[0]就是li的第一个子元素，就是text元素
+之所以会将Tea挤上去，是因为插入时将已有节点往上移，已经为0时直接溢出
+如果getElementsByTagName("LI")[0])改为1，则创造了一个空节点一个li，插入时空节点覆盖li[1]，即Tea，然后插入了虚拟节的li[1]。*/
+};
+简单理解版
+var element  = document.getElementById('ul'); // 要求 ul 存在
+var fragment = document.createDocumentFragment();
+var browsers = ['Firefox', 'Chrome', 'Opera', 
+    'Safari', 'Internet Explorer'];
+browsers.forEach(function(browser) {
+    var li = document.createElement('li');
+    li.textContent = browser;
+    fragment.appendChild(li);
+});
+element.appendChild(fragment);
+</script>
+结果
+<ul id = "ul">
+    Firefox    都是li
+    Chrome
+    Opera
+    Safari
+    Internet Explorer
+</ul>
+
+
+document.createElement()
+创建元素
+function myFunction(){
+	var btn=document.createElement("BUTTON");//创建按钮，但无文字
+	var t=document.createTextNode("CLICK ME");//给按钮添加文字
+	btn.appendChild(t);
+	document.body.appendChild(btn);
+};
+
+
+
+document.doctype
+查看文档信息
+加.name是查看类型
+document.documentElement
+查看元素，相当于控制台查看器，可以输出全部文本内容，innerhtml
+document.documentURI
+输出URL，与baseURL同理
+ document.domain
+输出域名
+document.embeds.length;
+查看网页有多少embed（可加载swf），没大用
+ document.inputEncoding;
+输出文档编码，和document.charset差不多
+
+normalize 
+合并相邻的文本节点并删除空的文本节点。用于规范文本
+
+
+document.querySelector("#demo").innerHTML = "Hello World!";
+根据CSS选择器选取第一个项
+document.querySelectorAll(".example");
+选择所有class为example的项
+与getElementsById或getElementsByClassName区别
+getElement(s)Byxxxx获取的是动态集合，querySelector获取的是静态集合
+
+var list = ul.getElementsByTagName('li');
+     for(var i =0;i<list.length;i++){//注意此处i<list，因为数值更新会循环
+        ul.appendChild(document.createElement('li')); //动态追加li
+    }
+会陷入死循环
+
+ var list = ul.querySelectorAll('li');
+     for(var i = 0;i<list.length;i++){//因为是固定数值，即是动态追加也不会更新
+         ul.appendChild(document.createElement('li'));//动态追加li
+     }
+是固定的值，所以不会死循环
+
+
+按键
+HTMLElementObject.accessKey=accessKey
+function accesskey(){
+  document.getElementById('runoob').accessKey="r"
+  document.getElementById('g').accessKey="g"
+}
+
+监听按键
+function myFunction(event) {
+    var x = event.key;
+    document.getElementById("demo").innerHTML = "按键为: " + x;
+}
+
+
+鼠标位置
+<script>
+function show_coords(event){
+	var x=event.clientX;
+	var y=event.clientY;
+	alert("X coords: " + x + ", Y coords: " + y);
+}
+</script>
+<p onmousedown="show_coords(event)">点击这一行。一个消息框会提示出鼠标指针的 x 和 y 坐标。</p>
+
+
+
+检测按键位置
+ location 属性可用于 onkeydown 和 onkeyup 事件，但不能用于 onkeypress事件。
+0 代表标准按键 (如 "A")
+1 代表左侧按键 (如左侧的 CTRL 键)
+2 代表右侧按键 (如右侧的 CTRL 键)
+3 代表数字键盘上的按键 (如在数字键盘上的 "2" )
+function myFunction(event) {
+    var x = event.location;
+    document.getElementById("demo").innerHTML = "按键的位置在: " + x;
+}
+
+
+将字符转为unicode，可以做按键判断
+function myFunction(event) {
+    var x = event.charCode;
+    document.getElementById("demo").innerHTML = " Unicode 值为：" + x;
+}
+简易查询unicode
+    var x = event.charCode || event.keyCode;  // 获取 Unicode 值
+    var y = String.fromCharCode(x);           // 将值转换为字符
+    document.getElementById("demo").innerHTML = "数字: " + x + " = 字符: " + y;
+}

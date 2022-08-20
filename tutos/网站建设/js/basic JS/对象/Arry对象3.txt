@@ -1,0 +1,119 @@
+push（加在后面）
+unshift（加在前面）
+
+数组中添加新元素：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.push("Kiwi")
+fruits 结果输出：
+Banana,Orange,Apple,Mango,Kiwi
+
+添加一个以上元素
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.push("Kiwi","Lemon","Pineapple")
+输出
+Banana,Orange,Apple,Mango,Kiwi,Lemon,Pineapple
+
+
+splice
+用于添加或删除数组中的元素。
+注意：这种方法会改变原始数组。
+数组中添加新元素：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.splice(2,0,"Lemon","Kiwi");
+//2代表插入在2的位置，0代表删除0个，如果不添加只删除，会返回删除数组
+输出：
+Banana,Orange,Lemon,Kiwi,Apple,Mango
+
+
+lastIndexOf() 
+返回一个指定的元素在数组中最后出现的位置，从该字符串的后面向前查找
+查找数组元素 "Apple"出现的位置：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var a = fruits.lastIndexOf("Apple");
+输出：
+2
+输出结果 "Apple" 位于数组第 2 个位置.
+
+indexOf 和 lastIndexOf 都是索引文件
+indexOf 是查某个指定的字符串在字符串首次出现的位置（索引值） （也就是从前往后查）
+lastIndexOf 是从右向左查某个指定的字符串在字符串中最后一次出现的位置（也就是从后往前查）
+
+
+reduce（从左往右加）
+reduceRight（从右往左加）
+array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+参数 	描述
+total 	必需。初始值, 或者计算结束后的返回值。
+currentValue 	必需。当前元素
+currentIndex 	可选。当前元素的索引
+arr 	可选。当前元素所属的数组对象。
+initialValue 	可选。传递给函数的初始值
+
+计算数组元素相加后的总和：
+var numbers = [65, 44, 12, 4];
+function getSum(total, num) {
+    return total + num;
+}
+function myFunction(item) {
+    document.getElementById("demo").innerHTML = numbers.reduce(getSum);
+}
+输出结果：
+125 
+
+
+四舍五入后计算数组元素的总和：
+var numbers = [15.5, 2.3, 1.1, 4.7];
+function getSum(total, num) {
+    return total + Math.round(num);//主要是这个round
+}
+function myFunction(item) {
+    document.getElementById("demo").innerHTML = numbers.reduce(getSum, 0);
+}
+
+
+
+sort
+sort() 方法用于对数组的元素进行排序。
+排序顺序可以是字母或数字，并按升序或降序。
+默认排序顺序为按字母升序。
+数组排序：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.sort();
+输出：
+Apple,Banana,Mango,Orange
+
+数字排序（数字升序）：
+function myFunction(){
+	var points = [40,100,1,5,25,10];
+	points.sort(function(a,b){return a-b});
+//a-b代表升序，b-a代表降序，a b代表取来比较的两个数
+	var x=document.getElementById("demo");
+	x.innerHTML=points;
+}
+这里的a、b是因为内置一个回调函数判断a-b的值
+arr.sort(function(a,b){
+    if(a>b) // 如果 a 大于 b,位置互换
+        return 1;
+    else //否则，位置不变
+        return -1;
+});
+
+如果是英文，默认升序，要倒序需要添加
+组名.reverse();
+
+
+slice
+不会修改原数组
+array.slice(start, end)
+在数组中读取元素：
+var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+var citrus = fruits.slice(1,3);
+输出:
+Orange,Lemon
+可以使用负值，倒着数
+
+截取字符串
+var str="www.runoob.com!";
+document.write(str.slice(4)+"<br>"); // 从第 5 个字符开始截取到末尾
+document.write(str.slice(4,10)); // 从第 5 个字符开始截取到第10个字符
+

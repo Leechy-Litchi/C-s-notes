@@ -1,0 +1,9 @@
+<html>
+<body>
+<script>
+let screenLeft = 88;
+//因为已经设了值，所以拉动窗口还是这个值
+console.log(window.screenLeft);
+</script>
+</body>
+</html>

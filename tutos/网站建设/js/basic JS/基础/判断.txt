@@ -1,0 +1,9 @@
+let hd = [];
+let hh = {};
+console.log(hd instanceof Array);//true
+console.log(hh instanceof Array);//false
+console.log(hh instanceof Object);//true
+
+
+let xx = new User();
+console.log(xx instanceof User);//true

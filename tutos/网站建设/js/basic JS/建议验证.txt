@@ -1,0 +1,6 @@
+while (true){
+ const num = prompt("3+5=").trim();
+ if (!num) continue;
+ console.log(num == "8" ? "yes" : "no");
+ break;
+}

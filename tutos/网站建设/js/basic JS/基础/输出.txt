@@ -1,0 +1,12 @@
+
+    使用 window.alert() 写入警告框
+    使用 document.write() 写入 HTML 输出
+    使用 innerHTML 写入 HTML 元素
+    使用 console.log() 写入浏览器控制台
+document.getElementById("demo").innerHTML = 5 + 6;
+搜索ID = demo 的项目，传入5+6
+
+
+document.write(5 + 6);
+window.alert(5 + 6);
+console.log(5 + 6);

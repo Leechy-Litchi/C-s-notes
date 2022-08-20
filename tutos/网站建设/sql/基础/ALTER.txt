@@ -1,0 +1,62 @@
+需要修改数据表名或者修改数据表字段时，就需要使用ALTER命令。 
+
+使用了 ALTER 命令及 DROP 子句来删除以上创建表的 i 字段：
+
+ ALTER TABLE testalter_tbl  DROP i;
+
+如果表中只剩一个字段则无法使用
+
+
+使用 ADD 来向数据表中添加列，如下在表 testalter_tbl 中添加 i 字段，并定义数据类型:
+
+ ALTER TABLE testalter_tbl ADD i INT;
+
+执行以上命令后，i 字段会自动添加到数据表字段的末尾。
+
+
+
+ALTER TABLE testalter_tbl ADD i INT FIRST;
+添加于开头
+
+ALTER TABLE testalter_tbl ADD i INT AFTER c;
+添加于结尾
+
+
+
+
+修改字段类型及名称
+使用 MODIFY 或 CHANGE 。
+
+例，把 c 的类型从 CHAR(1) 改为 CHAR(10)
+
+ALTER TABLE testalter_tbl MODIFY c CHAR(10);
+
+ CHANGE 紧跟着的是你要修改的字段名，然后指定新字段名及类型
+
+ ALTER TABLE testalter_tbl CHANGE i j BIGINT;
+
+ ALTER TABLE testalter_tbl CHANGE j j INT;
+
+
+
+
+
+当你修改字段时，你可以指定是否包含值或者是否设置默认值。
+
+指定字段 j 为 NOT NULL 且默认值为100 。
+ ALTER TABLE testalter_tbl 
+ MODIFY j BIGINT NOT NULL DEFAULT 100;
+
+如果不设置默认值，会自动设置默认为 NULL
+
+修改字段默认值
+ ALTER TABLE testalter_tbl ALTER i SET DEFAULT 1000;
+ 
+修改数据表类型
+ALTER TABLE testalter_tbl ENGINE = MYISAM;
+
+修改表名
+ALTER TABLE testalter_tbl RENAME TO alter_tbl;
+
+删除外键约束：keyName是外键别名
+alter table tableName drop foreign key keyName;

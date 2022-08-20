@@ -1,0 +1,63 @@
+创建索引
+CREATE INDEX indexName ON mytable(username(length)); 
+
+如果是CHAR，VARCHAR类型，length可以小于字段实际长度；
+如果是BLOB和TEXT类型，必须指定 length。
+
+
+修改表结构(添加索引)
+ALTER table tableName ADD INDEX indexName(columnName)
+
+创建表的时候直接指定
+CREATE TABLE mytable(  
+ ID INT NOT NULL,   
+ username VARCHAR(16) NOT NULL,  
+ INDEX [indexName] (username(length))  
+ );  
+
+
+删除索引
+DROP INDEX [indexName] ON mytable; 
+
+唯一索引
+CREATE UNIQUE INDEX indexName ON mytable(username(length)) 
+
+修改表结构
+ALTER table mytable ADD UNIQUE [indexName] (username(length))
+
+创建表的时候直接指定
+CREATE TABLE mytable(  
+ ID INT NOT NULL,   
+ username VARCHAR(16) NOT NULL,  
+ UNIQUE [indexName] (username(length))  
+ ); 
+
+
+
+
+实例
+
+ ALTER TABLE testalter_tbl ADD INDEX (c);
+
+ALTER 中使用 DROP 子句来删除索引
+
+ ALTER TABLE testalter_tbl DROP INDEX c;
+
+使用 ALTER 命令添加和删除主键
+
+主键只能作用于一个列上，添加主键索引时，你需要确保该主键默认不为空（NOT NULL）。
+
+ ALTER TABLE testalter_tbl MODIFY i INT NOT NULL;
+ ALTER TABLE testalter_tbl ADD PRIMARY KEY (i);
+
+使用 ALTER 命令删除主键：
+
+ ALTER TABLE testalter_tbl DROP PRIMARY KEY;
+
+删除主键时只需指定PRIMARY KEY，但在删除索引时，你必须知道索引名。
+
+
+显示索引信息
+你可以使用 SHOW INDEX 命令来列出表中的相关的索引信息。可以通过添加 \G 来格式化输出信息。
+尝试以下实例:
+ SHOW INDEX FROM table_name; \G

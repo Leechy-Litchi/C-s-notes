@@ -1,0 +1,104 @@
+closed 	返回窗口是否已被关闭。
+document 	对 Document 对象的只读引用。
+当浏览器载入 HTML 文档, 它就会成为 Document 对象。
+
+    document是一个文档节点。
+    所有的HTML元素都是元素节点。
+    所有 HTML 属性都是属性节点。
+    文本插入到 HTML 元素是文本节点。are text nodes。
+    注释是注释节点。
+
+frames 	返回窗口中所有命名的框架。该集合是 Window 对象的数组，每个 Window 对象在窗口中含有一个框架。
+history 	对 History 对象的只读引用。请参数 History 对象。
+innerHeight 	返回窗口的文档显示区的高度。
+innerWidth 	返回窗口的文档显示区的宽度。
+
+localStorage 	在浏览器中存储 key/value 对。没有过期时间。
+使用 localStorage 创建一个本地存储的 name/value 对，name="lastname" value="Smith", 然后检索 "lastname" 的值，并插入到 id="result" 的元素上:
+// 存储
+// 判断浏览器是否支持
+if (typeof(Storage) !== "undefined") {
+    // 存储
+    localStorage.setItem("lastname", "Smith");
+    // 检索
+    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+} else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+}
+
+
+length 	设置或返回窗口中的框架数量。
+location 	用于窗口或框架的 Location 对象。请参阅 Location 对象。
+name 	设置或返回窗口的名称。
+navigator 	对 Navigator 对象的只读引用。请参数 Navigator 对象。
+opener 	返回对创建此窗口的窗口的引用。
+outerHeight 	返回窗口的外部高度，包含工具条与滚动条。
+outerWidth 	返回窗口的外部宽度，包含工具条与滚动条。
+pageXOffset 	设置或返回当前页面相对于窗口显示区左上角的 X 位置。
+pageYOffset 	设置或返回当前页面相对于窗口显示区左上角的 Y 位置。
+parent 	返回父窗口。
+screen 	对 Screen 对象的只读引用。请参数 Screen 对象。
+screenLeft 	返回相对于屏幕窗口的x坐标
+screenTop 	返回相对于屏幕窗口的y坐标
+screenX 	返回相对于屏幕窗口的x坐标
+sessionStorage 	在浏览器中存储 key/value 对。 在关闭窗口或标签页之后将会删除这些数据。
+screenY 	返回相对于屏幕窗口的y坐标
+self 	返回对当前窗口的引用。等价于 Window 属性。
+status 	设置窗口状态栏的文本。
+top 	返回最顶层的父窗口。
+
+
+
+方法（function）
+alert() 	显示带有一段消息和一个确认按钮的警告框。
+atob() 	解码一个 base-64 编码的字符串。
+btoa() 	创建一个 base-64 编码的字符串。
+blur() 	把键盘焦点从顶层窗口移开。
+clearInterval() 	取消由 setInterval() 设置的 timeout。
+clearTimeout() 	取消由 setTimeout() 方法设置的 timeout。
+close() 	关闭浏览器窗口。
+confirm() 	显示带有一段消息以及确认按钮和取消按钮的对话框。
+focus() 	把键盘焦点给予一个窗口。
+getSelection() 	返回一个 Selection 对象，表示用户选择的文本范围或光标的当前位置。
+
+
+getComputedStyle() 	获取指定元素的 CSS 样式。
+function myFunction(){
+    var elem = document.getElementById("test");
+    var theCSSprop = window.getComputedStyle(elem, null).getPropertyValue("background-color");
+    document.getElementById("demo").innerHTML = theCSSprop;
+}
+element.style 读取的只是元素的内联样式，即写在元素的 style 属性上的样式；而 getComputedStyle 读取的样式是最终样式，包括了内联样式、嵌入样式和外部样式。
+
+element.style 既支持读也支持写，element.style 即可改写元素的样式。
+getComputedStyle 支持读不支持写。可以用 getComputedStyle 读取样式，element.style 修改样式
+
+
+我们可以通过使用 getComputedStyle 读取样式，通过 element.style 修改样式。
+
+
+matchMedia() 	该方法用来检查 media query 语句，它返回一个 MediaQueryList对象。
+
+moveBy() 	可相对窗口的当前坐标把它移动指定的像素。
+创建一个可以移动的窗口
+function openWin(){
+	myWindow=window.open('','','width=200,height=100');
+	myWindow.document.write("<p>这是我的窗口</p>");
+}
+function moveWin(){
+	myWindow.moveBy(250,250);
+	myWindow.focus();
+}
+
+moveTo() 	把窗口的左上角移动到一个指定的坐标。
+open() 	打开一个新的浏览器窗口或查找一个已命名的窗口。
+print() 	打印当前窗口的内容。
+prompt() 	显示可提示用户输入的对话框。
+resizeBy() 	按照指定的像素调整窗口的大小。
+resizeTo() 	把窗口的大小调整到指定的宽度和高度。
+scrollTo()      scrollTo(x,y)
+scrollBy() 	按照指定的像素值来滚动内容。
+scrollTo() 	把内容滚动到指定的坐标。
+setInterval() 	按照指定的周期（以毫秒计）来调用函数或计算表达式。
+setTimeout() 	在指定的毫秒数后调用函数或计算表达式。
+stop() 	停止页面载入。

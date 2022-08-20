@@ -1,0 +1,71 @@
+防止表中出现重复数据
+表中设置指定字段为 PRIMARY KEY（主键） 或者 UNIQUE（唯一） 索引来保证数据的唯一性。
+
+
+设置表中字段 first_name，last_name 不能重复，设置双主键模式来设置数据的唯一性
+如果设置双主键，那么那个键默认值不能为 NULL，可设置为 NOT NULL。
+
+CREATE TABLE person_tbl
+(
+   first_name CHAR(20) NOT NULL,
+   last_name CHAR(20) NOT NULL,
+   sex CHAR(10),
+   PRIMARY KEY (last_name, first_name)
+);
+
+
+如果设置了唯一索引，那么插入重复数据时，将无法执行成功,并抛出错。
+
+INSERT IGNORE INTO 插入数据时，设置了记录的唯一性后
+插入重复数据，将不返回错误，只以警告形式返回。
+而 REPLACE INTO 如果存在 primary 或 unique 相同的记录，则先删除掉。
+再插入新记录。
+
+
+另一种方法是添加一个 UNIQUE 索引
+CREATE TABLE person_tbl
+(
+   first_name CHAR(20) NOT NULL,
+   last_name CHAR(20) NOT NULL,
+   sex CHAR(10),
+   UNIQUE (last_name, first_name)
+);
+
+
+
+统计重复数据
+ SELECT COUNT(*) as repetitions, last_name, first_name
+     FROM person_tbl
+     GROUP BY last_name, first_name
+     HAVING repetitions > 1;
+
+将返回 person_tbl 表中重复的记录数。
+
+查询重复的值，请执行以下操作：
+    确定哪一列包含的值可能会重复。
+    在列选择列表使用COUNT(*)列出的那些列。
+    在GROUP BY子句中列出的列。
+    HAVING子句设置重复数大于1。
+
+过滤重复数据
+SELECT 中使用 DISTINCT 来过滤重复数据。
+
+SELECT DISTINCT last_name, first_name
+     FROM person_tbl;
+
+也可以用 GROUP BY 来读取数据表中不重复的数据：
+
+SELECT last_name, first_name
+     FROM person_tbl
+     GROUP BY (last_name, first_name);
+
+
+删除重复数据
+
+CREATE TABLE tmp SELECT last_name, first_name, sex FROM person_tbl  GROUP BY (last_name, first_name, sex);
+DROP TABLE person_tbl;
+ALTER TABLE tmp RENAME TO person_tbl;
+
+也可以在表中添加 INDEX（索引） 和 PRIMAY KEY（主键）来删除表中的重复记录
+ ALTER IGNORE TABLE person_tbl
+     ADD PRIMARY KEY (last_name, first_name);

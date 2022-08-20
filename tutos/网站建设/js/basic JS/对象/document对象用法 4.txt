@@ -1,0 +1,36 @@
+element.removeAttribute() 	从元素中删除指定的属性
+element.removeAttributeNode() 	删除指定属性节点并返回移除后的节点。
+element.removeChild() 	删除一个子元素
+element.removeEventListener() 	移除由 addEventListener() 方法添加的事件句柄
+element.replaceChild() 	替换一个子元素
+
+element.scrollHeight 	返回整个元素的高度（包括带滚动条的隐蔽的地方）
+element.scrollLeft 	返回当前视图中的实际元素的左边缘和左边缘之间的距离
+element.scrollTop 	返回当前视图中的实际元素的顶部边缘和顶部边缘之间的距离
+element.scrollWidth 	返回元素的整个宽度（包括带滚动条的隐蔽的地方）
+
+
+setAttribute
+设置属性，下面为将输入框改为按钮
+function myFunction(){
+	document.getElementsByTagName("INPUT")[0].setAttribute("type","button"); 
+};
+
+
+setAttributeNode
+设置节点属性
+function myFunction(){
+	var atr=document.createAttribute("class");
+	atr.nodeValue="democlass";
+	var h=document.getElementsByTagName("H1")[0];
+	h.setAttributeNode(atr); 
+};
+
+
+element.tagName 	作为一个字符串返回某个元素的标记名（大写）
+element.textContent 	设置或返回一个节点和它的文本内容
+element.title 	设置或返回元素的title属性
+nodelist.length 	返回节点列表的节点数目。
+item() 方法返回一个节点列表中指定索引的节点。
+返回元素的第一个子节点：
+document.body.childNodes.item(0);

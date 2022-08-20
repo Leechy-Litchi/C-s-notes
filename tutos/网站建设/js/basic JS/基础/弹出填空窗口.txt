@@ -1,0 +1,3 @@
+let sex = prompt("请输入性别") || "保密";
+console.log(sex);
+//prompt指弹出输入框，如果输入框内没有填写，||表示或，即sex变为保密

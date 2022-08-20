@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>使用 var 声明变量</h1>
+
+<p id="demo"></p>
+
+<script>
+var x = 10;
+// 此处 x 为 10
+{ 
+  var x = 6;
+  // 此处 x 为 6
+}
+// 此处 x 为 6
+//通过 var 关键词声明的变量没有块作用域。在块 {} 内声明的变量可以从块之外进行访问。
+document.getElementById("demo").innerHTML = x;
+</script>
+
+</body>
+</html>

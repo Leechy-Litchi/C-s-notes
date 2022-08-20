@@ -1,0 +1,48 @@
+mysqli_function(value,value,...);
+mysqli_connect($connect);
+mysqli_query($connect,"SQL 语句");
+mysqli_fetch_array()
+mysqli_close()
+
+PHP调用mysql函数的语法：
+<?php
+$retval = mysqli_function(value, [value,...]);
+if( !$retval )
+{
+   die ( "相关错误信息" );
+}
+// 其他 MySQL 或 PHP 语句
+?>
+
+
+使用 PHP 脚本连接 MySQL
+
+mysqli_connect() 函数来连接数据库。
+mysqli_connect(host, username, password, dbname,port, socket);
+
+参数 	描述
+host 	可选。规定主机名或 IP 地址。
+username 	可选。规定 MySQL 用户名。
+password 	可选。规定 MySQL 密码。
+dbname 	可选。规定默认使用的数据库。
+port 	可选。规定尝试连接到 MySQL 服务器的端口号。
+socket 	可选。规定 socket 或要使用的已命名 pipe。
+
+
+mysqli_close() 函数来断开与 MySQL 数据库的链接。
+该函数只有一个参数为 mysqli_connect() 函数创建连接成功后返回的 MySQL 连接标识符。
+mysqli_close ( mysqli $link )
+
+完整连接和关闭
+<?php
+$dbhost = 'localhost';  // mysql服务器主机地址
+$dbuser = 'root';            // mysql用户名
+$dbpass = '123456';          // mysql用户名密码
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+    die('Could not connect: ' . mysqli_error());
+}
+echo '数据库连接成功！';
+mysqli_close($conn);
+?>

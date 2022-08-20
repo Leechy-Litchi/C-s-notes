@@ -1,0 +1,10 @@
+<input type="pas" name = "password" />
+<input type="pas" name = "c-password" />
+<span name ="msg"></span>
+<script>
+let inputs  = document.querySeletorAll(
+"[name = 'password'],[name = 'c-password']"
+);
+[...inputs].map(item = {item.addEventListener("keyup",function());
+});
+</script>

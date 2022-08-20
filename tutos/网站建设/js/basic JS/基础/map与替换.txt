@@ -1,0 +1,23 @@
+let lessons = [
+{title:"gjl教233",author:"gjl"},
+{title:"c'4制作",author:"cdmrc"}
+];
+function template(){
+ return'<ul>
+  ${lessons.map(item =>links '<li>作者:${item.author},课程:
+  ${item.title}</li>') 
+//此处的links没括号,但确实传入了值,strings是非${item.xxx}的字符串,vars是author和title等
+  .join("")}</ul>''
+}
+//map用法,数组.map(变量=>改变的量,其中可以将表中的键值单独提取)
+function links(strings,...vars){
+ strings.map(str,key => {
+  return (
+     str + vars[key] ? vars[key].replace('gjl','<a href="https://www.baidu.com>gjl</a>'
+    ) //判断存在vars[key]就将其中的gjl替换为超链接gjl
+//map会根据传入字符串次数来循环,上面有2个表,所以循环2次,key值为循环次数
+   :"")
+  );
+ }).join("");
+}
+document.body.innerHTML += template();

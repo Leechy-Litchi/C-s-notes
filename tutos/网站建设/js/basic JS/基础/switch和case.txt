@@ -1,0 +1,33 @@
+let name "oh";
+let name = "oh";
+switch(name){
+ case "233":
+	console.log("233");
+        break;
+ case "oh":
+	console.log("oh");
+	break;
+ default:
+	console.log("nope");
+}
+
+//判断某个变量的值，如果是则执行后面的语句，用break分割（break用来跳出语句，防止执行后面的语句），用default表示如果都没有的基本值
+
+
+let error = "notice";
+switch(error){
+	case"notice":
+	 console.log("提示");
+	 break;
+	case"warning"：
+	 console.log("警告");
+	 break;
+/* 	case"notice":
+	case"warning"：
+	 console.log("提示或警告");
+	 break; 
+*/
+	case"error":
+	default:
+	 console.log("错误");
+}

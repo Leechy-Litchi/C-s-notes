@@ -1,0 +1,3 @@
+var
+let  作用于块
+const  作用于块

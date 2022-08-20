@@ -1,0 +1,16 @@
+<?php
+$x='a';
+switch ($x){
+case 'a':                      //变量$x的值和该种情况匹配，将从此处开始执行。
+    echo "这里是a"."<br>";
+    break;
+case 'b': 
+    echo "这里是b"."<br>";
+    break;
+case 'c':
+    echo "这里是c"."<br>";
+    break;
+default:
+    echo "这里是default";
+}
+?>

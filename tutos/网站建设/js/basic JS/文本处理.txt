@@ -1,0 +1,104 @@
+split
+分割
+function myFunction(){
+	var str="How are you doing today?";
+	var n=str.split(" ");
+	document.getElementById("demo").innerHTML=n;
+}
+
+
+repeat
+重复次数
+function myFunction() {
+  var str = "Runoob";
+  document.getElementById("demo").innerHTML = str.repeat(2);
+}
+
+
+replace
+替代
+str.replace("Microsoft","Runoob");
+
+
+
+trim
+去除空格
+function myFunction() {
+  var str = "     Runoob     ";
+  alert(str.trim());
+}
+
+
+
+match
+正则匹配
+全局查找字符串 "ain"，且不区分大小写:
+function myFunction(){
+	var str="The rain in SPAIN stays mainly in the plain"; 
+	var n=str.match(/ain/gi);//(/ain/g)为不区分大小写
+	document.getElementById("demo").innerHTML=n;
+}
+
+判断是否微信浏览器:
+function is_weixn(){  
+    var ua = navigator.userAgent.toLowerCase();  
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+        return true;  
+    } else {  
+        return false;  
+    }  
+}
+
+
+
+toExponential
+转为指数模式
+function myFunction(){
+	var num = 5.56789;
+	var x = document.getElementById("demo");
+	x.innerHTML=num.toExponential();
+}
+
+
+toFixed
+指定小数位数
+function myFunction(){
+	var num = 5.56789;
+	var x = document.getElementById("demo");
+	x.innerHTML=num.toFixed(2);
+}
+
+toPrecision
+设置显示位数（从整数起）
+function myFunction(){
+	var num = new Number(13.3714);
+	var n = num.toPrecision(2);
+	var x = document.getElementById("demo");
+	x.innerHTML=n
+}
+
+toString
+转为字符串，也可以改变进制
+function myFunction(){
+	var num = 15;
+	var x = document.getElementById("demo");
+	x.innerHTML=num.toString();
+}
+ var num = 15;
+var a = num.toString();
+var b = num.toString(2);
+var c = num.toString(8);
+var d = num.toString(16);
+a,b,c, 和 d 输出结果:
+15
+1111
+17
+f
+
+valueOf 
+返回一个 Number 对象的基本数字值：
+function myFunction(){
+	var num = 15;
+	var x = document.getElementById("demo");
+	x.innerHTML=num.valueOf();
+}

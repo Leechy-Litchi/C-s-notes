@@ -1,0 +1,13 @@
+let hh = true ? 2 : 5  //为真取前面的，即2
+let hh = false ? 2: 5   //为假取后面的，即5
+let hh = 2 ? (3?'hhh':'233'): 5;  
+//2是个普通的值，为真，往后的第一位，3为真，赋值hhh
+//一般不要嵌套这么多，会影响阅读 
+function div (options = {}){
+ let div = document.createElement("div")；
+ div.style.width = options.width ?
+ options》width : "100px";
+ document.body.appendChild(div);
+}
+div();
+//如果没有赋值宽度，则赋值宽度100px

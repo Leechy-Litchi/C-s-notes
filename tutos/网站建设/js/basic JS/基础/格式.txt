@@ -1,0 +1,10 @@
+function myFunction() {
+    document.getElementById("demo").innerHTML = "Hello Kitty.";
+    document.getElementById("myDIV").innerHTML = "How are you?";
+}
+用分好来分割，用花括号来表示执行一串
+
+//表示注释
+
+先var值再赋值
+

@@ -1,0 +1,59 @@
+左关联: left join ... on ...
+
+右关联: right join... on ...
+
+格式:
+
+select 字段 from 表1 left join 表2 on  条件 (一般为表1与表2的关联条件)
+
+查询用户的所有订单信息 :
+
+user 用户表   
+orders 订单表
+
+select * from user left join orders on user.id = orders.user_id 
+
+
+统计用户的订单数量 (需要分组,通过用户的id)
+select user.username,orders.id,count(*) from user right join orders on user.id = orders.user_id GROUP BY user.id;
++----------+----+----------+
+| username | id | count(*) |
++----------+----+----------+
+| 王五     |  3 |        2 |
+| 张三     |  5 |        1 |
++----------+----+----------+
+
+区别:left join on 左边的表为主表 
+     right join on 右边的表为主表
+
+
+左关联
+select user.* ,orders.number from user  left join orders on user.id = orders.user_id;
++----+----------+------------+------+----------+---------+
+| id | username | birthday   | sex  | address  | number  |
++----+----------+------------+------+----------+---------+
+|  1 | 王五     | 2017-11-25 | 3    | 南阳     | 1000010 |
+|  1 | 王五     | 2017-11-25 | 3    | 南阳     | 1000011 |
+| 10 | 张三     | 2014-07-10 | 1    | 北京市   | 1000012 |
+| 16 | 张小明   | NULL       | 1    | 河南郑州 | NULL    |
+| 22 | 陈小明   | NULL       | 1    | 河南郑州 | NULL    |
+| 24 | 张三丰   | NULL       | 1    | 河南郑州 | NULL    |
+| 25 | 陈小明   | NULL       | 1    | 河南郑州 | NULL    |
+| 26 | 王五     | NULL       | NULL | NULL     | NULL    |
+| 29 | 小黑     | 2017-11-26 | NULL | NULL     | NULL    |
+| 30 | 抖森     | 2017-11-25 | 1    | 山村     | NULL    |
++----+----------+------------+------+----------+---------+
+
+
+
+右关联
+select user.* ,orders.number from user right join orders on user.id = orders.user_id;
++----+----------+------------+-----+---------+---------+
+| id | username | birthday   | sex | address | number  |
++----+----------+------------+-----+---------+---------+
+|  1 | 王五     | 2017-11-25 | 3   | 南阳    | 1000010 |
+|  1 | 王五     | 2017-11-25 | 3   | 南阳    | 1000011 |
+| 10 | 张三     | 2014-07-10 | 1   | 北京市  | 1000012 |
++----+----------+------------+-----+---------+---------+
+
+错误的选择left会导致查出不必要的数据

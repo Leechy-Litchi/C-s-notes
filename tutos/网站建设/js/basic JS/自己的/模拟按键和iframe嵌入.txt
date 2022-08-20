@@ -1,0 +1,12 @@
+var logDom = document.createElement("iframe");
+logDom.style.color = "red";
+logDom.src = 'https://tieba.baidu.com/f?kw=%D5%BD%C5%AE%C9%F1';
+document.body.appendChild(logDom)
+
+
+document.getElementsByClassName("j_captcha_input")[0].value="sadf"
+
+  var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode = 13;//keyCode=13是回车
+            $('.j_captcha_input').trigger(e);//模拟按下回车
+

@@ -1,0 +1,10 @@
+fuction table(options={tr:5,td=3}){
+ console.log(options.tr);
+//前面的tr和td算是初始值
+
+}
+table({tr:20,td:10});//这样可以传入值，不会运用初始值
+类似形式
+let hh = {tr:5,td:3};
+console.log(hh.tr);
+//输出tr的值

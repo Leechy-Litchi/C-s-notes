@@ -1,0 +1,24 @@
+USE数据库名:
+选择要操作的Mysql数据库
+useRUNOOB;
+
+SHOW DATABASES:
+列出MySQL数据库管理系统的数据库列表。
+
+SHOW TABLES:
+显示指定数据库的所有表
+
+SHOW COLUMNS FROM 数据表:
+显示数据表的属性，属性类型，主键信息，是否为NULL，默认值等其他信息。
+
+SHOW INDEX FROM 数据表:
+显示数据表的详细索引信息，包括PRIMARYKEY（主键）。
+
+SHOW TABLE STATUS LIKE [FROMdb_name] [LIKE'pattern']\G:
+该命令将输出Mysql数据库管理系统的性能及统计信息。
+\G 和分号 ; 的作用相似，两者取其一即可。
+
+mysql>SHOW TABLE STATUS FROM RUNOOB;#显示数据库RUNOOB中所有表的信息
+mysql>SHOW TABLE STATUS from RUNOOB LIKE 'runoob%';#表名以runoob开头的表的信息
+mysql>SHOW TABLE STATUS from RUNOOB LIKE 'runoob%'\G;#加上\G，查询结果按列打印
+

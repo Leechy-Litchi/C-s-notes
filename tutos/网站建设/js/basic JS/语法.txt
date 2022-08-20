@@ -1,0 +1,123 @@
+try...catch语句标记要尝试的语句块，并指定一个出现异常时抛出的响应。
+
+
+try {
+
+  nonExistentFunction();
+}
+
+catch(error) {
+
+  console.error(error);
+
+  // expected output: ReferenceError: nonExistentFunction is not defined
+  // Note - error messages will vary depending on browser
+
+}
+
+
+
+判断失败，并在失败后抛出
+try {
+  myRoutine();
+} catch (e) {
+  if (e instanceof RangeError) {
+    // statements to handle this very common expected error
+  } else {
+    throw e;  // re-throw the error unchanged
+  }
+}
+
+
+
+当try块中的抛出一个异常时， exception_var（如catch (e)中的e）用来保存被抛出声明指定的值。你可以用这个标识符来获取关于被抛出异常的信息。
+function isValidJSON(text) {
+  try {
+    JSON.parse(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+
+
+
+try {
+  try {
+    throw new Error("oops");
+  }
+  catch (ex) {
+    console.error("inner", ex.message);
+    throw ex;
+  }
+  finally {
+    console.log("finally");
+  }
+}
+catch (ex) {
+  console.error("outer", ex.message);
+}
+
+// Output:
+// "inner" "oops"
+// "finally"
+// "outer" "oops"
+
+任何给定的异常只会被离它最近的封闭 catch 块捕获一次。当然，在“inner”块抛出的任何新异常 （因为 catch 块里的代码也可以抛出异常），将会被“outer”块所捕获。
+
+
+
+
+从 finally 语句块返回
+如果从finally块中返回一个值，那么这个值将会成为整个try-catch-finally的返回值，无论是否有return语句在try和catch中。这包括在catch块里抛出的异常。
+
+try {
+  try {
+    throw new Error("oops");
+  }
+  catch (ex) {
+    console.error("inner", ex.message);
+    throw ex;
+  }
+  finally {
+    console.log("finally");
+    return;
+  }
+}
+catch (ex) {
+  console.error("outer", ex.message);
+}
+
+// 注: 此 try catch 语句需要在 function 中运行才能作为函数的返回值, 否则直接运行会报语法错误
+// Output:
+// "inner" "oops"
+// "finally"
+因为 finally 块里的 return 语句，"oops" 没有抛出到外层，从 catch 块返回的值同样适用。
+
+
+
+
+try {
+   try_statements
+}
+[catch (exception_var_1 if condition_1) { // non-standard
+   catch_statements_1
+}]
+...
+[catch (exception_var_2) {
+   catch_statements_2
+}]
+[finally {
+   finally_statements
+}]
+try_statements
+    需要被执行的语句。
+catch_statements_1, catch_statements_2
+    如果在try块里有异常被抛出时执行的语句。
+exception_var_1, exception_var_2
+    用于保存关联catch子句的异常对象的标识符。
+condition_1
+    一个条件表达式。
+finally_statements
+    在try语句块之后执行的语句块。无论是否有异常抛出或捕获这些语句都将执行。 

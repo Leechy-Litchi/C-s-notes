@@ -1,0 +1,6 @@
+function star(num){
+console.log(num);
+return "*".repeat(num || 5);
+}
+console.loge(star(3));
+//显示3个星号，如果不填写，默认填入5个

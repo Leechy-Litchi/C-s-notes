@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JavaScript <b>this</b> 关键词</h1>
+
+<p>在本例中，<strong>this</strong> 引用 person2，即使它是 person1 的方法：</p>
+
+<p id="demo"></p>
+
+<script>
+var person1 = {
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+   //这里的this指代已经传进去的调用值
+  }
+}
+var person2 = {
+  firstName:"Bill",
+  lastName: "Gates",
+}
+var x = person1.fullName.call(person2); 
+//person1的fullName函数调用person2的值
+document.getElementById("demo").innerHTML = x; 
+</script>
+
+</body>
+</html>

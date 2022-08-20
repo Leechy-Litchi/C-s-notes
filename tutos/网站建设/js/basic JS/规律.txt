@@ -1,0 +1,8 @@
+find、比较的项目都用("名称")
+赋值的项目都用 XX =   "XX"
+用命令赋值的元素要继续加指令用.
+比如    var newItem=document.createElement("LI")
+	newItem.appendChild(textnode)
+	var list=document.getElementById("myList")
+	list.insertBefore(newItem,list.childNodes[0]);
+对对象进行操作，用 对象.操作()

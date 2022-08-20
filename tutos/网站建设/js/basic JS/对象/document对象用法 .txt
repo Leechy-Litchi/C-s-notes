@@ -1,0 +1,139 @@
+要带引号
+document.all[id] 
+document.all[name]
+document.all.tags[tagname]
+
+document.anchors  所有锚点（有name的项）
+可以加.length输出有多少锚点，也可以用下面的方法输出第N个的文本
+document.write(document.anchors[N].innerHTML)   0代表第一项
+
+document.forms  所有form，属性同anchors
+document.images  同上，但没有innerHTML
+document.links  同上上，而且可以配合Map映射的地址
+document.scripts  同上上上
+ document.title   输出title
+<img src="/static/images/planets.jpg" border="0" usemap="#planetmap" alt="Planets" />
+
+<map name="planetmap" id="planetmap">
+<area shape="circle"
+coords="180,139,14"
+href ="venus.html"
+target ="_blank"
+alt="Venus" />
+<area shape="circle"
+coords="129,161,10"
+href ="mercur.html"
+target ="_blank"
+alt="Mercury" />
+</map>
+
+document.activeElement
+
+<body onclick="myFunction()">
+function myFunction() {
+    var x = document.activeElement.tagName;
+    document.getElementById("demo").innerHTML = x;
+}
+//body里面的元素被点击，触发一次，效果为选取活动的元素的tagNane（比如p、li、input）
+给X赋值，随后显示
+
+
+事件监听
+document.addEventListener("click", function(){
+    document.getElementById("demo").innerHTML = "Hello World!";
+});
+当项目被点击，打印一个Hello World
+document.getElementById("myBtn").addEventListener("click", function(){
+    this.style.backgroundColor = "red";
+});
+修改 <button> 元素的背景：
+
+ 
+
+引用外部函数
+document.addEventListener("click", myFunction);//同个动作可以添加多个
+
+给function传入数值
+var p1 = 5;
+var p2 = 7;
+document.addEventListener("click", function() {
+    myFunction(p1, p2);
+});
+function myFunction(a, b) {
+    var result = a * b;
+    document.getElementById("demo").innerHTML = result;
+}
+
+
+移除function
+document.addEventListener("mousemove", myFunction);
+function myFunction() {
+    document.getElementById("demo").innerHTML = Math.random();
+}
+function removeHandler() {
+    document.removeEventListener("mousemove", myFunction);
+}
+
+
+document.adoptNode(x)
+adoptNode() 方法用于从另外一个文档中获取一个节点。
+节点可以是任何节点类型。
+注意: 节点下的所有子节点都会获取到。
+注意: 节点及其子节点会再源文档中删除。
+
+<iframe src="//www.runoob.com/html/html-tutorial.html" style="height:380px;width:520px;"></iframe>
+<button onclick="myFunction()">点我</button>
+<script>
+function myFunction() {
+    var frame = document.getElementsByTagName("IFRAME")[0];
+    var h = frame.contentWindow.document.getElementsByTagName("H1")[0];
+    var x = document.adoptNode(h);
+    document.body.appendChild(x);
+}
+</script>
+使用 document.importNode() 方法来拷贝节点，但原文档中的节点不删除。.（格式(h,true)）
+使用 element.cloneNode() 方法来拷贝当前文档的节点，且节点不会被删除。
+<ul id="myList1"><li>Coffee</li><li>Tea</li></ul>
+<ul id="myList2"><li>Water</li><li>Milk</li></ul>
+function myFunction(){
+	var itm=document.getElementById("myList2").lastChild;
+	var cln=itm.cloneNode(true);//已有文档提取格式与上面的略有不同
+	document.getElementById("myList1").appendChild(cln);
+}
+
+document.body输出body
+同：    cookie 	设置或返回与当前文档有关的所有 cookie。
+	domain 	返回当前文档的域名。
+	lastModified 	返回文档被最后修改的日期和时间。
+	referrer 	返回载入当前文档的文档的 URL。
+	title 	返回当前文档的标题。
+	URL 	返回当前文档的 URL。
+
+
+打开并写入一个新文档
+document.open
+function createNewDoc(){
+  var newDoc=document.open("text/html","replace");
+  var txt="<html><body>学习 DOM 非常有趣！</body></html>";
+  newDoc.write(txt);
+  newDoc.close();
+  }
+
+
+在新窗口打开新的文档，并添加一些文本。
+document.open(mimetype,replace)
+mimetype 	可选。规定正在写的文档的类型。默认值是 "text/html"。
+replace 	可选。当此参数设置后，可引起新文档从父文档继承历史条目。
+
+
+function winTest()
+  {
+  var txt1 = "This is a new window.";
+  var txt2 = "This is a test.";
+  win.document.open("text/html","replace");
+  win.document.writeln(txt1);//writeln与 write相同，但每个表达式后多写一个换行符。
+  win.document.write(txt2);
+  win.document.close();//关闭用document.open()打开的输出流，并显示选定的数据
+  }；
+var win=window.open('','','width=200,height=200');
+winTest();

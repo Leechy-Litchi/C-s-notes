@@ -1,0 +1,28 @@
+<html>
+<head>
+<script type="text/javascript">
+var c=0
+var t
+function timedCount() 
+  {
+  document.getElementById('txt').value=c
+  c=c+1
+  t=setTimeout("timedCount()",1000)
+/*此处意思是延迟1000ms继续进行本身函数,因为timeout只能执行一次，相当于delay一次*/
+  }
+function stopCount()
+  {
+  clearTimeout(t)//此处为停止
+  }
+</script>
+</head>
+<body>
+
+<form>
+<input type="button" value="Start count!" onClick="timedCount()">
+<input type="text" id="txt">
+<input type="button" value="Stop count!" onClick="stopCount()">
+</form>
+
+</body>
+</html>

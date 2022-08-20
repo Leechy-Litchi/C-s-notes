@@ -1,0 +1,186 @@
+switch 语句评估一个表达式，将表达式的值与case子句匹配，并执行与该情况相关联的语句
+const expr = 'Papayas';
+
+switch (expr) {
+
+  case 'Oranges':
+
+    console.log('Oranges are $0.59 a pound.');
+
+    break;
+
+  case 'Mangoes':
+
+  case 'Papayas':
+
+    console.log('Mangoes and papayas are $2.79 a pound.');
+
+    break;
+
+  default:
+
+    console.log('Sorry, we are out of ' + expr + '.');
+
+}
+    // output: "Mangoes and papayas are $2.79 a pound."
+
+
+
+使用 switch
+
+下面的例子中，如果 expr 计算为 "Bananas"，程序就会匹配值为 "Bananas" 的 case 然后执行相关语句。当遇到 break 时，程序就跳出 switch 然后执行 switch 后的语句。若 break 被省略，值为 "Cherries" 的 case 中的语句就也将被执行。
+switch (expr) {
+  case 'Bananas':
+    console.log('Bananas are $0.48 a pound.');
+    break;
+  case 'Cherries':
+    console.log('Cherries are $3.00 a pound.');
+    break;
+  case 'Mangoes':
+  case 'Papayas':
+    console.log('Mangoes and papayas are $2.79 a pound.');
+    break;
+  default:
+    console.log('Sorry, we are out of ' + expr + '.');
+}
+
+console.log("Is there anything else you'd like?");
+
+
+
+continue 
+用来继续执行（跳过代码块的剩余部分并进入下一循环）一个 while、do-while、for，或者 label 语句。
+
+使用不带 label 的 continue 时，
+它终止当前 while，do-while，或 for 语句到结尾的这次的循环并且继续执行下一次循环。
+使用带 label 的 continue 时， 它会应用被 label 标识的循环语句。
+
+continue 语句的语法看起来像这样：
+
+continue [label];
+
+var i = 0;
+var n = 0;
+while (i < 5) {
+  i++;
+  if (i == 3) {
+    continue;
+  }
+  n += i;
+  console.log(n);
+}
+//1,3,7,12
+
+
+一个被标签为 checkiandj 的语句包含一个标签为 checkj 的语句。
+如果遇到 continue 语句，程序会结束当前 chechj 的迭代并开始下一轮的迭代。
+每次遇到 continue 语句时，checkj 语句会一直重复执行，直到 checkj 语句的条件为 false
+当返回 false 后，将会执行 checkiandj 的剩余语句，checkiandj 会一直执行，直到 checkiandj 的条件为 false。
+当 checkiandj 的返回值为 false 时，将会执行 checkiandj 的下面的语句。
+如果 continue 有一个标记 checkiandj， 程序将会从 checkiandj 语句块的顶部继续执行。
+var i = 0;
+var j = 10;
+checkiandj:
+  while (i < 4) {
+    console.log(i);
+    i += 1;
+    checkj:
+      while (j > 4) {
+        console.log(j);
+        j -= 1;
+        if ((j % 2) == 0) {
+          continue checkj;
+//是奇数时结束本次并继续一次，但后面的会执行一次，如果非奇，则不执行后面的
+        }
+        console.log(j + ' 是奇数。');
+      }
+      console.log('i = ' + i);
+      console.log('j = ' + j);
+  }
+
+
+
+
+
+
+switch (expression) {
+  case value1:
+    // 当 expression 的结果与 value1 匹配时，执行此处语句
+    [break;]
+  case value2:
+    // 当 expression 的结果与 value2 匹配时，执行此处语句
+    [break;]
+  ...
+  case valueN:
+    // 当 expression 的结果与 valueN 匹配时，执行此处语句
+    [break;]
+  [default:
+    // 如果 expression 与上面的 value 值都不匹配，执行此处语句
+    [break;]]
+}
+
+expression
+    一个用来与 case 子语句匹配的表达式。
+case valueN 可选
+    用于匹配 expression 的 case 子句。如果 expression 与给定的 valueN 相匹配，则执行该 case 子句中的语句直到该 switch 语句结束或遇到一个 break 。
+default 可选
+    一个 default 子句；如果给定，这条子句会在 expression 的值与任一 case 语句均不匹配时执行。
+
+
+
+
+
+
+
+
+Object.is() 判断两个值是否相同。如果下列任何一项成立，则两个值相同：
+
+    两个值都是 undefined
+    两个值都是 null
+    两个值都是 true 或者都是 false
+    两个值是由相同个数的字符按照相同的顺序组成的字符串
+    两个值指向同一个对象
+    两个值都是数字并且
+        都是正零 +0
+        都是负零 -0
+        都是 NaN
+        都是除零和 NaN 外的其它同一个数字
+
+这种相等性判断逻辑和传统的 == 运算不同，== 运算符会对它两边的操作数做隐式类型转换（如果它们类型不同），然后才进行相等性比较，（所以才会有类似 "" == false 等于 true 的现象），但 Object.is 不会做这种类型转换。
+
+这与 === 运算符的判定方式也不一样。=== 运算符（和== 运算符）将数字值 -0 和 +0 视为相等，并认为 Number.NaN 不等于 NaN。 
+
+
+
+Object.is('foo', 'foo');     // true
+Object.is(window, window);   // true
+
+Object.is('foo', 'bar');     // false
+Object.is([], []);           // false
+
+var foo = { a: 1 };
+var bar = { a: 1 };
+Object.is(foo, foo);         // true
+Object.is(foo, bar);         // false
+
+Object.is(null, null);       // true
+
+// 特例
+Object.is(0, -0);            // false
+Object.is(0, +0);            // true
+Object.is(-0, -0);           // true
+Object.is(NaN, 0/0);         // true
+
+
+
+JavaScript 有两种比较方式：
+严格比较运算符和转换类型比较运算符。
+
+严格比较运算符（===）
+仅当两个操作数的类型相同且值相等为 true
+
+比较运算符（==）
+在进行比较之前，将两个操作数转换成相同的类型。
+
+关系运算符（比如 <= ）
+先将操作数转为原始值，使它们类型相同，再进行比较运算。

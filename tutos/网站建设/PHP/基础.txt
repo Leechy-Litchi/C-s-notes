@@ -1,0 +1,53 @@
+<?php
+$x=5; // 全局作用域
+
+function myTest() {
+  $y=10; // 局部作用域
+  echo "<p>测试函数内部的变量：</p>";
+  echo "变量 x 是：$x";
+  echo "<br>";
+  echo "变量 y 是：$y";
+} 
+
+myTest();
+
+echo "<p>测试函数之外的变量：</p>";
+echo "变量 x 是：$x";
+echo "<br>";
+echo "变量 y 是：$y";
+?>
+
+
+
+
+    local（局部）
+    global（全局）
+    static（静态）
+ global $x,$y; $y=$x+$y;
+  == 
+ $GLOBALS['y']=$GLOBALS['x']+$GLOBALS['y'];
+
+
+
+函数完成/执行后，会删除所有变量。不删除某个局部变量需要首次声明变量时使用 static 关键词：
+function myTest() {
+  static $x=0;
+  echo $x;
+  $x++;
+}
+
+myTest();
+myTest();
+myTest();
+
+
+echo 和 print 之间的差异：
+    echo - 能够输出一个以上的字符串
+    print - 只能输出一个字符串，并始终返回 1
+提示：echo 比 print 稍快，因为它不返回任何值。
+
+ echo 命令来显示字符串和变量：
+$txt2="W3School.com.cn";
+$cars=array("Volvo","BMW","SAAB");
+echo "Study PHP at $txt2";
+echo "My car is a {$cars[0]}";

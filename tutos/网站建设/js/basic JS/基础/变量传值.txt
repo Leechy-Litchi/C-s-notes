@@ -1,0 +1,5 @@
+let e  ={name:"233"};
+let f = e;
+console.log(e,f);
+f.name - 'ok';
+console.log(e,f);

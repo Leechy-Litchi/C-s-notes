@@ -1,0 +1,39 @@
+GROUP BY 语法
+
+SELECT column_name, function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name;
+
+
+SELECT name, COUNT(*) FROM   employee_tbl GROUP BY name;
+
+| name   | COUNT(*) |
++--------+----------+
+| 小丽 |        1 |
+| 小明 |        3 |
+| 小王 |        2 |
++--------+----------+
+
+
+使用 WITH ROLLUP
+WITH ROLLUP 可以实现在分组统计数据基础上再进行相同的统计（SUM,AVG,COUNT…）。
+例如将以上的数据表按名字进行分组，再统计每个人登录的次数：
+ SELECT name, SUM(singin) as singin_count FROM  employee_tbl GROUP BY name WITH ROLLUP;
++--------+--------------+
+| name   | singin_count |
++--------+--------------+
+| 小丽 |            2 |
+| 小明 |            7 |
+| 小王 |            7 |
+| NULL   |           16 |
++--------+--------------+
+
+
+其中记录 NULL 表示所有人的登录次数。
+可以使用 coalesce 来设置一个可以取代 NUll 的名称，coalesce 语法：
+
+select coalesce(a,b,c);
+
+如果a==null,则选择b；如果b==null,则选择c；如果a!=null,则选择a；如果a b c 都为null ，则返回为null。
+

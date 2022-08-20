@@ -1,0 +1,21 @@
+select _column,_column from _table [where Clause] [limit N][offset M]
+
+    select * : 返回所有记录
+    limit N : 返回 N 条记录
+    offset M : 跳过 M 条记录, 默认 M=0, 单独使用似乎不起作用
+    limit N,M : 相当于 limit M offset N , 从第 N 条记录开始, 返回 M 条记录 
+
+实现分页：
+
+select * from _table limit (page_number-1)*lines_perpage, lines_perpage
+
+或
+
+select * from _table limit lines_perpage offset (page_number-1)*lines_perpage
+
+
+JOIN 分页方式
+
+SELECT * FROM `content` AS t1    
+JOIN (SELECT id FROM `content` ORDER BY id desc LIMIT ".($page-1)*$pagesize.", 1) AS t2    
+WHERE t1.id <= t2.id ORDER BY t1.id desc LIMIT $pagesize;

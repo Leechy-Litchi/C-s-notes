@@ -1,0 +1,39 @@
+<html>
+<body>
+
+<script type="text/javascript">
+myWindow=window.open('/*输入网址*/','','width=200,height=100')
+/*window对象的open方法语法为:window.open( [sURL] [,sName] [,sFeatures] [,bReplace]) */
+myWindow.document.write("This is 'myWindow'")
+myWindow.focus()
+</script>
+
+</body>
+</html>
+/*
+<html>
+<body>
+
+<script type="text/javascript">
+myWindow=window.open('','','width=200,height=100')
+myWindow.document.write("This is 'myWindow'")
+myWindow.blur()
+</script>
+
+</body>
+</html>
+*/
+/*
+<!DOCTYPE html>
+<html>
+<body>
+<p>该实例中，在文档加载后获取焦点：</p>
+<input type="text" id="myText" value="文本域">
+<script>
+window.onload = function() {
+  document.getElementById("myText").focus();//反之，blur为不为焦点
+};
+</script>
+</body>
+</html>
+*/

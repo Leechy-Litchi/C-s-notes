@@ -1,0 +1,57 @@
+<style> 
+#myDIV {
+    margin: 25px;
+    width: 550px;
+    height: 100px;
+    background: orange;
+    position: relative;
+    font-size: 20px;
+}
+
+@keyframes mymove {
+    from {top: 0px;}
+    to {top: 200px;}
+}
+</style>
+</head>
+<body>
+
+<p>该实例使用了 addEventListener() 方法为 DIV 元素添加"animationstart", "animationiteration" 和 "animationend" 事件。</p>
+<div id="myDIV" onclick="myFunction()">点我开始动画</div>
+<script>
+var x = document.getElementById("myDIV")
+// 使用 JavaScript 开始动画
+function myFunction() {
+    x.style.animation = "mymove 1s 2";//2为迭代次数
+}
+
+
+x.addEventListener("animationstart", myStartFunction);//动画开始
+x.addEventListener("animationiteration", myIterationFunction);//动画迭代
+x.addEventListener("animationend", myEndFunction);//动画结束
+
+
+function myStartFunction() {
+    this.innerHTML = "animationstart 事件触发 - 动画已经开始";
+    this.style.backgroundColor = "pink";
+}
+function myIterationFunction() {
+    this.innerHTML = "animationiteration 事件触发 - 动画重新播放";
+    this.style.backgroundColor = "lightblue";
+}
+function myEndFunction() {
+    this.innerHTML = "animationend 事件触发 - 动画已经完成";
+    this.style.backgroundColor = "lightgray";
+}
+</script>
+
+
+<script>
+// 结束或回到开始都会显示完成，期间的动画过渡不显示
+// 标准语法
+document.getElementById("myDIV").addEventListener("transitionend", myFunction);
+function myFunction() {
+    this.innerHTML = "过渡事件触发 - 过渡已完成";
+    this.style.backgroundColor = "pink";
+}
+</script>
