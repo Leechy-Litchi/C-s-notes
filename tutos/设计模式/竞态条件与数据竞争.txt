@@ -1,0 +1,76 @@
+https://www.codenong.com/cs106502448/
+https://www.jianshu.com/p/b9d3468d9baf
+
+
+以操作对象A和被操作的对象B来进行区分
+
+两者都强调在一个过程中可能会导致错误的结果（也就是实际结果与预期的结果不一致）。
+
+竞态条件：强调的是被操作的资源A在被对象B操作完之后，其结果与预期的结果不一样。此时受影响的对象是被操作的资源A，并不关心操作资源的对象B是否受到此资源的影响。A正确与否与之无关，重点在B是否进行了更改。
+比如两个线程A和B对一个数据a进行"++a"操作，如果一个线程B是在另一个线程A操作完之后再取到的数据a，则a的最终结果是正确的。
+如果A的操作还未完成之前，B就取到a的值并对其进行修改，那么a的最终结果与预期不符。这里就竞态条件。
+
+数据竞争：强调的是访问资源B的对象A在访问资源B的时候取到错误的数据而出现错误的结果。此时受影响的对象是操作资源B的对象A，而不关心资源B本身是否是正确的。重点在用了B是否出现错误。
+比如一个线程A在修改数据a，此时线程B不知道线程A在修改数据a，并在修改还未完成的情况下取到了a的值并进行别的计算，此时B其实取到的就是错误的值，但是数据a本身没有错误。这里就是数据竞争。
+
+如果最后的结果是A和B的结果都不正确，那么就是"竞态条件"和"数据竞争"同时存在。
+比如在上面竞态条件的例子中，如果A和B还有后续操作依赖于a的值，那么两种情况就同时出现了，因为不仅a的值与预期不符，而且A与B的后续计算也会因为取得错误的数据而受到影响。
+
+经典数据竞争：成员变量不用volatile 关键字，无法保证成员最终状态能被正确读到
+public class DataRace {
+    private long count;
+    private volatile long countSafe;
+    public void set(long newCount){
+        count=newCount;
+    }
+    public void setSafe(long newCount){
+        countSafe=newCount;
+    }
+
+    public long get(){
+        return count;//
+        /**
+         * A thread:dataRace.set
+         * B thread:dataRace.get
+         *          此时出现数据竞争
+         *          线程内各自有缓存数据 没同步到共享内存
+         *          本应获得A线程更新后的值 却依旧获得旧的值
+         *          此时方法语义不明确，可能造成线程不安全
+         *          不一定会出现竞态条件，看线程执行顺序和运气以及调用语义*
+         */
+    }
+
+    public long getCountSafe(){
+
+        return countSafe;
+        /**
+         * 
+         * 保证countSafe在线程间可见
+         *
+         */
+    }
+}
+
+经典竞态条件：复合操作 自增
+public class RaceCondition {
+    private Long count;
+    private AtomicLong countSafe;
+    private void increase(){
+        /**
+         * get count
+         * set count+1
+         * 复合操作
+         * 既存在数据竞争 get的时候可能另外一个set了
+         * 也存在竞态条件 操作结果不可预测（针对该方法
+         */
+        count++;
+    }
+    private void increaseSafe(){
+        /**
+         * 安全可靠 cas 
+         */
+        countSafe.addAndGet(1);
+
+    }
+}
+

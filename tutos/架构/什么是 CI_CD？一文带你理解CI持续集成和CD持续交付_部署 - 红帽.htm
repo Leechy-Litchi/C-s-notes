@@ -1,0 +1,298 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html>
+<html platform="win"><head>
+  <meta http-equiv="Content-Security-Policy" content="default-src chrome:; img-src data: *; media-src *; object-src 'none'">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <meta name="viewport" content="width=device-width; user-scalable=0">
+  <link rel="stylesheet" href="chrome://global/skin/aboutReader.css" type="text/css">
+  <link rel="stylesheet" href="chrome://global/skin/aboutReaderPocket.css" type="text/css">
+<link rel="stylesheet" href="chrome://global/skin/narrate.css"><title>什么是 CI/CD？一文带你理解CI持续集成和CD持续交付/部署 - 红帽</title><link rel="shortcut icon" href="https://www.redhat.com/misc/favicon.ico"></head>
+
+<body class="light sans-serif loaded" style="--font-size: 20px; --content-width: 30em;">
+  <div class="top-anchor"></div>
+
+  <div id="toolbar" class="toolbar-container">
+    <div class="toolbar reader-toolbar">
+      <div class="reader-controls" articledir="ltr">
+        <button class="close-button button " data-telemetry-id="reader-close" aria-label="关闭阅读模式"><span class="hover-label">关闭阅读模式</span></button>
+        <ul class="dropdown style-dropdown">
+          <li>
+            <button class="dropdown-toggle button style-button" data-telemetry-id="reader-type-controls" aria-label="字体调整"><span class="hover-label">字体调整</span></button>
+          </li>
+          <li class="dropdown-popup">
+            <div class="dropdown-arrow"></div>
+            <div class="font-type-buttons radiorow"><input id="radio-itemsans-serif-button" type="radio" class="radio-button" name="font-type" checked="checked"><label for="radio-itemsans-serif-button" class="sans-serif-button" checked="true">无衬线</label><input id="radio-itemserif-button" type="radio" class="radio-button" name="font-type"><label for="radio-itemserif-button" class="serif-button">衬线</label></div>
+            <div class="font-size-buttons buttonrow">
+              <button class="minus-button" title="缩小文字"></button>
+              <span class="font-size-value">5</span>
+              <button class="plus-button" title="增大文字">
+            </button></div>
+            <div class="content-width-buttons buttonrow">
+               <button class="content-width-minus-button" title="缩小内容宽度"></button>
+               <span class="content-width-value">3</span>
+               <button class="content-width-plus-button" title="放大内容宽度">
+            </button></div>
+            <div class="line-height-buttons buttonrow">
+                <button class="line-height-minus-button" title="缩小行距"></button>
+                <span class="line-height-value">4</span>
+                <button class="line-height-plus-button" title="放大行距">
+            </button></div>
+            <div class="color-scheme-buttons radiorow"><input id="radio-itemlight-button" type="radio" class="radio-button" name="color-scheme" checked="checked"><label for="radio-itemlight-button" class="light-button" checked="true" title="浅色模式">浅色</label><input id="radio-itemdark-button" type="radio" class="radio-button" name="color-scheme"><label for="radio-itemdark-button" class="dark-button" title="深色模式">深色</label><input id="radio-itemsepia-button" type="radio" class="radio-button" name="color-scheme"><label for="radio-itemsepia-button" class="sepia-button" title="纸墨模式">纸墨</label></div>
+          </li>
+        </ul>
+      <ul class="dropdown narrate-dropdown"><li><button class="dropdown-toggle button narrate-toggle" data-telemetry-id="reader-listen" aria-label="聆听"><span class="hover-label">聆听</span></button></li><li class="dropdown-popup"><div class="narrate-row narrate-control"><button class="narrate-skip-previous" disabled="disabled" title="后退"></button><button class="narrate-start-stop" title="开始"></button><button class="narrate-skip-next" disabled="disabled" title="前进"></button></div><div class="narrate-row narrate-rate"><input class="narrate-rate-input" value="0" step="5" max="100" min="-100" type="range" title="速度"></div><div class="narrate-row narrate-voices"><div class="voiceselect voice-select"><button class="select-toggle" aria-controls="voice-options">
+      <span class="label">语音：</span> <span class="current-voice">默认</span>
+    </button>
+    <div class="options" id="voice-options" role="listbox"><button data-value="automatic" class="option selected" tabindex="-1" role="option" aria-selected="true">默认</button><button data-value="urn:moz-tts:sapi:Microsoft Lili - Chinese (China)?zh-CN" class="option" tabindex="-1" role="option">Microsoft Lili - Chinese (China)</button></div></div></div><div class="dropdown-arrow"></div></li></ul><button data-buttonid="pocket-button" data-telemetry-id="reader-save-to-pocket" class="button pocket-button" aria-label="保存到 Pocket" style="background-image: url(&quot;chrome://global/skin/icons/pocket.svg&quot;); background-size: 16px 16px;"><span class="hover-label">保存到 Pocket</span></button></div>
+    </div>
+  </div>
+
+  <div class="container" style="--line-height: 1.6em;" dir="ltr">
+    <div class="header reader-header reader-show-element">
+      <a class="domain reader-domain" href="https://www.redhat.com/zh/topics/devops/what-is-ci-cd">redhat.com</a>
+      <div class="domain-border"></div>
+      <h1 class="reader-title">什么是 CI/CD？一文带你理解CI持续集成和CD持续交付/部署 - 红帽</h1>
+      <div class="credits reader-credits"></div>
+      <div class="meta-data">
+        <div class="reader-estimated-time" dir="ltr">13-16 分钟</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="content">
+      <div class="moz-reader-content reader-show-element"><div id="readability-page-1" class="page"><div id="main-content">
+
+      
+  <article>
+
+  
+    
+
+        
+    
+
+
+
+
+  <nav id="universal-nav" aria-labelledby="unav-label" data-analytics-region="universal-navigation">
+    
+    
+  </nav>
+
+
+
+  
+  <div>
+    <ul>
+      <li><a href="#rh-main-content" target="_self">Skip to content</a></li>
+    </ul>
+  </div>
+
+  
+  
+
+  
+  
+    
+    
+  
+  
+  
+  
+
+  
+  
+    
+    
+  
+  
+  
+  
+    
+    
+  
+
+  
+  
+    
+  
+
+    
+
+
+<span id="rh-main-content"></span>
+
+        
+
+
+
+
+
+    
+    
+    
+
+
+
+
+
+
+
+  
+
+            
+                                                                        
+                                                
+    
+    
+        
+
+
+                                                                        
+                                                                        
+                    
+    
+                        
+    
+
+<section data-rh-layout="stacked" data-rh-content="long-form-article" id="article-hero" data-rh-band-collapse="reduced-bottom-only" data-rh-background="white"><header data-rh-layout="only8 center" data-rh-theme=""><ul data-rh-nav-type="breadcrumb"><li><a href="https://www.redhat.com/zh/topics" title="hub | topics" target="_self">                                主题                            </a></li><li><a href="https://www.redhat.com/zh/topics/devops" title="topic | understanding devops" target="_self">                                了解 DevOps                            </a></li><li>
+                    CI/CD 是什么？                    </li></ul></header></section>
+
+                                
+
+
+    
+
+    <div data-rh-layout="tall-stacked" data-rh-content="long-form-article" data-rh-band-collapse="top" data-rh-unique-id="5723771" data-rh-background="white"><ul><li><a href="#概述" data-target="概述" target="_self">概述</a></li><li><a href="#ci-和-cd-有什么区别？" data-target="ci-和-cd-有什么区别？" target="_self">CI 和 CD 有什么区别？</a></li><li><a href="#ci-持续集成" data-target="ci-持续集成" target="_self">CI 持续集成</a></li><li><a href="#cd-持续交付" data-target="cd-持续交付" target="_self">CD 持续交付</a></li><li><a href="#cd-持续部署" data-target="cd-持续部署" target="_self">CD 持续部署</a></li></ul><div data-rh-layout="tall-stacked" id="article-contents" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><div data-rh-layout="stacked" data-rh-content-size="xl" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><header><p></p><h2 id="概述">概述</h2><p></p></header><div data-eq-pts="xxs-hr: 0, lg-hr: 450" data-eq-state="xxs-hr lg-hr"><p>CI/CD 是一种通过在应用开发阶段引入<a href="https://www.redhat.com/zh/topics/automation/whats-it-automation" target="_self">自动化</a>来频繁向客户交付应用的方法。CI/CD 的核心概念是持续集成、<a href="https://www.redhat.com/zh/topics/devops/what-is-continuous-delivery" target="_self">持续交付</a>和持续部署。作为一个面向开发和运营团队的解决方案，CI/CD 主要针对在集成新代码时所引发的问题（亦称："<a href="https://www.solutionsiq.com/agile-glossary/integration-hell/" target="_self">集成地狱</a>"）。</p><p>具体而言，CI/CD 可让持续自动化和持续监控贯穿于应用的整个生命周期（从集成和测试阶段，到交付和部署）。这些关联的事务通常被统称为"CI/CD 管道"，由<a href="https://www.redhat.com/zh/topics/devops" target="_self">开发和运维团队</a>以敏捷方式协同支持。</p></div></div><div data-rh-layout="stacked" data-rh-content-size="xl" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><header><p></p><h2 id="ci-和-cd-有什么区别？">CI 是什么？CI 和 CD 有什么区别？</h2><p></p></header><div data-eq-pts="xxs-hr: 0, lg-hr: 450" data-eq-state="xxs-hr lg-hr"><p>缩略词 CI / CD 具有几个不同的含义。CI/CD 中的"CI"始终指持续集成，它属于开发人员的自动化流程。成功的 CI 意味着应用代码的新更改会定期构建、测试并合并到共享存储库中。该解决方案可以解决在一次开发中有太多应用分支，从而导致相互冲突的问题。</p><p>CI/CD 中的"CD"指的是持续交付和/或持续部署，这些相关概念有时会交叉使用。两者都事关管道后续阶段的自动化，但它们有时也会单独使用，用于说明自动化程度。</p><p>持续<i>交付</i>通常是指开发人员对应用的更改会自动进行错误测试并上传到存储库（如 <a href="https://redhatofficial.github.io/#!/main" target="_self">GitHub</a> 或容器注册表），然后由运维团队将其部署到实时生产环境中。这旨在解决开发和运维团队之间可见性及沟通较差的问题。因此，持续交付的目的就是确保尽可能减少部署新代码时所需的工作量。</p><p>持续<i>部署</i>（另一种"CD"）指的是自动将开发人员的更改从存储库发布到生产环境，以供客户使用。它主要为了解决因手动流程降低应用交付速度，从而使运维团队超负荷的问题。持续部署以持续交付的优势为根基，实现了管道后续阶段的自动化。</p><p><img data-delta="1" src="%E4%BB%80%E4%B9%88%E6%98%AF%20CI_CD%EF%BC%9F%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3CI%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E5%92%8CCD%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98_%E9%83%A8%E7%BD%B2%20-%20%E7%BA%A2%E5%B8%BD_files/ci-cd-flow-desktop_edited_0.png" alt="CI/CD flow" width="826" height="218"></p><p>CI/CD 既可能仅指持续集成和持续交付构成的关联环节，也可以指持续集成、持续交付和持续部署这三项构成的关联环节。更为复杂的是，有时"持续交付"也包含了持续部署流程。</p><p>归
+根结底，我们没必要纠结于这些语义，您只需记得 CI/CD 
+其实就是一个流程（通常形象地表述为管道），用于实现应用开发中的高度持续自动化和持续监控。因案例而异，该术语的具体含义取决于 CI/CD 
+管道的自动化程度。许多企业最开始先添加 CI，然后逐步实现交付和部署的自动化（例如作为<a href="https://www.redhat.com/zh/topics/cloud-native-apps" target="_self">云原生应用</a>的一部分）。</p></div></div><div data-rh-layout="stacked" data-rh-content-size="xl" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><header><p></p><h2 id="ci-持续集成">CI 持续集成（Continuous Integration）</h2><p></p></header><div data-eq-pts="xxs-hr: 0, lg-hr: 450" data-eq-state="xxs-hr lg-hr"><p><a href="https://www.redhat.com/zh/solutions/cloud-native-development" target="_self">现代应用开发</a>的目标是让多位开发人员同时处理同一应用的不同功能。但是，如果企业安排在一天内将所有分支源代码合并在一起（称为"<a href="https://thedailywtf.com/articles/Happy_Merge_Day!" target="_self">合并日</a>"），最终可能造成工作繁琐、耗时，而且需要手动完成。这是因为当一位独立工作的开发人员对应用进行更改时，有可能会与其他开发人员同时进行的更改发生冲突。如果每个开发人员都自定义自己的本地<a href="https://www.redhat.com/zh/topics/middleware/what-is-ide" target="_self">集成开发环境（IDE）</a>，而不是让团队就一个基于云的 IDE 达成一致，那么就会让问题更加雪上加霜。</p><p>持
+续集成（CI）可以帮助开发人员更加频繁地（有时甚至每天）将代码更改合并到共享分支或"主干"中。一旦开发人员对应用所做的更改被合并，系统就会通过自
+动构建应用并运行不同级别的自动化测试（通常是单元测试和集成测试）来验证这些更改，确保这些更改没有对应用造成破坏。这意味着测试内容涵盖了从类和函数
+到构成整个应用的不同模块。如果自动化测试发现新代码和现有代码之间存在冲突，CI 可以更加轻松地快速修复这些错误。</p></div></div><div data-rh-layout="stacked" data-rh-content-size="xl" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><header><p></p><h2 id="cd-持续交付">CD 持续交付（Continuous Delivery）</h2><p></p></header><div data-eq-pts="xxs-hr: 0, lg-hr: 450" data-eq-state="xxs-hr lg-hr"><p>完成 CI 中构建及单元测试和集成测试的自动化流程后，持续交付可自动将已验证的代码发布到存储库。为了实现高效的持续交付流程，务必要确保 CI 已内置于开发管道。持续交付的目标是拥有一个可随时部署到生产环境的代码库。</p><p>在持续交付中，每个阶段（从代码更改的合并，到生产就绪型构建版本的交付）都涉及测试自动化和代码发布自动化。在流程结束时，运维团队可以快速、轻松地将应用部署到生产环境中。</p></div></div><div data-rh-layout="stacked" data-rh-content-size="xl" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group lg-group"><header><p></p><h2 id="cd-持续部署">CD 持续部署（Continuous Deployment）</h2><p></p></header><div data-eq-pts="xxs-hr: 0, lg-hr: 450" data-eq-state="xxs-hr lg-hr"><p>对
+于一个成熟的 CI/CD 
+管道来说，最后的阶段是持续部署。作为持续交付——自动将生产就绪型构建版本发布到代码存储库——的延伸，持续部署可以自动将应用发布到生产环境。由于在
+生产之前的管道阶段没有手动门控，因此持续部署在很大程度上都得依赖精心设计的测试自动化。</p><p>实际上，持续部署意味着开发人员对应用的更改在
+编写后的几分钟内就能生效（假设它通过了自动化测试）。这更加便于持续接收和整合用户反馈。总而言之，所有这些 CI/CD 
+的关联步骤都有助于降低应用的部署风险，因此更便于以小件的方式（而非一次性）发布对应用的更改。不过，由于还需要编写自动化测试以适应 CI/CD 
+管道中的各种测试和发布阶段，因此前期投资还是会很大。</p></div></div></div></div>  
+
+<div data-rh-unique-id="7202391">
+         <article>
+  
+        
+    
+
+
+
+
+        
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <section data-rh-layout="stacked" id="keepReading" data-rh-unique-id="6920311" data-rh-background-align="center-center" data-rh-band-collapse="no-padding-top" data-rh-background="white"><header data-rh-layout="only8 center" data-rh-theme=""><p data-rh-align="center"></p><h3>继续阅读</h3><p></p></header><div data-rh-layout="4 4 4 flex center"><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box xs-box box-edges sm-box"><header data-rh-align="left"></header><p>如果您想要充分发挥出 DevOps 的敏捷性和响应力，则必须在应用的整个生命周期内兼顾 IT 安全性。</p></div><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box xs-box box-edges sm-box"><header data-rh-align="left"></header><p>CI/CD 可让持续自动化和持续监控贯穿于应用的整个生命周期（从集成和测试阶段，到交付和部署）。</p></div><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box xs-box box-edges sm-box"><header data-rh-align="left"></header><p>DevOps 工程师身怀独特的技能和专业知识，可以在组织内实现协作、创新和文化转变。 &nbsp;</p></div></div></section>  </article>
+
+ <article>
+  
+        
+
+
+
+    
+
+            
+<section data-rh-layout="stacked" data-rh-background="gray"><header data-rh-layout="only8 center" data-rh-theme=""><p data-rh-align="center"></p><h3>详细了解 DevOps</h3><p></p></header><div data-rh-layout="stacked"><h4 id="产品">产品</h4><div data-rh-layout="card-gallery"><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box xs-box box-edges sm-box md-box lg-box"><div data-rh-align="logo-short" data-rh-use-fallback=""><a href="https://www.redhat.com/zh/services/consulting/open-innovation-labs" title="Red Hat Open Innovation Labs" target="_self"><p><img src="%E4%BB%80%E4%B9%88%E6%98%AF%20CI_CD%EF%BC%9F%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3CI%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E5%92%8CCD%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98_%E9%83%A8%E7%BD%B2%20-%20%E7%BA%A2%E5%B8%BD_files/red-hat-open-innovation-labs.svg" alt="Red Hat Open Innovation Labs"></p></a></div><p>在红帽专家的指导下参与高强度、富有针对性的驻留培训。帮助您的团队借助敏捷开发方法和开源工具，快速、高效解决当前业务难题。</p></div><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box xs-box box-edges sm-box md-box lg-box"><div data-rh-align="logo-short" data-rh-use-fallback=""><a href="https://www.redhat.com/zh/services/consulting" title="Red Hat Consulting" target="_self"><p><img src="%E4%BB%80%E4%B9%88%E6%98%AF%20CI_CD%EF%BC%9F%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3CI%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E5%92%8CCD%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98_%E9%83%A8%E7%BD%B2%20-%20%E7%BA%A2%E5%B8%BD_files/red-hat-consulting.svg" alt="Red Hat Consulting"></p></a></div><p>红帽的战略顾问将从大局出发，以战略性视角审视企业发展，分析您当前面临的业务挑战，并提供全面、低成本、高效益的解决方案，帮助您轻松应对各项挑战。</p></div></div><h4 id="related-articles">相关文章</h4><h4 id="resources">相关资源</h4><div data-rh-layout="masonry"><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box"><header data-rh-align="left"><p>
+                    分析文章
+                                                                            </p></header><p>重新思考数字化转型: 新数据检视 2020 年 文化和流程变革要务</p></div><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box"><header data-rh-align="left"><p>
+                    白皮书
+                                                                            </p></header><p>通过红帽 Ansible 自动化平台简化 CI/CD 流程</p></div><div data-rh-layout="stacked" data-rh-background="white" data-rh-theme="light" data-rh-bg-align="cover" data-eq-pts="xxs-box: 0, xs-box: 202, sm-box: 302, md-box: 402, lg-box: 502, xl-box: 602, xxl-box: 702, box-edges: 262" data-rh-justify="justify" data-eq-state="xxs-box"><header data-rh-align="left"><p></p><h3>继续探索</h3><p></p></header></div></div></div></section>  </article>
+
+ <article>
+  
+        
+    
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <div data-rh-layout="stacked" data-rh-unique-id="3488521" data-rh-background-align="center-center" data-rh-background="white"><div data-rh-align="right" data-rh-layout="stacked" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group"><p><img src="%E4%BB%80%E4%B9%88%E6%98%AF%20CI_CD%EF%BC%9F%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3CI%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E5%92%8CCD%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98_%E9%83%A8%E7%BD%B2%20-%20%E7%BA%A2%E5%B8%BD_files/illustration-mail.png" alt="Illustration - mail"></p></div><div data-rh-layout="stacked" data-eq-pts="xxs-group: 0, xs-group: 220, sm-group: 320, md-group: 420, lg-group: 620" data-eq-state="xxs-group xs-group sm-group md-group"><header data-rh-align="left"><p></p><h3>获取更多类似的内容</h3><p></p></header><p>免费订阅我们的 Red Hat Shares 通讯邮件</p></div></div>  </article>
+
+    </div>  
+
+  
+  
+</article>
+
+</div></div></div>
+    </div>
+
+    <div>
+      <div class="reader-message"></div>
+    </div>
+    <div aria-owns="toolbar"></div>
+  </div>
+
+  <div id="pocket-cta-container" hidden="">
+    <div class="pocket-cta-inner" id="pocket-cta-only">
+      <div class="pocket-cta">
+        <header class="pocket-cta-header">Save anything from across the web in Pocket, your personal library.</header>
+        <p class="pocket-cta-subhead">As part of the Firefox family, 
+Pocket provides a quiet, calm space that’s perfect for reading. It 
+strips away all the distractions of the internet so you can really 
+focus.</p>
+        <a href="https://getpocket.com/signup?utm_source=firefox_reader&amp;utm_medium=variant_cta_only" class="pocket-btn pocket-sign-up"><strong>Sign up</strong> - it’s free</a>
+        <a href="https://getpocket.com/explore?utm_source=firefox_reader&amp;utm_medium=variant_cta_only" class="pocket-btn pocket-discover-more"><strong>Discover more</strong></a>
+      </div>
+      <button class="pocket-dismiss-cta" title="Dismiss"></button>
+    </div>
+
+    <div class="pocket-cta-inner" id="pocket-cta-and-recs">
+      <div class="pocket-recs-top">
+        <div class="col">
+          <header class="pocket-cta-header">Discover the most thought-provoking stories out there, curated by Pocket.</header>
+          <p class="pocket-cta-subhead">As part of the Firefox family, 
+Pocket surfaces the best articles out there—new perspectives, intriguing
+ deep-dives, timeless classics—and we do this with the same dedication 
+to privacy you’ve come to expect from Firefox and Mozilla. </p>
+        </div>
+        <div class="col">
+          <button class="pocket-collapse-recs"></button>
+        </div>
+      </div>
+
+      <div class="pocket-recs"></div>
+
+      <div class="pocket-sign-up-wrapper">
+        <a href="https://getpocket.com/explore?utm_source=firefox_reader&amp;utm_medium=variant_cta_plus_recs" class="pocket-btn pocket-sign-up"><strong>Discover more</strong></a>
+      </div>
+    </div>
+  </div>
+
+
+
+</body></html>
