@@ -1,0 +1,34 @@
+lfence禁止前后对load重排序
+sfence禁止store
+mfence禁止load/store
+
+lfence指令实现了Load Barrier，相当于LoadLoad Barriers。
+sfence指令实现了Store Barrier，相当于StoreStore Barriers。
+mfence指令实现了Full Barrier，相当于StoreLoad Barriers。
+
+LoadLoad屏障（读读屏障）：对于这样的语句Load1; LoadLoad; Load2，
+在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。
+
+StoreStore屏障（写写屏障）：对于这样的语句Store1; StoreStore; Store2，
+在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。
+
+LoadStore屏障（读写屏障）：对于这样的语句Load1; LoadStore; Store2，
+在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。
+
+StoreLoad屏障（写读屏障）：对于这样的语句Store1; StoreLoad; Load2，
+在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。
+它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。
+
+final关键字
+如果一个实例的字段被声明为final，则JVM会在初始化final变量后插入一个sfence。也就是说它必须要在这个位置完成初始化而不能出现往后的情况
+
+类的final字段在<clinit>()方法中初始化，其可见性由JVM的类加载过程保证。
+
+final字段的初始化在<init>()方法中完成。sfence禁用了sfence前后对store的重排序，且保证final字段初始化之前（include）的内存更新都是可见的。
+
+
+
+再谈部分初始化
+上述良好性质被称为“初始化安全性”。它保证，对于被正确构造的对象，所有线程都能看到构造函数给对象的各个final字段设置的正确值，而不管采用何种方式来发布对象。
+
+这里将可见性从“final字段初始化之前（include）的内存更新”缩小到“final字段初始化”。猴子没找到确切的原因，手里暂时只有一个jdk也不方便验证。可能是因为，JVM没有要求虚拟机实现在生成<init>()方法时编排字段初始化指令的顺序。

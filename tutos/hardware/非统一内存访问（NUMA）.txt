@@ -1,0 +1,47 @@
+分配内存会优先分配该线程所在CPU的最近内存
+
+https://zhuanlan.zhihu.com/p/336365600
+早期的计算机，内存控制器还没有整合进 CPU，所有的内存访问都需要经过北桥芯片来完成
+
+CPU 通过前端总线（FSB，Front Side Bus）连接到北桥芯片，然后北桥芯片连接到内存——内存控制器集成在北桥芯片里面。
+这种架构被称为 UMA1（Uniform Memory Access, 一致性内存访问 ）：总线模型保证了 CPU 的所有内存访问都是一致的，不必考虑不同内存地址之间的差异。
+
+在 UMA 架构下，CPU 和内存之间的通信全部都要通过前端总线。而提高性能的方式，就是不断地提高 CPU、前端总线和内存的工作频率。
+
+越来越多的 CPU 对前端总线的争用，使前端总线成为了瓶颈。
+为了消除 UMA 架构的瓶颈，NUMA2（Non-Uniform Memory Access, 非一致性内存访问）架构诞生了
+
+1.CPU 厂商把内存控制器集成到 CPU 内部，一般一个 CPU socket 会有一个独立的内存控制器。
+2.每个 CPU scoket 独立连接到一部分内存，这部分 CPU 直连的内存称为“本地内存”。
+3.CPU 之间通过 QPI（Quick Path Interconnec)总线进行连接。CPU 可以通过 QPI 总线访问不和自己直连的“远程内存”。
+
+和 UMA 架构不同，在 NUMA 架构下，内存的访问出现了本地和远程的区别：访问远程内存的延时会明显高于访问本地内存。
+
+
+NUMA 的设置
+Linux 有一个命令 numactl3 可以查看或设置 NUMA 信息。
+执行 numactl --hardware 可以查看硬件对 NUMA 的支持信息
+
+1.CPU 被分成 node 0 和 node 1 两组（这台机器有两个 CPU Socket）。
+2.一组 CPU 分配到 96 GB 的内存（这台机器总共有 192GB 内存）。
+3.node distances 是一个二维矩阵，node[i][j] 表示 node i 访问 node j 的内存的相对距离。比如 node 0 访问 node 0 的内存的距离是 10，而 node 0 访问 node 1 的内存的距离是 21。
+
+执行 numactl --show 显示当前的 NUMA 设置
+
+numactl 命令还有几个重要选项：
+--cpubind=0： 绑定到 node 0 的 CPU 上执行。
+--membind=1： 只在 node 1 上分配内存。
+--interleave=nodes：nodes 可以是 all、N,N,N 或 N-N，表示在 nodes 上轮循（round robin）分配内存
+--physcpubind=cpus：cpus 是 /proc/cpuinfo 中的 processor（超线程） 字段，cpus 的格式与 
+--interleave=nodes 一样，表示绑定到 cpus 上运行。
+--preferred=1： 优先考虑从 node 1 上分配内存。
+
+
+Linux 的 NUMA 策略
+
+Linux 识别到 NUMA 架构后，默认的内存分配方案是：优先从本地分配内存。如果本地内存不足，优先淘汰本地内存中无用的内存。使内存页尽可能地和调用线程处在同一个 node。
+(这个策略在2014年已经修正了，现在默认行为是优先分配远程内存。)
+
+这种默认策略在不需要分配大量内存的应用上一般没什么问题。但是对于数据库这种可能分配超过一个 NUMA node 的内存量的应用来说，可能会引起一些奇怪的性能问题。
+
+下面是在网上看到的的例子：由于 Linux 默认的 NUMA 内存分配策略，导致 MySQL 在内存比较充足的情况下，出现大量内存页被换出，造成性能抖动的问题。

@@ -1,0 +1,45 @@
+WC-Write Combining 合并写技术
+为了提高写效率：CPU在写入L1时，同时用wc写入L2
+
+Write Combining Buffer一般是4个字节
+由于ALU（CPU内的整数运算单元）速度太快，所以在写入L1的同时，写入一个WC Buffer，满了之后，再直接更新到L2
+
+CPU缓存是一种高效的非链式结构的hash map，每个桶（bucket）通常是64个字节。这就是一个“缓存行（cache line）”。缓存行是内存交换的实际单位。
+如果CPU需要访问的地址hash后的行尚不在缓存中，那么缓存中对应位置的缓存行会被清除，以便载入新的行。
+这些缓冲区的数量是有限的，且随CPU模型而异。例如在Intel CPU中，同一时刻只能拿到4个。这意味着，在一个循环中，你不应该同时写超过4个不同的内存位置，否则你将不能享受到合并写（write combining）的好处。
+http://ifeve.com/writecombining/
+不要忘了超线程（hyper-threading），可能会有2个线程竞争同一个核的缓冲区。 
+
+迷惑操作：
+对6个array进行写入
+int i = ITERATIONS;
+while(--i!=0){
+	int slot = i&MASK;
+	byte b = (byte)i;
+	arrayA[slot] = b; 
+	arrayB……
+	……
+	arrayF[slot] = b;
+}
+上面写入了7次
+
+int i = ITERATIONS;
+while(--i!=0){
+	int slot = i&MASK;
+	byte b = (byte)i;
+	arrayA[slot] = b; 
+	arrayB……
+	arrayC[slot] = b;
+}
+i = ITERATIONS;
+while(--i!=0){
+	int slot = i&MASK;
+	byte b = (byte)i;
+	arrayD[slot] = b; 
+	arrayE……
+	arrayF[slot] = b;
+}
+上面是4+4共8次
+(array是byte的数组，应该是同类型的操作所以才能合并）
+结果是后面比前面快，因为合并写是以4个字节（4个操作）为一组，所以下面凑齐了两组一并执行
+而前者需要再等一个操作才能一并执行
