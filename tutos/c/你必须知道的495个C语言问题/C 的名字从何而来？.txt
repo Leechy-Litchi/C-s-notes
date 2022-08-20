@@ -1,0 +1,1 @@
+C 源自 Ken Thompson 的实验性语言 B, 而 B 由 Martin Richards 的 BCPL (Basic Combined Programming Language) 得到灵感, 而 BCPL 是  CPL (Combined Programming Language 或也许是 Cambridge Programming Language) 的简化版。有一段时间, 人们猜测 C 的后继者会命名为 P (BCPL  的第三个字母) 而不是 D, 当然, 如今最显见的后裔语言是 C++。 

@@ -1,0 +1,6 @@
+ANSI C 在 <stddef.h> 中定义了  offsetof() 宏, 用 offsetof(struct s, f) 可以计算 出域 f 在结构 s 中的偏移量。 如果出于某种原因, 你需要自己实现这个功能, 可以使用下边这样的代码:
+
+	#define offsetof(type, f) ((size_t) \
+	    ((char *)&((type *)0)->f - (char *)(type *)0))
+
+这种实现不是 100% 的可移植; 某些编译器可能会合法地拒绝接受。 

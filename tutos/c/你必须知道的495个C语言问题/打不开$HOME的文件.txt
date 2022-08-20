@@ -1,0 +1,4 @@
+fopen() 不让我打开文件: "$HOME/.profile"  和 "~/ .myrcfile"。
+
+至少在 Unix 系统下, 像 $HOME 这样的环境变量和家目录的表示符  ~  是由 shell 来展开的。不存在一个调用 fopen() 时的自动扩展机制。
+

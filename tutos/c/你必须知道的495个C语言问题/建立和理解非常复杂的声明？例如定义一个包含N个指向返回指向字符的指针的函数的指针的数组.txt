@@ -1,0 +1,22 @@
+这个问题至少有以下3种答案：
+
+（1）char *(*(*a[N])())();
+
+（2）用typedef逐步完成声明：
+	
+typedef char *pc;        /* 字符指针 */ 
+typedef pc fpc();        /* 返回字符指针的函数 */ 
+typedef fpc *pfpc;       /* 上面函数的指针 */ 
+typedef pfpc fpfpc();    /* 返回函数指针的函数 */ 
+typedef fpfpc *pfpfpc;   /* 上面函数的指针 */ 
+pfpfpc a[N];             /* 上面指针的数组 */
+
+
+使用cdecl程序，它可以把英文翻译成C或者把C翻译成英文：
+cdecl> declare a as array of pointer to function returning
+pointer to function returning pointer to char
+char *(*(*a [])())()
+通过类型转换，cdecl也可以用于解释复杂的声明，指出参数应该进入哪一对括号（如同在上述的复杂函数定义中）。
+
+补充：cdecl程序非常有用，它可以在C语言的声明和英语之间进行转换。它可以解释一个现存的C语言声明，cdecl 程序可以帮助你分析复杂的声明。
+

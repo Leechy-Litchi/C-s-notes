@@ -1,0 +1,1 @@
+C中的字符常数是 int 型, 因此 sizeof('a') 是  sizeof(int), 这是另一个与 C++ 不同的地方

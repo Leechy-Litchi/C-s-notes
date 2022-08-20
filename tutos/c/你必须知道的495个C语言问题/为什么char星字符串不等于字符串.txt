@@ -1,0 +1,8 @@
+为什么这样不行？ char *string; ... if(string == "value") { /* string matches "value" */ ... }
+C 中的字符串用字符的数组表示, 而 C 语言从来不会把数组作为一个 整体操作 (赋值, 比较等)。 上面代码段中的 == 操作符比较的是两个 指针 --- 指针变量 string 的值和字符串常数 ``value" 的指针值  --- 看它们是否相等, 也就是说, 看它们是否指向同一个位置。 它们可能并不相等, 所以比较决不会成功。
+
+要比较两个字符串, 一般使用库函数 strcmp():
+
+	if(strcmp(string, "value") == 0) {
+		/* string matches "value" */
+	}

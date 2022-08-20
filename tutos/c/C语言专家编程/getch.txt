@@ -1,0 +1,9 @@
+直接接收一个字符，不用回车
+在conio.h 函数库
+
+linux上没有conio.h 函数库，但是可以
+
+可以使用curses.h 函数库
+在开始使用 curses 的一切命令之前, 您必须先利用 initscr()这个函式来开启 curses 模式.
+
+相对的, 在结束 curses 模式前 ( 通常在您结束程式前 ) 也必须以endwin()来关闭 curses 模式.

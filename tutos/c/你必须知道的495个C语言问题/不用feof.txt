@@ -1,0 +1,5 @@
+为什么这些代码  while(!feof(infp)) { fgets(buf, MAXLINE, infp); fputs(buf, outfp); }  把最后一行复制了两遍？ 
+
+ 在 C 语言中, 只有输入例程试图读并失败以后才能得到文件结束符。 换言之, C 的 I/O 和 Pascal 的不一样。通常你只需要检查输入例程的返回值, 
+
+例如, fgets() 在遇到文件结束符的时候返回 NULL。实际上, 在任何情况下, 都完全没有必要使用 feof()。 

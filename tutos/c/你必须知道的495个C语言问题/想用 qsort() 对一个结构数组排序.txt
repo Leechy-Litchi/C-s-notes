@@ -1,0 +1,14 @@
+想用 qsort() 对一个结构数组排序。我的比较函数接受结构指针, 但是编译器认为这个函数对于 qsort() 是错误类型。我要怎样转换这个函数指针 才能避免这样的警告？ 
+
+这个转换必须在比较函数中进行, 而函数必须定义为接受 ``一般指针" (const void*) 的类型,比较函数可能像这样:
+
+	int mystructcmp(const void *p1, const void *p2)
+	{
+	    const struct mystruct *sp1 = p1;
+	    const struct mystruct *sp2 = p2;
+	    /* 现在比较 sp1->whatever 和 sp2-> ... */
+
+从一般指针到结构 mystruct 指针的转换过程发生在 sp1 = p1 和 sp2 = p2  的初始化中; 由于 p1 和 p2 都是 void 指针, 编译器隐式的进行了类型转换。
+
+另一方面, 如果你对结构的指针进行排序, 你需要间接使用： 
+sp1 = *(struct mystruct * const *)p1。 

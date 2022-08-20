@@ -1,0 +1,14 @@
+有个使用指针的方法：
+
+    int x = 1;
+    if(*(char *)&x == 1)
+        printf("little-endian\n");
+    else
+        printf("big-endian\n");
+
+另外一个可能是用联合。 
+
+https://blog.csdn.net/supersonico/article/details/47451943
+
+先分配了00 00 00 01或者01 00 00 00
+强行转为char，那么只有第一个字节，是01则小端，反之大端，

@@ -1,0 +1,9 @@
+你说的 ``字符串数组" 实际上是 ``字符指针数组"。qsort 比较函数 的参数是被排序对象的指针, 在这里, 也就是字符指针的指针。 然而 strcmp() 只接受字符指针。因此, 不能直接使用  strcmp()。写一个下边这样的间接比较函数:
+
+       /* 通过指针比较字符串 */
+       int pstrcmp(const void *p1, const void *p2)
+       {
+	   return strcmp(*(char * const *)p1, *(char * const *)p2);
+       }
+
+比较函数的参数表示为 ``一般指针" const void *。然后, 它们被转换回 本来表示的类型 (指向字符指针的指针), 再复引用, 生成可以传入 strcmp() 的  char*。 

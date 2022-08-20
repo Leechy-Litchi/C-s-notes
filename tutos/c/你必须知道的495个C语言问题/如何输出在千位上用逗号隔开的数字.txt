@@ -1,0 +1,6 @@
+ <locale.h> 提供了一些函数可以完成这些操作, 但是没有完成这些任务的标准方法。printf() 惟一一处对应 locale 的地方 就是改变它的小数点字符。 
+
+setlocale()负责设置
+举例：
+    setlocale(LC_COLLATE, "zh_CN");  //在Windows下请写作 setlocale (LC_ALL,"zh-CN");
+//LC_NUMERIC 	影响数字格式，包括小数点（用哪个字符来表示小数点）、数字分组等

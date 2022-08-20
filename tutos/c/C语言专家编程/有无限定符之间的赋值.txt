@@ -1,0 +1,14 @@
+把char**变量的值赋给const char**时，编译器会发出错误警告，为什么呢？
+
+char alpha = 'c';
+char *pc = &alpha;
+char **ppc = &pc;
+const char **ppcc1 = ppc;  // error，ppcc1 points to a pointer whose type is const char*
+char *const *ppcc2 = ppc;  // ok, ppcc2 points to a pointer whose type is char* const
+char ** const ppcc3 = ppc; // ok, ppcc3 points to a pointer whose type is char*
+
+C标准中的描述：“要使指针的赋值形式合法，必须满足：两个操作数都是指向有限定符或无限定符的相容类型的指针，左边指针所指向的类型必须具有右边指针所指向类型的全部限定符(指const或volatile)”。
+
+注意，const char类型有限定符const，而const char *类型并没有限定符，它的类型是“指向一个有const限定符的char类型的指针”。同理，const char **同样没有限定符。由于char **和const char **都是没有限定符的指针类型，但它们所指向的类型不一样(前者是char *，后者是const char *)，所以它们是不相容的，不能相互转换。
+
+ const实际上表示read-only，在一个符号前加上const限定符只是表示这个符号不能被修改，但const并不能把变量变成常量，因此在C语言中不能用const int型整数来定义数组的长度，尽管在C++中这是允许的。

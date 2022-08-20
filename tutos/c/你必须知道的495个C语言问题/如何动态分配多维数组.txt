@@ -1,0 +1,22 @@
+ #include <stdlib.h>
+	int **array1 = malloc(nrows * sizeof(int *));
+	for(i = 0; i < nrows; i++)
+	    array1[i] = malloc(ncolumns * sizeof(int));
+
+当然, 在真实代码中, 所有的 malloc 返回值都必须检查。你也可以使用 sizeof(*array1)  和 sizeof(**array1) 代替 sizeof(int *) 和 sizeof(int)。
+
+你可以让数组的内容连续, 但在后来重新分配列的时候会比较困难, 得使用一点指针算术:
+	int **array2 = malloc(nrows * sizeof(int *));
+	array2[0] = malloc(nrows * ncolumns * sizeof(int));
+	for(i = 1; i < nrows; i++)
+	    array2[i] = array2[0] + i * ncolumns;
+
+
+如果上述方案的两次间接因为某种原因不能接受, 你还可以同一个单独的动态分配的一维数组来模拟二维数组:
+    int *array3 = malloc(nrows * ncolumns * sizeof(int));
+
+但是, 你现在必须手工计算下标, 用 array3[i * ncolumns + j] 访问第 i, j 个成员。 使用宏可以隐藏显示的计算, 但是调用它的时候要使用括号和逗号, 这看起来不太象 多维数组语法, 而且宏需要至少访问一维。参见问题 6.16。
+
+另一种选择是使用数组指针:
+    int (*array4)[NCOLUMNS] = malloc(nrows * sizeof(*array4));
+但是这个语法变得可怕而且运行时最多只能确定一维。

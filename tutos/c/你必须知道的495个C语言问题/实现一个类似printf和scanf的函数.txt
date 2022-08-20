@@ -1,0 +1,17 @@
+用 vprintf(), vfprintf() 或 vsprintf()。
+
+下面是一个 error() 函数, 它列印一个出错信息, 在信息前加入字符串  ``error: " 和在信息后加入换行符：
+
+        #include <stdio.h>
+        #include <stdarg.h>
+
+        void error(const char *fmt, ...)
+        {
+	    va_list argp;
+	    fprintf(stderr, "error: ");
+	    va_start(argp, fmt);
+	    vfprintf(stderr, fmt, argp);
+	    va_end(argp);
+	    fprintf(stderr, "\n");
+        }
+同样，有vscanf(), vfscanf() 和 vsscanf()

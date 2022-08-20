@@ -1,0 +1,9 @@
+传统的 C 没有办法生成匿名结构值; 你必须使用临时结构 变量或一个小的结构生成函数。
+
+C99 标准引入了 ``复合常量'' (compound literals); 复合常量的一种形式 就可以允许结构常量。例如, 向假想 plotpoint() 函数传入一个坐标 对常数, 可以调用
+
+    plotpoint((struct point){1, 2});
+
+与 ``指定初始值'' (designated initializers) (C99 的另一个功能) 结合, 也可以用成员名称确定成员值:
+
+    plotpoint((struct point){.x=1, .y=2});
