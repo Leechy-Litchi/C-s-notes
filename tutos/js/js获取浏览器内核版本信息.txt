@@ -1,4 +1,0 @@
-https://blog.csdn.net/lalalademax/article/details/123047202
-
-var angent=navigator.userAgent
-console.log(angent,'ä¯ÀÀÆ÷ÄÚºËĞÅÏ¢'£©
