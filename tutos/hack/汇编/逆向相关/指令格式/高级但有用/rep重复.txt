@@ -1,0 +1,11 @@
+REP指令：按计数寄存器（ECX）中指定的次数重复执行字符串指令
+
+MOV ECX,10 (16进制)
+REP MOVSD
+REP STOSD
+
+重复此时取决于ECX的值
+
+例：
+REP MOVS DWORD PTR ES:[EDI],DWORD PTR DS:[ESI]
+每次执行后ECX-1

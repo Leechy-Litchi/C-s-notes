@@ -1,0 +1,11 @@
+AND r/m8,imm8
+AND r/m16,imm16
+AND r/m32,imm32
+AND r/m16,imm8
+AND r/m32,imm8
+AND r/m8,r8
+AND r/m16,r16
+AND r/m32,r32
+AND r8,r/m8
+AND r16,r/m16
+AND r32,r/m32

@@ -1,0 +1,26 @@
+防止内存排序被打乱，最好都将数据按结构写入，
+同时不能写入没分配的内存中，可以在右下角的界面看到分配了的内存
+立即数写入内存
+mov byte ptr ds:[0018FF0],1
+
+将内存与寄存器进行交互
+esp 0018FFF0 （存放内存地址）
+mov DWORD ptr SS:[esp],esp   （将esp地址存放在栈顶或内存第一个地址）
+
+lea esp,DWORD ptr SS:[esp]   （将栈顶或内存第一个地址的数据存放在esp处）
+
+写入数据时，编译器会自动匹配结构防止出错
+比如
+mov WORD ptr DS:[0018FF0],AL
+会自动变成
+mov BYTE ptr DS:[0018FF0],AL
+
+
+可以通过寄存器的值来寻找地址，称作指针
+ebx 0018FFF8
+mov DWORD ptr ds:[ebx],3
+
+
+
+
+mov不能从内存到内存

@@ -1,0 +1,11 @@
+SUB r/m8,imm8
+SUB r/m16,imm16
+SUB r/m32,imm32
+SUB r/m16,imm8
+SUB r/m32,imm8
+SUB r/m8,r8
+SUB r/m16,r16
+SUB r/m32,r32
+SUB r8,r/m8
+SUB r16,r/m16
+SUB r32,r/m32

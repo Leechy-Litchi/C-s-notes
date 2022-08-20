@@ -1,0 +1,11 @@
+ADD r/m8,imm8
+ADD r/m16,imm16
+ADD r/m32,imm32
+ADD r/m16,imm8
+ADD r/m32,imm8
+ADD r/m8,r8
+ADD r/m16,r16
+ADD r/m32,r32
+ADD r8,r/m8
+ADD r16,r/m16
+ADD r32,r/m32

@@ -1,0 +1,9 @@
+MOV r/m8，r8		r通用寄存器
+MOV r/m16，r16	m代表内存
+MOV r/m32，r32	imm代表立即数
+MOV r8，r/m8		r8代表8位通用寄存器
+MOV r16，r/m16	m8代表8位内存
+MOV r32，r/m32	imm8代表8位立即数
+MOV r8，imm8
+MOV r16，imm16
+MOV r32，imm32
