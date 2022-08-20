@@ -1,0 +1,93 @@
+一、函数调用,此时this是全局的也就是window
+
+1 var c=function(){
+2    alert(this==window)
+3   }
+4   c()//true
+
+二、方法调用
+
+var myObj={
+  value:2,
+  inc:function(num){
+   alert(this.value+num);
+  }
+ }
+ myobject.inc(1); //结果3，因为this指向myObj
+
+注意：内部匿名函数不属于当前对象的函数，因此this指向了全局对象window
+
+
+var myObj={
+   name:'myObject',
+   value:0,
+   increment:function(num){
+    this.value += typeof(num) ==='number'? num:0;
+   },
+   toString:function(){
+    return '[object:'+this.name+'{value:'+this.value+'}]';
+   },
+  
+   getInfo:function(){
+      return (function(){
+        return this.toString();//内部匿名函数不属于当前对象的函数，因此this指向了全局对象window
+      })();
+  }
+ }
+alert(myObj.getInfo());//[object window];
+
+解决方法：
+
+ var myObj={
+  name:'myObject',
+  value:0,
+  increment:function(num)   {
+   this.value += typeof(num) ==='number' ? num : 0;
+  },
+  toString:function()   {
+    return '[object:'+this.name+'{value:'+this.value+'}]';
+  },
+  getInfo:function(){
+   var This=this;//先把当前的this指向存起来
+   return (function(){ 
+      return This.toString();
+   })();
+  }
+ }
+alert(myObj.getInfo());//[Object:myObject {value:0}]
+
+
+三、用new关键字来新建一个函数对象的调用,this指向被绑定到构造函数的实例上
+
+ var fn = function (status){
+  this.status = status;
+ }
+ fn.prototype.get_status = function(){
+   return this.status;
+ }
+ var test = new fn('my status');
+ alert(test.get_status);//my status,this指向test
+
+
+四、apply/call调用
+
+function MyObject(name){
+   this.name=name ||'MyObject';
+   this.value=0;
+   this.increment=function(num){
+   this.value += typeof(num) === 'number' ? num : 0;
+  };
+  this.toString=function(){
+    return '[Object:'+this.name+' {value:'+this.value+'}]';
+  };
+   this.target=this;
+ }
+ function getInfo(){
+   return this.toString();
+ }
+ var myObj=new MyObject();
+ alert(getInfo.apply(myObj));//[Object:MyObject {value:0}],this指向myObj
+ alert(getInfo.apply(window));//[object Window],this指向window
+
+通过call和apply可以重新定义函数的执行环境，即this的指向，这对于一些应用当中是十分常用的。
+

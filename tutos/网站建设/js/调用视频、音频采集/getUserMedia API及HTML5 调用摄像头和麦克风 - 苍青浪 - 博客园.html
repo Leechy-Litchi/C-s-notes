@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="getUserMedia API简介 HTML5的getUserMedia API为用户提供访问硬件设备媒体（摄像头、视频、音频、地理位置等）的接口，基于该接口，开发者可以在不依赖任何浏览器插件的条件" />
+    <meta property="og:description" content="getUserMedia API简介 HTML5的getUserMedia API为用户提供访问硬件设备媒体（摄像头、视频、音频、地理位置等）的接口，基于该接口，开发者可以在不依赖任何浏览器插件的条件" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>getUserMedia API及HTML5 调用摄像头和麦克风 - 苍青浪 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2gvkDF6FFxGA7IN9yjbKCOKiFA_wS6nUueKoZFr98U4" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=Y9jZElSXd1_SIyCam0BlUieX_j5gRAI1zEaKq7gMqLM" />
+    <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/cangqinglang/custom.css?v=jtqp/WrGT8Tvhbo9lgnpeNTa63Y=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=YeIuhpGWdrW_BQzCqRsXIOigB8zTAZyq13lmqD5EU_g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cangqinglang/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cangqinglang/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cangqinglang/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 405579;
+        var currentBlogApp = 'cangqinglang';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '5adef592-c39a-443f-1803-08d7eb74c09a';
+        var hasCustomScript = true;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-01-02 20:02';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=MY2cK6HVIofZMD9TDh3Pnu84XltTFoIi4wdNHk6TcA8"></script>
+    
+    
+    
+</head>
+<body class="skin-coffee has-navbar">
+    <a name="top"></a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+                <a href="https://c.gridsumdissector.com/r/?gid=gad_545_24h80y3t&amp;ck=1057&amp;adk=10648&amp;autorefresh=__AUTOREFRESH__" onclick="countClicks('ad', 'M2-火山引擎')" rel="nofollow">
+                    <img src="https://common.cnblogs.com/images/banner/2021/volcengine-m2.jpg" alt="" onload="impressM2('火山引擎', 'https://i.gridsumdissector.com/v/?gscmd=impress&amp;gid=gad_545_24h80y3t&amp;ck=1057&amp;adk=10648&amp;autorefresh=__AUTOREFRESH__&amp;ts=__TS__')" />
+                </a>
+            </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/cangqinglang/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cangqinglang/">苍青浪</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cangqinglang/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%8B%8D%E9%9D%92%E6%B5%AA">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cangqinglang/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/cangqinglang/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cangqinglang/p/10210826.html">
+    <span>getUserMedia API及HTML5 调用摄像头和麦克风</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<div class="article fmt article__content" data-id="1190000011793960" data-license="cc">
+<h2 id="articleHeader0">getUserMedia API简介</h2>
+<p>HTML5的<strong>getUserMedia API</strong>为用户提供访问硬件设备媒体（摄像头、视频、音频、地理位置等）的接口，基于该接口，开发者可以在不依赖任何浏览器插件的条件下访问硬件媒体设备。&nbsp;<br>getUserMedia API最初是<code>navigator.getUserMedia</code>，目前已被最新Web标准废除，变更为<code>navigator.mediaDevices.getUserMedia（）</code>，但浏览器支持情况不如旧版API普及。&nbsp;<br><code>MediaDevices.getUserMedia（）</code>方法提示用户允许使用一个视频和/或一个音频输入设备，例如相机或屏幕共享和/或麦克风。如果用户给予许可，就返回一个<code>Promise</code>对象，<code>MediaStream</code>对象作为此<code>Promise</code>对象的<code>Resolved</code>［成功］状态的回调函数参数，相应的，如果用户拒绝了许可，或者没有媒体可用的情况下<code>PermissionDeniedError</code>或者<code>NotFoundError</code>作为此<code>Promise</code>的<code>Rejected</code>［失败］状态的回调函数参数。注意，由于用户不会被要求必须作出允许或者拒绝的选择，所以返回的<code>Promise</code>对象可能既不会触发<code>resolve</code>也不会触发&nbsp;<code>reject</code>。</p>
+<h2 id="articleHeader1">浏览器兼容性</h2>
+<p><img src="https://img2018.cnblogs.com/blog/1313648/201901/1313648-20190102194803996-878521781.png" alt=""></p>
+<p>&nbsp;</p>
+<h2 id="articleHeader2">语法</h2>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">navigator.mediaDevices.getUserMedia(constraints)
+.then(function(mediaStream) { ... })
+.catch(function(error) { ... })</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2 id="articleHeader3">参数</h2>
+<p><strong><code>containers：</code></strong>指定请求的媒体类型，主要包含<code>video</code>和<code>audio</code>，必须至少一个类型或者两个同时可以被指定。如果浏览器无法找到指定的媒体类型或者无法满足相对应的参数要求，那么返回的<code>Promise</code>对象就会处于<code>rejected</code>［失败］状态，<code>NotFoundError</code>作为<code>rejected</code>［失败］回调的参数。</p>
+<p><em>【例】同时请求不带任何参数的音频和视频：</em></p>
+<div class="cnblogs_code">
+<pre> { audio: true, video: true }</pre>
+</div>
+<p><em>【例】使用1280x720的摄像头分辨率：</em></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">{
+  audio: true,
+  video: { width: 1280, height: 720 }
+}</span></pre>
+</div>
+<p><em>【例】要求获取最低为1280x720的分辨率：</em></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">{
+  audio: true,
+  video: {
+    width: { min: 1024, ideal: 1280, max: 1920 },
+    height: { min: 776, ideal: 720, max: 1080 }
+  }
+}</span></pre>
+</div>
+<p>当请求包含一个<strong><code>ideal</code></strong>（应用最理想的）值时，这个值有着更高的权重，意味着浏览器会先尝试找到最接近指定的理想值的设定或者摄像头（如果设备拥有不止一个摄像头）。</p>
+<p><em>【例】优先使用前置摄像头（如果有的话）：</em></p>
+<div class="cnblogs_code">
+<pre>{ audio: true, video: { facingMode: "user" } }</pre>
+</div>
+<p><em>【例】强制使用后置摄像头：</em></p>
+<div class="cnblogs_code">
+<pre>{ audio: true, video: { facingMode: { exact: "environment" } } }</pre>
+</div>
+<p>&nbsp;</p>
+<hr>
+<p>成功回调函数<code>seccessCallback</code>的参数<strong><code>stream</code></strong>：<code>stream</code>是<code>MediaStream</code>的对象，表示媒体内容的数据流，可以通过<code>URL.createObjectURL</code>转换后设置为<code>Video</code>或<code>Audio</code>元素的<code>src</code>属性来使用，部分较新的浏览器也可以直接设置为<code>srcObject</code>属性来使用。</p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 102, 0, 1)"><strong>注意：新版的谷歌浏览器不能直接将MediaStream对象直接作为URL.createObjectURL的参数使用，会报TypeError Failed to execute 'createObjectURL' on 'URL': No function was found that matched the signature provided的错误，具体用法在后面说明。</strong></span></p>
+<hr>
+<p>失败回调函数<code>errorCallback</code>的参数<strong><code>error</code></strong>，可能的异常有：</p>
+<ul>
+<li><code>AbortError</code>：硬件问题</li>
+<li><code>NotAllowedError</code>：用户拒绝了当前的浏览器实例的访问请求；或者用户拒绝了当前会话的访问；或者用户在全局范围内拒绝了所有媒体访问请求。</li>
+<li><code>NotFoundError</code>：找不到满足请求参数的媒体类型。</li>
+<li><code>NotReadableError</code>：操作系统上某个硬件、浏览器或者网页层面发生的错误导致设备无法被访问。</li>
+<li><code>OverConstrainedError</code>：指定的要求无法被设备满足。</li>
+<li><code>SecurityError</code>：安全错误，在<code>getUserMedia()</code>&nbsp;被调用的&nbsp;<code>Document</code><br>上面，使用设备媒体被禁止。这个机制是否开启或者关闭取决于单个用户的偏好设置。</li>
+<li><code>TypeError</code>：类型错误，<code>constraints</code>对象未设置［空］，或者都被设置为<code>false</code>。</li>
+
+
+
+
+
+
+
+</ul>
+<h2 id="articleHeader4">示例：HTML 5调用媒体设备摄像头</h2>
+<p>这个例子中，请求访问用户硬件设备的摄像头，并把视频流通过Video元素显示出来。网页中提供一个"拍照"的按钮，通过Canvas将Video的画面截取并绘制，核心代码如下：</p>
+<p><strong>HTML</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">video用于显示媒体设备的视频流，自动播放</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">video </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="video"</span><span style="color: rgba(255, 0, 0, 1)"> autoplay style</span><span style="color: rgba(0, 0, 255, 1)">="width: 480px;height: 320px"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">video</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">拍照按钮</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">button </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="capture"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>拍照<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">button</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">描绘video截图</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">canvas </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="canvas"</span><span style="color: rgba(255, 0, 0, 1)"> width</span><span style="color: rgba(0, 0, 255, 1)">="480"</span><span style="color: rgba(255, 0, 0, 1)"> height</span><span style="color: rgba(0, 0, 255, 1)">="320"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">canvas</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>JavaScript</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">访问用户媒体设备的兼容方法</span>
+<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> getUserMedia(constrains,success,error){
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)">(navigator.mediaDevices.getUserMedia){
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">最新标准API</span>
+        navigator.mediaDevices.getUserMedia(constrains).then(success).<span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)">(error);
+    } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (navigator.webkitGetUserMedia){
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">webkit内核浏览器</span>
+        navigator.webkitGetUserMedia(constrains).then(success).<span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)">(error);
+    } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (navigator.mozGetUserMedia){
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">Firefox浏览器</span>
+        navagator.mozGetUserMedia(constrains).then(success).<span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)">(error);
+    } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (navigator.getUserMedia){
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">旧版API</span>
+        navigator.getUserMedia(constrains).then(success).<span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)">(error);
+    }
+}
+
+</span><span style="color: rgba(0, 0, 255, 1)">var</span> video = document.getElementById("video"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 0, 255, 1)">var</span> canvas = document.getElementById("canvas"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 0, 255, 1)">var</span> context = canvas.getContext("2d"<span style="color: rgba(0, 0, 0, 1)">);
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">成功的回调函数</span>
+<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> success(stream){
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兼容webkit内核浏览器</span>
+    <span style="color: rgba(0, 0, 255, 1)">var</span> CompatibleURL = window.URL ||<span style="color: rgba(0, 0, 0, 1)"> window.webkitURL;
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将视频流设置为video元素的源</span>
+    video.src =<span style="color: rgba(0, 0, 0, 1)"> CompatibleURL.createObjectURL(stream);   // 此处的代码将会报错  解决的办法是将video的srcObject属性指向stream即可
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">播放视频</span>
+<span style="color: rgba(0, 0, 0, 1)">    video.play();
+}
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">异常的回调函数</span>
+<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> error(error){
+    console.log(</span>"访问用户媒体设备失败："<span style="color: rgba(0, 0, 0, 1)">,error.name,error.message);
+}
+</span><span style="color: rgba(0, 0, 255, 1)">if</span> (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia ||<span style="color: rgba(0, 0, 0, 1)"> navigator.mozGetUserMedia){
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">调用用户媒体设备，访问摄像头</span>
+<span style="color: rgba(0, 0, 0, 1)">    getUserMedia({
+        video:{width:</span>480,height:320<span style="color: rgba(0, 0, 0, 1)">}
+    },success,error);
+} </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+    alert(</span>"你的浏览器不支持访问用户媒体设备"<span style="color: rgba(0, 0, 0, 1)">);
+}
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">注册拍照按钮的单击事件</span>
+document.getElementById("capture").addEventListener("click",<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)">(){
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">绘制画面</span>
+    context.drawImage(video,0,0,480,320<span style="color: rgba(0, 0, 0, 1)">);
+});</span></pre>
+</div>
+<p>关闭摄像头或者麦克风：需要注意的是，MediaStream.getTracks()&nbsp;返回的Tracks数组是按第一个参数倒序排列的</p>
+<p>比如现在定义了</p>
+<div class="cnblogs_code">
+<pre>{
+    video: true,
+    audio: true
+}</pre>
+</div>
+<p>想关闭摄像头，就需要调用MediaStream.getTracks()[1].stop();</p>
+<p>同理，0对应于audio的track</p>
+<h2 id="articleHeader5">进阶</h2>
+<p>对本示例进行功能加强，比如使用CSS 3 的滤镜实现模糊、黑白等效果。</p>
+<p>&nbsp;</p>
+<h2>麦克风</h2>
+<p>因为纯粹用一个audio标签来播放麦克风拾取到的声音显得太没特色了，于是我用到了以前写的一个音频可视化库<a href="https://github.com/margox/vudio.js" rel="nofollow noreferrer" target="_blank">Vudio.js</a>，代码如下:</p>
+<p>创建一个canvas来显示音频波形图</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">canvas </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="canvas"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">canvas</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>通过Vudio.js和getUserMedia来显示麦克风拾取到的音频的波形</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">var</span> canvas = document.querySelector('#canvas'<span style="color: rgba(0, 0, 0, 1)">)
+
+navigator.mediaDevices.getUserMedia({
+ audio: </span><span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">
+}).then((stream) </span>=&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+
+  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 调用Vudio</span>
+  <span style="color: rgba(0, 0, 255, 1)">var</span> vudio = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Vudio(stream, canvas, {
+    accuracy: </span>256<span style="color: rgba(0, 0, 0, 1)">,
+    width: </span>1024<span style="color: rgba(0, 0, 0, 1)">,
+    height: </span>200<span style="color: rgba(0, 0, 0, 1)">,
+    waveform: {
+      fadeSide: </span><span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">,
+      maxHeight: </span>200<span style="color: rgba(0, 0, 0, 1)">,
+      verticalAlign: </span>'middle'<span style="color: rgba(0, 0, 0, 1)">,
+      horizontalAlign: </span>'center'<span style="color: rgba(0, 0, 0, 1)">,
+      color: </span>'#2980b9'<span style="color: rgba(0, 0, 0, 1)">
+    }
+  })
+
+  vudio.dance()
+
+}).</span><span style="color: rgba(0, 0, 255, 1)">catch</span>((error) =&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+ console.error(error.name </span>||<span style="color: rgba(0, 0, 0, 1)"> error)
+})</span></pre>
+</div>
+<p>&nbsp;vudio.js源码：<span style="color: rgba(255, 153, 0, 1); background-color: rgba(255, 255, 255, 1)"><a href="https://github.com/margox/vudio.js/blob/master/vudio.js" target="_blank"><span style="color: rgba(255, 153, 0, 1); background-color: rgba(255, 255, 255, 1)">https://github.com/margox/vudio.js/blob/master/vudio.js</span></a></span></p>
+<p>效果如下图所示：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1313648/201901/1313648-20190102201206471-1721156186.png" alt="" width="400"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+<div class="clearfix mt10">&nbsp;</div><p>喜欢这篇文章？欢迎打赏~~</p><p><img src="https://img2020.cnblogs.com/blog/1313648/202012/1313648-20201207210415386-746901846.png" alt="" loading="lazy"></p><p>&nbsp;</p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2019-01-02 20:02</span>&nbsp;
+<a href="https://www.cnblogs.com/cangqinglang/">苍青浪</a>&nbsp;
+阅读(<span id="post_view_count">27767</span>)&nbsp;
+评论(<span id="post_comment_count">3</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10210826" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(10210826);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '5adef592-c39a-443f-1803-08d7eb74c09a', targetType: 'blogPost', targetId: '10210826', targetLink: 'https://www.cnblogs.com/cangqinglang/p/10210826.html', title: 'getUserMedia API及HTML5 调用摄像头和麦克风' })">举报</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+
+<script>
+    markdown_highlight()
+    var allowComments = true, cb_blogId = 405579, cb_blogApp = 'cangqinglang', cb_blogUserGuid = '733ba083-4228-41d5-19b8-08d54dbac325';
+    var cb_entryId = 10210826, cb_entryCreatedDate = '2019-01-02 20:02', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+        <div id="cnblogs_c2" class="under-post-card">
+            <a href="https://c.gridsumdissector.com/r/?gid=gad_545_ermn27t4&amp;ck=1057&amp;adk=10647&amp;autorefresh=__AUTOREFRESH__" rel="nofollow" target="_blank">
+                <img src="https://common.cnblogs.com/images/banner/2021/volcengine-c2.jpg" alt="" onload="impressC2('火山引擎', 'https://i.gridsumdissector.com/v/?gscmd=impress&amp;gid=gad_545_ermn27t4&amp;ck=1057&amp;adk=10647&amp;autorefresh=__AUTOREFRESH__&amp;ts=__TS__')" />
+            </a>
+        </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+
+           window.tocManager.displayDisableTocTips = false
+           window.tocManager.generateToc();
+           setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 苍青浪
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1qfPyUC7YSEVTl56Em75EV3AtpF-jRG_Llhfg6fevLFkn7Bpyb2O3JCSIFV6DJmsoU4Nv1_Q80xDOIJQO8BcdLaE7sq7qK76FlrarBbq2M54K3ZlKPe4unSLkTWl8duS3pOCVvirNbWirxUM77_pMUtjJ38ababHq3AV64q8gfOsg" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>

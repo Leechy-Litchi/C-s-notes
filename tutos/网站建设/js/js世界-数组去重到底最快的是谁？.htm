@@ -1,0 +1,243 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html>
+<html platform="win"><head>
+  <meta http-equiv="Content-Security-Policy" content="default-src chrome:; img-src data: *; media-src *; object-src 'none'">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <meta name="viewport" content="width=device-width; user-scalable=0">
+  <link rel="stylesheet" href="chrome://global/skin/aboutReader.css" type="text/css">
+  <link rel="stylesheet" href="chrome://global/skin/aboutReaderPocket.css" type="text/css">
+<link rel="stylesheet" href="chrome://global/skin/narrate.css"><title>js世界-数组去重到底最快的是谁？</title><link rel="shortcut icon" href="https://static.zhihu.com/heifetz/favicon.ico"></head>
+
+<body class="light sans-serif loaded" style="--font-size: 20px; --content-width: 30em;">
+  <div class="top-anchor"></div>
+
+  <div id="toolbar" class="toolbar-container">
+    <div class="toolbar reader-toolbar">
+      <div class="reader-controls" articledir="ltr">
+        <button class="close-button button " data-telemetry-id="reader-close" aria-label="关闭阅读模式"><span class="hover-label">关闭阅读模式</span></button>
+        <ul class="dropdown style-dropdown">
+          <li>
+            <button class="dropdown-toggle button style-button" data-telemetry-id="reader-type-controls" aria-label="字体调整"><span class="hover-label">字体调整</span></button>
+          </li>
+          <li class="dropdown-popup">
+            <div class="dropdown-arrow"></div>
+            <div class="font-type-buttons radiorow"><input id="radio-itemsans-serif-button" type="radio" class="radio-button" name="font-type" checked="checked"><label for="radio-itemsans-serif-button" class="sans-serif-button" checked="true">无衬线</label><input id="radio-itemserif-button" type="radio" class="radio-button" name="font-type"><label for="radio-itemserif-button" class="serif-button">衬线</label></div>
+            <div class="font-size-buttons buttonrow">
+              <button class="minus-button" title="缩小文字"></button>
+              <span class="font-size-value">5</span>
+              <button class="plus-button" title="增大文字">
+            </button></div>
+            <div class="content-width-buttons buttonrow">
+               <button class="content-width-minus-button" title="缩小内容宽度"></button>
+               <span class="content-width-value">3</span>
+               <button class="content-width-plus-button" title="放大内容宽度">
+            </button></div>
+            <div class="line-height-buttons buttonrow">
+                <button class="line-height-minus-button" title="缩小行距"></button>
+                <span class="line-height-value">4</span>
+                <button class="line-height-plus-button" title="放大行距">
+            </button></div>
+            <div class="color-scheme-buttons radiorow"><input id="radio-itemlight-button" type="radio" class="radio-button" name="color-scheme" checked="checked"><label for="radio-itemlight-button" class="light-button" checked="true" title="浅色模式">浅色</label><input id="radio-itemdark-button" type="radio" class="radio-button" name="color-scheme"><label for="radio-itemdark-button" class="dark-button" title="深色模式">深色</label><input id="radio-itemsepia-button" type="radio" class="radio-button" name="color-scheme"><label for="radio-itemsepia-button" class="sepia-button" title="纸墨模式">纸墨</label></div>
+          </li>
+        </ul>
+      <ul class="dropdown narrate-dropdown"><li><button class="dropdown-toggle button narrate-toggle" data-telemetry-id="reader-listen" aria-label="聆听"><span class="hover-label">聆听</span></button></li><li class="dropdown-popup"><div class="narrate-row narrate-control"><button class="narrate-skip-previous" disabled="disabled" title="后退"></button><button class="narrate-start-stop" title="开始"></button><button class="narrate-skip-next" disabled="disabled" title="前进"></button></div><div class="narrate-row narrate-rate"><input class="narrate-rate-input" value="0" step="5" max="100" min="-100" type="range" title="速度"></div><div class="narrate-row narrate-voices"><div class="voiceselect voice-select"><button class="select-toggle" aria-controls="voice-options">
+      <span class="label">语音：</span> <span class="current-voice">默认</span>
+    </button>
+    <div class="options" id="voice-options" role="listbox" style="max-height: 956px;"><button data-value="automatic" class="option selected" tabindex="-1" role="option" aria-selected="true">默认</button><button data-value="urn:moz-tts:sapi:Microsoft Lili - Chinese (China)?zh-CN" class="option" tabindex="-1" role="option">Microsoft Lili - Chinese (China)</button></div></div></div><div class="dropdown-arrow"></div></li></ul><button data-buttonid="pocket-button" data-telemetry-id="reader-save-to-pocket" class="button pocket-button" aria-label="保存到 Pocket" style="background-image: url(&quot;chrome://global/skin/icons/pocket.svg&quot;); background-size: 16px 16px;"><span class="hover-label">保存到 Pocket</span></button></div>
+    </div>
+  </div>
+
+  <div class="container" style="--line-height: 1.6em;" dir="ltr">
+    <div class="header reader-header reader-show-element">
+      <a class="domain reader-domain" href="https://zhuanlan.zhihu.com/p/93791402">zhuanlan.zhihu.com</a>
+      <div class="domain-border"></div>
+      <h1 class="reader-title">js世界-数组去重到底最快的是谁？</h1>
+      <div class="credits reader-credits"></div>
+      <div class="meta-data">
+        <div class="reader-estimated-time" dir="ltr">11-13 分钟</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="content">
+      <div class="moz-reader-content reader-show-element"><div id="readability-page-1" class="page"><div><p data-pid="jee3FNa4">昨天在写我司<code>node</code>中间层路由新方案的时候，在最后需要合并多个路由实例，在写到<code>Router.merge</code>函数的时候，突发奇想数组去重谁都会写，但效率哪个更高？于是就有了以下内容</p><h3>常用数组去重</h3><p data-pid="_s9xjA_r">  环境：<code>mac 10.14.3 (18D109)，node-8.6，8G内存</code>，测试数据量<code>15W</code></p><h3>测试基础</h3><div><pre><code><span>const</span> <span>{</span> <span>log</span><span>,</span> <span>c</span> <span>}</span> <span>=</span> <span>require</span><span>(</span><span>'./util'</span><span>)</span>
+
+<span>const</span> <span>origin</span> <span>=</span> <span>Array</span><span>.</span><span>from</span><span>(</span><span>new</span> <span>Array</span><span>(</span><span>100000</span><span>),</span> <span>(</span><span>x</span><span>,</span> <span>index</span><span>)</span> <span>=&gt;</span> <span>{</span>
+  <span>return</span> <span>index</span>
+<span>})</span>
+
+<span>// 包含数据尽量均匀分布
+</span><span></span><span>const</span> <span>target</span> <span>=</span> <span>Array</span><span>.</span><span>from</span><span>(</span><span>new</span> <span>Array</span><span>(</span><span>50000</span><span>),</span> <span>(</span><span>x</span><span>,</span> <span>index</span><span>)</span> <span>=&gt;</span> <span>{</span>
+  <span>return</span> <span>index</span> <span>+</span> <span>index</span>
+<span>})</span>
+
+<span>const</span> <span>start</span> <span>=</span> <span>Date</span><span>.</span><span>now</span><span>()</span>
+<span>log</span><span>(</span><span>`</span><span>${</span><span>c</span><span>.</span><span>cyan</span><span>}</span><span>start</span><span>${</span><span>c</span><span>.</span><span>end</span><span>}</span><span>`</span><span>)</span>
+
+<span>function</span> <span>merge2Array() {</span>
+  <span>// 不同实现逻辑
+</span><span></span><span>}</span>
+
+<span>log</span><span>(</span><span>`</span><span>${</span><span>c</span><span>.</span><span>cyan</span><span>}</span><span>after merge length</span><span>${</span><span>c</span><span>.</span><span>end</span><span>}</span><span>: </span><span>${</span><span>merge2Array4</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>).</span><span>length</span><span>}</span><span>`</span><span>)</span>
+
+<span>const</span> <span>end</span> <span>=</span> <span>Date</span><span>.</span><span>now</span><span>()</span>
+<span>log</span><span>(</span><span>`</span><span>${</span><span>c</span><span>.</span><span>red</span><span>}</span><span>all times</span><span>${</span><span>c</span><span>.</span><span>end</span><span>}</span><span>: </span><span>${</span><span>end</span> <span>-</span> <span>start</span><span>}</span><span>`</span><span>)</span>
+</code></pre></div><h3>第一种</h3><div><pre><code><span>/**
+</span><span> * 第一种，看似简洁，性能是不是也很牛逼？
+</span><span> * filter + indexOf
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>return</span> <span>result</span><span>.</span><span>filter</span><span>((</span><span>item</span><span>,</span> <span>index</span><span>)</span> <span>=&gt;</span> <span>{</span>
+    <span>return</span> <span>result</span><span>.</span><span>indexOf</span><span>(</span><span>item</span><span>)</span> <span>===</span> <span>index</span>
+  <span>})</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-952f93453af9cb3571020c22cdce11ca_b.png" data-caption="" data-size="normal" data-rawwidth="504" data-rawheight="63" data-original="https://pic3.zhimg.com/v2-952f93453af9cb3571020c22cdce11ca_r.jpg" data-actualsrc="https://pic3.zhimg.com/v2-952f93453af9cb3571020c22cdce11ca_b.png" width="504"></figure><h3>第二种</h3><div><pre><code><span>/**
+</span><span> * 第二种，复杂点（是不是感觉有点像某种排序了？），代码这么多性能是不是很糟？
+</span><span> * for + for
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array1</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>let</span> <span>len</span> <span>=</span> <span>result</span><span>.</span><span>length</span>
+  <span>for</span> <span>(</span><span>let</span> <span>i</span> <span>=</span> <span>0</span><span>;</span> <span>i</span> <span>&lt;</span> <span>len</span><span>;</span> <span>i</span><span>++</span><span>)</span> <span>{</span>
+    <span>for</span> <span>(</span><span>let</span> <span>j</span> <span>=</span> <span>i</span> <span>+</span> <span>1</span><span>;</span> <span>j</span> <span>&lt;</span> <span>len</span><span>;</span> <span>j</span><span>++</span><span>)</span> <span>{</span>
+      <span>if</span> <span>(</span><span>result</span><span>[</span><span>i</span><span>]</span> <span>===</span> <span>result</span><span>[</span><span>j</span><span>])</span> <span>{</span>
+        <span>result</span><span>.</span><span>splice</span><span>(</span><span>j</span><span>,</span> <span>1</span><span>);</span>
+        <span>// splice 会改变数组长度，所以要将数组长度 len 和下标 j 减一
+</span><span></span>        <span>len</span><span>--</span><span>;</span>
+        <span>j</span><span>--</span><span>;</span>
+      <span>}</span>
+    <span>}</span>
+  <span>}</span>
+  <span>return</span> <span>result</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-8db7969fa6927d3ecdbd67893a6a006f_b.jpg" data-caption="" data-size="normal" data-rawwidth="312" data-rawheight="65" data-actualsrc="https://pic4.zhimg.com/v2-8db7969fa6927d3ecdbd67893a6a006f_b.jpg" width="312"></figure><h3>第三种</h3><div><pre><code><span>/**
+</span><span> * for + includes
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array2</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>origin</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>[]</span>
+  <span>for</span> <span>(</span><span>const</span> <span>i</span> <span>of</span> <span>origin</span><span>)</span> <span>{</span>
+    <span>!</span><span>result</span><span>.</span><span>includes</span><span>(</span><span>i</span><span>)</span> <span>&amp;&amp;</span> <span>result</span><span>.</span><span>push</span><span>(</span><span>i</span><span>)</span>
+  <span>}</span>
+  <span>return</span> <span>result</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-384b56c0906411677010072851387084_b.jpg" data-caption="" data-size="normal" data-rawwidth="324" data-rawheight="57" data-actualsrc="https://pic1.zhimg.com/v2-384b56c0906411677010072851387084_b.jpg" width="324"></figure><h3>第四种</h3><div><pre><code><span>/**
+</span><span> * sort + for
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array3</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>origin</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>origin</span><span>.</span><span>sort</span><span>()</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>[</span><span>origin</span><span>[</span><span>0</span><span>]]</span>
+  <span>const</span> <span>len</span> <span>=</span> <span>origin</span><span>.</span><span>length</span>
+  <span>for</span> <span>(</span><span>let</span> <span>i</span> <span>=</span> <span>1</span><span>;</span> <span>i</span> <span>&lt;</span> <span>len</span><span>;</span> <span>i</span><span>++</span><span>)</span> <span>{</span>
+    <span>if</span> <span>(</span><span>origin</span><span>[</span><span>i</span><span>]</span> <span>!==</span> <span>origin</span><span>[</span><span>i</span><span>-</span><span>1</span><span>])</span> <span>{</span>
+      <span>result</span><span>.</span><span>push</span><span>(</span><span>origin</span><span>[</span><span>i</span><span>])</span>
+    <span>}</span>
+  <span>}</span>
+  <span>return</span> <span>result</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-47b497755174f8f3d2ce20187add24e9_b.jpg" data-caption="" data-size="normal" data-rawwidth="266" data-rawheight="60" data-actualsrc="https://pic2.zhimg.com/v2-47b497755174f8f3d2ce20187add24e9_b.jpg" width="266"></figure><h3>第五种</h3><div><pre><code><span>/**
+</span><span> * Array.from + Set
+</span><span> * 代码最少，性能最好？
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array4</span> <span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>return</span> <span>Array</span><span>.</span><span>from</span><span>(</span><span>new</span> <span>Set</span><span>([...</span><span>origin</span><span>,</span> <span>...</span><span>target</span><span>]))</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-b308139d5c0258bba69097dac544ebfc_b.jpg" data-caption="" data-size="normal" data-rawwidth="298" data-rawheight="59" data-actualsrc="https://pic1.zhimg.com/v2-b308139d5c0258bba69097dac544ebfc_b.jpg" width="298"></figure><h3>第六种</h3><div><pre><code><span>/**
+</span><span> * for + obj-keys
+</span><span> * 单一基础类型最快的
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array5</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>origin</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>[]</span>
+  <span>const</span> <span>tagObj</span> <span>=</span> <span>{}</span>
+  <span>for</span> <span>(</span><span>const</span> <span>i</span> <span>of</span> <span>origin</span><span>)</span> <span>{</span>
+    <span>if</span> <span>(</span><span>!</span><span>tagObj</span><span>[</span><span>i</span><span>])</span> <span>{</span>
+      <span>result</span><span>.</span><span>push</span><span>(</span><span>i</span><span>)</span>
+      <span>tagObj</span><span>[</span><span>i</span><span>]</span> <span>=</span> <span>1</span>
+    <span>}</span>
+  <span>}</span>
+  <span>return</span> <span>result</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-cac345157ad338ab4d78b3f940d1a7d7_b.jpg" data-caption="" data-size="normal" data-rawwidth="285" data-rawheight="63" data-actualsrc="https://pic4.zhimg.com/v2-cac345157ad338ab4d78b3f940d1a7d7_b.jpg" width="285"></figure><h3>第七种</h3><div><pre><code><span>/**
+</span><span> * for + set
+</span><span> * 多种基础数据类型最快
+</span><span> * @param {*} origin
+</span><span> * @param {*} target
+</span><span> */</span>
+<span>function</span> <span>merge2Array6</span><span>(</span><span>origin</span><span>,</span> <span>target</span><span>)</span> <span>{</span>
+  <span>origin</span> <span>=</span> <span>origin</span><span>.</span><span>concat</span><span>(</span><span>target</span><span>)</span>
+  <span>const</span> <span>result</span> <span>=</span> <span>[]</span>
+  <span>const</span> <span>set</span> <span>=</span> <span>new</span> <span>Set</span><span>()</span>
+  <span>for</span> <span>(</span><span>const</span> <span>i</span> <span>of</span> <span>origin</span><span>)</span> <span>{</span>
+    <span>if</span> <span>(</span><span>!</span><span>set</span><span>.</span><span>has</span><span>(</span><span>i</span><span>))</span> <span>{</span>
+      <span>result</span><span>.</span><span>push</span><span>(</span><span>i</span><span>)</span>
+      <span>set</span><span>.</span><span>add</span><span>(</span><span>i</span><span>)</span>
+    <span>}</span>
+  <span>}</span>
+  <span>return</span> <span>result</span>
+<span>}</span>
+</code></pre></div><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-d5187e3d8bdd74f11b22ae696cd20dbd_b.jpg" data-caption="" data-size="normal" data-rawwidth="265" data-rawheight="62" data-actualsrc="https://pic2.zhimg.com/v2-d5187e3d8bdd74f11b22ae696cd20dbd_b.jpg" width="265"></figure><h3>数据级上升（150W）</h3><p data-pid="5Wx9wMiW">我们针对最后两种方法进行数量级提升，提升至<code>150w</code>数据</p><h3>Array.from + Set</h3><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-747f632119f69e6d3c20a7ef9f5a63c2_b.jpg" data-caption="" data-size="normal" data-rawwidth="271" data-rawheight="61" data-actualsrc="https://pic3.zhimg.com/v2-747f632119f69e6d3c20a7ef9f5a63c2_b.jpg" width="271"></figure><h3>for + obj-keys</h3><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-ec2c023af84a5aee9dd419581cd49c11_b.jpg" data-caption="" data-size="normal" data-rawwidth="278" data-rawheight="61" data-actualsrc="https://pic2.zhimg.com/v2-ec2c023af84a5aee9dd419581cd49c11_b.jpg" width="278"></figure><h3>for + set</h3><figure data-size="normal"><img src="js%E4%B8%96%E7%95%8C-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E5%88%B0%E5%BA%95%E6%9C%80%E5%BF%AB%E7%9A%84%E6%98%AF%E8%B0%81%EF%BC%9F_files/v2-a0a9ac8485fb3d90ab32fd5952664d35_b.jpg" data-caption="" data-size="normal" data-rawwidth="246" data-rawheight="56" data-actualsrc="https://pic2.zhimg.com/v2-a0a9ac8485fb3d90ab32fd5952664d35_b.jpg" width="246"></figure><h3>总结</h3><ul><li data-pid="tWFKhmdn">如果你去重的是单一基础类型，那直接用<code>for-obj-keys</code>方式是最快的</li><li data-pid="inZuv6v0">如果你去重的是多种基础类型，最快的是<code>for-set</code>方式是最快的</li></ul></div></div></div>
+    </div>
+
+    <div>
+      <div class="reader-message"></div>
+    </div>
+    <div aria-owns="toolbar"></div>
+  </div>
+
+  <div id="pocket-cta-container" hidden="">
+    <div class="pocket-cta-inner" id="pocket-cta-only">
+      <div class="pocket-cta">
+        <header class="pocket-cta-header">Save anything from across the web in Pocket, your personal library.</header>
+        <p class="pocket-cta-subhead">As part of the Firefox family, 
+Pocket provides a quiet, calm space that’s perfect for reading. It 
+strips away all the distractions of the internet so you can really 
+focus.</p>
+        <a href="https://getpocket.com/signup?utm_source=firefox_reader&amp;utm_medium=variant_cta_only" class="pocket-btn pocket-sign-up"><strong>Sign up</strong> - it’s free</a>
+        <a href="https://getpocket.com/explore?utm_source=firefox_reader&amp;utm_medium=variant_cta_only" class="pocket-btn pocket-discover-more"><strong>Discover more</strong></a>
+      </div>
+      <button class="pocket-dismiss-cta" title="Dismiss"></button>
+    </div>
+
+    <div class="pocket-cta-inner" id="pocket-cta-and-recs">
+      <div class="pocket-recs-top">
+        <div class="col">
+          <header class="pocket-cta-header">Discover the most thought-provoking stories out there, curated by Pocket.</header>
+          <p class="pocket-cta-subhead">As part of the Firefox family, 
+Pocket surfaces the best articles out there—new perspectives, intriguing
+ deep-dives, timeless classics—and we do this with the same dedication 
+to privacy you’ve come to expect from Firefox and Mozilla. </p>
+        </div>
+        <div class="col">
+          <button class="pocket-collapse-recs"></button>
+        </div>
+      </div>
+
+      <div class="pocket-recs"></div>
+
+      <div class="pocket-sign-up-wrapper">
+        <a href="https://getpocket.com/explore?utm_source=firefox_reader&amp;utm_medium=variant_cta_plus_recs" class="pocket-btn pocket-sign-up"><strong>Discover more</strong></a>
+      </div>
+    </div>
+  </div>
+
+
+
+</body></html>

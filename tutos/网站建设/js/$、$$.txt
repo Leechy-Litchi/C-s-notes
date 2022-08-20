@@ -1,0 +1,7 @@
+Command Line API 的语法糖
+JQ中也有
+https://zhidao.baidu.com/question/135034499.html
+$() document.querySelect()
+$$就是document.querySelectAll()
+$0-$4 记录最近5次审查过的元素
+$_ 记录最近一次表达式的结果

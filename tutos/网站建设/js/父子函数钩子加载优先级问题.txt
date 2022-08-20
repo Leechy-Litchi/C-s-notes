@@ -1,0 +1,1 @@
+父组件加载完毕后执行子组件，需要先加载子组件的数据，所以需要先将子组件钩子函数beforeCreate,created,beforeMounted,mounted执行完毕后才能渲染

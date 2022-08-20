@@ -1,0 +1,1910 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/tjcjava/article/details/76468225"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>什么是跨域？如何解决跨域问题？_飞扬_柳絮的专栏-CSDN博客_跨域问题</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="跨域问题">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"跨域问题"}'>
+    <meta name="description" content="什么是跨域？浏览器从一个域名的网页去请求另一个域名的资源时，域名、端口、协议任一不同，都是跨域 域名： 主域名不同  http://www.baidu.com/index.html –&amp;amp;amp;gt;http://www.sina.com/test.js 子域名不同  http://www.666.baidu.com/index.html –&amp;amp;amp;gt;http://www.555.baidu.co...">
+    <script src="//g.csdnimg.cn/tingyun/1.8.5/blog.js" type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-58f5fbcf9b.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/tjcjava/article/details/76468225","appid":"1638831770136827","pubDate":"2017-07-31T20:29:48","title":"什么是跨域？如何解决跨域问题？_飞扬_柳絮的专栏-CSDN博客_跨域问题","upDate":"2017-07-31T20:29:48"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin-sea/skin-sea-d3a08c2048.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "tjcjava";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/tjcjava";
+        var currentUserName = "qq_35224627";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/tjcjava/article/details/76468225";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/B/1/3/3_tjcjava";
+        var articleTitle = "什么是跨域？如何解决跨域问题？";
+        var articleDesc = "什么是跨域？浏览器从一个域名的网页去请求另一个域名的资源时，域名、端口、协议任一不同，都是跨域 域名： 主域名不同  http://www.baidu.com/index.html –&amp;amp;amp;gt;http://www.sina.com/test.js 子域名不同  http://www.666.baidu.com/index.html –&amp;amp;amp;gt;http://www.555.baidu.co...";
+        var articleTitles = "什么是跨域？如何解决跨域问题？_飞扬_柳絮的专栏-CSDN博客_跨域问题";
+        var nickName = "飞扬_柳絮";
+        var articleDetailUrl = "https://blog.csdn.net/tjcjava/article/details/76468225";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":["跨域问题"],"queryWord":"","tag":["域名"],"title":"什么是跨域？如何解决跨域问题？"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    function getQueryString(name) {   
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象  
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if( r != null ) return decodeURIComponent( r[2] ); return '';   
+    }
+    function stripscript(s){ 
+      var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%]") 
+      var rs = ""; 
+      for (var i = 0; i < s.length; i++) { 
+        rs = rs+s.substr(i, 1).replace(pattern, ''); 
+      } 
+      return rs; 
+    }
+    var blogHotWords = stripscript(getQueryString('utm_term')).length > 1 ? stripscript(getQueryString('utm_term')) : ''
+</script>
+<div class="blog-content-box">
+        <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">什么是跨域？如何解决跨域问题？</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/tjcjava" target="_blank" rel="noopener">飞扬_柳絮</a>
+                    <span class="time">2017-07-31 20:29:48</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">99945</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            241
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/tjcjava/category_6775833.html" target="_blank" rel="noopener">JavaScript</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"域名","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=域名&amp;t=blog&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=" target="_blank" rel="noopener">域名</a>
+                    </div>
+                </div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/tjcjava/article/details/76468225" target="_blank">https://blog.csdn.net/tjcjava/article/details/76468225</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id="blogColumnPayAdvert">
+            <div class="column-group">
+                <div class="column-group-item column-group0 column-group-item-one">
+                    <div class="item-l">
+                        <a class="item-target" href="https://blog.csdn.net/tjcjava/category_6775833.html" target="_blank" title="JavaScript"
+                        data-report-view='{"spm":"1001.2101.3001.6332"}'
+                        data-report-click='{"spm":"1001.2101.3001.6332"}'>
+                            <img class="item-target" src="https://img-blog.csdnimg.cn/20191122104154437.png?x-oss-process=image/resize,m_fixed,h_224,w_224" alt="">
+                            <span class="title item-target">JavaScript</span>
+                        </a>
+                        <span class="dec">专栏收录该内容</span>
+                    </div>
+                    <div class="item-m">
+                        <span>28 篇文章</span>
+                        <span>0 订阅</span>
+                    </div>
+                    <div class="item-r">
+                            <a class="item-target article-column-bt articleColumnFreeBt" data-id="6775833">订阅专栏</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-1a85854398.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p><strong>什么是跨域&#xff1f;</strong><br /> 浏览器从一个域名的网页去请求另一个域名的资源时&#xff0c;域名、端口、协议任一不同&#xff0c;都是跨域<br /> <strong>域名&#xff1a;</strong><br /> 　主域名不同 http://www.baidu.com/index.html --&gt;http://www.sina.com/test.js<br /> 　子域名不同 http://www.666.baidu.com/index.html --&gt;http://www.555.baidu.com/test.js<br /> 　域名和域名ip http://www.baidu.com/index.html --&gt;http://180.149.132.47/test.js<br /> <strong>端口&#xff1a;</strong><br /> 　http://www.baidu.com:8080/index.html–&gt; http://www.baidu.com:8081/test.js<br /> <strong>协议&#xff1a;</strong><br /> 　http://www.baidu.com:8080/index.html–&gt; https://www.baidu.com:8080/test.js<br /> 备注&#xff1a;<br /> 　1、端口和协议的不同&#xff0c;只能通过后台来解决<br /> 　2、localhost和127.0.0.1虽然都指向本机&#xff0c;但也属于跨域</p> 
+<p><strong>跨域限制</strong><br /> 1、无法读取非同源网页的 Cookie、LocalStorage 和 IndexedDB<br /> 2、无法接触非同源网页的 DOM<br /> 3、无法向非同源地址发送 AJAX 请求&#xff08;可以发送&#xff0c;但浏览器会拒绝接受响应&#xff09;<br /> 　<br /> <strong>如何解决跨域问题&#xff1f;</strong><br /> <strong>跨域实践&#xff1a;</strong> <a href="https://blog.csdn.net/tjcjava/article/details/93747560">Fiddle 处理前端本地开发跨域问题</a><br /> <strong>1、jsonp跨域</strong><br /> JSONP&#xff08;JSON with Padding&#xff1a;填充式JSON)&#xff0c;应用JSON的一种新方法&#xff0c;<br /> JSON、JSONP的区别&#xff1a;<br /> 　1、JSON返回的是一串数据、JSONP返回的是脚本代码(包含一个函数调用)<br /> 　2、JSONP 只支持get请求、不支持post请求<br /> 　(类似往页面添加一个script标签&#xff0c;通过src属性去触发对指定地址的请求,故只能是Get请求)</p> 
+<p><strong>2、nginx反向代理&#xff1a;</strong><br /> 　　www.baidu.com/index.html需要调用www.sina.com/server.php&#xff0c;可以写一个接口www.baidu.com/server.php&#xff0c;由这个接口在后端去调用www.sina.com/server.php并拿到返回值&#xff0c;然后再返回给index.html<br /> 　　<br /> <strong>3、PHP端修改header</strong><br /> 　　header(‘Access-Control-Allow-Origin:*’);//允许所有来源访问<br /> 　　header(‘Access-Control-Allow-Method:POST,GET’);//允许访问的方式<br /> 　　<br /> <strong>&#xff14;、document.domain【实现不同window之间的相互访问和操作】</strong><br /> 跨域分为两种&#xff0c;一种xhr不能访问不同源的文档&#xff0c;另一种是不同window之间不能进行交互操作;<br /> 　　document.domain主要是解决第二种情况&#xff0c;且只能适用于主域相同子域不同的情况&#xff1b;<br /> 　　document.domain的设置是有限制的&#xff0c;我们只能把document.domain设置成自身或更高一级的父域&#xff0c;且主域必须相同。例如&#xff1a;a.b.example.com中某个文档的document.domain可以设成a.b.example.com、b.example.com 、example.com中的任意一个&#xff0c;但是不可以设成c.a.b.example.com&#xff0c;因为这是当前域的子域&#xff0c;也不可以设成baidu.com&#xff0c;因为主域已经不相同了。<br /> 兼容性&#xff1a;所有浏览器都支持&#xff1b;<br /> 优点&#xff1a;<br /> 　可以实现不同window之间的相互访问和操作&#xff1b;<br /> 缺点&#xff1a;<br /> 　只适用于父子window之间的通信&#xff0c;不能用于xhr&#xff1b;<br /> 　只能在主域相同且子域不同的情况下使用&#xff1b;<br /> 使用方式&#xff1a;<br /> 　不同的框架之间是可以获取window对象的&#xff0c;但却无法获取相应的属性和方法。比如&#xff0c;有一个页面&#xff0c;它的地址是http://www.example.com/a.html &#xff0c; 在这个页面里面有一个iframe&#xff0c;它的src是http://example.com/b.html, 很显然&#xff0c;这个页面与它里面的iframe框架是不同域的&#xff0c;所以我们是无法通过在页面中书写js代码来获取iframe中的东西的&#xff1a;</p> 
+<pre><code class="prism language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">&#61;</span><span class="token string">&#34;text/javascript&#34;</span><span class="token operator">&gt;</span>
+    <span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span>
+        <span class="token keyword">var</span> iframe <span class="token operator">&#61;</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&#39;&#xfffc;ifame&#39;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> win <span class="token operator">&#61;</span> document<span class="token punctuation">.</span>contentWindow<span class="token punctuation">;</span><span class="token comment">//可以获取到iframe里的window对象&#xff0c;但该window对象的属性和方法几乎是不可用的</span>
+        <span class="token keyword">var</span> doc <span class="token operator">&#61;</span> win<span class="token punctuation">.</span>document<span class="token punctuation">;</span><span class="token comment">//这里获取不到iframe里的document对象</span>
+        <span class="token keyword">var</span> name <span class="token operator">&#61;</span> win<span class="token punctuation">.</span>name<span class="token punctuation">;</span><span class="token comment">//这里同样获取不到window对象的name属性</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>iframe id <span class="token operator">&#61;</span> <span class="token string">&#34;iframe&#34;</span> src<span class="token operator">&#61;</span><span class="token string">&#34;http://example.com/b.html&#34;</span> onload <span class="token operator">&#61;</span> <span class="token string">&#34;test()&#34;</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>iframe<span class="token operator">&gt;</span>
+</code></pre> 
+<p>这个时候&#xff0c;document.domain就可以派上用场了&#xff0c;我们只要把http://www.example.com/a.html 和 http://example.com/b.html这两个页面的document.domain都设成相同的域名就可以了。<br /> 1.在页面 http://www.example.com/a.html 中设置document.domain:</p> 
+<pre><code class="prism language-javascript"><span class="token operator">&lt;</span>iframe id <span class="token operator">&#61;</span> <span class="token string">&#34;iframe&#34;</span> src<span class="token operator">&#61;</span><span class="token string">&#34;http://example.com/b.html&#34;</span> onload <span class="token operator">&#61;</span> <span class="token string">&#34;test()&#34;</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>iframe<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>script type<span class="token operator">&#61;</span><span class="token string">&#34;text/javascript&#34;</span><span class="token operator">&gt;</span>
+    document<span class="token punctuation">.</span>domain <span class="token operator">&#61;</span> <span class="token string">&#39;example.com&#39;</span><span class="token punctuation">;</span><span class="token comment">//设置成主域</span>
+    <span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span>
+        <span class="token function">alert</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&#39;&#xfffc;iframe&#39;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>contentWindow<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//contentWindow 可取得子窗口的 window 对象</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code></pre> 
+<p>2.在页面 http://example.com/b.html 中也设置document.domain:</p> 
+<pre><code class="prism language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">&#61;</span><span class="token string">&#34;text/javascript&#34;</span><span class="token operator">&gt;</span>
+    document<span class="token punctuation">.</span>domain <span class="token operator">&#61;</span> <span class="token string">&#39;example.com&#39;</span><span class="token punctuation">;</span><span class="token comment">//在iframe载入这个页面也设置document.domain&#xff0c;使之与主页面的document.domain相同</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code></pre> 
+<p><strong>&#xff15;、window.name</strong><br /> 关键点&#xff1a;window.name在页面的生命周期里共享一个window.name;<br /> 兼容性&#xff1a;所有浏览器都支持&#xff1b;<br /> 优点&#xff1a;<br /> 　最简单的利用了浏览器的特性来做到不同域之间的数据传递&#xff1b;<br /> 　不需要前端和后端的特殊配制&#xff1b;<br /> 缺点&#xff1a;<br /> 　大小限制&#xff1a;window.name最大size是2M左右&#xff0c;不同浏览器中会有不同约定&#xff1b;<br /> 　安全性&#xff1a;当前页面所有window都可以修改&#xff0c;很不安全&#xff1b;<br /> 　数据类型&#xff1a;传递数据只能限于字符串&#xff0c;如果是对象或者其他会自动被转化为字符串&#xff0c;如下&#xff1b;<br /> 　<img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODAyMjAyNjIyNzcz?x-oss-process&#61;image/format,png" alt="这里写图片描述" /><br /> 使用方式&#xff1a;修改window.name的值即可&#xff1b;<br /> <strong>&#xff16;、postMessage</strong><br /> 关键点&#xff1a;<br /> 　postMessage是h5引入的一个新概念&#xff0c;现在也在进一步的推广和发展中&#xff0c;他进行了一系列的封装&#xff0c;我们可以通过window.postMessage的方式进行使用&#xff0c;并可以监听其发送的消息&#xff1b;<br /> 兼容性&#xff1a;移动端可以放心用&#xff0c;但是pc端需要做降级处理<br /> 优点<br /> 　不需要后端介入就可以做到跨域&#xff0c;一个函数外加两个参数&#xff08;请求url&#xff0c;发送数据&#xff09;就可以搞定&#xff1b;<br /> 　移动端兼容性好&#xff1b;<br /> 缺点<br /> 　无法做到一对一的传递方式&#xff1a;监听中需要做很多消息的识别&#xff0c;由于postMessage发出的消息对于同一个页面的不同功能相当于一个广播的过程&#xff0c;该页面的所有onmessage都会收到&#xff0c;所以需要做消息的判断&#xff1b;<br /> 安全性问题&#xff1a;三方可以通过截获&#xff0c;注入html或者脚本的形式监听到消息&#xff0c;从而能够做到篡改的效果&#xff0c;所以在postMessage和onmessage中一定要做好这方面的限制&#xff1b;<br /> 　发送的数据会通过结构化克隆算法进行序列化&#xff0c;所以只有满足该算法要求的参数才能够被解析&#xff0c;否则会报错&#xff0c;如function就不能当作参数进行传递&#xff1b;<br /> 使用方式&#xff1a;通信的函数&#xff0c;sendMessage负责发送消息&#xff0c;bindEvent负责消息的监听并处理&#xff0c;可以通过代码来做一个大致了解&#xff1b;</p> 
+<pre><code class="prism language-javascript"><span class="token class-name">Storage</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">sendMessage_</span> <span class="token operator">&#61;</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">type<span class="token punctuation">,</span> params<span class="token punctuation">,</span> fn</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>topWindow<span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handleCookie_</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> params<span class="token punctuation">,</span> fn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">var</span> eventId <span class="token operator">&#61;</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addToQueue_</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> storageIframe <span class="token operator">&#61;</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&#39;mip-storage-iframe&#39;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> element <span class="token operator">&#61;</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">&#34;a&#34;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    element<span class="token punctuation">.</span>href <span class="token operator">&#61;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>origin<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> origin <span class="token operator">&#61;</span> element<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> element<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>element<span class="token punctuation">.</span>pathname<span class="token punctuation">)</span> <span class="token operator">&#43;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    storageIframe<span class="token punctuation">.</span>contentWindow<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token punctuation">{<!-- --></span>
+        type<span class="token operator">:</span> type<span class="token punctuation">,</span>
+        params<span class="token operator">:</span> params<span class="token punctuation">,</span>
+        eventId<span class="token operator">:</span> eventId
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> origin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token class-name">Storage</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">bindEvent_</span> <span class="token operator">&#61;</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+    window<span class="token punctuation">.</span><span class="token function-variable function">onmessage</span> <span class="token operator">&#61;</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+        <span class="token comment">// 判断消息来源</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>window <span class="token operator">&#61;&#61;</span> res<span class="token punctuation">.</span>source<span class="token punctuation">.</span>window<span class="token punctuation">.</span>parent <span class="token operator">&amp;&amp;</span>
+            res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>type <span class="token operator">&#61;&#61;&#61;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>messageType<span class="token punctuation">.</span><span class="token constant">RES</span> <span class="token operator">&amp;&amp;</span>
+            window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>host<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+            <span class="token keyword">var</span> fn <span class="token operator">&#61;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventQueue<span class="token punctuation">[</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>eventId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            fn <span class="token operator">&amp;&amp;</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">delete</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventQueue<span class="token punctuation">[</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>eventId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment">// reset id</span>
+            <span class="token keyword">var</span> isEmpty <span class="token operator">&#61;</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> t <span class="token keyword">in</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventQueue<span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+                isEmpty <span class="token operator">&#61;</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>isEmpty<span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">&#61;</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-49037e4d27.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<div class="more-toolbox-new" id="toolBarBox">
+    <div class="left-toolbox">
+        <div class="toolbox-left">
+            <div class="profile-box"><a class="profile-href" target="_blank" href="https://blog.csdn.net/tjcjava"><img class="profile-img" src="https://profile.csdnimg.cn/B/1/3/3_tjcjava"><span class="profile-name">飞扬_柳絮</span></a></div>
+            <div class="profile-attend">
+                    <a class="tool-attend tool-bt-button tool-unbt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"已关注"}'>已关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </div>
+        </div>
+        <div class="toolbox-middle">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like">
+            <a class="tool-item-href">
+                <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+                <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2021Active.png" alt="">
+                <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2021White.png" alt="">  
+                <span id="spanCount" class="count ">
+                        52
+                </span>
+            </a>
+            <div class="tool-hover-tip"><span class="text space">点赞</span></div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-unlike" id="is-unlike">
+            <a class="tool-item-href">
+                <img class="isactive" style="margin-right:0px;display:none" id="is-unlike-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newUnHeart2021Active.png" alt="">
+                <img class="isdefault" style="margin-right:0px;display:block" id="is-unlike-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newUnHeart2021White.png" alt="">
+                <span id="unlikeCount" class="count "></span>
+            </a>
+            <div class="tool-hover-tip"><span class="text space">踩</span></div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+            <a class="tool-item-href" href="#commentBox">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newComment2021White.png" alt="">
+                <span class="count">
+                    5
+                </span>
+            </a>
+            <div class="tool-hover-tip"><span class="text space">评论</span></div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+            <a class="tool-item-href" href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newCollectWhite.png" alt="">
+                <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newCollectActive.png" alt="">
+                <span class="count get-collection " id="get-collection">
+                    241
+                </span>
+            </a>
+            <div class="tool-hover-tip"><span class="text space">收藏</span></div>
+            </li>
+            <li class="tool-item tool-active">
+                <a class="" href="javascript:;">
+                    <img class="company active" id="health-companies" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newHealthCompanies1Active.gif" alt="一键三连">
+                </a>
+                <div class="tool-hover-tip three-click"><span class="text">一键三连</span></div>
+            </li>
+            <li class="tool-item tool-item-bar">
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a class="tool-item-href" href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newShareWhite.png" alt="">
+                </a>
+                <div class="QRcode" id="tool-QRcode">
+                    <p class="title">
+                    扫一扫，分享海报
+                    </p>
+                    <div id='shareCode'></div>
+                </div>
+            </li>
+        </ul>
+        </div>
+        <div class="toolbox-right">
+                <div class="tool-directory">
+                    <a class="bt-columnlist-show"
+                    data-id="6775833"
+                    data-free="true"
+                    data-subscribe="false"
+                    data-title="JavaScript"
+                    data-img="https://img-blog.csdnimg.cn/20191122104154437.png?x-oss-process=image/resize,m_fixed,h_224,w_224"
+                    data-url="https://blog.csdn.net/tjcjava/category_6775833.html"
+                    data-sum="28"
+                    data-people="0"
+                    data-price="0"
+                    data-oldprice="0"
+                    data-join="false"
+                    data-studyvip="false"
+                    data-studysubscribe="false"
+                    data-report-view='{"spm":"1001.2101.3001.6334","extend1":"专栏目录"}'
+                    data-report-click='{"spm":"1001.2101.3001.6334","extend1":"专栏目录"}'
+                    >专栏目录</a>
+                </div>
+        </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/3.0.1/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.6/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_download clearfix" data-url="http://download.csdn.net/download/qq_16485609/10774340"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6661.1","mod":"popu_871","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"http://download.csdn.net/download/qq_16485609/10774340"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="http://download.csdn.net/download/qq_16485609/10774340" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6661.1","mod":"popu_871","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"http://download.csdn.net/download/qq_16485609/10774340"}'  data-report-query='spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">js<em>解决</em><em>跨域</em>访问<em>问题</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">11-09</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="http://download.csdn.net/download/qq_16485609/10774340" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6661.1","mod":"popu_871","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"http://download.csdn.net/download/qq_16485609/10774340"}'  data-report-query='spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">js<em>解决</em><em>跨域</em>访问<em>问题</em>，在用js访问web后台方法的时候，有时候会遇到<em>跨域</em>访问的<em>问题</em>。文档中介绍了<em>跨域</em>访问产生的原因以及相应的<em>解决</em>办法及代码示例。</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_23832313/article/details/81946838"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.1","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_23832313/article/details/81946838"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_23832313/article/details/81946838" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.1","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_23832313/article/details/81946838"}'  data-report-query='spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">彻底<em>解决</em><em>跨域问题</em>(五种<em>解决</em><em>跨域</em>的方式)</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_23832313" target="_blank"><span class="blog-title">小雪的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-22</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_23832313/article/details/81946838" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.1","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"1","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_23832313/article/details/81946838"}'  data-report-query='spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>跨域问题</em><em>解决</em>方案
+
+最近自己写了一个js组件，该js组件是提供给第三方使用的，而js组件中涉及了ajax请求，于是乎就出现了<em>跨域</em>请求<em>问题</em>。下面记录一下自己的<em>解决</em>路程。
+
+什么是<em>跨域</em>
+
+
+  参考：<em>跨域</em>请求详解 
+  个人理解：我理解的<em>跨域</em>就是，两个不同的ip或者<em>域名</em>，进行访问和数据交换，此时如果不做处理，便会发生<em>跨域</em>请求<em>问题</em>。详细解释看上面链接。
+
+
+我自己就是因为js提供给其他服务器进行调用，而...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="https://blog.csdn.net/qq_35224627" target="_blank">
+				<img class="" src="https://profile.csdnimg.cn/D/9/1/3_qq_35224627">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+      <textarea class="comment-content" name="comment_content" id="comment_content" placeholder="请发表有价值的评论， 博客评论不欢迎灌水，良好的社区氛围需大家一起维护。" maxlength="1000"></textarea>
+			<div class="comment-emoticon"><img class="comment-emoticon-img" data-url="https://csdnimg.cn/release/blogv2/dist/pc/img/" src="https://csdnimg.cn/release/blogv2/dist/pc/img/emoticon.png" alt="表情包"></div> 
+      <span class="comment-emoticon-tip">插入表情</span>
+      <div class="comment-emoticon-box">
+        <div class="comment-emoticon-img-box"></div>
+			</div>
+      <div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="76468225">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+                <div class="recommend-item-box clearfix" style="display:none"></div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lianzhang861/article/details/84871369"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.2","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"2","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/lianzhang861/article/details/84871369"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lianzhang861/article/details/84871369" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.2","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"2","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/lianzhang861/article/details/84871369"}'  data-report-query='spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">什么是<em>跨域</em>及怎么<em>解决</em><em>跨域问题</em>？</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lianzhang861" target="_blank"><span class="blog-title">lianzhang861的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-07</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lianzhang861/article/details/84871369" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.2","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"2","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/lianzhang861/article/details/84871369"}'  data-report-query='spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">什么是<em>跨域</em>？
+
+这篇博文解释的挺清楚，我直接引用https://blog.csdn.net/lambert310/article/details/51683775
+
+<em>跨域</em>，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器施加的安全限制。
+
+所谓同源是指，<em>域名</em>，协议，端口均相同，只要有一个不同，就是<em>跨域</em>。不明白没关系，举个栗子：
+
+http://www.123.com/i...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_57066052/article/details/119492131"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.3","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-3.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"3","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_57066052/article/details/119492131"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_57066052/article/details/119492131" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.3","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-3.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"3","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_57066052/article/details/119492131"}'  data-report-query='spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">为什么会有<em>跨域</em>的<em>问题</em>出现，如<em>何解</em>决<em>跨域问题</em>.</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_57066052" target="_blank"><span class="blog-title">weixin_57066052的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-07</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					850
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_57066052/article/details/119492131" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.3","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-3.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"3","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_57066052/article/details/119492131"}'  data-report-query='spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">目录
+
+ 
+
+什么是<em>跨域</em>
+
+什么是同源策略
+
+<em>解决</em>方式
+
+1、jsonp
+
+1.1）去创建一个 script 标签
+
+1.2）script 的 src 属性设置接口地址
+
+1.3）接口参数,必须要带一个自定义函数名 要不然后台无法返回数据。
+
+1.4）通过定义函数名去接收后台返回数据
+
+2、 CORS：<em>跨域</em>资源共享
+
+2.1）<em>跨域</em>请求后的响应头中需要设置
+
+2.2）Access-Control-Allow-Origin 为发起请求的主机地址
+
+2.3）Access-Control-Allo...</div>
+			</a>
+		</div>
+	</div>
+</div>
+		<dl id="recommend-item-box-tow" class="recommend-item-box type_blog clearfix">
+			
+		</dl>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_40297452/article/details/104731670"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.4","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-4.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"4","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_40297452/article/details/104731670"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_40297452/article/details/104731670" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.4","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-4.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"4","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_40297452/article/details/104731670"}'  data-report-query='spm=1001.2101.3001.6650.4&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">什么是<em>跨域</em>？怎么实现<em>跨域</em>请求？</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_40297452" target="_blank"><span class="blog-title">前端攻城狮</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-10</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					770
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_40297452/article/details/104731670" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.4","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-4.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"4","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/weixin_40297452/article/details/104731670"}'  data-report-query='spm=1001.2101.3001.6650.4&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">1、概念：出于浏览器的同源策略限制。同源策略（Sameoriginpolicy）是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，则浏览器的正常功能可能都会受到影响。可以说Web是构建在同源策略基础之上的，浏览器只是针对同源策略的一种实现。同源策略会阻止一个域的javascript脚本和另外一个域的内容进行交互。所谓同源（即指在同一个域）就是两个页面具有相同的协议（protoco...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/yup1212/article/details/87633272"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.5","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-5.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"5","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/yup1212/article/details/87633272"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/yup1212/article/details/87633272" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.5","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-5.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"5","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/yup1212/article/details/87633272"}'  data-report-query='spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>解决</em><em>跨域问题</em>的8种方案（最新最全）</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/yup1212" target="_blank"><span class="blog-title">反者道之动；弱者道之用</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-18</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					12万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/yup1212/article/details/87633272" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.5","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-5.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"5","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/yup1212/article/details/87633272"}'  data-report-query='spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">转自 PheonixHkbxoic 的《前端<em>解决</em><em>跨域问题</em>的8种方案（最新最全）》
+
+原址：https://www.cnblogs.com/PheonixHkbxoic/p/5760838.html
+
+
+
+1.同源策略如下：
+
+URL
+			说明
+			是否允许通信
+		http://www.a.com/a.js
+			http://www.a.com/b.js
+			同一<em>域名</em>下
+			允许
+		...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/reai2011/article/details/84784652"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.6","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-6.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"6","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/reai2011/article/details/84784652"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/reai2011/article/details/84784652" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.6","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-6.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"6","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/reai2011/article/details/84784652"}'  data-report-query='spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-6.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-6.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>（纯前端<em>解决</em>，纯后端<em>解决</em>，webservice<em>解决</em>）</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/reai2011" target="_blank"><span class="blog-title">极客笑点低</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-04</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/reai2011/article/details/84784652" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.6","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-6.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"6","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/reai2011/article/details/84784652"}'  data-report-query='spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-6.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-6.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">青年：最近项目中遇到了<em>跨域问题</em>，我这边<em>解决</em>的方式是jsonp前后端配合，大师是否还有其他的<em>解决</em>方式？
+
+禅师：<em>跨域</em>是浏览器对同源策略的保护，主流的方式的确是需要前后端配合<em>解决</em>，但是业务需求有千百种，<em>解决</em>方法也应适应业务需求。如果后端服务本身是调取的第三方服务，这种情况下只能纯前端<em>解决</em>了。
+
+青年：纯前端<em>解决</em>?<em>域名</em>不同，协议不同，端口不同都会产生<em>跨域问题</em>，摆在前端面前的就是这几种情况之一，这不就是薅...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/Wen__Fei/article/details/101458322"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.7","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"7","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/Wen__Fei/article/details/101458322"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/Wen__Fei/article/details/101458322" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.7","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"7","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/Wen__Fei/article/details/101458322"}'  data-report-query='spm=1001.2101.3001.6650.7&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">什么是<em>跨域</em>访问</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/Wen__Fei" target="_blank"><span class="blog-title">Wen__Fei的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-26</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/Wen__Fei/article/details/101458322" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.7","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"7","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/Wen__Fei/article/details/101458322"}'  data-report-query='spm=1001.2101.3001.6650.7&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.什么是<em>跨域</em>
+<em>跨域</em>是指<em>跨域</em>名的访问，以下情况都属于<em>跨域</em>：
+
+
+
+
+<em>跨域</em>原因说明
+示例
+
+
+
+
+<em>域名</em>不同
+www.jd.com 与 www.taobao.com
+
+
+<em>域名</em>相同，端口不同
+www.jd.com:8080 与 www.jd.com:8081
+
+
+二级<em>域名</em>不同
+item.jd.com 与 miaosha.jd.com
+
+
+如果<em>域名</em>和端口都相同，但是请求路径不同，不属于<em>跨域</em>，如：
+www....</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qlin_11/article/details/99302292"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.8","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-8.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"8","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qlin_11/article/details/99302292"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qlin_11/article/details/99302292" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.8","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-8.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"8","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qlin_11/article/details/99302292"}'  data-report-query='spm=1001.2101.3001.6650.8&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-8.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-8.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">前端和后端<em>解决</em><em>跨域问题</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qlin_11" target="_blank"><span class="blog-title">qlin_11的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					7890
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qlin_11/article/details/99302292" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.8","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-8.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"8","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qlin_11/article/details/99302292"}'  data-report-query='spm=1001.2101.3001.6650.8&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-8.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-8.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">说的比较好的一个博客，头部加Access-Control-Allow-Origin，一般是后端给你加，但是如果是不能控制的后端，就要前端搞别的方法了
+我这里遇到的<em>问题</em>是，后端无法帮忙，这个比简单的加个头要痛苦的多了
+https://www.fujieace.com/html/cors.html
+其实，<em>解决</em>这个办法有很多，我博客曾经也发表过&ldquo;Access-Control-Allow-Origin 跨...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/ysvae/article/details/82121161"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.9","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-9.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"9","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/ysvae/article/details/82121161"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/ysvae/article/details/82121161" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.9","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-9.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"9","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/ysvae/article/details/82121161"}'  data-report-query='spm=1001.2101.3001.6650.9&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-9.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-9.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">如<em>何解</em>决<em>跨域问题</em>？</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/ysvae" target="_blank"><span class="blog-title">YSOcean的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3967
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/ysvae/article/details/82121161" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.9","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-9.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"9","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/ysvae/article/details/82121161"}'  data-report-query='spm=1001.2101.3001.6650.9&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-9.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-9.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">
+  
+    &amp;#13;
+			　　如<em>何解</em>决<em>跨域问题</em>？首先我们需要知道什么是<em>跨域</em>，<em>跨域</em>指的是浏览器不能执行其它网站的脚本，它是由浏览器的同源策略造成的，是浏览器对JavaScript 施加的安全限制。&amp;#13;
+1、同源策略&amp;#13;
+　　根据百度百科&nbsp;同源策略它是由 Netscape 提出的一个安全策略，它是浏览器最核心也是最基本的安全功能，如果缺少同源策略，则浏览器的正常功能可能都会受到影响...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_38128179/article/details/84956552"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.10","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-10.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"10","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_38128179/article/details/84956552"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_38128179/article/details/84956552" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.10","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-10.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"10","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_38128179/article/details/84956552"}'  data-report-query='spm=1001.2101.3001.6650.10&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-10.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-10.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">什么是<em>跨域</em>？<em>跨域</em><em>解决</em>方法</div>
+					<div class="tag">热门推荐</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_38128179" target="_blank"><span class="blog-title">越努力，越幸运！</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-14</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					31万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_38128179/article/details/84956552" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.10","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-10.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"10","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/qq_38128179/article/details/84956552"}'  data-report-query='spm=1001.2101.3001.6650.10&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-10.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-10.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">一、为什么会出现<em>跨域问题</em>
+
+出于浏览器的同源策略限制。同源策略（Sameoriginpolicy）是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，则浏览器的正常功能可能都会受到影响。可以说Web是构建在同源策略基础之上的，浏览器只是针对同源策略的一种实现。同源策略会阻止一个域的javascript脚本和另外一个域的内容进行交互。所谓同源（即指在同一个域）就是两个页面具有相同的协...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u011236348/article/details/120318852"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.11","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-11.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"11","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/u011236348/article/details/120318852"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/u011236348/article/details/120318852" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.11","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-11.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"11","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/u011236348/article/details/120318852"}'  data-report-query='spm=1001.2101.3001.6650.11&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-11.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-11.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>的4种<em>解决</em>方案</div>
+					<div class="tag">最新发布</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/u011236348" target="_blank"><span class="blog-title">潘高的小站</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-15</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					981
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/u011236348/article/details/120318852" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.11","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-11.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"11","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/u011236348/article/details/120318852"}'  data-report-query='spm=1001.2101.3001.6650.11&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-11.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-11.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">更多内容，请访问我的 个人博客。
+
+前言
+难以置信，我居然被<em>跨域问题</em>折磨了一上午。相信很多程序员都遇到过<em>跨域问题</em>，当然，<em>解决</em>方案也有很多种。但我今天尝试了无数种办法，依旧没有<em>解决</em>。直到最后我媳妇儿给了我个提示，会不会<em>跨域问题</em>只是表象，真正的bug在其他地方。后来，经过我仔细排查，终于发现原来是PhalApi框架中的一个小<em>问题</em>，引发了<em>跨域</em>报错（文末再说PhalApi框架中的<em>问题</em>是啥）。那我也借这个机会，来和大伙聊聊啥是<em>跨域问题</em>，和有哪些常见的<em>解决</em>方案。
+什么是<em>跨域</em>
+什么是快乐星球，呸，什么是<em>跨域</em>呢？
+简单来讲</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/JiangLittleBai/article/details/90513028"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.12","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-12.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"12","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/JiangLittleBai/article/details/90513028"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/JiangLittleBai/article/details/90513028" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.12","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-12.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"12","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/JiangLittleBai/article/details/90513028"}'  data-report-query='spm=1001.2101.3001.6650.12&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-12.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-12.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>的产生及<em>解决</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/JiangLittleBai" target="_blank"><span class="blog-title">JiangLittleBai的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1174
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/JiangLittleBai/article/details/90513028" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.12","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-12.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"12","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/JiangLittleBai/article/details/90513028"}'  data-report-query='spm=1001.2101.3001.6650.12&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-12.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-12.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>跨域问题</em>的产生及<em>解决</em>
+开发过程中，或多或少都碰见过这样的情况，本地写了个ajax请求想从某某域下获取数据，代码如下：
+  $.ajax({
+      url:&quot;https://www.baidu.com&quot;,
+      data:{
+          name:&quot;name&quot;,
+          address:&quot;beijing&quot;
+      },
+      type:&quot;post&quot;,
+   ...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/pedrojuliet/article/details/53419064"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.13","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-13.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"13","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/pedrojuliet/article/details/53419064"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/pedrojuliet/article/details/53419064" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.13","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-13.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"13","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/pedrojuliet/article/details/53419064"}'  data-report-query='spm=1001.2101.3001.6650.13&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-13.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-13.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>极其常用<em>解决</em>方法总结</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/pedrojuliet" target="_blank"><span class="blog-title">匪鉴</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					6077
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/pedrojuliet/article/details/53419064" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.13","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-13.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"13","strategy":"2~default~CTRLIST~default","dest":"https://blog.csdn.net/pedrojuliet/article/details/53419064"}'  data-report-query='spm=1001.2101.3001.6650.13&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-13.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-13.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">当提到<em>跨域问题</em>时，很多人会问，什么是<em>跨域问题</em>呢？这里的域指的到底是哪个域呢？
+首先，什么是<em>跨域问题</em>？
+简单地理解就是因为JavaScript同源策略的限制，a.com <em>域名</em>下的js无法操作b.com或是c.a.com<em>域名</em>下的对象。
+抽象点来理解（这里打个比喻）：把每个不同协议、不同<em>域名</em>和不同端口，不同主机名的页面，比作不同国度的人，那么页面的数据比作货币，然后<em>问题</em>就来了，因为每个国家的货币是</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_29787335/article/details/79705381"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.14","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-14.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"14","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_29787335/article/details/79705381"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_29787335/article/details/79705381" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.14","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-14.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"14","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_29787335/article/details/79705381"}'  data-report-query='spm=1001.2101.3001.6650.14&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-14.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-14.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>，什么是<em>跨域</em>，怎么<em>解决</em>？</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_29787335" target="_blank"><span class="blog-title">会php的猪</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1060
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_29787335/article/details/79705381" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.14","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-14.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"14","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_29787335/article/details/79705381"}'  data-report-query='spm=1001.2101.3001.6650.14&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-14.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-14.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">今天我学习了一下<em>跨域</em>的<em>问题</em>，access-controller-allow-origin什么是<em>跨域问题</em>？<em>跨域问题</em>发生的原因，1.浏览器限制，2.<em>跨域</em>，<em>域名</em>不同，端口号不同，都会发生3.xhr请求，xmlhttprequest请求只要满足这三点就一定会发生<em>跨域</em>请求。误区：一直以来都觉得是因为后台接口的<em>问题</em>导致的<em>跨域</em>，其实不是，和后台无关。当然，后台也能做这个验证，并导致这个<em>问题</em>。<em>跨域</em>的<em>解决</em>思路，我们...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_21179737/article/details/80598754"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.15","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-15.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"15","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_21179737/article/details/80598754"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_21179737/article/details/80598754" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.15","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-15.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"15","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_21179737/article/details/80598754"}'  data-report-query='spm=1001.2101.3001.6650.15&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-15.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-15.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">layui table不支持<em>跨域</em>请求以及不支持多层数据嵌套的替代方案laypage组件使用</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_21179737" target="_blank"><span class="blog-title">胡萝卜的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-06</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					6301
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_21179737/article/details/80598754" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.15","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-15.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"15","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_21179737/article/details/80598754"}'  data-report-query='spm=1001.2101.3001.6650.15&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-15.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-15.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">layui table异步数据接口不支持<em>跨域</em>，不支持多层数据嵌套的替代办法table组件的request请求不支持<em>跨域</em>，response不支持获取到嵌套的数据（使用data.obj.list这种形式获取嵌套的集合）使用laypage组件示例中使用了jsrender来填充tablehtml代码如下	&amp;lt;!--table部分--&amp;gt;
+			&amp;lt;table class=&quot;layui-tabl...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_39903567/article/details/115532420"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.16","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-16.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"16","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_39903567/article/details/115532420"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_39903567/article/details/115532420" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.16","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-16.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"16","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_39903567/article/details/115532420"}'  data-report-query='spm=1001.2101.3001.6650.16&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-16.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-16.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1"><em>跨域问题</em>产生的原因以及十种<em>解决</em>方案</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_39903567" target="_blank"><span class="blog-title"> LYFlied的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">04-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2622
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_39903567/article/details/115532420" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.16","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-16.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"16","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/qq_39903567/article/details/115532420"}'  data-report-query='spm=1001.2101.3001.6650.16&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-16.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-16.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">一、什么是<em>跨域</em>？
+同源策略：协议+<em>域名</em>+端口
+三、<em>解决</em>方案
+1.JSONP<em>跨域</em>
+2.<em>跨域</em>资源共享（CORS）
+简单请求
+CORS<em>跨域</em>示例
+3.nginx代理<em>跨域</em>
+nginx配置<em>解决</em>iconfont<em>跨域</em>
+nginx反向代理接口<em>跨域</em>
+4.nodejs中间件代理<em>跨域</em>
+5.document.domain + iframe<em>跨域</em>
+6.location.hash + iframe<em>跨域</em>
+7.window.name + iframe<em>跨域</em>
+8.postMessage<em>跨域</em>
+9.WebSocket协议<em>跨域</em>
+10.浏览器开启<em>跨域</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/weixin_38629303/14828807"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.17","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~default-17.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"17","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://download.csdn.net/download/weixin_38629303/14828807"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/weixin_38629303/14828807" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.17","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~default-17.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"17","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://download.csdn.net/download/weixin_38629303/14828807"}'  data-report-query='spm=1001.2101.3001.6650.17&utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-17.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-17.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">layui数据表格 table.render 报错的<em>解决</em>方法</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">01-19</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/weixin_38629303/14828807" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.17","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~default-17.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"17","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://download.csdn.net/download/weixin_38629303/14828807"}'  data-report-query='spm=1001.2101.3001.6650.17&utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-17.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-17.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">一、报错信息
+
+Whitelabel Error Page
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+Wed Jan 23 15:20:18 CST 2019
+There was an unexpected error (type=Internal Server Error, status=500).
+An error happened during template parsing (template: class path resource [tem</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/p930318/article/details/112370588"  data-report-view='{"ab":"new","spm":"1001.2101.3001.6650.18","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-18.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"18","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/p930318/article/details/112370588"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/p930318/article/details/112370588" class="tit" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.18","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-18.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"18","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/p930318/article/details/112370588"}'  data-report-query='spm=1001.2101.3001.6650.18&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-18.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-18.no_search_link'>
+					<div class="left ellipsis-online ellipsis-online-1">layui的table请求本地数据<em>跨域</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/p930318" target="_blank"><span class="blog-title">小耳朵晨晨</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-08</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					714
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/p930318/article/details/112370588" target="_blank"  data-report-click='{"ab":"new","spm":"1001.2101.3001.6650.18","mod":"popu_387","extra":"{\"highlightScore\":0.0,\"utm_medium\":\"distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-18.no_search_link\",\"dist_request_id\":\"1636463340256_68862\"}","dist_request_id":"1636463340256_68862","ab_strategy":"ctrlist","index":"18","strategy":"2~default~BlogCommendFromBaidu~default","dest":"https://blog.csdn.net/p930318/article/details/112370588"}'  data-report-query='spm=1001.2101.3001.6650.18&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-18.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-18.no_search_link'>
+				<div class="desc ellipsis-online ellipsis-online-1">一些<em>解决</em>办法没能<em>解决</em>还是报<em>跨域问题</em>，在本地请求了json 。
+
+突然想到没有启动服务器 ，直接打开了html预览 ，放在一个本地服务上就请求到了
+</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2021 CSDN</span>
+                <span>皮肤主题: 深蓝海洋</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+	<div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/tjcjava" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/tjcjava","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/B/1/3/3_tjcjava" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/tjcjava" class="" id="uid" title="飞扬_柳絮" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/tjcjava","ab":"new"}'>
+                    <span class="name " username="tjcjava">飞扬_柳絮</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄10年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://i.csdn.net/#/uc/profile?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="106">
+            <a href="https://blog.csdn.net/tjcjava" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">106</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="47079">
+            <a href="https://blog.csdn.net/rank/list/weekly" target="_blank">
+                <dt><span class="count">4万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="50761">
+            <a href="https://blog.csdn.net/rank/list/total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">5万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="376150">  
+            <dt><span class="count">37万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="5级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/blogdevteam/article/details/103478461" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog5.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="2672">
+            <dt><span class="count">2672</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="43">
+            <dt><span class="count" id="fan">43</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="75">
+            <dt><span class="count">75</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="20">
+            <dt><span class="count">20</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="332">
+            <dt><span class="count">332</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv1">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing1@240.png" alt="勤写标兵Lv1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/tjcjava" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="attented personal-watch bt-button" id="btnAttent">已关注</a>
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/tjcjava/article/details/79089613" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/tjcjava/article/details/79089613","ab":"new"}'>
+				curl ip报错curl: (56) Recv failure: Connection reset by peer
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">109654</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/tjcjava/article/details/76468225" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/tjcjava/article/details/76468225","ab":"new"}'>
+				什么是跨域？如何解决跨域问题？
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">99846</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/tjcjava/article/details/78880254" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/tjcjava/article/details/78880254","ab":"new"}'>
+				vsCode 插件离线安装(在应用商店中无法直接安装)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">27627</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/tjcjava/article/details/102969068" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/tjcjava/article/details/102969068","ab":"new"}'>
+				微信小程序跳转第三方外部链接
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">11714</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/tjcjava/article/details/79193025" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/tjcjava/article/details/79193025","ab":"new"}'>
+				Vue 本地跨域处理(包含cookie)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">11547</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_9495682.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_9495682.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191112140042111.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">微信小程序</span>
+                    </span>
+                    <span class="count float-right">13篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10698026.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10698026.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">UI</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10175921.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10175921.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">uni-app</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10975974.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10975974.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">NPM</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10041100.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10041100.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">HTTP</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_9492613.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_9492613.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191107113931746.jpg?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">阿里云</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_2818557.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_2818557.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">jQuery</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6775833.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6775833.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191122104154437.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">JavaScript</span>
+                    </span>
+                    <span class="count float-right">28篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6757085.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6757085.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20190918140053667.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">php</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6757875.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6757875.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191122104945621.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">各类软件使用</span>
+                    </span>
+                    <span class="count float-right">10篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6797549.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6797549.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Html</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6802528.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6802528.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Css</span>
+                    </span>
+                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6833966.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6833966.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191114155708315.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">vue</span>
+                    </span>
+                    <span class="count float-right">13篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_7543311.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_7543311.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">linux</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_8926874.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_8926874.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20191122104042769.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">代码版本控制</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_8926895.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_8926895.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">杂文</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/tjcjava/article/details/76468225#comments_18291706" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_18291706","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_18291706","ab":"new"}'>什么是跨域？如何解决跨域问题？</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_37876591" class="user-name" target="_blank">Twilight-Ake: </a>
+                    <span class="code-comments">浏览器对 cookie 不区分端口的</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/tjcjava/article/details/76468225#comments_18161647" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_18161647","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_18161647","ab":"new"}'>什么是跨域？如何解决跨域问题？</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq940043871" class="user-name" target="_blank">qq940043871: </a>
+                    <span class="code-comments">经过测试：
+同域名端口不一致的跨域行为 浏览器是可以正常获取cookie并传到后端的(端口1和端口2的cookie内容都会传)</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/tjcjava/article/details/76468225#comments_17706670" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_17706670","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_17706670","ab":"new"}'>什么是跨域？如何解决跨域问题？</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_43272542" class="user-name" target="_blank">Aring88: </a>
+                    <span class="code-comments">这篇质量很高</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/tjcjava/article/details/76468225#comments_16355514" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_16355514","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/76468225#comments_16355514","ab":"new"}'>什么是跨域？如何解决跨域问题？</a>
+                <p class="comment ellipsis">
+                    <a href="https://ferry.blog.csdn.net" class="user-name" target="_blank">Deep Learning小舟: </a>
+                    <span class="code-comments">写的真好！（￣ˇ￣)</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/tjcjava/article/details/84111998#comments_15977851" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/84111998#comments_15977851","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/tjcjava/article/details/84111998#comments_15977851","ab":"new"}'>popstate 监听app、浏览器的返回</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/xuziming1" class="user-name" target="_blank">程序员_科比: </a>
+                    <span class="code-comments">你确定pushState可以这样用？不报错？</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideNewNps" class="aside-box">
+    <h3 class="aside-title">您愿意向朋友推荐“博客详情页”吗？</h3>
+    <div class="aside-content">
+        <ul class="newnps-list">
+            <li class="newnps-item" data-type="强烈不推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeel1.png" alt="">
+                    <img class="newnps-img default" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeelGrey1.png" alt="">
+                </div>
+                <div class="newnps-text">强烈不推荐</div>
+            </li>
+            <li class="newnps-item" data-type="不推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeel2.png" alt="">
+                    <img class="newnps-img default" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeelGrey2.png" alt="">
+                </div>
+                <div class="newnps-text">不推荐</div>
+            </li>
+            <li class="newnps-item" data-type="一般般">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeel3.png" alt="">
+                    <img class="newnps-img default" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeelGrey3.png" alt="">
+                </div>
+                <div class="newnps-text">一般般</div>
+            </li>
+            <li class="newnps-item" data-type="推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeel4.png" alt="">
+                    <img class="newnps-img default" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeelGrey4.png" alt="">
+                </div>
+                <div class="newnps-text">推荐</div>
+            </li>
+            <li class="newnps-item" data-type="强烈推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeel5.png" alt="">
+                    <img class="newnps-img default" src="https://csdnimg.cn/release/blogv2/dist/pc/img/npsFeelGrey5.png" alt="">
+                </div>
+                <div class="newnps-text">强烈推荐</div>
+            </li>
+        </ul>
+        <div class="newnps-form-box">
+        <div class="newnps-form">
+            <input type="text" placeholder="请输入建议或反馈后点击提交" class="newnps-input">
+            <span class="newnps-btn">提交</span>
+        </div>
+        </div>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box" style="display:block!important; width:300px;">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/tjcjava/article/details/117715964" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/tjcjava/article/details/117715964","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/tjcjava/article/details/117715964","ab":"new"}'>微信小程序获取小程序码、自定义分享按钮</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/tjcjava/article/details/117472020" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/tjcjava/article/details/117472020","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/tjcjava/article/details/117472020","ab":"new"}'>JavaScripts 数组 Json相关</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/tjcjava/article/details/117425694" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/tjcjava/article/details/117425694","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/tjcjava/article/details/117425694","ab":"new"}'>axios 请求数据格式</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/tjcjava/article/month/2021/06" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2021年</span><span class="num">13篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/tjcjava/article/month/2020/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">19篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/tjcjava/article/month/2019/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">21篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/tjcjava/article/month/2018/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">16篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/tjcjava/article/month/2017/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2017年</span><span class="num">41篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客详情页-矩形-左下视窗（自适应） -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1894159733"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=707&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=7e303e6b0ef5418c881103b5459971dc" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.5/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.7/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客详情页-右侧视窗（自适应） -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="3484057394"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3267&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=e39f2f772de74a3c87cf2e552f129e90" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class='aside-box kind_person d-flex flex-column'>
+                    <h3 class="aside-title">分类专栏</h3>
+                    <div class="align-items-stretch kindof_item" id="kind_person_column">
+                        <div class="aside-content">
+                            <ul>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_9495682.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_9495682.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191112140042111.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">微信小程序</span>
+                                        </span>
+                                        <span class="count float-right">13篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10698026.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10698026.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">UI</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10175921.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10175921.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">uni-app</span>
+                                        </span>
+                                        <span class="count float-right">3篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10975974.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10975974.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">NPM</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_10041100.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_10041100.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">HTTP</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_9492613.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_9492613.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191107113931746.jpg?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">阿里云</span>
+                                        </span>
+                                        <span class="count float-right">4篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_2818557.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_2818557.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">jQuery</span>
+                                        </span>
+                                        <span class="count float-right">4篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6775833.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6775833.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191122104154437.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">JavaScript</span>
+                                        </span>
+                                        <span class="count float-right">28篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6757085.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6757085.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20190918140053667.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">php</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6757875.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6757875.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191122104945621.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">各类软件使用</span>
+                                        </span>
+                                        <span class="count float-right">10篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6797549.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6797549.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Html</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6802528.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6802528.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Css</span>
+                                        </span>
+                                        <span class="count float-right">17篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_6833966.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_6833966.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191114155708315.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">vue</span>
+                                        </span>
+                                        <span class="count float-right">13篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_7543311.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_7543311.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">linux</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_8926874.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_8926874.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20191122104042769.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">代码版本控制</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/tjcjava/category_8926895.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/tjcjava/category_8926895.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">杂文</span>
+                                        </span>
+                                        <span class="count float-right">4篇</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script>
+    var articleId = 76468225;
+    var commentscount = 5;
+    var curentUrl = "https://blog.csdn.net/tjcjava/article/details/76468225";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["跨域问题","跨域","域名","问题","解决","何解"];//高亮数组
+    var isRecommendModule = true;
+    var isBaiduPre = true;
+    var baiduCount = 2;
+    var share_card_url = "https://app-blog.csdn.net/share?article_id=76468225&username=tjcjava"
+	var articleType = 1;
+    var baiduKey = "跨域问题";
+    var userNewReport = false;
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "baidulandingword";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+    var showHeadWord = true;
+    var showSearchText = "";
+    var linkPage = true;
+    var articleSource = 1;
+    var articleReport = '{"pid": "blog", "spm":"1001.2101"}';
+    var isShowToQuestion = false;
+    var baiduSearchChannel = 'pc_relevant'
+    var baiduSearchIdentification = '.no_search_link'
+    var distRequestId = '1636463340256_68862'
+    var initRewardObject = {
+        giver: "qq_35224627",
+        anchor: "tjcjava",
+        articleId: "76468225",
+        sign: "d8817dc5f54706300117aee6f34c010b",
+    }
+    var isLikeStatus = false;
+    var isUnLikeStatus = false;
+    var studyLearnWord = "赠12个月"
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div class="directory-boxshadow"></div>
+<div class="pay-code">
+    <div class="pay-money">实付<span class="pay-money-span" data-nowprice='' data-oldprice=''>元</span></div>
+    <div class="content-blance"><a class="blance-bt" href="javascript:;">使用余额支付</a></div>
+    <div class="content-code">
+    <div id="payCode" data-id="">
+            <div class="renovate">
+                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/pay-time-out.png">
+                <span>点击重新获取</span>
+            </div>
+        </div>
+        <div class="pay-style"><span><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/weixin.png"></span><span><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/zhifubao.png"></span><span><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/jingdong.png"></span><span class="text">扫码支付</span></div>
+    </div>
+    <div class="bt-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></div>
+    <!-- <p style="margin-top: 8px;font-size: 14px;" class="text-center">支付成功即可阅读</p> -->
+    <div class="pay-balance">
+    <input type="radio" class="pay-code-radio" data-type="details"> 
+    <span class="span">钱包余额</span>
+    <span class="balance" style="color:#FC5531;font-size:14px;">0</span>  
+    <div class="pay-code-tile">
+        <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/pay-help.png" alt="">
+        <div class="pay-code-content">
+            <div class="span">
+                <p class="title">抵扣说明：</p>
+                <p> 1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。<br> 2.余额无法直接购买下载，可以购买VIP、C币套餐、付费专栏及课程。</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <a class="pay-balance-con" href="https://i.csdn.net/#/wallet/balance/recharge" target="_blank"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/recharge.png" alt=""><span  >余额充值</span></a>
+</div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-a6777dccd0.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-48322534fc.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/edit_copy_code-1320dfe85c.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                if(userNewReport){
+                     window.csdn.feedback({
+                        "type":'blog',
+                        "rtype":'article',
+                        "rid":articleId,
+                        "reportedName":username,
+                        "submitOptions":{
+                            "title":articleTitle,
+                            "contentUrl":articleDetailUrl
+                        },
+                        "callback":function(){
+                            showToast({
+                                text: "感谢您的举报，我们会尽快审核！",
+                                bottom: '10%', //toast距离页面底部的距离
+                                zindex: 9000, //为了防止被其他控件遮盖，z-index默认为2
+                                speed: 500, //toast的显示速度
+                                time: 1500//toast显示多久以后消失
+                            });
+                        }
+                     })
+                }else{
+                    showReport(false,articleTitles);
+                }
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.9/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://g.csdnimg.cn/lib/qrcode/1.0.0/qrcode.min.js"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/3.0.0/user-ordercart.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordertip/4.1.3/user-ordertip.js" type="text/javascript" ></script>
+<script src="https://g.csdnimg.cn/order-payment/3.0.2/order-payment.js" type="text/javascript" ></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-8738548423.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-af0503e895.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-c7621afc01.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/3.0/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.4/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none",
+                ignoreClass:"title-article"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/common/csdn-login-box/csdn-login-box.js"></script></html>

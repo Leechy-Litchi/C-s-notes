@@ -1,0 +1,1 @@
+window.stop?window.stop():document.execCommand("Stop")
