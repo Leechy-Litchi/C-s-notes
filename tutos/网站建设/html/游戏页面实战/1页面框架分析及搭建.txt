@@ -1,0 +1,15 @@
+    background-attachment: fixed;
+warp此处fixed固定住背景页
+
+    display: grid;
+    grid-template-columns: 300px 1fr;
+container简单分成主副两块
+
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+日期或其他要素单独flex到一侧并未绝对位置

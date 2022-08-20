@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？ - 编程之家</title>
+  <meta name="keywords" content="html,safari,播放,ogg,文件,那么,如何,wiktionary.org,wiktionary,org,运行" />
+  <meta name="description" content="Safari不支持.ogg文件,但这并不能阻止wiktionary.org播放ogg文件.我查看了源代码,我无法找到它们是如何播放文件的. 这是他们使用.ogg文件的链接. https://en.wiktionary.org/wiki/File:en-us-the-unstressed.ogg 当您查看网站的XHR时,您会注意到,他们实际上加载了EN-us-the-unstressed.ogg文件" />
+  <link rel='canonical' href='https://www.jb51.cc/html/225855.html' />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.jb51.cc/css/style.css">  
+  <meta name="mobile-agent" content="format=xhtml;url=https://m.jb51.cc/html/225855.html">
+  <meta name="mobile-agent" content="format=html5;url=https://m.jb51.cc/html/225855.html">
+  <link rel="alternate" media="only screen and(max-width: 640px)" href="https://m.jb51.cc/html/225855.html">
+  <meta name="apple-mobile-web-app-title" content="编程之家">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.jb51.cc/js/prettify.js"></script>
+  <link rel='stylesheet' id='prettify-css' href='https://www.jb51.cc/js/prettify.css' type='text/css' media='all' />
+  <script data-ad-client="ca-pub-4605373693034661" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  </head>
+  <body>
+<div class="navbar navbar-fixed-top top_bg" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+        <span class="sr-only">切换导航</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="logo" href="https://www.jb51.cc">
+        <img src="https://www.jb51.cc/images/logo.png" alt="编程之家" /></a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav top_menu">
+        <li class="nav-text"><a href="https://www.jb51.cc" title="编程之家">首页</a></li><li class="nav-text"><a href="https://www.jb51.cc/tutorial/" title="编程教程">编程教程</a></li><li class="nav-text"><a href="https://www.jb51.cc/baike/" title="编程百科">编程百科</a></li><li class="nav-text reddot"><a href="https://www.jb51.cc/faq/" title="编程问答">编程问答</a></li><li class="nav-text"><a href="https://www.jb51.cc/blog/" title="编程博文">编程博文</a></li><li class="nav-text"><a href="https://www.jb51.cc/t/" title="编程工具">编程工具</a></li><li class="nav-text"><a href="https://www.jb51.cc/nav/" title="编程导航">编程导航</a></li><li class="nav-text reddot"><a href="https://www.jb51.cc/books/" title="编程书籍">编程书籍</a></li></ul>
+    </div>
+  </div>
+</div>
+    <div class="container" style="margin-top:90px;">
+      <div class="row row-sm">
+        <!-- left -->
+        <div class="col-sm-12 col-md-12 col-lg-9">
+
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+              <ul class="breadcrumb">
+    <li><a href="https://www.jb51.cc" title="编程之家">编程之家</a></li>
+    <li><a href="https://www.jb51.cc/html/" title="HTML">HTML</a></li>
+    <li class="active"><a href="https://www.jb51.cc/html/225855.html" title="html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？">html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？</a></li>
+</ul>
+      <div class="article-title"><h1>html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？</h1></div>
+      <div class="article-meta">
+                        <time class="item"><i class="glyphicon glyphicon-time"></i> 2019-05-21</time>
+                        <span class="item"><a href="https://www.jb51.cc/html/" title="HTML" rel="category tag"><i class="glyphicon glyphicon-th-list"></i> HTML</a></span>
+                        <span class="item"><i class="glyphicon glyphicon-user"></i> 编程之家</span>
+                        <span class="item"><i class="glyphicon glyphicon-link"></i> https://www.jb51.cc</span>
+                    </div>
+      <div class="article-desc"><a href="https://www.jb51.cc" title="编程之家" target="_blank" >编程之家</a>收集整理的这篇文章主要介绍了<a href="https://www.jb51.cc/html/225855.html" title="html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？" target="_blank" >html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？</a>，<a href="https://www.jb51.cc" title="编程之家" target="_blank" >编程之家</a>小编觉得挺不错的，现在分享给大家，也给大家做个参考。</div>
+      <div class="article-content">
+          <div class="row" style="margin-bottom:20px;">
+        <div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="2641137254"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="4238431595"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div><div class="question">Safari<a href="https://www.jb51.cc/tag/buzhichi/" target="_blank" class="keywords">不支持</a>.ogg<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>,但这并不能阻止wiktionary.org播放ogg<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>.我查看了源<a href="https://www.jb51.cc/tag/daima/" target="_blank" class="keywords">代码</a>,我无法找到它们是如何播放<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>的. 
+  
+ <p>这是他们使用.ogg<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>的<a href="https://www.jb51.cc/tag/lianjie/" target="_blank" class="keywords">链接</a>. <a href="javascript:void()" class="outlink" data="/link?url=https://en.wiktionary.org/wiki/File:en-us-the-unstressed.ogg" rel="nofollow" target="_blank">https://en.wiktionary.org/wiki/File:en-us-the-unstressed.ogg</a></p>
+</div>
+<h3><a href="https://www.jb51.cc/tag/jiejuefangfa/" target="_blank" class="keywords">解决方法</a></h3>
+<div class="answer">
+ 当您查看网站的XHR时,您会注意到,他们实际上加载了EN-us-the-unstressed.ogg<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>以及这两个脚本： 
+  
+  
+ <pre>ogv-worker-au<a href="https://www.jb51.cc/tag/dio/" target="_blank" class="keywords">dio</a>.js
+ogv-decoder-au<a href="https://www.jb51.cc/tag/dio/" target="_blank" class="keywords">dio</a>-vorbis.js</pre> 
+ <p>这些脚本是<a href="javascript:void()" class="outlink" data="/link?url=https://github.com/brion/ogv.js/" rel="nofollow" target="_blank"><em>ogv.js</em></a> JavaScript库的一部分：</p> 
+  
+ <blockquote> 
+  <p>JavaScript media player using Ogg/Vorbis/Theora/Opus/WebM libs compiled with Emscripten</p> 
+ </blockquote> 
+ <p>该库基本上是这样的：</p> 
+  
+ <blockquote> 
+  <p>Long-form goal is to create a drop-in replacement for the HTML5 video and au<a href="https://www.jb51.cc/tag/dio/" target="_blank" class="keywords">dio</a> tags which can be used for <em>basic playback of Ogg Theora and Vorbis or WebM media on browsers that <strong>don’t support</strong> Ogg or WebM natively</em>.</p> 
+ </blockquote> 
+ <p>因此,他们使用JavaScript来播放从.ogg<a href="https://www.jb51.cc/tag/wenjian/" target="_blank" class="keywords">文件</a>导入的音频,而不是使用原生音频视频元素.</p>
+</div>
+        </div><ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="1300602012"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+          <h2>总结</h2>
+       <p>以上是<a href="https://www.jb51.cc" title="编程之家" target="_blank" >编程之家</a>为你收集整理的<a href="https://www.jb51.cc/html/225855.html" title="html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？" target="_blank" >html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？</a>全部内容，希望文章能够帮你解决<a href="https://www.jb51.cc/html/225855.html" title="html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？" target="_blank" >html – safari不播放.ogg文件,那么它如何在wiktionary.org上运行？</a>所遇到的程序开发问题。</p>
+<p>如果觉得<a href="https://www.jb51.cc" title="编程之家" target="_blank" >编程之家</a>网站内容还不错，欢迎将<a href="https://www.jb51.cc" title="编程之家网站" target="_blank" >编程之家网站</a>推荐给程序员好友。</p>
+
+        <div class="alert alert-info" style="margin-top:20px;">本图文内容来源于网友网络收集整理提供，作为学习参考使用，版权属于原作者。</div>
+<div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="2641137254"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="4238431595"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div>
+<div class="col-sm-12 col-md-12 col-lg-12"><img src="https://www.jb51.cc/pay.jpg" style="width:400px;margin:0 auto;display:block;" /></div>
+<div class="clearfix"></div>
+<div style="height:120px;margin-top:20px;">
+<blockquote>喜欢与人分享编程技术与工作经验，欢迎加入编程之家官方交流群！</blockquote>
+<div class="alert alert-success pull-left" style="width:22%;margin-right:10px;"><a href="https://jq.qq.com/?_wv=1027&k=5KAIYCv" target="_blank" class="alert-link" title="编程之家官方1群"><span class="glyphicon glyphicon-user"></span> 编程之家官方1群</a></div><div class="alert alert-success pull-left" style="width:22%;margin-right:10px;"><a href="https://qm.qq.com/cgi-bin/qm/qr?k=cUCauMWRFNZ-bCtimACY93YaKE5zwwmj&jump_from=webapi" class="alert-link" target="_blank" title="编程之家官方2群"><span class="glyphicon glyphicon-user"></span> 编程之家官方2群</a></div><div class="alert alert-success pull-left" style="width:22%;margin-right:10px;"><a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=AsKY7qwHCdnuvA29Fi4oJsuZWP7WIEtJ&jump_from=webapi" class="alert-link" title="编程之家官方3群"><span class="glyphicon glyphicon-user"></span> 编程之家官方3群</a></div><div class="alert alert-success pull-left" style="width:22%;margin-right:10px;"><a target="_blank" class="alert-link" href="https://qm.qq.com/cgi-bin/qm/qr?k=X4BCNcM6GIz0J2CzjRgp6kdeNsMMQWrf&jump_from=webapi" title="编程之家官方4群" ><span class="glyphicon glyphicon-user"></span> 编程之家官方4群</a></div></div>
+<div class="clearfix"></div>
+
+
+<div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="2641137254"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<div class="col-sm-6 col-md-6 col-lg-6"><ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="4238431595"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<div class="clearfix"></div> 
+
+
+      </div>
+      <div class="topcard-tags"></div>
+      
+                 <ul class="list-group">
+        <li class="list-group-item"><a href="https://www.jb51.cc/html/225856.html" title="是否可以编写一个使用Web套接字进行传输的javascript SSH客户端？">上一篇：是否可以编写一个使用Web套接字进行</a><a href="https://www.jb51.cc/html/225854.html" title="Crystal Report显示HTML文本,但子弹不显示.为什么？" class="text-muted pull-right">下一篇：Crystal Report显示HTML文本,但子弹</a>
+    
+    </li>
+    </ul>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+<!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">          
+         <div class="card">
+    <div class="title"><h1>相关文章</h1></div>
+             <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="7251468125"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+            </div>
+          </div>
+          <!-- row end -->          
+          
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="ads ad-box">
+          <!-- b1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="9821382027"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+           </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+
+
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+
+    <div class="title"><h1>猜你在找的HTML相关文章</h1></div>
+<!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1178519.html" target="_blank"  title="input 属性为 number，maxlength不起作用如何解决？">input 属性为 number，maxlength不起作用如何解决？</a></div>
+                 <div class="summary">&amp;lt;input type=&amp;quot;text&amp;quot; maxlength=&amp;quot;5&amp;quot; /&amp;gt; 效果ok， 当&amp;#160;&amp;lt;input type=&amp;quot;numb</div>
+               </div>
+               <!-- l end -->
+<!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1178518.html" target="_blank"  title="input属性为number时，如何去掉+、-号？">input属性为number时，如何去掉+、-号？</a></div>
+                 <div class="summary">直接上答案 &amp;lt;style&amp;gt; input[type=&amp;#39;number&amp;#39;]{-moz-appearance:textfield;} input[type=number]::-we</div>
+               </div>
+               <!-- l end -->
+<div style="border-bottom: 1px solid #f4f4f4;margin:20px 0px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-h1-27+1a-13+b3"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="1674590850"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1178515.html" target="_blank"  title="使用ajax方法实现form表单的提交">使用ajax方法实现form表单的提交</a></div>
+                 <div class="summary">写在前面的话 在使用form表单的时候,一旦点击提交触发submit事件，一般会使得页面跳转，页面间的跳转等行为的控制权往往在后端，后端会控制页面的跳转及数据传递，但是在某些时候不希望页面跳转，或者说</div>
+               </div>
+               <!-- l end -->
+<!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1017868.html" target="_blank"  title="html表格中的tr td th用法">html表格中的tr td th用法</a></div>
+                 <div class="summary">表格是html中经常使用到的，简单的使用可能很多人都没问题，但是更深入的了解的人恐怕不多，下面我们先来看一下如何使用。 是的上层标签必须在一个里面,它不能单独使用,相当于的属性标签.标示一个表格,标示</div>
+               </div>
+               <!-- l end -->
+<div style="border-bottom: 1px solid #f4f4f4;margin:20px 0px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-h1-27+1a-13+b3"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="1674590850"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1017702.html" target="_blank"  title="html实现一些特殊的符号">html实现一些特殊的符号</a></div>
+                 <div class="summary">html实现一些特殊的符号：大于号：&gt;            &amp;gt;小于号：&amp;号：                   &amp;amp;注册号：              &amp;reg:版权：                  &amp;copy;空格号：               &amp;nbsp;</div>
+               </div>
+               <!-- l end -->
+<!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1017701.html" target="_blank"  title="网站图标制作">网站图标制作</a></div>
+                 <div class="summary">网站图标favicon制作介绍：favicon.ico一般作为缩略的网站标志，他显示于浏览器的地址栏，表示网站的Logo，如下图红圈所示：下面介绍如何由.jpg或者.png图片生成.icon图标：      http://www.bitbug.net/，打开该网址，即可在线将其他格式的图片生成icon格式的图标。一般生成的图标icon的尺寸选择32*32.在html页面中引用i</div>
+               </div>
+               <!-- l end -->
+<div style="border-bottom: 1px solid #f4f4f4;margin:20px 0px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-h1-27+1a-13+b3"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="1674590850"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1017699.html" target="_blank"  title="Apache下开启SSI配置，使html支持include包含">Apache下开启SSI配置，使html支持include包含</a></div>
+                 <div class="summary">有的时候，我们的页面有公共的导航栏navbar，公共的脚注footer，那么我们就想把这些公共部分独立成一个html文件，在要引用的地方像引用js，css一样，给包含进来。Apache下开启SSI配置，使html支持include包含，就可以达到该功能。一共4个操作步骤，下面介绍具体的操作：1、加载SSI模块     找到Apache的安装路径，在Apache文件夹下找到conf文</div>
+               </div>
+               <!-- l end -->
+<!-- l -->
+               <div class="list_con">
+                 <div class="title"><a href="https://www.jb51.cc/html/1017698.html" target="_blank"  title="编码方式gbk、gb2312、utf8的区别">编码方式gbk、gb2312、utf8的区别</a></div>
+                 <div class="summary">gbk一般用于繁体中文，是国家标准gb2312基础上扩容后兼容gb2312的标准。文字编码（中英文）用双字节编码，是国家编码，通用性比utf8差，但utf8占用的数据库比gbk大gb2312一般用于简体中文utf8----是全球通用，用于解决国际上字符的一种多字节编码，英文使用8位（一个字节），中文使用28位（3个字节）。现在一般都用utf8编码。允许含BOM，但一般不包含BOM。gb</div>
+               </div>
+               <!-- l end -->
+<div style="border-bottom: 1px solid #f4f4f4;margin:20px 0px;">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-h1-27+1a-13+b3"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="1674590850"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div></div>
+            </div>
+          </div>
+<!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="ads ad-box">
+                  <!-- n4 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="2238954215"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+        </div>
+        <!-- left end-->
+        <!-- right -->
+        <div class="col-sm-12 col-md-12 col-lg-3">
+
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <label class="main-content-label ">编程分类</label>
+                <div class="cate mt-20"><a href="https://www.jb51.cc/html/" title="HTML">HTML</a><a href="https://www.jb51.cc/html5/" title="HTML5">HTML5</a><a href="https://www.jb51.cc/js/" title="JavaScript">JavaScript</a><a href="https://www.jb51.cc/css/" title="CSS">CSS</a><a href="https://www.jb51.cc/jquery/" title="jQuery">jQuery</a><a href="https://www.jb51.cc/bootstrap/" title="Bootstrap">Bootstrap</a><a href="https://www.jb51.cc/angularjs/" title="Angularjs">Angularjs</a><a href="https://www.jb51.cc/typescript/" title="TypeScript">TypeScript</a><a href="https://www.jb51.cc/vue/" title="Vue">Vue</a><a href="https://www.jb51.cc/dojo/" title="Dojo">Dojo</a><a href="https://www.jb51.cc/json/" title="Json">Json</a><a href="https://www.jb51.cc/electron/" title="Electron">Electron</a><a href="https://www.jb51.cc/nodejs/" title="Node.js">Node.js</a><a href="https://www.jb51.cc/extjs/" title="extjs">extjs</a><a href="https://www.jb51.cc/express/" title="Express ">Express </a><a href="https://www.jb51.cc/xml/" title="XML">XML</a><a href="https://www.jb51.cc/es6/" title="ES6">ES6</a><a href="https://www.jb51.cc/ajax/" title="Ajax">Ajax</a><a href="https://www.jb51.cc/flash/" title="Flash">Flash</a><a href="https://www.jb51.cc/unity/" title="Unity">Unity</a><a href="https://www.jb51.cc/uniapp/" title="uniapp">uniapp</a><a href="https://www.jb51.cc/unity3d/" title="Unity3d">Unity3d</a><a href="https://www.jb51.cc/react/" title="React">React</a><a href="https://www.jb51.cc/flex/" title="Flex">Flex</a><a href="https://www.jb51.cc/antdesign/" title="Ant Design">Ant Design</a><a href="https://www.jb51.cc/webfrontend/" title="Web前端">Web前端</a><a href="https://www.jb51.cc/weapp/" title="微信小程序">微信小程序</a><a href="https://www.jb51.cc/wxmp/" title="微信公众号">微信公众号</a><div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+<!-- row -->
+          <div class="row row-sm">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <label class="main-content-label ">小编推荐</label>
+              <div class="ad-box ad-box-label">
+                  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="7251468125"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                </div>
+            </div>
+          </div>
+        </div>
+          <!-- row end -->
+          
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <label class="main-content-label ">扫码关注提问</label>
+                <div class="text-center">
+                  <div class="wx">
+                    <img src="https://www.jb51.cc/qrcode.jpg" width="500" alt="微信公众号搜索 “ 程序精选 ” ，选择关注！"></div>
+                  <div class="text-center mt-10">微信公众号搜
+                    <span class="text-danger">"程序精选"</span>关注</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <label class="main-content-label ">热门文章</label>
+                <ul class="n-list"><li><a href="https://www.jb51.cc/html/1178519.html" title="input 属性为 number，maxlength不起作用如何解决？" target="_blank" >&bull; input 属性为 number，maxleng</a></li><li><a href="https://www.jb51.cc/html/1178518.html" title="input属性为number时，如何去掉+、-号？" target="_blank" >&bull; input属性为number时，如何去掉</a></li><li><a href="https://www.jb51.cc/html/1178516.html" title="阻止表单的默认提交事件" target="_blank" >&bull; 阻止表单的默认提交事件</a></li><li><a href="https://www.jb51.cc/html/1178515.html" title="使用ajax方法实现form表单的提交" target="_blank" >&bull; 使用ajax方法实现form表单的提</a></li><li><a href="https://www.jb51.cc/html/1017868.html" title="html表格中的tr td th用法" target="_blank" >&bull; html表格中的tr td th用法</a></li><li><a href="https://www.jb51.cc/html/1017703.html" title="css的overflow属性" target="_blank" >&bull; css的overflow属性</a></li><li><a href="https://www.jb51.cc/html/1017702.html" title="html实现一些特殊的符号" target="_blank" >&bull; html实现一些特殊的符号</a></li><li><a href="https://www.jb51.cc/html/1017701.html" title="网站图标制作" target="_blank" >&bull; 网站图标制作</a></li><li><a href="https://www.jb51.cc/html/1017700.html" title="body标签中多了style" target="_blank" >&bull; body标签中多了style</a></li><li><a href="https://www.jb51.cc/html/1017699.html" title="Apache下开启SSI配置，使html支持include包含" target="_blank" >&bull; Apache下开启SSI配置，使html支</a></li><li><a href="https://www.jb51.cc/html/1017698.html" title="编码方式gbk、gb2312、utf8的区别" target="_blank" >&bull; 编码方式gbk、gb2312、utf8的区</a></li><li><a href="https://www.jb51.cc/html/1017697.html" title="同一个页面出现多个Body组件" target="_blank" >&bull; 同一个页面出现多个Body组件</a></li></ul>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <div class="ad-box ad-box-label">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4605373693034661" data-ad-slot="7710637872" data-ad-format="auto"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <label class="main-content-label ">最新文章</label>
+                <ul class="n-list"><li><a href="https://www.jb51.cc/html/1178519.html" title="input 属性为 number，maxlength不起作用如何解决？" target="_blank" >&bull; input 属性为 number，maxleng</a></li><li><a href="https://www.jb51.cc/html/1178518.html" title="input属性为number时，如何去掉+、-号？" target="_blank" >&bull; input属性为number时，如何去掉</a></li><li><a href="https://www.jb51.cc/html/1178516.html" title="阻止表单的默认提交事件" target="_blank" >&bull; 阻止表单的默认提交事件</a></li><li><a href="https://www.jb51.cc/html/1178515.html" title="使用ajax方法实现form表单的提交" target="_blank" >&bull; 使用ajax方法实现form表单的提</a></li><li><a href="https://www.jb51.cc/html/1017868.html" title="html表格中的tr td th用法" target="_blank" >&bull; html表格中的tr td th用法</a></li><li><a href="https://www.jb51.cc/html/1017703.html" title="css的overflow属性" target="_blank" >&bull; css的overflow属性</a></li><li><a href="https://www.jb51.cc/html/1017702.html" title="html实现一些特殊的符号" target="_blank" >&bull; html实现一些特殊的符号</a></li><li><a href="https://www.jb51.cc/html/1017701.html" title="网站图标制作" target="_blank" >&bull; 网站图标制作</a></li><li><a href="https://www.jb51.cc/html/1017700.html" title="body标签中多了style" target="_blank" >&bull; body标签中多了style</a></li><li><a href="https://www.jb51.cc/html/1017699.html" title="Apache下开启SSI配置，使html支持include包含" target="_blank" >&bull; Apache下开启SSI配置，使html支</a></li></ul>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <label class="main-content-label ">热门标签
+                  <span class="pull-right tx-12">
+                    <a href="#">更多 &#9658</a></span>
+                </label>
+                <div class="topcard-tags"><a href="https://www.jb51.cc/tag/CSS/" title="CSS" target="_blank" >CSS</a><a href="https://www.jb51.cc/tag/HTML/" title="HTML" target="_blank" >HTML</a><a href="https://www.jb51.cc/tag/Nodejs/" title="Node.js" target="_blank" >Node.js</a><a href="https://www.jb51.cc/tag/angularJS/" title="angularJS" target="_blank" >angularJS</a><a href="https://www.jb51.cc/tag/cocos/" title="cocos" target="_blank" >cocos</a><a href="https://www.jb51.cc/tag/vuejs/" title="vue.js" target="_blank" >vue.js</a><a href="https://www.jb51.cc/tag/rails/" title="rails" target="_blank" >rails</a><a href="https://www.jb51.cc/tag/Js/" title="Js" target="_blank" >Js</a><a href="https://www.jb51.cc/tag/HTML5/" title="HTML5" target="_blank" >HTML5</a><a href="https://www.jb51.cc/tag/bash/" title="bash" target="_blank" >bash</a><a href="https://www.jb51.cc/tag/spring/" title="spring" target="_blank" >spring</a><a href="https://www.jb51.cc/tag/reactjs/" title="reactjs" target="_blank" >reactjs</a><a href="https://www.jb51.cc/tag/preact/" title="react" target="_blank" >react</a><a href="https://www.jb51.cc/tag/Hibernate/" title="Hibernate" target="_blank" >Hibernate</a><a href="https://www.jb51.cc/tag/angular/" title="angular" target="_blank" >angular</a><a href="https://www.jb51.cc/tag/CSS3/" title="CSS3" target="_blank" >CSS3</a><a href="https://www.jb51.cc/tag/shixian/" title="实现" target="_blank" >实现</a><a href="https://www.jb51.cc/tag/jiaoben/" title="脚本" target="_blank" >脚本</a><a href="https://www.jb51.cc/tag/yilai/" title="依赖" target="_blank" >依赖</a><a href="https://www.jb51.cc/tag/Lua/" title="Lua" target="_blank" >Lua</a><a href="https://www.jb51.cc/tag/bootstrap/" title="bootstrap" target="_blank" >bootstrap</a><a href="https://www.jb51.cc/tag/jsp/" title="jsp" target="_blank" >jsp</a><a href="https://www.jb51.cc/tag/selenium/" title="selenium" target="_blank" >selenium</a><a href="https://www.jb51.cc/tag/wenti/" title="问题" target="_blank" >问题</a><a href="https://www.jb51.cc/tag/jiexi/" title="解析" target="_blank" >解析</a><a href="https://www.jb51.cc/tag/web/" title="web" target="_blank" >web</a><a href="https://www.jb51.cc/tag/API/" title="API" target="_blank" >API</a><a href="https://www.jb51.cc/tag/xcode/" title="xcode" target="_blank" >xcode</a><a href="https://www.jb51.cc/tag/ku/" title="库" target="_blank" >库</a><a href="https://www.jb51.cc/tag/pxml/" title="xml" target="_blank" >xml</a></div>
+                 
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <div class="ad-box ad-box-label"><!-- r1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="6724994137"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+          <!-- row -->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="card">
+                <div class="ad-box ad-box-label"><!-- r1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4605373693034661"
+     data-ad-slot="6724994137"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row end -->
+          
+          
+          
+          
+          
+          </div>
+        <!-- right end --></div>
+    </div>
+
+     <footer id="footer">
+    <div class="container">
+        <div class="row hidden-xs">
+             <dl class="col-sm-6 site-link">
+                <dt>最近更新</dt><dd><a href="https://www.jb51.cc/faq/902825.html" title="JSP文档/ JSPX：是什么决定如何在输出中除去制表符/空格/换行符？" target="_blank">· JSP文档/ JSPX：是什么决定如何在输出中除去制表...</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902824.html" title="使用XPath选择CSS类" target="_blank">· 使用XPath选择CSS类</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902823.html" title="HTML代码作为IFRAME源而不是URL" target="_blank">· HTML代码作为IFRAME源而不是URL</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902822.html" title="如何以编程方式设置UICollectionViewCell宽度和高度" target="_blank">· 如何以编程方式设置UICollectionViewCell宽度和...</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902821.html" title="如何配置resque-web以使用Resque.redis.namespace？" target="_blank">· 如何配置resque-web以使用Resque.redis.namespa...</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902820.html" title="Hibernate。ClassicQueryTranslatorFactory与ASTQueryTranslatorFactory" target="_blank">· Hibernate。ClassicQueryTranslatorFactory与AS...</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902819.html" title="如何在x86 linux上执行MIPS汇编程序？" target="_blank">· 如何在x86 linux上执行MIPS汇编程序？</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902818.html" title="节点Js：测试以查看文件是否被锁定以供其他进程编辑" target="_blank">· 节点Js：测试以查看文件是否被锁定以供其他进程...</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902817.html" title="JSON Stringify从对象中删除数据" target="_blank">· JSON Stringify从对象中删除数据</a><span class="text-muted pull-right">12-01</span></dd>
+<dd><a href="https://www.jb51.cc/faq/902816.html" title="PHP：如何获得一维数组的所有可能组合？" target="_blank">· PHP：如何获得一维数组的所有可能组合？</a><span class="text-muted pull-right">12-01</span></dd>
+</dl>
+            
+           <dl class="col-sm-4 site-link">
+                <dt>赞助我们</dt>
+                <img src="/pay.jpg" title="感谢支持，我们将努力做得更好。" />
+            </dl>
+
+            <dl class="col-sm-2 site-link">
+                <dt>好站推荐</dt><dd> <a href="https://www.runoob.com" title="菜鸟教程(www.runoob.com)提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python，Java，Ruby，C，PHP , MySQL等各种编程语言的基础知识。 同时本站中也提供了大量的在线实例，通过实例，您可以更好的学习编程。" target="_blank">菜鸟教程</a></dd><dd> <a href="https://game.jb51.cc" title="好玩网（game.jb51.cc)是一个免费推荐好玩游戏大全的游戏综合网站。提供微信小游戏、微信小程序、游戏推荐、好玩游戏、安卓手机游戏、h5游戏等全部游戏入口与游戏攻略信息。方便你了解最新游戏的同时，并认识更多的游戏好友。" target="_blank">好玩网</a></dd><dd> <a href="https://www.f2er.com" title="前端之家 f2er.com 前端开发人员所需学习知识手册。" target="_blank">前端之家</a></dd><dt>商务合作</dt>
+                <dd><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=76874919&site=qq&menu=yes">联系我们</a></dd>
+            </dl>
+
+        </div>
+        <div class="copyright">
+            Copyright © 2019 编程之家. 当前版本 V7.0.16<br>
+            <span class="ml5">编程之家 版权所有 
+            <a href="https://beian.miit.gov.cn/"  target="_blank"  rel="nofollow">闽ICP备13020303号-8</a></span>
+        </div>
+    </div>
+</footer>
+<script>
+    $(window).scroll(function() {
+        var top = $(window).scrollTop();
+        if(top>=690){
+            $(".main_r").addClass("fixed");
+
+        }else{
+            $(".main_r").removeClass("fixed");
+        }
+    });
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138061053-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-138061053-1');
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0467d9826578aba62c8e49c29e1cfd34";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

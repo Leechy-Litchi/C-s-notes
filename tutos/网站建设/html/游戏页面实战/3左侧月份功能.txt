@@ -1,0 +1,51 @@
+标题可以使用:hover以及transition（写在原格式内）来将字体逐渐变粗并且放大，同是可以加上颜色转变
+需要有对某一方向的padding对齐且位置最好为relative以显示出逐渐放大的效果
+注意，格式如下
+xx h3{
+原格式
+    position: relative;//要有相对位置束缚后面伪元素的绝对位置
+    color: rgba(255, 255, 255, .5);//从半透明到纯色
+}
+xx li:hover h3{
+变换格式
+}
+再使用伪元素::before
+内容设置为空，宽度最开始为0，高度为2px，加上颜色（background:xxxx;这个最为重要，这是伪元素的背景颜色，没有的话无法显示出来）以及绝对位置，使用下面的方法居中，会产生一条横线
+同时，因为包住它的元素
+
+当使用：top: 50%;left: 50%;， 是以左上角为原点，故不处于中心位置
+ translate(-50%,-50%) 作用是，往上（x轴）,左（y轴）移动自身长宽的 50%，以使其居于中心位置
+又或者 top：50%;transform:translateY("-50%")
+
+
+.date-list h3 {
+    padding: 14px;
+    padding-left: 0px;
+    font-weight: 200;
+    position: relative;
+    transition: 0.5s;
+    color: rgba(255, 255, 255, .5);
+}
+
+.date-list li:hover h3 {
+    font-weight: 400;
+    padding-left: 40px;
+    font-size: 28px;
+    color: #ffa178;
+}
+
+.date-list h3::before {
+    content: "";
+    width: 0px;
+    height: 2px;
+    background: #ffa178;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    transition: 0.5s;
+}
+
+.date-list li:hover h3::before {
+    width: 30px;
+}

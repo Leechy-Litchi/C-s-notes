@@ -1,0 +1,8 @@
+logo、nav依旧fixed固定
+nav最好z轴拉前
+    display: inline-block;
+nav下的li可以用此形式解除竖排并且以一定间隔隔开
+    font-weight: 400;
+设置字体粗细，一般400为正常（normal），700为bold，默认大小比400更细一些，所以可以用400突出菜单
+
+发布日期建议使用transform: rotate进行旋转以凸显内容

@@ -1,0 +1,23 @@
+采用gasp框架实现滚动
+引用gsap.min.js
+
+
+//GSAP动画的结构很简单
+
+//我们来拆解下，一个动画都由哪些部分组成→ 
+
+//1、去哪儿         英文               to/form
+//2、谁去动         要动的内容     跟写css一样，class用 "." /id用 "#",
+//3、怎么去         左右动，x       上下动，y  其他的都是css样式变化
+//4、去多久         英文               duration
+//5、啥时候去      ScrollTrigger
+
+
+gsap.to(".logo", {		//到这个状态
+    y: 60,			//向下移动
+    skewX: "-25deg",		//x方向倾斜-25°
+    duration: 2,
+});
+
+gsap.from  从这个状态开始
+    opacity: 0,比如从透明到纯色

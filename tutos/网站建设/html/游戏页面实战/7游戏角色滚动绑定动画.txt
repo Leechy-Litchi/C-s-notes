@@ -1,0 +1,19 @@
+调用ScrollTrigger.min.js
+注意要放在gsap.min.js后面
+使用前要注册使用
+
+固定代码：gsap.registerPlugin(ScrollTrigger);
+
+
+gsap.to{".类名/#ID",{
+rotateX:'45eg',
+skewX:'-25deg',
+transformOrigin:bottom  //(例子)，底部不动然后滚动
+duration:2,
+scrollTrigger:{
+	trigger:'.类名/#ID',
+	start:'top 25%'  //当滚动的页面到达了图样25%的位置时，开始从头部变化
+	end:'top top',    //当这个图到达页面顶部时结束
+	markers:true,    //参考线，便于调式
+	scrub:true,       //可以多次允许
+}，}}

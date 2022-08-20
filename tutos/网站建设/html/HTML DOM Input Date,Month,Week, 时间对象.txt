@@ -1,0 +1,22 @@
+Input Date 对象表示使用了 type="date" 属性的 HTML <input> 元素 。
+注意：IE11 及其更早的版本不支持用 type="date" 属性的 <input> 元素。
+
+ type=‘date’ //显示年、月、日
+ type=‘month’//显示年、月
+ type=‘week’//显示年、周
+ type=‘datetime-local’//显示年、月、日、时、分
+
+
+访问 Input Date 对象
+
+你可以用个使用 getElementById() 函数来访问使用 type="date" 属性的 <input> 元素 :
+var x = document.getElementById("myDate");
+提示： 你同样可以通过表单的元素集合来访问 Input Date 对象。
+获取 form 表单的元素数量：
+var x = document.getElementById("myForm").elements.length;
+
+
+创建 Input Date 对象
+你可以使用 document.createElement() 方法来创建使用 type="date" 属性的 <input> 元素：
+var x = document.createElement("INPUT");
+x.setAttribute("type", "date"); 

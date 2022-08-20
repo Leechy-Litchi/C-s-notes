@@ -1,0 +1,16 @@
+角色以及背景分开div放
+这两个部分都包含于一个card div下
+而card div被包含于section div下
+section负责整体居中对齐
+因为container使用了grid布局，因此
+justif-content:center;
+align-items:center;//即可
+
+每个section分类以规划不同的图片变化以及放置虚化背景图片营造氛围（不要用透明化，否则内部元素也会透明）
+要放于z轴后侧，background-size:contain;以及首个card margin-top一定距离，末位card margin-bottom一定距离
+
+card规定大小，位置relative以规定后面文字的绝对位置
+
+角色位置div relative且z轴拉前，图片满大小，object-fit:cover 显示全图
+
+背景图规定大小并绝对定位，top:0 left:0，加上border-radius变成圆角更加柔和

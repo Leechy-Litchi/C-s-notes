@@ -1,0 +1,3 @@
+描述文字选择flex并justify-content:center居中，align-item也居中，位置选择绝对位置，z轴拉前并且更改离某侧距离以排版
+
+按钮用<div><a><h3>，div圆角，然后h3hover变大或btnhover变色凸显效果

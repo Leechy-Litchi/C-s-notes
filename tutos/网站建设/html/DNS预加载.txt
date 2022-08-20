@@ -1,0 +1,30 @@
+DNS Prefetch 是一种DNS 预解析技术，当你浏览网页时，浏览器会在加载网页时对网页中的域名进行解析缓存，这样在你单击当前网页中的连接时就无需进行DNS 的解析，减少用户等待时间，提高用户体验。
+
+我们DNS 解析的时候，需要用域名去DNS 解析匹配  IP  ，这个是需要时间的，如果加了  dns-perfetch  呢，浏览器会记住（缓存）这个解析，直接就请求过去了，不需要再走DNS 解析。就是这么简单。
+DNS Prefetch使用方式
+
+使用方式上面图片已经有了，就是添加如下代码。
+
+    <link rel="dns-prefetch" href="//cdn.www.sojson.com">
+//开始是为了适配  https  和   http  。就是当前请求链接是https ，那么这个//前面自动补充https ，反则补充http 。
+
+
+默认情况下浏览器会对页面中和当前域名（正在浏览网页的域名）不在同一个域的域名进行预获取，并且缓存结果，这就是隐式的DNS Prefetch。
+
+DNS Prefetch应该尽量的放在网页的前面，推荐放在<meta charset=”/>后面。
+
+如何设置禁止隐式的DNS Prefetch：
+<meta http-equiv="x-dns-prefetch-control" content="off">
+
+
+ dns预获取浏览器支持情况：
+Firefox: 3.5+
+
+Chrome: Supported
+
+Safari 5+
+
+Opera: Unknown
+
+IE: 9
+
