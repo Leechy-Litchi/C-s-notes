@@ -1,0 +1,81 @@
+介绍
+
+    顺序访问一个集合
+    使用者无需知道集合的内部结构（封装）
+
+ES6 中 Iterator 为何存在
+
+    ES6 语法中，有序集合的数据类型有很多
+    Array / Map / Set / String / TypedArray / Arguments / NodeList
+    需要有一个统一的遍历接口来遍历所有的数据类型
+    注意，Object 不是有序集合，可以用 Map 代替
+
+ES6 Iterator 是什么
+
+    以上数据类型，都有 [Symbol.iterator] 属性
+    属性值是函数，执行函数返回一个迭代器
+    这个迭代器就有 next 方法可顺序迭代子元素
+    可运行 Array.prototype[Symbol.iterator] 来测试
+
+ES6 Iterator 示例
+
+es6 中 for .. in 是遍历对象的
+es6 中 for .. of 是遍历迭代器的（有 Symbol.iterator 属性的才能用 for .. of ）
+ES6 Iterator 与 Generator
+
+    Iterator 的价值不限于上述几个类型的遍历，还有 Generator 函数的使用
+    即只要返回的数据符合 Iterator 接口的要求
+    Generator 函数返回的结果，属性 [Symbol.iterator] 有值
+
+设计原则验证
+
+    迭代器对象和目标对象分离
+    迭代器将使用者和目标对象隔离开
+    符合开放封闭原则
+
+JQ内生成迭代器
+function e(a){//此a是列表，each方法是JQ给的
+	var a = $(a)//生成迭代器
+	a.each(function(key,val){xx})
+}
+
+JS实现
+class it(xx){
+	constructor(xx){
+	 this.list = xx.list;
+	 this.index = 0;
+	}
+	next(){
+	 if(this.hasNext()){
+	 return this.list[this.index++]
+	}
+	hasNext(){
+	 if(this.index>=this.list.lenngth){return false}
+	return true;
+	}
+	}
+}
+
+class xx{
+	constructor(this){
+		this.list=list;
+	}
+	getit(){
+	 return new it(this)  
+	}
+}   
+
+
+
+原本ES6封装
+function each(data){
+	let it = data[Symbol.iterator]()
+}
+let item = {done: false}
+while(!item.done){
+	item = it.next()
+	if(!item.done){xxxx}
+}
+
+因为不一定所有人都知道这个方法，所以有了for of
+for(let i of data){xxx}

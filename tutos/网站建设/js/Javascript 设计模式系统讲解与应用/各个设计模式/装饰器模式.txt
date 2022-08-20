@@ -1,0 +1,85 @@
+介绍
+
+    为对象添加新功能
+    不改变其原有的结构和功能
+
+设计原则验证
+
+    将现有对象和装饰器进行分离，两者独立存在
+    符合开放封闭原则
+
+通过npm i core-decorators --save  安装
+
+引用：
+import { 需要的装饰器 } form 'core-decorators'
+
+常用 @readonly 只读
+@deprecate 弃用（显示API已弃用的文本）
+更多可以去npm里关于它的文档内查看
+
+
+example
+
+class cir{
+	draw(){
+	xx
+}
+}
+
+class dec{
+	constructor(cir){
+	 this.cir = cir;
+}
+	draw(){
+	 this.cir.draw();
+	 this.xx(cir)
+}
+	xx(cir){
+	 xx
+}	
+}
+
+let cir = new cir()
+cir.draw()
+let dec = new dec(dir)
+dec.draw()
+
+
+装饰器原理
+@dec
+class A{}
+等同于
+class A{}
+A = dec(A)||A;
+
+
+ES7已经支持装饰器了，但是现在没有加装到原生JS内，barbel等编译器可以通过插件安装
+使用方法
+@test    //可以为test(xxx)
+class D{}
+function test(target){
+	target.isDec = true;
+}
+alert(D.isDec);//true
+
+
+
+对于函数进行装饰
+function dec(target,name,descriptor){
+  //descriptor就是函数对象
+}
+
+
+
+export function log(type){
+ return function(target，name，descriptor){
+	let oldvalue = descriptor.value
+	descriptor.value = function(){
+	//在此统一打印日志
+	console.log(日志上报${type}')
+	//执行原有的方法
+	return oldValue.apply(this，arguments)
+	}
+	return descriptor
+	}
+}

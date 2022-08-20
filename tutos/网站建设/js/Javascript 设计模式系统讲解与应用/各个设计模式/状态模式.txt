@@ -1,0 +1,107 @@
+介绍
+
+    一个对象有状态变化
+    每次状态变化都会触发一个逻辑
+    不能总用 if...else 来控制
+
+有限状态机
+
+    有限个状态，以及在这些状态之间的转换
+    如交通信号灯
+    使用开源lib：javascript-state-machine
+    github.com/jakesgordon/javascript-state-machine
+
+设计原则验证
+
+    将状态对象和主体对象分离，状态的变化逻辑单独处理
+    符合开放封闭原则
+
+
+example
+class state{
+	constructor(color){
+	 this.color = color
+	}
+	handle(context){
+	 context.setstate(this)//切换状态与对象本身分离
+	}
+}
+
+class Context{
+	constructor(){
+	 this.state = null
+	}
+	getstate(){
+	 return this.state//获取状态与对象本身分离
+	}
+	setstate(state){
+	 this.state = state 
+	}
+}
+context = new Context();
+yellow = new state('yellow');
+
+
+使用开源lib
+import sm from 'javascript-state-machine'
+
+let fsm = new sm({
+	init:'star',
+	transitions:[
+	{
+	name:'dostar',
+	from:'stared',
+	to:'unstared',
+	},
+	name:'dounstar',
+	from:'unstared',
+	to:'stared',
+],
+	methods:{
+	 ondostar:function(){xx}
+	 updatetext();
+	 ondounstar:xxxxx
+	 updatetext();
+	}
+})
+//获取一个按钮为btn
+let fsm = new sm({})
+//点击后if(fsm.is('stared')){dostar}else{fsm.dounstar}
+function updatetext(){
+	btn.text(fsm.state)//此state就是transition里被改变的值
+}
+updatetext();//初始化
+
+
+
+
+写一个简单的Promise
+class mypromise{
+	constructor(fn){
+	 this.successlist = []
+	 this.faillist = []
+	 fn(()=>{
+	    fsm.resolve(this)}),()=>{fsm.reject(this)
+	})
+	}
+	then(successfn,failfn){
+	 this.successlist.push(successfn);
+	 this.faillist.push(failfn);
+	}
+}
+//后面用foreach执行表内回调函数
+
+标准promise用法
+function loadimg(src){
+let p = new Promise(function(resolve,reject){
+	let img = xxxx;
+	img.onload = function(){
+	  resolve(img);
+	img.onerror = xxxxx
+	img.src = src;
+}
+})
+	return p
+}
+re = loadimg(src)
+re.then(xxxx)

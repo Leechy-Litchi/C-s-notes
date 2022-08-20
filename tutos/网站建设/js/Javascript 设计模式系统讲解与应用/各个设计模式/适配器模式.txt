@@ -1,0 +1,40 @@
+介绍
+
+    旧接口模式和使用者不兼容
+    中间加一个适配转换接口
+
+example:
+
+class Adaptee{
+	specificRequest(){
+	 return xx;
+}
+}
+
+
+class Target{
+	constructor(){
+	this.adaptee = new Adaptee();
+}	request(){
+	let info = this.adaptee.specificRequest();
+	return '${info}-xxx';
+}
+}
+
+let target = new Target();
+let res = target.request();
+
+
+
+封装旧接口
+把$.ajax({...})变为ajax({
+xxx
+}).done(function(){})
+
+var $={
+	ajax:function(xx){
+		return ajax(xx);
+}
+}
+
+又或者用vue的computed模式将指定参数变为另外一个

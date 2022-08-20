@@ -1,0 +1,61 @@
+概念
+
+    随时记录一个对象的状态变化
+    随时可以恢复之前的某个状态（如撤销功能）
+
+设计原则验证
+
+    状态对象与使用者分开，解耦
+    符合开放封闭原则
+
+应用场景
+    一些工具，比如编辑器
+
+example
+
+//状态备忘
+class memento{
+	constructor(content){
+	 this.content = content
+	}
+	getcontent(){
+	 return this.content
+	}
+}
+//备忘列表
+class caretaker{
+	constructor(){
+	 this.list = []
+	}
+	add(memento){
+	 this.list.push(memento)
+	}
+	get(index){
+	 return this.list[index]
+	}
+}
+//编辑器
+class editor{
+	constructor(){
+	 this.content = null
+	}
+	setcontent(content){
+	 this.content = content
+	}
+	getcontent(){
+	 return this.content
+	}
+	savecontenttomemento(){
+	 return new memento(this.content)
+	}
+	getcontentfrommemento(memento){
+	 this.content = memento.getcontent()
+	}
+}
+//由编辑器编辑内容，建立备忘录类，然后将备忘录类传入备忘列表中
+let editor = new editor()
+let caretaker = new caretaker()
+editor.setcontent(xx)
+caretaker.add(editor.savecontenttomemento())//传入memento类
+console.log(editor.getcontent())
+editor.getcontentfrommemento(caretaker.get(0))

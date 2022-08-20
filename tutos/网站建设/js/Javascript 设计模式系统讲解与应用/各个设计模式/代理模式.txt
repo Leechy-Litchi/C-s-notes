@@ -1,0 +1,66 @@
+介绍
+
+    使用者无权访问目标对象
+    中间加代理，通过代理做授权和控制
+
+设计原则验证
+
+    代理类和目标类分离，隔离开目标类和使用者
+    符合开放封闭原则
+
+对比
+
+    代理模式 vs 适配器模式
+        适配器模式：提供一个不同的接口（如不同版本的插头）
+        代理模式：提供一摸一样的接口
+    代理模式 vs 装饰器模式
+        装饰器模式：扩展功能，原有功能不变且可直接使用
+        代理模式：显示原有功能，但是经过限制或者阉割之后的
+
+
+使用场景
+网页事件代理
+JQ $.proxy
+es6 pROXY
+
+example
+
+class xx{
+	constructor(x){
+	 this.x = x;
+	}
+	xxxx(){
+	xxx
+	}
+}
+
+class xxx{
+	constructor(x){
+	 this.xx = new xx(x);
+	}
+	xxxx(){
+	 this.xx.xxxx();
+	}
+}
+
+
+js内使用方法
+let xx = new Proxy(原对象,{
+    //代理
+get:function(target,name){}
+set:function(target,name,val){}
+})
+
+
+
+$.proxy
+
+$('xx').click(function(){
+	var _this = this;
+	setTimeout(function(){
+	$(_this).addClass('xx');此处不可以直接用this是因为此处this指代的是window(setTimeout内部this指向上级的this，因此就是window)，因此需要一个代理
+},1000)
+})
+
+等同于setTimeout($.proxy(function(){$(this).addClass('xx')},this),1000)
+此处proxy(函数(this),this)相当于传递了一个this代理进去

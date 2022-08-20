@@ -1,0 +1,41 @@
+介绍
+
+    系统中被唯一使用
+    一个类只有一个实例
+
+设计原则验证
+
+    符合单一职责原则，只实例化唯一的一个对象
+    没法具体体现开放封闭原则，但是绝对不违反开放封闭原则
+
+
+利用TS（其中有java的private）来将整个类的所有内容private化
+使得只能创建一个类
+例：public class xxx{
+	private class xxx{
+
+	}
+}   
+java
+
+
+js
+
+class xxx{
+  xx(){  }
+}
+
+xxx.getInstance = (function(){
+	let instance;
+	return function(){
+	   if(!instance){
+                      	instance = new xxx();
+	    }
+	    return instance;
+}
+})()
+
+
+调用
+let obj1 = xxx.getInstance();//不可以直接new，因为不是java
+obj1.xx();

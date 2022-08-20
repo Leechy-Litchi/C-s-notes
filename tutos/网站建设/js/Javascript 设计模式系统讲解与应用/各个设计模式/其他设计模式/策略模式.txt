@@ -1,0 +1,19 @@
+概念
+
+    不同策略分开处理
+    避免出现大量 if...else 或者 switch...case
+
+设计原则验证
+
+    不同策略分开处理
+    符合开放封闭原则
+
+example
+
+class memberbuy{buy(){}}
+class vipbuy{buy(){}}
+
+mb = new memberbuy()
+vb = new vipbuy()
+mb.buy()
+vb.buy()

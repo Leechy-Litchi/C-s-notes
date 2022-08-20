@@ -1,0 +1,34 @@
+概念
+
+	一步操作可能分位多个职责角色来完成
+	把这些角色都分开，然后用一个链串起来
+	将发起者和各个处理者进行隔离
+
+JS中的链式操作
+
+	职责链模式和业务结合较多，JS中能联想到链式操作
+	 jQuery的链式操作 Promise. then的链式操作
+
+设计原则验证
+
+	发起者于各个处理者进行隔离
+	符合开放封闭原则
+
+
+example
+
+class Action {
+ constructor{name){ 
+	this.name = name 
+	this.nextAction = null
+ setNextAction {action){
+	 this.nextAction = action 
+ handle (){ 
+	 console.log{'${this,name}审批')
+	if {this.nextAction != null){ this.nextAction.handle{)}
+	}
+}
+let a1 = new Action(xx)
+let a2 = new Action(xxx)
+a1.setNextAction (a2)
+a1.handle()

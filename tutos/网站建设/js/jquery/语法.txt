@@ -1,0 +1,48 @@
+$(this).hide()
+隐藏当前的 HTML 元素。
+
+$(document).ready(function(){//文档加载完毕
+  $("button").click(function(){
+  $(this).hide();
+});
+});
+点击按钮时将按钮隐藏
+
+
+$("#test").hide()
+隐藏 id="test" 的元素。
+$("p").hide()
+隐藏所有 <p> 元素。
+$(".test").hide()
+隐藏所有 class="test" 的元素。 
+
+
+
+$("[href]") 选取所有带有 href 属性的元素
+$("[href='#']") 选取所有带有 href 值等于 "#" 的元素。
+$("[href!='#']") 选取所有带有 href 值不等于 "#" 的元素。
+$("[href$='.jpg']") 选取所有 href 值以 ".jpg" 结尾的元素。
+
+
+$("ul li:first") 	每个 <ul> 的第一个 <li> 元素
+$("div#intro .head") 	id="intro" 的 <div> 元素中的所有 class="head" 的元素
+
+$("p").css("background-color","red");
+CSS Selector
+
+
+
+var jq=jQuery.noConflict()   jq来代替 $ 符号。
+$.noConflict();
+jQuery(document).ready(function(){
+  jQuery("button").click(function(){
+    jQuery("p").text("jQuery 仍在运行！");
+  });
+});
+
+
+$(document).ready(function) 	将函数绑定到文档的就绪事件（当文档完成加载时）
+$(selector).click(function) 	触发或将函数绑定到被选元素的点击事件
+$(selector).dblclick(function) 	触发或将函数绑定到被选元素的双击事件
+$(selector).focus(function) 	触发或将函数绑定到被选元素的获得焦点事件
+$(selector).mouseover(function) 	触发或将函数绑定到被选元素的鼠标悬停事件

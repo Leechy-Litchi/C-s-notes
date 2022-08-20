@@ -1,0 +1,19 @@
+在vue中使用export default导出的class类
+
+class win {
+  getProcessInfo() {
+    return 233;
+  }
+}
+
+export default new win(); //用的是export default方法，并且导出的时候就已经实例化了
+
+
+import win from "这里是路径";
+let win = new win()
+
+
+
+导出json
+export const GET_LIST = 'json路径'//这是一个js文件
+import {GET_LIST} form '上面js的路径'

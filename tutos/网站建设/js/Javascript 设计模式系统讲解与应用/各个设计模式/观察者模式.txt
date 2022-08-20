@@ -1,0 +1,77 @@
+介绍
+
+    发布 & 订阅
+    一对多
+
+设计原则验证
+
+    主题和观察者分离，不是主动监听而是被动触发，两者解耦
+    符合开放封闭原则
+
+使用环境
+ 网页事件绑定
+ Promise
+ JQ callbacks
+ nodejs 自定义事件
+
+其他场景
+nodejs 处理http请求 多进程通UN
+vue和react组件生命周期出发
+vue watch
+
+example
+class subject{
+	constructor(){
+	 this.observers = []
+	}
+	attach(observer){
+	 this.observers.push(observer);
+	}
+	notifyALL(){
+	 this.observers.forEach(observer =>{observer.update()})
+	}
+}
+
+class Observers{
+	constructor(subject){
+	 this.subject = subject;//设置这个观察者的主题
+	 this.subject.attach(this)
+	}
+	update(){}
+}
+如果subject加入一个state，那么一旦设置，所有加入的观察者的state都是subject的state
+
+
+JQ下的callbacks
+var cb = $.Callbacks()
+cb.add(function(xx){
+	xx
+})
+//cb.add.......
+cb.fire(xx)
+
+
+nodejs下流式读取文件
+var fs = require('fs');
+var readstream = fs.createReadStream(xxx)
+var length = 0;
+readStream.on('data',function(chunk){length += chun.toString().length})
+readStream.on('end',function(){xxx})
+同样读取行也差不多
+
+普通实现方式
+const EventEmitter = require('events').EventEmitter
+const em1 = new EventEmitter()
+em1.on('some',info=>{xx})
+em1.emit('some',info)
+继承方式
+const EventEmitter = require('events').EventEmitter
+class D extends EventEmitter{
+	constructor(){xxx}
+}
+let D = new D(xx)
+D.on('xx',function(){xx})
+D.emit('xx')
+
+
+

@@ -1,0 +1,47 @@
+概念
+
+    执行命令时，发布者和执行者分开
+    中间加入命令对象，作为中转站
+
+JS 中的应用
+
+网页富文本编辑器操作，浏览器封装了一个命令对象
+document.execCommand('bold')
+document.execCommand('undo')
+我是将军，发令给execCommand，然后执行
+
+设计原则验证
+
+    命令对象与执行对象分开，解耦
+    符合开放封闭原则
+
+
+example
+class receiver{
+	exec(){xx}
+}
+class command{
+	constructor(receiver){
+	 this.receiver = receiver
+	}
+`	cmd(){
+	 xx
+	 this.receiver.exec()
+	}
+}
+class invoker{
+	constructor(command){
+	 this.command = command
+	}
+	invoke(){
+	 xx
+	 this.command.cmd()
+	}
+}
+//调用
+let soldier = new receiver()
+//小号手
+let trumpeter = new command(soldier)
+let general = new invoker(trumpeter)
+general.invoke()
+//将军发令，小号手传令，士兵执行

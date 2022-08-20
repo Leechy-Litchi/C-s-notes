@@ -1,0 +1,22 @@
+    命令行在存放项目的目录下运行 npm init 创建项目
+    命令行切换到项目目录下，运行 npm install webpack webpack-cli --save-dev
+    项目根目录下创建src/index.js
+
+alert(100)
+
+    项目根目录下创建webpack.dev.config.js
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: __dirname,
+        filename: './release/bundle.js'
+    }
+}
+
+    打开项目根目录下的package.json文件，在script属性下增加一行：
+
+"dev": "webpack --config ./webpack.dev.config.js --mode development"
+
+    命令行运行 npm run dev
+

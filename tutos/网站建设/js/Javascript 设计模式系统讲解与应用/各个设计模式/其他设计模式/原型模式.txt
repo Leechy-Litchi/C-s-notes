@@ -1,0 +1,31 @@
+概念
+
+    clone自己，生成一个新对象
+    java默认有clone接口，不用自己实现
+    JS中应用：Object.create
+
+应用场景
+有时候需要一个一模一样的对象，这时候就需要clone一个对象
+
+
+let proto = {
+    getName: function(){return this.first + ' ' + this.last}
+}
+var a = Object.create(proto)
+a.first = 'a'
+a.last = 'b'
+console.log(x.getName)
+
+var b = Object.create(proto)
+b......
+
+a.__proto__ === b.__proto__ // true
+
+
+
+prototype可以理解为ES6class的一种底层原理
+而 class是实现面向对象的基础，并不是服务于某个模式
+若干年后ES6全面普及，大家可能会忽略掉 prototype
+但是 Object create却会长久存在
+
+

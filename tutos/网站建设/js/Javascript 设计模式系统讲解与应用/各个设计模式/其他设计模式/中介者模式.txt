@@ -1,0 +1,35 @@
+设计原则验证
+
+    将各关联对象通过中介者隔离
+    符合开放封闭原则
+
+
+
+example
+
+class Mediator {
+ constructor(a, b) {
+   this.a = a
+   this.b = b
+}
+setA() {
+let number = this.b.number 
+this.a.setNumber(number * 2)//卖价
+}
+setB() {
+let number = this.a.number 
+this.b.setNumber(number /2)//买价
+}
+
+class A {
+ constructor() {
+  this. number = 0
+}
+setNumber(num, m) {
+this. number= num if (m) {
+m. setB()   //classB同理为setA
+    }
+  }
+}
+class B{
+xxx}

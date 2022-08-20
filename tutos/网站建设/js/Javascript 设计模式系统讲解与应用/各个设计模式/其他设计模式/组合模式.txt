@@ -1,0 +1,35 @@
+概念
+
+    生成树形结构，表示“整体-部分”关系
+    让整体和部分都具有一致的操作方式
+    应用举例：虚拟DOM（JS经典应用找不到这么复杂的数据类型，虚拟DOM中的vnode是这种形式但是数据类型比较简单）
+    整体和单个节点的操作是一致的
+    整体和单个节点的数据结构也保持一致
+
+设计原则验证
+    将整体和单个节点的操作抽象出来
+    符合开放封闭原则
+
+<div id="div1" class="container">
+<p>123</p>
+<p>456</p>
+</div>
+其vnode为
+{
+tag：' div'， 
+attr:{
+ id：' div1',
+ className:'container'
+}，
+ children：{
+	tag：'p',
+	attr：{},
+	children：['123']
+	},
+	{
+	tag：'p',
+	attr：{},
+	children：['456′]
+	}
+}
+}

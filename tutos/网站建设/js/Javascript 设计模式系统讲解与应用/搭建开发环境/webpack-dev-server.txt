@@ -1,0 +1,49 @@
+    命令行运行 npm install webpack-dev-server html-webpack-plugin --save-dev
+    项目根目录下创建 index.html 文件
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Javascript设计模式</title>
+    </head>
+    <body>
+        <p>Javascript设计模式</p>
+    </body>
+</html>
+
+    修改 webpack.dev.config.js
+
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: __dirname,
+        filename: './release/bundle.js'
+    },
+
+    plugin: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, './release'), // 根目录
+        open: true, // 自动打开浏览器
+        port: 9000
+/*     proxy:{
+	'/api/*':{
+		target:'http://localhost:8880'
+		}/*代理，将这种格式的请求从8880端口映射到9000，防止跨域,因为服务端要提供一个接口，而9000已经被webpack使用，因此只能映射到9000而防止对方直接从8880请求数据	*/
+	}*/
+    }
+}
+
+    修改 package.json 中的 script.dev 属性
+
+"dev": "webpack-dev-server --config ./webpack.dev.config.js --mode development"
+
+    命令行运行 npm run dev
+

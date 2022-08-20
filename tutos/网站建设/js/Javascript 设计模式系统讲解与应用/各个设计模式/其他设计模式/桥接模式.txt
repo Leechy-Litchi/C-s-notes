@@ -1,0 +1,21 @@
+概念
+
+    用于把抽象化与实现化解耦
+    使得二者可以独立变化
+
+class Color {
+ constructor（name）{
+	 this.name=name
+	}
+}
+class Shape {
+ constructor（name, color）{
+	 this.name=name 
+	 this.color=color
+	 draw(){ console. log（'${this.color.name} ${this name}}
+	}
+}
+
+let red = new Color（'red')
+let circle new Shape（'circle'， red）
+circle.draw()
