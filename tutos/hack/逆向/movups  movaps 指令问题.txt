@@ -1,0 +1,21 @@
+https://blog.csdn.net/weixin_44309300/article/details/114387100
+
+movups
+
+mov //移动指令
+u //不必16字节对齐
+ps //（packed single-precision floating-point）表示打包的单精度浮点数
+movaps
+
+mov //移动指令
+u //必需16字节对齐
+ps //（packed single-precision floating-point）表示打包的单精度浮点数
+
+
+
+https://blog.csdn.net/u010659887/article/details/113802005
+movaps指令引起的复位
+这是SEE指令，movaps要求操作地址是16字节对齐。但是由于项目使用的并不是glibc的malloc，而是自己研发的malloc，这个malloc并不像是glibc一样在64位系统下16字节对齐，而是4字节对齐，所以当申请的地址不能被16整除时，movaps指令异常，程序挂掉
+
+rax寄存器是0x7ffff7dd8f80，movaps 0x4(%rax),%xmm0操作0x7ffff7dd8f80(rax)＋0x04不是16字节对齐引发段错误，84%16!=0
+如果我们该给rax寄存器减去4，使得0x04(%rax) 即：％rax＋4刚好16字节对齐即可成功，80%16=0

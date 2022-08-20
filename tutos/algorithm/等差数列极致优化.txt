@@ -1,0 +1,52 @@
+给定正整数n，返回连续正整数满足数字和为n的组数
+求和是(首+尾)*项数/2
+(i+(i+k)*(k+1)/2)
+
+二分优化
+枚举i
+二分枚举k属于[0,n-i]
+
+求和优化
+2n=(2i+k)(k+1)=ab
+a=2i+k
+b=k+1 = 2n/a
+k=2n/a -1
+2i=a-k=a-(2n/a-1)
+所以右侧不是偶数则必然不满足
+
+即可直接枚举i到2n
+因为是求因子，所以要有n%i=0去掉自己
+
+判断函数中i=0也是不合法的
+
+边界优化
+https://www.bilibili.com/video/BV1xT411J7oi
+因为i是n的因子，所以n/i也是n的因子，所以只用枚举到n/i
+判断n%i==0是因为要求整数
+当a!=b时，交换再判断一次
+
+整体代码（C++）
+class Solution{
+	bool check(int a,int b){
+		int i2=a-(b-1);
+		if(i%2){
+			return false;
+		}
+		if(i2%2<=0){
+			return false;
+		}
+		return true;
+	}
+}
+public:
+	int consecutiveNumbersSum(int n){
+		n*=2;
+		int ans=0,sn=sqrt(n);
+		for(int i=1;i<=sn;++i){
+			if(n%i==0){
+				if(check(i,n/2)){++ans;}
+				if(i!=n/i){if(check(n/i,i)){++ans;}}
+			}
+		}	
+	return ans;
+}

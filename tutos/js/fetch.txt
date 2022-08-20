@@ -1,0 +1,37 @@
+https://www.bilibili.com/video/BV1434y1o74Q
+
+ajax要手工维护回调函数，这个可以更加清晰地看到执行流程
+
+基本功能是请求
+fetch(url);
+返回一个promise
+里面的result是正常响应包的内容
+
+fetch(url).then(res => console.log(res.json()))
+	  .then(data=>xxxx(data));
+//注意，这里本身没有任何方法，但是可以调用原型的json方法，不过这也返回一个promise
+
+
+常见用法，获取图片
+
+const button = $("button");
+const img = $("img");
+let url = xxxx;
+button,addEventListener('click',(url)=>{
+	fetch(url)
+	.then(res=>{if(res.ok){
+		res.json();
+	}throw new Error(xxx);//如果请求出错不会返回错误所以要写
+	})
+	.then(data=>img.src=data.message);
+})
+
+fetch第二个参数是方法
+比如
+fetch(url,{
+	method:'POST',
+	body:JSON.stringify({name:input.value}),
+	headers:{
+		'Content-Type':'application/json'
+	}
+})

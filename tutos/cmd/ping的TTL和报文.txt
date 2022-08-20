@@ -1,0 +1,7 @@
+默认ttl
+linux 64
+windows 128
+ping localhost可以直接看到，因为无跳转
+
+linux上可以看到发送的包头和请求的包头
+因为ICMP要占用8字节，通常请求是58字节，真正发送的是64字节

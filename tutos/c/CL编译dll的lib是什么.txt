@@ -1,0 +1,10 @@
+https://www.bilibili.com/video/BV1MF411w7Z9
+4:37
+
+函数需要用__declspec(dllexport)修饰
+
+向CL传递/LD参数代表使用动态链接库
+
+这里生成的lib不是静态链接库而是一个信息文件作为导入库
+
+向CL传递/link xx.lib进行编译

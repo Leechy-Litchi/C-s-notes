@@ -1,0 +1,5 @@
+https://www.pc-daily.com/xitong/71631.html
+shell:startup    
+当前用户
+shell:common startup
+所有用户

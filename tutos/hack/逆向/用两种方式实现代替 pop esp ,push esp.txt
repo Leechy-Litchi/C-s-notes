@@ -1,0 +1,15 @@
+https://blog.csdn.net/zdy8023/article/details/103962505/
+使用2种方式实现：push esp
+    第一种方式:
+        mov dword ptr ss: [esp-4],esp
+        sub esp,4
+    第二种方式:
+        mov dword ptr ss:[esp-4],esp
+        lea   esp,dword ptr ss:[esp-4]            
+使用2种方式实现：pop esp
+    第一种方式:
+        add esp,4
+        mov esp,dword ptr ss:[esp-4]
+    第二种方式:
+        lea  esp,dword ptr ss:[esp+4]
+        mov esp,dword ptr ss:[esp-4]

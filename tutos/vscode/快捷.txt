@@ -1,0 +1,31 @@
+https://www.bilibili.com/video/BV1ty4y1S7mC
+ctrl+P
+
+:line
+跳转行数
+
+>config
+修改代码模板
+prefix是你在快捷使用时的名字，变量的名字可以随意，内容代码要用引号包住，写于body元素中
+$1等是tab定位的元素，$0是最后定位的位置，如$1:foo 中的foo就是默认模板
+config中可以新建全局的和工作区的模板
+进行分享，找code/user/snippets/global.code-snippets  (或者工作区的)
+如果同时多个$0，会开启多光标
+
+
+使用模板时直接修改会将同样的变量一并修改，按tab切换到下个不同的变量，最后个变量再tab就是到下一行
+
+
+alt多光标或者shift+ctrl/command+L选择所有相同并创建光标
+shift+alt+I在所选的所有末尾添加光标
+alt+ctrl+上下，向上下加光标
+加入多个光标时可以用ctrl+D来单独选择光标
+
+搜索过滤，右键搜索框，类别中选择
+
+
+按中键拖动鼠标可以框选方块内容并创建光标来不规则删除
+
+选中一段，先在首部点击，然后ctrl+P  :line，再shift+左键
+
+ctrl+左键快速打开链接文件，假如不存在可以快速创建

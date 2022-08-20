@@ -1,0 +1,29 @@
+https://www.iculture.cc/knowledge/pig=15969
+
+工具
+https://github.com/lucky-ecat/wechat_info_collect
+
+工具使用
+直接运行WeChat_info_collect_v3.exe
+先输入no回车，然后如果自动检测出Wechat Files的位置则无需操作回车就可以看到结果了
+如果要手动输入则需要看下自己的Wechat Files的位置了（我这里是C:\Users\66396\Documents\WeChat Files）
+
+支持提取的信息
+    wxid
+    微信号
+    手机号
+    绑定邮箱(参考性极低)
+    所在城市
+    历史使用过的小程序
+    一些其它信息(比如不知道是什么的md5)
+
+
+可以通过Everything之类的工具快速搜索Wechat Files
+在All Users里可以看到全部的历史头像，这个是本地存储的
+（还有部分历史头像是存在服务器上的，这里看不到，在AccInfo.dat可以看到）
+
+在wxid_开头的文件，我们找到config文件
+里面的AccInfo.dat文件存储着微信号的一些资料
+
+部分数据是乱码的，但是一些信息却清晰可见，譬如手机号、地区（精确到市级下面的区域）
+

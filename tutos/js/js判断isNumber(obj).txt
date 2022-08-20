@@ -1,0 +1,29 @@
+https://blog.csdn.net/paincupid/article/details/50572053
+
+对于整数，浮点数返回true，对于NaN或可转成NaN的值返回false。
+    function isNumber(obj) {
+        return obj === +obj
+    }
+
+判断字符串
+    function isString(obj) {
+        return obj === obj+''
+    }
+
+判断布尔类型
+    function isBoolean(obj) {
+        return obj === !!obj
+    }
+
+
+
+老方法
+    function isNumber(obj) {
+    	return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    function isNumber(obj) {
+        return typeof obj === 'number' && !isNaN(obj)
+    }    
+    function isNumber(obj) {
+        return typeof obj === 'number' && isFinite(obj)    
+    }

@@ -1,0 +1,41 @@
+https://www.youtube.com/watch?v=B8gH_xgLbSU
+1:01:00往后
+
+对象原型总有指向本身的构造函数
+并且这个构造函数又会指向全局函数构造函数
+比如说c.constructor.constructor是Function原型
+
+最典型的污染就是a.constructor.prototype.f = ()=>{console.log("xxx")}
+b.f();//xxx
+使得所有拥有Function原型的函数都将被污染
+
+可利用条件（三者之一）
+（1）递归对象合并
+（2）属性根据路径名称定义
+（3）对象拷贝
+
+关于深浅拷贝可看
+深拷贝函数
+
+其中JSON解析方法将会拷贝传入的对象原型
+比如说存在此payload
+{"name":"hacker","__proto__":{"admin":1}}
+
+而背后对于管理员权限的判定就是其原型是否是管理员（此原型admin属性为1）
+
+因此这种拷贝模式将会直接使得任意用户成为管理员
+
+除此之外，还有一种易受攻击的拷贝结合merge的“优化”方案（同时出现两种情况）
+function merge(a,b){
+if(isObject(a[attr])&&isObject(b[attr])){
+	merge(a[attr])&&isObject(b[attr]));
+}else{
+	a[attr]=b[attr];
+//虽然做到了深拷贝，但是原型也是一种属性却不是对象，在这一步会直接赋值
+}
+return a
+}
+function clone(a){
+	return merge({},a);
+}
+

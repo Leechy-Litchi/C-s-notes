@@ -1,0 +1,33 @@
+https://www.bilibili.com/video/BV13Z4y1C78z
+HKCR	系统参数
+HKCU	当前用户参数
+HKLM	本地软硬件参数
+HKU	所有用户参数
+HKCC	部分硬件参数的映射
+
+自定义空白处右键菜单：
+HKEY_CLASSES_ROOT\Directory\Background\shell
+
+项目下有子项的，都要先建立一个shell项，并且在项目名称上新建字符串值SubCommands 声明还有子项目
+icon 图标
+Extended 按shift的同时才显示的拓展菜单
+MUIVerb 项目命名和添加热键
+
+子项最多不超过16个（不算shell或command）
+
+字符串值icon指定义图标；Extended指按Shift的同时才会显示，只能作用于一级菜单，在下面的二级三级菜单无效；MUIVerb给项目命名与添加热键，格式为“名称(&热键)”
+
+仅桌面右键菜单：
+HKEY_CLASSES_ROOT\DesktopBackground\Shell
+
+仅文件夹右键菜单：
+HKEY_CLASSES_ROOT\Directory\shell
+
+仅文件右键菜单：
+HKEY_CLASSES_ROOT\*\shell
+
+仅同种文件右键菜单：
+HKEY_CLASSES_ROOT\SystemFileAssociations（找到扩展名，在底下新建子项shell）
+
+用一种方式打开，另一种方式编辑：
+HKEY_CLASSES_ROOT\SystemFileAssociations（找到扩展名\shell，底下有edit和open）

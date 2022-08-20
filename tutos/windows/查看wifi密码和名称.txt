@@ -1,0 +1,40 @@
+https://www.iculture.cc/knowledge/pig=4790
+
+netsh wlan show profiles
+
+查询某一个WIFI的密码
+
+netsh wlan show profile name="test" key=clear
+
+
+图形化方法
+网络与共享中心->wifi->无线属性->安全->显示字符
+
+
+一键批量导出全部WIFI密码
+@echo off
+chcp 65001>nul
+
+for /f "tokens=1* delims=:" %%i in ('netsh wlan show profiles ^| findstr /c:"All User Profile"') do (
+
+    call :GetPass %%j
+
+)
+pause
+
+goto :eof
+
+:GetPass
+
+echo WiFi : %*
+
+for /f "delims=" %%a in ('netsh wlan show profile name^="%*" key^=clear ^| findstr /c:"Key Content"') do (
+
+    echo %%a
+)
+
+goto :eof
+
+
+
+如果你导出了WIFI名称，是不是还可以了解到这台机器的主人曾经去过哪里？想一想是不是就很不错嘛！

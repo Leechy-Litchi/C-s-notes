@@ -1,0 +1,10 @@
+https://www.bilibili.com/video/BV1HU4y1i7K2
+本质上是自定义网络协议
+
+HKCR下新建项，名字任意
+新建REG_SZ url protocol
+然后添加下级文件夹shell->open->command
+默认内容填写运行程序比如cmd
+而后就可以通过链接打开程序
+win+r  名字:
+即可打开

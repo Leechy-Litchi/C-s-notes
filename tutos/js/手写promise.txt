@@ -1,0 +1,96 @@
+https://www.bilibili.com/video/BV1RR4y1p7my
+
+原生promise
+let promise = new Promise((resolve,reject)=>{});
+
+三种状态
+pending   初始
+fulfilled 完成
+rejected  失败
+
+promise异步
+构造时传入的函数自动执行，假如有以下
+let p = new Promise((resolve,reject)=>{
+	console.log(1);
+	resolve(3);});
+p.then(res=>{console.log(res)};);
+console.log(2)
+那么先输出1
+等到.then时才会清空执行栈，也就是先执行then之后的代码，会将本该这时候执行的传入的函数压入执行栈，等到后面执行完再回来清空，所以先输出2
+最后执行成功，输出3
+
+
+
+
+
+模仿
+class Commitment{
+	static PENDING = '待定';static FULFILLED = '成功',static REJECTED = '拒绝';
+	constructor(func){
+		this.status = Commitment.PENDING;
+		this.result = null;
+		this.resolveCallbacks = [];
+		this.rejectCallbacks = [];
+	try{
+		func(this.resolve.bind(this),this,reject.bind(this));
+//考虑特殊情况new时抛出错误，需要加上try catch，这里是直接执行而不是外部调用，不需要绑定
+	}catch(error){this.reject(error);}
+	}
+	resolve(result){
+//因为这两个方法要在事件结束才执行，所以加入延时的宏任务队列，新建的时候这两个函数也有包括在延时里面
+//流程大致为新建时进到延时，异步，到下面的then方法，发现没有改变状态还是待定所以压入执行栈然后继续执行后面的内容，最后返回构造内的延时继续，这时候会清空执行栈
+	setTimeOut(()=>{		
+		if(this.status === Commitment.PENDING){
+			this.status= Commitment.FULFILLED;
+			this.result = result;
+			this.resolveCallbacks.forEach(callback=>{callback(result)});
+		}})
+	}
+	reject(result){
+		setTimeOut(()=>{
+		if(this.status === Commitment.PENDING){
+			this.status= Commitment.REJECTED;
+			this.result = result;
+			this.rejectCallbacks.forEach(callback=>{callback(result)});
+		}})	
+	}
+/*
+需要注意，这里resolve和reject方法中的this已经跟丢了，算是在class外部使用这个this，指向的是调用者，如果在最外部就是window
+外部调用resolve时已经不在class里了，只是借用了resolve函数的逻辑，但是this已经变了
+新建执行构造时的this确实是this，但出了构造函数后就不是了，是外面的this传进里面了，外面的this是全局的
+一般用箭头、bind、proxy或者用一个额外变量that解决
+*/
+	then(onFULFILLED,onREJECTED){
+//因为要实现链式调用，所以要返回promise
+	    return new Commitment((resolve,reject)=>{
+		onFULILLED = typeof onFULFILLED === 'function' ? onFULFIILED : ()=>{};
+		onREJECTED = typeof onREJECTED === 'function' ? onREJECTED : ()=>{};
+/*
+肯定要resolve先执行后，拿到数据了，才会执行then，但是resolve这里是宏任务，会慢于then执行，所以状态没改变，手写时没有确定待定要做的事情
+所以需要给then里假如待定的情况，同时这里需要用数组储存回调实现执行栈，因为数组可以先入先出如同栈
+*/
+		if(this.status===Commitment.PENDING){
+			this.resolveCallbacks.push(onFULILLED);
+			this.rejectCallbacks.push(onREJECTED);
+		}
+		if(this.status===Commitment.FULFILLED){
+			setTimeOut(()=>{onFULFILLED(this.result);});
+/*
+setTimeout，setTimeout是宏任务，将setTimeout加入宏任务队列，等待执行
+本身是异步的，但却慢于同步
+promise.then()是微任务，将promise.then()加入微任务队列，等待执行
+宏任务在微任务后面执行
+因为promise底层是C可以操作宏微任务，所以js模拟需要借助setTimeOut
+*/
+			
+		}
+		if(this.status===Commitment.REJECTED){
+			setTimeOut(()=>{onREJECTED(this.result);});
+		}
+	}//原生只执行其中一个，所以要判断，原生会考虑更多情况，需要学习底层原理，如果在new时执行函数内抛出错误会触发拒绝方法的也即调用then可以把错误信息输出出来
+	})
+}
+
+
+
+

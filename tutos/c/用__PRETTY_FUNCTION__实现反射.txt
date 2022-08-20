@@ -1,0 +1,95 @@
+https://www.bilibili.com/video/BV1Ur4y1V7Kh
+8:31
+
+传统形式
+#include<iostream>
+
+using namespace std;
+
+template<class T>
+const char *get_type_name(){
+	return __PRETTY_FUNCTION__;
+}
+
+int main(){cout<<get_type_name<uint32_t>()<<endl;}
+//const char* get_type_name() [with T = unsigned int]
+
+用string的情况，因为会打印出std::string = std::__cxx11::basic_string<char>之类的内容，所以需要更改
+
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+template<class T>
+string get_type_name(){
+	string s = __PRETTY_FUNCTION__;
+	auto pos = s.find("T = ");
+	pos += 4;//T = 这个空格之后的位置
+	auto pos2 = s.find_first_of(";]",pos);//直到;或]，从pos位开始
+	return s.substr(pos,pos2-pos);
+}
+//unsigned int
+
+如果模板里有命名空间比如
+get_type_name<myutils::MyClass>()
+那么会输出命名空间
+//myutils::MyClass
+get_type_name<string>()
+//std::__cxx11::basic_string<char>
+
+
+
+
+在c11后支持数字，因此可以做到同输入不同格式
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+template<class T,T N>
+string get_int_name(){
+	string s = __PRETTY_FUNCTION__;
+	auto pos = s.find("N = ");//原本会输出with int N = 1
+	pos += 4;//N = 这个空格之后的位置
+	auto pos2 = s.find_first_of(";]",pos);//直到;或]，从pos位开始
+	return s.substr(pos,pos2-pos);
+}
+get_int_name<char,1>();//'\001'
+
+enum Color{RED,GREEN,BLUE}
+get_int_name<Color,(Color)1>();//RED
+//如果超出范围，比如4会返回(Color)4
+
+需要注意，如果不是编译期而是运行时比如Color c = RED
+再get_int_name<Color,c>();会报错
+需要改为constexpr Color c = RED;使其在编译期就被定义下来
+
+又或者单独写一个进行判断的函数
+template<class T>
+string get_int_name_dynamic(T n){
+	if(n==(T)1)return get_int_name<T,(T)1>();
+	if(n==(T)2)return get_int_name<T,(T)2>();
+	if(n==(T)3)return get_int_name<T,(T)3>();
+//相当于把动态改为了静态，从而实现反射
+}
+get_int_name_dynamic(c);//RED
+
+for是运行时的所以不可用，但可以用函数式编程思想解决
+template<int Beg,int End,class F>//前两个是起始区间和终止区间
+void static_for(F const &f){
+	if constexpr(Beg==End){
+		return;
+	}else{
+		func(std::integral_constant<Beg>());
+		static_for<Beg+1,End>(func);
+	}
+}
+
+template<class T>
+string get_int_name_dynamic(T n){
+	static_for<0,3>([&] (auto ic){
+		auto i = ic.value;
+		if(n==(T)i)return get_int_name<T,(T)i>();
+	});//lambda表达式传入一个函数
+}

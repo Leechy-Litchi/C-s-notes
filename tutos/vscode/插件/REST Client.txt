@@ -1,0 +1,15 @@
+轻量请求工具
+创建.http或.rest文件
+.rest
+GET 链接
+
+###
+
+POST 链接
+Content-Type:application/json
+
+{
+//请求体
+}
+
+用#进行分割

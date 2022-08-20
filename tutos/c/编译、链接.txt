@@ -1,0 +1,36 @@
+https://www.bilibili.com/video/BV1TN4y1375q
+编译后，只有声明的函数跳转位置默认是0
+链接器会根据目标文件或者静态库中的重定位表来决定跳转位置
+
+
+
+https://blog.csdn.net/KP1995/article/details/109569787
+https://www.zhihu.com/question/27455963
+现在的管理工具之makefile
+构建一个依赖树，比如
+all:main
+
+main:main.o math.o
+	gcc main.o math.o -o main
+main.o:main.c
+	gcc -c main.c
+math.o:math.c
+	gcc -c math.c
+clean:
+	rm main main.o main.o
+
+make工具可以看成是一个智能的批处理工具，它本身并没有编译和链接的功能，而是用类似于批处理的方式—通过调用makefile文件中用户指定的命令来进行编译和链接。
+
+根据makefile中的命令进行编译和链接。makefile命令中就包含了调用gcc（也可以是别的编译器）去编译某个源文件的命令。makefile在一些简单的工程完全可以用人工手写，但是当工程非常大的时候，手写makefile也是非常麻烦的，如果换了个平台makefile又要重新修改。这时候就出现了Cmake工具。
+
+当然cmake还有其他功能，就是可以跨平台生成对应平台能用的makefile，你就不用再自己去修改了。cmake根据什么生成makefile呢？它又要根据一个叫CMakeLists.txt文件（学名：组态档）去生成makefile
+
+qmake是根据Qt 工程文件（.pro）来生成对应的makefile
+工程文件（.pro）相对来说比较简单，一般工程你都可以自己手写，但是一般都是由Qt的开发环境 Qt Creator自动生成的
+
+也可以用在非Qt工程上面，照样可以生成普通的makefile，只要在pro文件中加入CONFIG -= qt
+
+cmake也是同样支持Qt程序的，cmake也能生成针对qt 程序的那种特殊makefile，
+只是cmake的CMakeLists.txt 写起来相对与qmake的pro文件复杂点。
+qmake 是为 Qt 量身打造的，使用起来非常方便，但是cmake功能比qmake强大。
+一般的Qt工程你就直接使用qmake就可以了，cmake的强大功能一般人是用不到的。

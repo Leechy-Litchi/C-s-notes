@@ -1,0 +1,116 @@
+https://www.cnblogs.com/mhpcuit/p/12435695.html
+0X00 DOS头
+    微软创建PE文件格式时，人们正广泛使用DOS文件，所以微软充分考虑了PE文件对DOS文件的兼容性。其结果是在PE头的最前面添加一个 IMAGE_DOS_HEADER 结构体用来扩展DOSEXE头
+IMAGE_DOS_HEADER
+typedef struct _IMAGE_DOS_HEADER{
+     WORD e_magic;  //DOS签名 4D5A
+     WORD e_cblp;
+     WORD e_cp;
+     WORD e_crlc;
+     WORD e_cparhdr;
+     WORD e_minalloc;
+     WORD e_maxalloc;
+     WORD e_ss;
+     WORD e_sp;
+     WORD e_csum;
+     WORD e_ip;
+     WORD e_cs;
+     WORD e_lfarlc;
+     WORD e_ovno;
+     WORD e_res[4];
+     WORD e_oemid;
+     WORD e_oeminfo;
+     WORD e_res2[10];
+     LONG e_lfanew;   //指向NT头所在的位置
+} IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
+    IMAGE_DOS_HEADER 结构体的大小位64字节，一个WORD类型两个字节时一个字，一个LONG类型是四个字节两个字，所以该结构体为 30个WORD类型+ 1个LONG类型 为 64字节。
+        在该结构体中必须知道2个重要的成员：e_magic 与 e_lfanew
+    e_magic: DOS签名（4D5A => ASCLL值 “MZ”）
+    e_lfanew: 指示NT头的偏移（不同的文件该值不一样）
+DOS签名4D5A为MZ，整个DOS头64个字节，最底下的四个字节为NT文件头所在位置0X00000120 Intel系列CPU以逆序存储数据，这称为小端序标识法。这些是值被修改后将不能够运行（根据PE规范，它以不再是PE文件）
+
+
+0X02 DOS存根
+
+    DOS存根在DOS头下面，是个可选项，且大小不固定（即使没有DOS存根，文件也能正常运行）DOS存根由代码与数据混合而成
+    DOS存根的大小不固定，从0x40开始到NT头截至。图中文件偏移40-4D区域为16位汇编指令。32位windows OS中直接忽略该命令。
+
+
+0X03 NT头
+下面介绍NT头 IMAGE_NT_HEADERS
+代码：IMAGE_NT_HEADERS
+typedef struct _IMAGE_NT_HEADERS {
+  DWORD                   Signature;         //PE签名 504500 => ("PE"00)
+  IMAGE_FILE_HEADER       FileHeader;        //文件头
+  IMAGE_OPTIONAL_HEADER32 OptionalHeader;    //可选文件头
+} IMAGE_NT_HEADERS32, *PIMAGE_NT_HEADERS32;
+    IMAGE_NT_HEADERS 结构体由三个成员组成，第一个成员为签名（Signature）结构体，其值为50450000h("PE"00)。另外两个成员分别为文件头与可选头。
+
+
+DOS头的最后一个结构是指向NT头的0X0120，0X0120的前4个字节存储的是签名。
+
+
+0X030 NT头:文件头
+    文件头是NT头第二个结构，文件头是表现文件大致属性的 IMAGE_FILE_HEADER
+代码：IMAGE_FILE_HEADER
+typedef struct _IMAGE_FILE_HEADER {
+  WORD  Machine;
+  WORD  NumberOfSections;
+  DWORD TimeDateStamp;
+  DWORD PointerToSymbolTable;
+  DWORD NumberOfSymbols;
+  WORD  SizeOfOptionalHeader;
+  WORD  Characteristics;
+} IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;
+IMAGE_FILE_HEADER 结构体中有一下四种重要成员（若它们设置不正确，将导致文件无法运行）。
+    (1) Machine
+        每个CPU都拥有唯一的Machine码，兼容32位Intel x86芯片的Machine码为14C.
+        是定义在winnt.h文件中的Machine码。
+
+    (2) NumberOfSections
+        PE文件把代码，数据，资源等依据属性分类到各节区中存储。NumberOfSections用来指出文件中存在的节区数量。该值一定要大于0，且当定义的节区数量和实际节区不同时，将发生运行错误。
+
+    (3) SizeOfOptionalHeader
+    IMAGE_NT_HEADERS 结构体的最后一个成员为 IMAGE_OPTIONAL_HEADER32 结构体。
+    SizeOfOptionalHeader 成员用来指出IMAGE_OPTIONAL_HEADER32 结构体的长度。
+    IMAGE_OPTIONAL_HEADER32 结构体由C语言编写而成，故其大小已经确定。    但是windows的PE装载器需要查看 IMAGE_NT_HEADERS的SizeOfOptionalHeader值，从而识别出IMAGE_OPTIONAL_HEADER32 结构体的大小。
+    PE32+格式的文件中使用的是IMAGE_OPTIONAL_HEADER64 结构体，而不是IMAGE_OPTIONAL_HEADER32 结构体。
+    2个结构体尺寸是不同的，所以需要在SizeOfOptionalHeader 成员中指明结构体的大小。
+
+    (4) Characteristics
+    该字段用于标识文件的属性，文件是否是可运行的形态，是否为DLL文件等信息，以二进制位的方式进行组合。
+
+以下是定义在winnt.h文件中的Characteristics值
+Macro 	Value 	Meaning
+IMAGE_FILE_RELOCS_STRIPPED 	0x0001 	Relocation information was stripped from the file. The file must be loaded at its preferred base address. If the base address is not available, the loader reports an error.
+IMAGE_FILE_EXECUTABLE_IMAGE 	0x0002 	The file is executable (there are no unresolved external references).
+IMAGE_FILE_LINE_NUMS_STRIPPED 	0x0004 	COFF line numbers were stripped from the file.
+IMAGE_FILE_LOCAL_SYMS_STRIPPED 	0x0008 	COFF symbol table entries were stripped from file.
+IMAGE_FILE_AGGRESIVE_WS_TRIM 	0x0010 	Aggressively trim the working set. This value is obsolete.
+IMAGE_FILE_LARGE_ADDRESS_AWARE 	0x0020 	The application can handle addresses larger than 2 GB.
+IMAGE_FILE_BYTES_REVERSED_LO 	0x0080 	The bytes of the word are reversed. This flag is obsolete.
+IMAGE_FILE_32BIT_MACHINE 	0x0100 	The computer supports 32-bit words.
+IMAGE_FILE_DEBUG_STRIPPED 	0x0200 	Debugging information was removed and stored separately in another file.
+IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP 	0x0400 	If the image is on removable media, copy it to and run it from the swap file.
+IMAGE_FILE_NET_RUN_FROM_SWAP 	0x0800 	If the image is on the network, copy it to and run it from the swap file.
+IMAGE_FILE_SYSTEM 	0x1000 	The image is a system file.
+IMAGE_FILE_DLL 	0x2000 	The image is a DLL file. While it is an executable file, it cannot be run directly.
+IMAGE_FILE_UP_SYSTEM_ONLY 	0x4000 	The file should be run only on a uniprocessor computer.
+IMAGE_FILE_BYTES_REVERSED_HI 	0x8000 	The bytes of the word are reversed. This flag is obsolete.
+    另外，PE文件中Characteristics的值有可能不是002h吗(不可执行)？也是有可能的，比如类似*.obj的object文件及resource DLL文件等。
+
+    (5) TimeDateStamp
+       该成员的值不影响文件运行，用来记录编译器创建此文件的时间。有些开发工具（VB,VC++）提供了设置该值的工具。而有些开发工具（Delphi）未提供。
+
+
+
+    文件头有 四个 WORD 型和三个DWORD型组成 42+34=20 一共占了20个字节
+    可以看出：
+名称 			位置(偏移量) 	数据值 	含义
+machine码 		0x0124 		014C 	Interl 386
+NumberOfSections 	0x0126 		0005 	存在5个节区
+TimeDateStamp 		0x0128 		5B89C5B2 	2018/08/31 22:48:18
+SizeOfOptionalHeader 	0x0134 		00E0 	IMAGE_OPTIONAL_HEADER32的大小为E0
+Characteristics 	0X0136 		0x0102 	是32位的文件 and 是可执行文件
+
+    最后一个数值 0x0102 可以看作是 0x100 | 0x002 为 IMAGE_FILE_EXECUTABLE_IMAGE | IMAGE_FILE_32BIT_MACHINE

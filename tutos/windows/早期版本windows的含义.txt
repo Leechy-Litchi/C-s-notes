@@ -1,0 +1,11 @@
+https://www.bilibili.com/video/BV1RU4y1i7WM
+
+
+EascotCharles 的评论
+
+当你装WinXP，win7或win10多系统时，开机引导界面win7以上的就显示win7，win10……而WinXP以下的则会显示“早期版本的windows”，根据我安装的大部分windows系统进行与微软大多数文档的对比，就可得出结论——“微软说的'早期版本windows'是指NT内核6.1以下的系统，它们不兼容windows引导管理器，故与win7以上的分开，所以微软说的是实话，只是我们不知道'早期版本windows'对于微软的区分方法而已”
+
+BUGTea汐茶 的补充
+
+"早期版本的Windows"其实不是直接加载XP等旧系统，而是加载旧nt内核的ntldr引导程序，由ntldr加载boot.ini启动旧系统，而nt6（win7以上版本）的引导程序是bootmgr，加载bcd来启动新系统。
+如果安装有nt6、winXP和2000，那么在选择"早期版本的Windows"后会再次弹出菜单，有XP和2000供选择，这个二级菜单是ntldr呈现的。

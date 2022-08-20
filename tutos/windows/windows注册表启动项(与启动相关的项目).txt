@@ -1,0 +1,57 @@
+https://blog.csdn.net/f_zhangwuji/article/details/124056309
+
+实际应急响应案例时，发现很多非常规的启动项以及ARK工具未涵盖的启动项，故收集资料对注册表有关的启动项进行总结，以后处置病毒无从下手时可以考虑从启动项排查。
+1.Load注册键
+介绍该注册键的资料不多，实际上它也能够自动启动程序。位置:
+HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows\load
+2.Userinit注册键
+这里能够使系统启动时自动初始化程序。通常该注册键下面有一个userinit.exe。这个键允许指定用逗号分隔的多个程序，例如“userinit.exe,OSA.exe”(不含引号)。
+位置:
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon\Userinit
+3.Explorer-Run注册键
+位置:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
+4.RunServicesOnce注册键
+RunServicesOnce注册键用来启动服务程序，启动时间在用户登录之前，而且先于其他通过注册键启动的程序。RunServicesOnce注册键的位置是:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce
+5.RunServices注册键
+RunServices注册键指定的程序紧接RunServicesOnce指定的程序之后运行，但两者都在用户登录之前。RunServices的位置是:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ RunServices
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices
+6.RunOnce\Setup注册键
+RunOnce\Setup指定了用户登录之后运行的程序，它的位置是:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup、
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\Setup
+7.RunOnce注册键
+安装程序通常用RunOnce键自动运行程序，它的位置在
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce、
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_LOCAL_MACHINE下面的RunOnce键会在用户登录之后立即运行程序，运行时机在其他Run键指定的程序之前。HKEY_CURRENT_USER下面的RunOnce键在操作系统处理其他Run键以及“启动”文件夹的内容之后运行。如果是XP，你还需要检查一下：
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx
+8.Run注册键
+Run是自动运行程序最常用的注册键，位置在:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run、
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER下面的Run键紧接HKEY_LOCAL_MACHINE下面的Run键运行，但两者都在处理“启动”文件夹之前。
+9.Windows Shell──系统接口
+位于HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon
+下面的Shell字符串类型键值中，基默认值为Explorer.exe，当然可能木马程序会在此加入自身并以木马参数的形式调用资源管理器，以达到欺骗用户的目的。
+10.常用的启动——系统配置文件
+Windows的配置文件，包括Win.ini、System.ini和wininit.ini文件也会加载一些自动运行的程序
+Win.ini文件
+在[windows]段下的“Run=”和“LOAD=”语句后面就可以直接加可执行程序，只要程序名称及路径写在“=”后面即可。
+System.ini文件
+默认[boot]段下“shell=”的语句为“shell=Explorer.exe”，启动的时候运行Windows外壳程序
+explorer.exe，黑客可将该句变成“shell=病毒文件名.exe。
+11.系统服务
+位置：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services，系统服务加载程序，其中netsvcs 是一组服务的集合（通过svchost 用来加载成组服务），不是单个的服务，具体哪些服务在 netsvcs 里，可以在注册表
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SvcHost
+右边的 netsvcs 值里查看，里面的不一定是当前都被加载了的，只是说它们若被加载都划归在 netsvcs 组里，其中哪些服务正运行着，可和服务里的相应服务状态对照着看。
+12.windows 通过AppInit加载任意dll
+windows操作系统允许将用户提供的dll加载到所有的进程的内存空间中。该功能可以用来做后门持久化。有点类似于linux的ld_preload环境变量。在进程启动的时候，操作系统会将用户提供的dll加载。在设置该功能时，需要administrator权限。设置方法为修改注册表中两个选项
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows
+HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\WindowsNT\CurrentVersion\Windows
+微软默认阻止用户通过appinit功能去加载未知的dll。不过，可以通过修改注册表键值HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Windows\LoadAppInit_DLLs为1去关闭该功能。将待加载的dll保存在Program Files文件夹，并且将AppInit_DLLs键值修改为待加载dll的路径，即可让所有windows进程都加载该dll。
+这是因为在“ AppInit_DLLs”注册表项中指定的DLL是由user32.dll加载的，几乎所有应用程序都使用该user32.dll

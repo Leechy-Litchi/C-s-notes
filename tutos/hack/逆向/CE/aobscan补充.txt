@@ -1,0 +1,34 @@
+https://www.bilibili.com/video/BV1jv411q7cS
+16:10
+
+[ENABLE]
+aobscanmodule(health,game.exe,F3 41 0F 11* * string)
+alloc(newmem,$1000,"game.exe"+400000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+ //xxx
+ jmp return
+
+health:
+ jump code
+
+return:
+ registersymbol(health)
+ //使得下面可以使用
+
+[DISABLE]
+
+health:
+ db F3 41 0F 11
+ //根据你修改前的指令来复原
+
+unregistersymbol(health)
+dealloc(newmem)
+
+指定模块
+
