@@ -1,0 +1,27 @@
+向 div 元素添加圆角：
+
+div
+{
+border:2px solid;
+border-radius:25px;
+-moz-border-radius:25px; /* Old Firefox */
+}
+
+
+向 div 元素添加方框阴影：
+
+div
+{
+box-shadow: 10px 10px 5px #888888;
+}
+
+
+使用图片创建围绕 div 元素的边框：
+
+div
+{
+border-image:url(border.png) 30 30 round;
+-moz-border-image:url(border.png) 30 30 round; /* 老的 Firefox */
+-webkit-border-image:url(border.png) 30 30 round; /* Safari 和 Chrome */
+-o-border-image:url(border.png) 30 30 round; /* Opera */
+}

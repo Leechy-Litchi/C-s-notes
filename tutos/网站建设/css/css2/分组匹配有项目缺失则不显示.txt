@@ -1,0 +1,10 @@
+
+一个多类选择器类名中没有的任意一个，就会失败
+
+.important.urgent {background:silver;}
+
+将只匹配 class 属性中包含词 important 和 urgent 的 p 元素。如果一个 p 元素的 class 属性中只有词 important 和 warning，将不能匹配。不过，它能匹配以下元素：
+
+<p class="important urgent warning">
+This paragraph is a very important and urgent warning.
+</p>

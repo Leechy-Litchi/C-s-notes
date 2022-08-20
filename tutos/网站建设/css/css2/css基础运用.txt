@@ -1,0 +1,12 @@
+ <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+
+ π”√css
+style.css
+body {
+  background-color: white;
+ 
+ color: black;
+ 
+ font-family: Verdana;
+}
+
