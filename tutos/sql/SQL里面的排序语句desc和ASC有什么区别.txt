@@ -1,9 +1,0 @@
-https://blog.csdn.net/weixin_44531229/article/details/107097443
-
-SQL 语句中
-
-asc是指定列按升序排列(即：从小到大排序) ---降序排列
-
-desc则是指定列按降序排列(即：从大到小排序) ---升序排列
-
-排序子句语法：order by 列名 asc/desc
