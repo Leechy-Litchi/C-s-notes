@@ -1,0 +1,17 @@
+HGLOBAL hGlobalClip;//全局内存对象
+      
+hGlobalClip = GlobalAlloc(GHND, strlen(pStrData) + 1);//给全局内存对象分配全局内存
+        
+pDataBuf = (char *)GlobalLock(hGlobalClip);
+        
+strcpy(pDataBuf, pStrData);//通过给全局内存对象加锁获得对全局内存块的引用
+      
+GlobalUnlock(hGlobalClip);//使用完全局内存块后需要对全局内存块解锁
+
+EmptyClipboard();//清空剪贴板
+      
+SetClipboardData(CF_TEXT, hGlobalClip); //设置剪贴板数据        
+CloseClipboard();//关闭剪贴板
+        
+}
+[/code]
