@@ -1,1 +1,0 @@
-setx /m path "%path%;(the path you want to add)"
