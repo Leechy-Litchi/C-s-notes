@@ -1,5 +1,0 @@
-overflow:hidden
-超出的不要
-overflow-x
-overflow-y
-指定x、y轴的溢出方式
