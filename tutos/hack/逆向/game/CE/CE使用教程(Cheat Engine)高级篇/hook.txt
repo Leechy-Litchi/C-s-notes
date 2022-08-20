@@ -1,0 +1,17 @@
+找访问
+然后注入
+在原代码后进行比较
+然后执行想要的代码
+假如说要自动按键
+那么可以用
+push 0
+push 0  //按下去 
+push 0
+push 32  //按键id，这里是数字键2
+call keybd_event
+push 0
+push 2  //弹起来 
+push 0
+push 32  //按键id，这里是数字键2
+call keybd_event
+上面这个函数一般成对出现

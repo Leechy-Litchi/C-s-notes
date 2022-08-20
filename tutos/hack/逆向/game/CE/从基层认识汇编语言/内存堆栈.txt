@@ -1,0 +1,108 @@
+寻址公式一：
+ 读内存的值：
+  mov eax，dword ptr ds：[0x13ffc4]
+  mov eax，dword ptr ds：[0x13ffc8]
+ 向内存中写数据：
+  mov dword ptr ds：[0x13ffc4]，eax
+  mov dword ptr ds：[0x13ffc8]，ebx
+ 获取内存编号：
+ lea eax，dword ptr ds：[0x13ffc4]
+ lea eax，dword ptr ds：[ESP+8]
+寻址公式二：
+  读内存的值：
+  mov ecx，0x13ffd0
+  mov eax，dword ptr ds：[ecx]
+ 向内存中写数据：
+  mov edx，0x13ffd8
+  mov dword ptr ds：[edx]，0x87654321
+ 获取内存编号：
+  lea eax，dword ptr ds：[edx]          注：把内存编号取出
+  mov eax,dword ptr ds:[edx]            注：把内存编号里的数值取出来
+寻址公式三：[reg+立即数]
+ 读内存的值：
+ mov ecx,0x13ffd0
+ mov eax,dword ptr ds:[ecx+4]
+ 向内存中写入数据：
+ mov edx,0x13ffd8
+ mov eax,dword ptr ds:[edx+0xc],0x87654321
+ 获取内存编号：
+ lea eax,dword ptr ds:[edx+4]         注：把内存编号取出
+ mov eax,dword ptr ds:[edx+4]      注：把内存编号里的数值取出来
+寻址公式四：[reg+reg*｛1，2，4，8｝]
+ 读内存的值：
+ mov eax,13ffc4
+ mov ecx，2
+ mov  edx，dword ptr ds：[eax+ecx*4]
+ 向内存中写入数据：
+ mov eax，13ffc4
+ mov ecx，2
+ mov dword ptr ds：[eax+eax*4]，87654321
+ 获取内存编号：
+ lea eax，dword ptr ds：[eax+ecx*4]
+寻址公式五：[reg+reg*｛1，2，4，8｝]
+ 读内存的值：
+ mov eax，13ffc4
+ mov ecx，2
+ mov dword ptr ds：[eax+ecx*4+4]
+ 向内存中写数据：
+ mov eax 13ffc4
+ mov ecx，2
+ mov dword ptr ds：[[eax+ecx*4+4]],87654321
+ 读取内存编号：
+ mov eax，dword ptr ds：[eax+ecx*4+2]
+     内存堆栈：临时存储大量的数据，便于查找（从大往小存）
+堆栈有栈底和栈顶  每次可存储4个字节的数据
+
+向内存堆栈种压入数据：入栈
+第1种：
+ mov ebx，0x12ffe0    把ebx，作为栈底   （栈底不变）
+ mov edx，0x12ffe0    把edx，作为栈顶   （栈顶取决与你存储的数据量决定你的栈顶）
+ mov dword ptr ds:[edx-4],0x87654321   (往栈存储数据)
+ sub edx，4    （栈顶的值-4）
+第2种：
+ lea edx，dword ptr ds：[edx-4] （取内存编号）
+ mov dword ptr ds：[edx]，12345678
+第3种：
+ mov dword ptr ds：[edx-4]，0x01234567
+ sub edx，4
+
+向内存堆栈中找数据：出栈
+ 第一种：
+mov esi，dword ptr ds：[ebx,-8]  (栈顶加偏移方式找）
+ mov edi，dword ptr ds：[edx+4] （栈底加偏移的方式找）
+ 第二种：
+ mov eax,dword ptr ds:[edx]
+ add edx,4
+ 第三种：
+ lea edx,dword ptr ds:[edx+4]
+ mov eax,dword ptr ds:[edx-4]
+注：根据实际情况使用
+PUSH指令：
+ push 0x12345678        （push是几种编写方式的变形）
+列 ：
+push 1  （立即数的值一概-4）
+push eax （push寄存器）（push内存的值是-4）
+push ax  （push寄存器）（push内存的值是-2）
+push dword ptr ds：[0x12ffda]   （push内存的值是-4）
+push word ptr ds：[0x12ffda]    （push内存的值是-2）
+
+ 
+
+   理论课无限往里存
+POP指令：（理论与push相反）
+ pop eax 
+ pop ebx
+ pop ecx
+ pop edx    取出堆栈中的值
+
+ 列： 
+ mov eax，0x12345678   往eax里存值
+ push eax 往eax里存值并提升一位栈顶
+ pop ecx 取出值并放入ecx
+ 
+保存堆栈：
+pushad指令：
+ 把8个通用寄存器里的值放入内存
+popad指令：
+ 把8个放入内存的寄存器值恢复
+

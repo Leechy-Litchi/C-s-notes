@@ -1,0 +1,21 @@
+创建线程
+alloc(newmem,250)
+Createthread(newmem)
+让newmem变成线程，相当于加了一个函数入口
+然后可以在newmem内写函数
+newmem:
+mov eax,18d85580
+imul [eax],[eax],4h
+ret
+//这时候启用一下就能执行一下
+
+如果是直接修改，其判定不一定同步，往往需要再等待变化（需要其它函数将显示的数值刷新）
+先查找访问，然后找call，可以根据前面push的数据判断是否进行了刷新
+可以配合断点看寄存器的值判断
+这时候可以直接用线程来调用这个call
+alloc()
+Createthread()
+newmem:
+mov xxx,xxx //这里将你实时更改的数值地址传入就可以直接刷新了
+push xxx //可以为立即数
+call xxxxx

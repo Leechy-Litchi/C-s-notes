@@ -1,0 +1,24 @@
+AA引擎由CE 5.61的Delphi源码中, 摘除并移植AA脚本直译器
+外加OD的汇编编译器(disasm)源码作为心脏
+
+拥有在框架中注入进程，代码，指针，aobscan等功能
+
+https://www.cr173.com/soft/41455.html?_da0.8818049081601202
+
+举例：
+push 0
+push 0
+push text //文本，这里是第二个参数，汇编中是倒序，也即入栈的顺序从而第一个拿到的就是最后一个压的
+push 0
+call messageboxA
+push 0
+call exitprocess  //exit(0)
+
+text:
+db xxxxx 
+
+如果使用AA直译器，选择进程后，可以点击[ENABLE]直接调用
+
+
+在CE内存浏览器->视图->枚举DLL和符号中
+可以找到各DLL对应的地址以及函数名

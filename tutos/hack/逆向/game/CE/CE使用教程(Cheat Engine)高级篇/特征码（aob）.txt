@@ -1,0 +1,33 @@
+特征码：一串唯一的代码，在整个程序中仅有一个
+好比一串字符串中的不重复连续字符串
+查找病毒也是同理，恶意代码拥有一段特征码，匹配到就判断可疑
+不一定是单一指令，任意连续的字节，可以放入搜索，勾选Hex，最好开启同时扫描只读内存
+找不到就继续加长，实在找不到，换个代码作为特征码，然后用偏移
+
+搜索选项
+Hex
+类型：搜索数组，字节数组
+
+当出现了代码存放地址是临时分配的地址池内时（也就是每次新开都不一样导致注入的地址有误）
+可以用内置的函数aobscan搜索特征码并传给一个变量
+如果不是跳到寄存器内地址的话，很有可能每次不一样，这种时候就选择其它地址上代码作为特征码
+例子：aobscan(str,xxxxxx)     
+xxxxxx+n:
+
+//不加n代表就是这个字符串的首地址
+有时候特征码还没扫描出来是因为该特征码还没出现在段内（没被加载到内存中）
+注意，如果放在ENABLE内则只有ENABLE内可以使用扫描出的地址，若要实现开关需要将aobscan放在外面
+
+
+关于改版
+比如PVZ的改版或版本更新，那么对应地址PVZ.exe+xxxx，后面的xxxx可能会改变，但是代码是通用的（只要更新没有改动）
+也可以使用特征码
+
+
+aobScanModule(SymbolName,ModuleName,AOBString)
+支持通配符
+aobScanModule(SomeSymbol, Tutorial-x86_64.exe, 00??8D6424E0)
+
+aobScanRegion（SymbolName，StartAddress，StopAddress，AOBString）
+限定范围
+aobScanRegion(SomeSymbol, Tutorial-i386.exe+4000, Tutorial-i386.exe+5000, 00 53 48 8D 64 24 E0)
