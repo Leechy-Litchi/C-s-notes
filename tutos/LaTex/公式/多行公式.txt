@@ -1,0 +1,21 @@
+长公式
+不对齐
+
+无须对齐的长公式可以使用 multline 环境。
+
+\begin{multline}
+x = a+b+c+{} \\
+d+e+f+g
+\end{multline}
+如果不需要编号，可以使用 multline* 环境代替。
+
+
+对齐
+
+需要对齐的公式，可以使用 aligned 次环境来实现，它必须包含在数学环境之内。
+
+\[\begin{aligned}
+x ={}& a+b+c+{} \\
+&d+e+f+g
+\end{aligned}\]
+

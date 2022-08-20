@@ -1,0 +1,14 @@
+导入英文文献
+
+Step1：创建.bib文件。在TexStudio中新建文件，然后保存的时候选择保存为 .bib文件，即创建了一个BibTex参考文献库，如创建的BibTex库的名字为：ref.bib。
+Step2：添加引用文章的内容，复制文献的BibTex引用格式，粘贴到ref.bib上。
+Step3：导包:，\usepackage{cite}
+Step4：添加引用配置，\bibliographystyle{plain}放在\begin{document}后面，\bibliography{ref}放在\end{document}前面。
+Step5：添加引用，在文中添加引用，引用格式如下：\cite{5277454}，括号里面填ARTICLE后面的代号就行了。
+Step6：点击Tools——Bibliography先把.bib文件编译一下，然后编译两次.tex文件就行成看到引用的文献啦。
+
+
+导入中文文献
+这里是介绍用Mendelay怎么导出中文的bibtex，网络上也有安装zotero的方式添加中文参考文献
+Step1：首先肯定是把文献拉进Mendelay啦；
+Step2：鼠标右击对应文献，选择export，就可以导出bibtex格式的中文文献了。

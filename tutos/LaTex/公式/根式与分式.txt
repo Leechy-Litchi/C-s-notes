@@ -1,0 +1,19 @@
+根式用 \sqrt{·} 来表示，分式用 \frac{·}{·} 来表示（第一个参数为分子，第二个为分母）。
+
+示例代码（请保存后，使用 XeLaTeX 编译，查看效果）：
+
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+$\sqrt{x}$, $\frac{1}{2}$.
+
+\[ \sqrt{x}, \]
+
+\[ \frac{1}{2}. \]
+\end{document}
+
+在行间公式和行内公式中，分式的输出效果是有差异的。如果要强制行内模式的分式显示为行间模式的大小，可以使用 \dfrac, 反之可以使用 \tfrac。
+
+    在行内写分式，你可能会喜欢 xfrac 宏包提供的 \sfrac 命令的效果。
+
+    排版繁分式，你应该使用 \cfrac 命令。

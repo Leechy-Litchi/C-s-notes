@@ -1,0 +1,26 @@
+无需对齐的公式组可以使用 gather 环境，需要对齐的公式组可以使用 align 环境。他们都带有编号，如果不需要编号可以使用带星花的版本。
+
+\begin{gather}
+a = b+c+d \\
+x = y+z
+\end{gather}
+\begin{align}
+a &= b+c+d \\
+x &= y+z
+\end{align}
+
+    请注意，不要使用 eqnarray 环境
+
+
+分段函数
+可以用cases次环境来实现，它必须包含在数学环境之内。
+
+\[ y= \begin{cases}
+-x,\quad x\leq 0 \\
+x,\quad x>0
+\end{cases} \]
+
+
+效果大概是
+y={-x,x<=0
+  {x.x>0

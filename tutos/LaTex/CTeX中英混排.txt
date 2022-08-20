@@ -1,0 +1,8 @@
+使用 CTeX 宏集时：
+
+    使用 pdfLaTeX/LaTeX 编译，
+        默认（ zhmap = true ）依赖 CJK + zhmetrics 支持中文，配置字体需要用 pdfTeX primitives 修改字体 mapping。
+        配置 zhmap = false 选项时，依赖传统 CJK 的 Type1 字库支持中文，配置字体需首先生成 Type1 的 CJK 字体，然后使用 \CJKfamily 命令指定。
+        配置 zhmap = zhmCJK 选项时，依赖 zhmCJK 宏包支持中文，配置字体的方式和 xeCJK 宏包接近，使用 \setCJKmainfont 等命令。具体参见其宏包文档。不过 zhmCJK 宏包目前只支持 TeX Live 发行版，且默认未安装，需要手工安装。
+    使用 XeLaTeX 编译时，底层依赖 xeCJK 宏包支持中文，使用 \setCJKmainfont 等命令配置中文字体；具体参见其宏包文档。对于英文， xeCJK 又依赖 fontspec 宏包，使用 \setmainfont 等命令配置西文字体；具体参见其宏包文档（英文）。
+    使用 LuaLaTeX 编译时，底层以来 luatex-ja 宏包支持中文，使用 \setmainjfont 等命令配置中文字体；具体参见其宏包文档（日文）。对于英文， luatex-ja 也依赖 fontspec 宏包，使用 \setmainfont 等命令配置西文字体；具体参见其宏包文档（英文）。

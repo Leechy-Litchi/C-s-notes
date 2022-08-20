@@ -1,0 +1,36 @@
+为了使用 AMS-LaTeX 提供的数学功能，我们需要在导言区加载 amsmath 宏包：
+\usepackage{amsmath}
+数学模式有两种：行内模式 (inline) 和行间模式 (display)。前者在正文的行文中，插入数学公式；后者独立排列单独成行，并自动居中。
+$ ... $ 可以插入行内公式，使用 \[ ... \] 可以插入行间公式，如果需要对行间公式进行编号，则可以使用 equation 环境：
+\begin{equation}
+...
+\end{equation}
+
+
+
+数学环境里的「要」和「不要」。
+
+    用 $ ... $ 而不用 \( ... \)；
+    用 align 环境而不用 eqnarray 环境；
+    用 matrix, bmatrix, pmatrix, vmatrix, Vmatrix 等环境而不用 array 环境去实现矩阵；
+    用 \bigl, \bigr 等命令来处理定界符，而尽可能避免 \left 和 \right。
+
+
+
+
+
+
+行内公式也可以使用 \(...\) 或者 \begin{math} ... \end{math} 来插入，但略显麻烦。
+无编号的行间公式也可以使用 \begin{displaymath} ... \end{displaymath} 或者 \begin{equation*} ... \end{equation*} 来插入，但略显麻烦。（equation* 中的 * 表示环境不编号）
+也有 plainTeX 风格的 $$ ... $$ 来插入不编号的行间公式。但是在 LaTeX 中这样做会改变行文的默认行间距，不推荐。请参考https://www.zhihu.com/question/27589739/answer/37237684(LaTeX 中不带编号的行间公式为什么推荐用 \[ … \] 而不是 $$ … $$？)
+根源都在于 $$ 很难在 LaTeX 里合适地重新定义。
+为什么间距不对？
+
+LaTeX2e 内核里的 \[ 是这么定义的：
+
+  \ifvmode
+     \nointerlineskip
+     \makebox[.6\linewidth]{}%
+  \fi
+  $$
+可以看到，实际上 \[ 和 $$ 还是脱不开关系的，只不过在 $$ 之前多加了一个判断。\ifvmode 是判断当前是否处于 vertical mode 的控制序列，大体可以理解为判断是不是处于两个段落之间。

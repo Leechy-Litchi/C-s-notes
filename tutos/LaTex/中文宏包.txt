@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{xeCJK} %调用 xeCJK 宏包
+\setCJKmainfont{SimSun} 
+%设置 CJK 主字体为 SimSun （宋体）,定义在 "xeCJK" 宏包中的控制序列，它可以用来设置 CJK 主字体
+\begin{document}
+你好，world!
+\end{document}
+
+
+不过大多数情况是不推荐这样做的

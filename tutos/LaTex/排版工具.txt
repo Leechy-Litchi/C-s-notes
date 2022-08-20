@@ -1,0 +1,2 @@
+TeXworks 为我们预设了若干排版工具（pdfTeX, pdfLaTeX, XeTeX, XeLaTeX 等）
+建议使用XeLaTeX，带有丰富的宏，对中文的处理好

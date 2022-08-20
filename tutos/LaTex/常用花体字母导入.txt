@@ -1,0 +1,2 @@
+Step1：导入包，\usepackage{mathrsfs}
+Step2：命令导入：$\mathscr{P}$ 或者 $\mathcal{X}$

@@ -1,0 +1,95 @@
+关于 LaTeX 插图，首先要说的是：「LaTeX 只支持 .eps 格式的图档」这个说法是错误的。
+
+在 LaTeX 中插入图片，有很多种方式。
+最好用的应当属利用 graphicx 宏包提供的 \includegraphics 命令。
+比如你在你的 TeX 源文件同目录下，有名为 a.jpg 的图片，你可以用这样的方式将它插入到输出文档中：
+
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+
+\includegraphics{a.jpg}
+
+\end{document}
+
+图片可能很大，超过了输出文件的纸张大小，或者干脆就是你自己觉得输出的效果不爽。这时候你可以用 \includegraphics 控制序列的可选参数来控制。比如
+
+\includegraphics[width = .8\textwidth]{a.jpg}
+
+这样图片的宽度会被缩放至页面宽度的百分之八十，图片的总高度会按比例缩放。
+
+\includegraphics 控制序列还有若干其他的可选参数可供使用，一般并用不到。感兴趣的话，可以去查看该宏包的文档。texdoc.net/texmf-dist/doc/latex/graphics/graphicx.pdf
+
+
+插入并排图片
+\usepackage{geometry}%页面设置
+\usepackage{graphicx}%图片设置
+\usepackage{subfig}%多个子图
+\usepackage{caption}%注释设置	
+\begin{figure*}[htp]  %[htbp]中的h是浮动的意思
+		\centering    %居中
+		\subfloat[子图1名称] %第一张子图
+		{
+			\begin{minipage}[t]{0.5\textwidth}
+				\centering          %子图居中
+				\includegraphics[scale=0.5]{paper_img/ave_delay.png}  
+			\end{minipage}%
+		}%注意这里不能回车空行，否则两张图会上下排列，而不是并排排列
+		\subfloat[子图2名称] %第二张子图
+		{
+			\begin{minipage}[t]{0.5\textwidth}
+				\centering      %子图居中
+				\includegraphics[scale=0.5]{paper_img/all_delay.png}   
+				%以行宽的0.5倍大小显示
+			\end{minipage}
+		}%
+		\caption{大图名称} %  %大图名称
+		\label{fig2}  %图片引用标记
+\end{figure*}
+
+
+表格
+
+tabular 环境提供了最简单的表格功能。
+它用 \hline 命令表示横线，在列格式中用 | 表示竖线；
+用 & 来分列，用 \\ 来换行；
+每列可以采用居左、居中、居右等横向对齐方式，分别用 l、c、r 来表示。
+
+\begin{tabular}{|l|c|r|}
+ \hline
+操作系统& 发行版& 编辑器\\
+ \hline
+Windows & MikTeX & TexMakerX \\
+ \hline
+Unix/Linux & teTeX & Kile \\
+ \hline
+Mac OS & MacTeX & TeXShop \\
+ \hline
+通用& TeX Live & TeXworks \\
+ \hline
+\end{tabular}
+
+
+
+浮动体
+
+插图和表格通常需要占据大块空间，所以在文字处理软件中我们经常需要调整他们的位置。
+figure 和 table 环境可以自动完成这样的任务；
+这种自动调整位置的环境称作浮动体(float)。
+我们以 figure 为例。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{a.jpg}
+\caption{有图有真相}
+\label{fig:myphoto}
+\end{figure}
+
+htbp 选项用来指定插图的理想位置，这几个字母分别代表 here, top, bottom, float page，
+也就是就这里、页顶、页尾、浮动页（专门放浮动体的单独页面或分栏）。
+\centering 用来使插图居中；
+\caption 命令设置插图标题，LaTeX 会自动给浮动体的标题加上编号。
+注意 \label 应该放在标题命令之后。
+    如果你想了解 LaTeX 的浮动体策略算法细节，你可以参考
+    https://liam.page/series/#LaTeX-%E4%B8%AD%E7%9A%84%E6%B5%AE%E5%8A%A8%E4%BD%93
+    如果你困惑于「为什么图表会乱跑」或者「怎样让图表不乱跑」，请看    https://www.zhihu.com/question/25082703/answer/30038248

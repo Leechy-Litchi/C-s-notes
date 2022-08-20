@@ -1,0 +1,4 @@
+https://tex.stackexchange.com/questions/325278/xelatex-runs-slow-on-windows-machine#
+大致给出个方法刷新字体缓存
+fc-cache.exe
+或在其后加-f或-fv

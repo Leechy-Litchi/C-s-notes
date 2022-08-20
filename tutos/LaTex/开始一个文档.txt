@@ -1,0 +1,7 @@
+\documentclass[UTF8]{ctexart}
+%[UTF8]可以不用，后面的序列必须有，大小写敏感，一般用article
+%在documentclass与begin中间是导言区，可以引用宏
+%\usepackage{} 可以用来调用宏包
+\begin{document}
+你好，world!
+\end{document}

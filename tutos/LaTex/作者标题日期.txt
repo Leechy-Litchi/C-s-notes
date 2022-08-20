@@ -1,0 +1,20 @@
+\documentclass[UTF8]{ctexart}
+\title{你好，world!}
+\author{Liam}
+\date{\today}
+\begin{document}
+\maketitle
+你好，world!
+\end{document}
+
+%控制序列 maketitle。这个控制序列能将在导言区中定义的标题、作者、日期按照预定的格式展现出来。
+%titling 宏包能够控制 \maketitle 命令，用户可多次使用上述四个命令，在一个文件里生成多个题目页
+%该宏包提供了6条命令，可以对题目、作者和日期的样式分别设置
+%https://www.latexstudio.net/hulatex/package/content-2.htm
+
+%它还可以保存题目命令、作者命令和日期命令的内容
+%使用所提供的 \thetitle 、\the-author和\thedate 命令，可在正文里排印题目名称、作者姓名和日期
+
+%在标准 LaTeX 中，致谢命令 \thanks{注释} 生成一个星号上标和脚注式注释。
+%使用该宏包提供的 \thanksmarkseries{样式} 命令，可以改变上标的样式；
+%“样式”有 roman、Roman、farabic、alph、Alph 和 fnsymbol 等几种选择。

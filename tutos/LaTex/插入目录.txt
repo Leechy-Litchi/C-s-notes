@@ -1,0 +1,25 @@
+%在上一节的文档中，找到\maketitle，在它的下面插入控制序列\tableofcontents，保存并用XeLaTeX编译两次，观察效果：
+\documentclass[UTF8]{ctexart}
+\title{你好，world!}
+\author{Liam}
+\date{\today}
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{你好中国}
+中国在East Asia.
+\subsection{Hello Beijing}
+北京是capital of China.
+\subsubsection{Hello Dongcheng District}
+\paragraph{Tian'anmen Square}
+is in the center of Beijing
+\subparagraph{Chairman Mao}
+is in the center of 天安门广场。
+\subsection{Hello 山东}
+\paragraph{山东大学} is one of the best university in 山东。
+\end{document}
+
+%在「你好中国」这一节中，两次「中国在East Asia.」中夹有一个空行，但输出却只有一个换行并没有空行。这是因为 LaTeX 将一个换行当做是一个简单的空格来处理，如果需要换行另起一段，则需要用两个换行（一个空行）来实现。
+%不把paragraph编排进去，section页码自动附上，可以在\senction{}的大括号前加上*号，这样这个section不仅不会在正文中被编号，同时也不会被编进目录中
